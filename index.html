@@ -4,13 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Glam City | English Squad Hub</title>
-    <!-- Шрифты для премиального вида -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;600&family=Playfair+Display:ital,wght@1,600&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* ФОНОВОЕ ИЗОБРАЖЕНИЕ (Убедись, что файл лежит рядом с index.html) */
+            /* ФОНОВОЕ ИЗОБРАЖЕНИЕ - файл bg.jpg должен лежать в той же папке */
             --bg-url: url('bg.jpg'); 
-            
             --barbie-pink: #ff0081;
             --soft-pink: #ffdae9;
             --dark-pink: #c50063;
@@ -27,51 +25,24 @@
             overflow-x: hidden;
         }
 
-        /* Эффект наложения, чтобы текст читался идеально */
         body::after {
             content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(255, 218, 233, 0.35); z-index: -1;
+            background: rgba(255, 218, 233, 0.4); z-index: -1;
         }
 
-        header {
-            text-align: center; padding: 60px 20px 40px; color: var(--dark-pink);
-        }
+        header { text-align: center; padding: 60px 20px 40px; color: var(--dark-pink); }
+        header h1 { font-family: 'Playfair Display', serif; font-size: 3.5rem; text-transform: uppercase; letter-spacing: 4px; text-shadow: 2px 2px white; margin: 0; }
 
-        header h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: 3.5rem; margin: 0; text-transform: uppercase;
-            letter-spacing: 4px; text-shadow: 2px 2px white;
-        }
-
-        /* Интерактивная карта города */
-        .city-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px; padding: 0 50px 100px;
-            max-width: 1200px; margin: auto;
-        }
+        .city-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; padding: 0 50px 100px; max-width: 1200px; margin: auto; }
 
         .building {
-            background: var(--glass);
-            border: 2px solid var(--barbie-pink);
-            border-radius: 45px 45px 10px 10px;
-            padding: 40px; text-align: center;
-            cursor: pointer; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-            backdrop-filter: blur(8px);
+            background: var(--glass); border: 2px solid var(--barbie-pink); border-radius: 45px 45px 10px 10px;
+            padding: 40px; text-align: center; cursor: pointer; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1); backdrop-filter: blur(8px);
         }
-
-        .building:hover {
-            transform: translateY(-15px);
-            box-shadow: 0 25px 50px rgba(255, 0, 129, 0.3);
-            background: var(--white);
-        }
-
+        .building:hover { transform: translateY(-15px); box-shadow: 0 25px 50px rgba(255, 0, 129, 0.3); background: var(--white); }
         .building .icon { font-size: 4.5rem; display: block; margin-bottom: 15px; }
-        .building h3 { margin: 10px 0; color: var(--barbie-pink); font-size: 1.5rem; }
-        .building p { font-size: 0.9rem; color: #444; font-weight: 300; }
 
-        /* Модальные окна (интерфейс заданий) */
         .modal {
             display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
             width: 90%; max-width: 700px; background: var(--white); border-radius: 40px;
@@ -79,83 +50,51 @@
             max-height: 85vh; overflow-y: auto; box-shadow: 0 0 100px rgba(0,0,0,0.5);
         }
 
-        .modal-header {
-            font-family: 'Playfair Display', serif; color: var(--barbie-pink);
-            font-size: 2.2rem; margin-bottom: 25px; text-align: center;
-        }
+        .modal-header { font-family: 'Playfair Display', serif; color: var(--barbie-pink); font-size: 2.2rem; margin-bottom: 25px; text-align: center; }
+        .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255, 192, 203, 0.7); backdrop-filter: blur(5px); z-index: 900; }
 
-        .overlay {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(255, 192, 203, 0.7); backdrop-filter: blur(5px); z-index: 900;
-        }
+        .card { background: var(--soft-pink); border-radius: 20px; padding: 20px; margin-bottom: 15px; border-left: 8px solid var(--barbie-pink); position: relative; }
+        .tag { background: var(--barbie-pink); color: white; padding: 4px 12px; border-radius: 50px; font-size: 0.75rem; font-weight: 600; display: inline-block; margin-bottom: 10px; }
 
-        /* Стили карточек обучения */
-        .card {
-            background: var(--soft-pink); border-radius: 25px; padding: 25px;
-            margin-bottom: 20px; border-left: 8px solid var(--barbie-pink);
-            position: relative; transition: 0.3s;
-        }
-
-        .card:hover { transform: translateX(5px); }
-        .tag { background: var(--barbie-pink); color: white; padding: 4px 15px; border-radius: 50px; font-size: 0.8rem; font-weight: 600; }
-        .sticker { position: absolute; top: 20px; right: 25px; font-size: 1.8rem; }
-
-        /* Кнопки и инпуты */
-        .btn-glam {
-            background: var(--barbie-pink); color: white; border: none; padding: 18px 30px;
-            border-radius: 30px; width: 100%; font-weight: 600; cursor: pointer;
-            text-decoration: none; display: inline-block; font-family: inherit; transition: 0.3s;
-        }
-
+        .btn-glam { background: var(--barbie-pink); color: white; border: none; padding: 18px 30px; border-radius: 30px; width: 100%; font-weight: 600; cursor: pointer; text-decoration: none; display: inline-block; text-align: center; font-family: inherit; transition: 0.3s; box-sizing: border-box; }
         .btn-glam:hover { background: var(--dark-pink); transform: scale(1.02); }
 
-        .input-chat {
-            width: 100%; padding: 15px; border-radius: 20px; border: 2px solid var(--soft-pink);
-            margin: 15px 0; font-family: inherit; font-size: 1rem; box-sizing: border-box;
-        }
-
+        .input-chat { width: 100%; padding: 15px; border-radius: 20px; border: 2px solid var(--soft-pink); margin: 15px 0; font-family: inherit; font-size: 1rem; box-sizing: border-box; outline: none; }
         .close-btn { position: absolute; top: 25px; right: 30px; cursor: pointer; font-size: 1.8rem; color: var(--barbie-pink); }
-
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-thumb { background: var(--barbie-pink); border-radius: 10px; }
     </style>
 </head>
 <body>
 
 <header>
     <h1>The Glam City 🏙️</h1>
-    <p><i>Welcome home, Queen. Your English journey starts here.</i></p>
+    <p><i>Your mission for English perfection starts here.</i></p>
 </header>
 
 <div class="city-grid">
     <div class="building" onclick="openModal('salon')">
         <span class="icon">💅</span>
-        <h3>The Beauty Lab</h3>
-        <p>Glow up your vocabulary with elite slang & phrases.</p>
+        <h3>Beauty Lab</h3>
+        <p>Glow up your vocabulary.</p>
     </div>
-
     <div class="building" onclick="openModal('cafe')">
         <span class="icon">☕</span>
         <h3>Pink Café</h3>
-        <p>Spill the tea: Interactive cases & dating dilemmas.</p>
+        <p>Vocabulary check & cases.</p>
     </div>
-
     <div class="building" onclick="openModal('cinema')">
         <span class="icon">🎬</span>
         <h3>Glam Cinema</h3>
-        <p>Movie analysis & personal mission requests.</p>
+        <p>Analyze movies & get links.</p>
     </div>
-
     <div class="building" onclick="openModal('library')">
         <span class="icon">📖</span>
         <h3>The Library</h3>
-        <p>The Squad Constitution & Digital Etiquette.</p>
+        <p>Squad Constitution.</p>
     </div>
-
     <div class="building" onclick="openModal('music')">
         <span class="icon">🎧</span>
         <h3>Night Jukebox</h3>
-        <p>Live soundtrack for your independent era.</p>
+        <p>Live Yandex Playlist.</p>
     </div>
 </div>
 
@@ -165,11 +104,17 @@
 <div id="modal-salon" class="modal">
     <span class="close-btn" onclick="closeModal()">✕</span>
     <div class="modal-header">Beauty Lab 💅</div>
-    <div class="card"><span class="tag">#TRENDY</span> <span class="sticker">👑</span> <strong>Main Character Energy</strong><p>Prioritizing yourself and your own goals. <br><i>"I'm finally in my main character era."</i></p></div>
-    <div class="card"><span class="tag">#SLANG</span> <span class="sticker">✨</span> <strong>It’s giving...</strong><p>It reminds me of a certain vibe. <br><i>"This outfit is giving Sex and the City."</i></p></div>
-    <div class="card"><span class="tag">#ADVANCED</span> <span class="sticker">🚩</span> <strong>Out of pocket</strong><p>Extreme or inappropriate behavior. <br><i>"His reply was totally out of pocket."</i></p></div>
-    <div class="card"><span class="tag">#VOCAB</span> <span class="sticker">💄</span> <strong>Thick as thieves</strong><p>Inseparable and very close friends. <br><i>"We've been thick as thieves since uni."</i></p></div>
-    <div class="card"><span class="tag">#SLANG</span> <span class="sticker">🤏</span> <strong>Lowkey</strong><p>Secretly or slightly. <br><i>"I lowkey want to cancel my plans and stay home."</i></p></div>
+    <div class="card"><strong>To have someone’s back</strong>: to support someone, to protect them.</div>
+    <div class="card"><strong>To cut ties</strong>: to end a relationship with someone.</div>
+    <div class="card"><strong>Red flags / Green flags</strong>: bad and good signs in people.</div>
+    <div class="card"><strong>To set boundaries</strong>: to say what’s OK for you and what’s not.</div>
+    <div class="card"><strong>To cross the line</strong>: to go too far, to break someone’s boundaries.</div>
+    <div class="card"><strong>Drama-free life</strong>: a life without unnecessary drama.</div>
+    <div class="card"><strong>People-pleaser</strong>: a person who always tries to make everybody happy.</div>
+    <div class="card"><strong>High-maintenance friend</strong>: a friend who needs a lot of attention and effort.</div>
+    <div class="card"><strong>To talk behind someone’s back</strong>: to talk about someone when they’re not there.</div>
+    <div class="card"><strong>To be thick as thieves</strong>: to be super close friends.</div>
+    <div class="card"><strong>To spill the tea</strong>: to share gossip or secrets.</div>
 </div>
 
 <!-- MODAL: CAFE (Quiz) -->
@@ -177,22 +122,26 @@
     <span class="close-btn" onclick="closeModal()">✕</span>
     <div class="modal-header">Pink Café ☕</div>
     <div class="card">
-        <strong>Case: The "Last Seen" Dilemma</strong>
-        <p>He saw your message at 10 AM but replied at 10 PM with "Hey". Is this a <b>Red Flag</b>? Explain why using the word <i>"unacceptable"</i>.</p>
-        <input type="text" id="quiz-ans" class="input-chat" placeholder="Type your sassy advice in English...">
-        <button class="btn-glam" onclick="checkCafe()">Share Advice ✨</button>
+        <span class="tag">LEVEL 1</span>
+        <p>Your friend supports you no matter what. You can say: <br><b>"She always has my..."</b></p>
+        <input type="text" id="q1" class="input-chat" placeholder="Type one word...">
     </div>
+    <div class="card">
+        <span class="tag">LEVEL 2</span>
+        <p>When someone is gossiping about you while you aren't there, they are...</p>
+        <input type="text" id="q2" class="input-chat" placeholder="Type the action (4 words)...">
+    </div>
+    <button class="btn-glam" onclick="checkFullQuiz()">Submit & Sparkle ✨</button>
 </div>
 
-<!-- MODAL: CINEMA (Personal Link) -->
+<!-- MODAL: CINEMA (TG Link) -->
 <div id="modal-cinema" class="modal">
     <span class="close-btn" onclick="closeModal()">✕</span>
     <div class="modal-header">Glam Cinema 🎬</div>
     <div class="card">
-        <span class="sticker">🎬</span>
-        <p>To get your exclusive video cases, homework PDFs, or the secret bot link, message me personally! I handle every squad member's request with care.</p>
-        <!-- ЗАМЕНИ 'ТВОЙ_ЛОГИН' НА СВОЙ ЮЗЕРНЕЙМ В ТЕЛЕГРАМ -->
-        <a href="https://t.me/irabolachkova" target="_blank" class="btn-glam" style="text-align:center;">Message Me Directly 💌</a>
+        <p>To get video homework, bot links, or personal feedback, message me directly! I'll personally send you everything you need.</p>
+        <!-- ЗАМЕНИ 'ТВОЙ_ЛОГИН' НА СВОЙ @ЮЗЕРНЕЙМ БЕЗ @ -->
+        <a href="https://t.me/irabolachkova" target="_blank" class="btn-glam">Message Me Directly 💌</a>
     </div>
 </div>
 
@@ -201,24 +150,17 @@
     <span class="close-btn" onclick="closeModal()">✕</span>
     <div class="modal-header">The Library 📖</div>
     <div class="card">
-        <span class="sticker">📜</span>
-        <strong>The Squad Constitution</strong>
-        <p>1. <b>Loyalty Over Drama:</b> We support each other, always.</p>
-        <p>2. <b>No Gatekeeping:</b> Found a hack? Share it with the girls!</p>
-        <p>3. <b>High Standards:</b> We never settle for less than we deserve.</p>
-    </div>
-    <div class="card">
-        <span class="tag">#READING</span>
-        <strong>Digital Etiquette</strong>
-        <p>The art of "cutting ties" gracefully on social media. <br><i>Coming soon...</i></p>
+        <span class="tag">MANIFESTO</span>
+        <p>1. <b>Loyalty over everything.</b> We never judge.</p>
+        <p>2. <b>No Gatekeeping.</b> We share all the best links.</p>
+        <p>3. <b>Healthy Boundaries.</b> Self-care is a priority.</p>
     </div>
 </div>
 
-<!-- MODAL: MUSIC (Яндекс Музыка) -->
+<!-- MODAL: MUSIC -->
 <div id="modal-music" class="modal">
     <span class="close-btn" onclick="closeModal()">✕</span>
     <div class="modal-header">Night Jukebox 🎧</div>
-    <!-- Сюда можно вставить код своего плейлиста -->
     <iframe frameborder="0" style="border:none;width:100%;height:450px;border-radius:25px;" src="https://music.yandex.ru/iframe/playlist/music-blog/1018"></iframe>
 </div>
 
@@ -231,18 +173,20 @@
 
     function closeModal() {
         document.getElementById('overlay').style.display = 'none';
-        const modals = document.querySelectorAll('.modal');
-        modals.forEach(m => m.style.display = 'none');
+        document.querySelectorAll('.modal').forEach(m => m.style.display = 'none');
         document.body.style.overflow = 'auto';
     }
 
-    function checkCafe() {
-        const val = document.getElementById('quiz-ans').value.toLowerCase();
-        if(val.length > 10) {
-            alert("Yasss Queen! Your English is as sharp as your standards! 💅✨");
+    function checkFullQuiz() {
+        const a1 = document.getElementById('q1').value.toLowerCase().trim();
+        const a2 = document.getElementById('q2').value.toLowerCase().trim();
+        
+        // Ответы: 1) back, 2) talking behind my back (или similar)
+        if (a1 === 'back' && (a2.includes('behind') && a2.includes('back'))) {
+            alert("Perfect! You are a true Glam City expert! 💅✨");
             closeModal();
         } else {
-            alert("Come on, bestie! Write at least one full sentence! 💖");
+            alert("Almost! Check your spelling in the Beauty Lab! 💖");
         }
     }
 </script>
