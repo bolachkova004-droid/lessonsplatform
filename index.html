@@ -3,136 +3,177 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pink Squad Hub | The Glam Academy</title>
+    <title>The Glam City | English Squad Hub</title>
     <style>
         :root {
-            --barbie-pink: #ff0081;
-            --bubblegum: #ffcae5;
-            --soft-pink: #fff0f6;
-            --glam-gold: #d4af37;
+            --hot-pink: #ff0081;
+            --pastel-pink: #ffdae9;
+            --sky-blue: #a1e3f9;
+            --gold: #f9d923;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--soft-pink);
-            color: #333;
             margin: 0;
             padding: 0;
-            line-height: 1.6;
+            background: linear-gradient(to bottom, var(--sky-blue) 0%, #fff 100%);
+            font-family: 'cursive', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         header {
-            background-color: var(--barbie-pink);
-            color: white;
-            padding: 2rem;
             text-align: center;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        }
-
-        .container {
-            max-width: 800px;
-            margin: 2rem auto;
-            padding: 0 1rem;
-        }
-
-        h1 { font-style: italic; text-transform: uppercase; letter-spacing: 2px; }
-
-        .card {
-            background: white;
-            border-radius: 15px;
-            padding: 1.5rem;
-            margin-bottom: 2rem;
-            border: 2px solid var(--bubblegum);
-            transition: transform 0.3s;
-        }
-
-        .card:hover { transform: scale(1.02); }
-
-        .vocab-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 10px;
-        }
-
-        .vocab-item {
-            background: var(--bubblegum);
-            padding: 10px;
-            border-radius: 10px;
-            text-align: center;
-            font-weight: bold;
-            color: var(--barbie-pink);
-            cursor: help;
-        }
-
-        .practice-area {
-            background: #fff;
             padding: 20px;
-            border-radius: 15px;
-            text-align: center;
+            color: var(--hot-pink);
+            text-shadow: 2px 2px white;
         }
 
-        .btn {
-            background: var(--barbie-pink);
-            color: white;
-            border: none;
-            padding: 10px 20px;
+        /* Карта города */
+        .city-map {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            max-width: 900px;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.4);
+            border-radius: 50px;
+            border: 5px dashed var(--hot-pink);
+            position: relative;
+        }
+
+        /* Здания */
+        .building {
+            background: white;
+            border: 3px solid var(--hot-pink);
             border-radius: 20px;
+            padding: 20px;
+            text-align: center;
             cursor: pointer;
-            font-size: 1rem;
-            margin-top: 10px;
+            transition: all 0.3s ease;
+            position: relative;
+            box-shadow: 0 10px 0 var(--pastel-pink);
         }
 
-        .btn:hover { opacity: 0.8; }
+        .building:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 0 var(--hot-pink);
+            background: var(--pastel-pink);
+        }
 
-        #quiz-result { margin-top: 15px; font-weight: bold; }
+        .building h3 { margin: 10px 0 5px 0; color: var(--hot-pink); }
+        .building p { font-size: 0.8rem; margin: 0; color: #666; }
+        .emoji { font-size: 3rem; }
+
+        /* Модальное окно (вкладки) */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            max-width: 600px;
+            background: white;
+            border: 5px solid var(--hot-pink);
+            border-radius: 30px;
+            padding: 30px;
+            z-index: 100;
+            box-shadow: 0 0 100px rgba(0,0,0,0.2);
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255, 192, 203, 0.5);
+            z-index: 90;
+        }
+
+        .close-btn {
+            float: right;
+            cursor: pointer;
+            font-weight: bold;
+            color: var(--hot-pink);
+        }
     </style>
 </head>
 <body>
 
 <header>
-    <h1>The Glam Academy</h1>
-    <p>Welcome to your safe & stylish space, Gorgeous!</p>
+    <h1>Welcome to THE GLAM CITY 🏙️💖</h1>
+    <p>Explore the buildings to start your English mission!</p>
 </header>
 
-<div class="container">
-    <section class="card">
-        <h2>💖 Today's Mission: Squad Goals</h2>
-        <p>We are talking about loyalty, boundaries, and how to be an ideal friend. Remember: <i>"Loyalty over everything"</i>, but don't forget your self-respect!</p>
-    </section>
+<div class="city-map">
+    <div class="building" onclick="openModal('salon')">
+        <div class="emoji">💅</div>
+        <h3>Beauty Salon</h3>
+        <p>Vocabulary Boost</p>
+    </div>
+    
+    <div class="building" onclick="openModal('cafe')">
+        <div class="emoji">☕</div>
+        <h3>Coffee Shop</h3>
+        <p>Spill the Tea (Quiz)</p>
+    </div>
 
-    <section class="card">
-        <h2>💄 Glam Dictionary</h2>
-        <div class="vocab-grid">
-            <div class="vocab-item" title="Support someone no matter what">Have someone’s back</div>
-            <div class="vocab-item" title="End a relationship">Cut ties</div>
-            <div class="vocab-item" title="Warning signs">Red flags</div>
-            <div class="vocab-item" title="Personal limits">Boundaries</div>
-            <div class="vocab-item" title="Inseparable friends">Thick as thieves</div>
-            <div class="vocab-item" title="Share gossip">Spill the tea</div>
-        </div>
-    </section>
+    <div class="building" onclick="openModal('cinema')">
+        <div class="emoji">🎬</div>
+        <h3>Cinema</h3>
+        <p>Video Cases</p>
+    </div>
 
-    <section class="card practice-area">
-        <h2>✨ Quick Practice</h2>
-        <p id="quiz-question">If your friend supports you in a difficult situation, she has your...</p>
-        <input type="text" id="quiz-answer" placeholder="Type the missing word..." style="padding: 10px; border-radius: 10px; border: 1px solid var(--bubblegum);">
-        <br>
-        <button class="btn" onclick="checkAnswer()">Check Answer</button>
-        <p id="quiz-result"></p>
-    </section>
+    <div class="building" onclick="openModal('library')">
+        <div class="emoji">📖</div>
+        <h3>Library</h3>
+        <p>The Constitution</p>
+    </div>
+
+    <div class="building" onclick="openModal('club')">
+        <div class="emoji">💃</div>
+        <h3>Night Club</h3>
+        <p>Squad Music</p>
+    </div>
+</div>
+
+<!-- Модальные окна для контента -->
+<div id="overlay" class="overlay" onclick="closeModal()"></div>
+
+<div id="modal-salon" class="modal">
+    <span class="close-btn" onclick="closeModal()">X</span>
+    <h2>💅 Beauty Salon: Dictionary</h2>
+    <ul>
+        <li><b>Red Flags</b> - Warning signs</li>
+        <li><b>Cut Ties</b> - Break up</li>
+        <li><b>Thick as Thieves</b> - Super close</li>
+    </ul>
+</div>
+
+<div id="modal-cafe" class="modal">
+    <span class="close-btn" onclick="closeModal()">X</span>
+    <h2>☕ Coffee Shop: Daily Quiz</h2>
+    <p>Complete the sentence: "I will always have your..."</p>
+    <input type="text" id="ans" placeholder="...">
+    <button onclick="alert('Perfect! ✨')">Submit</button>
+</div>
+
+<div id="modal-club" class="modal">
+    <span class="close-btn" onclick="closeModal()">X</span>
+    <iframe src="https://open.spotify.com/embed/playlist/37i9dQZF1DX0wIBbVnPvie" width="100%" height="380" frameBorder="0"></iframe>
 </div>
 
 <script>
-    function checkAnswer() {
-        const answer = document.getElementById('quiz-answer').value.toLowerCase().trim();
-        const result = document.getElementById('quiz-result');
-        if (answer === 'back') {
-            result.innerText = "Yasss, Queen! That's correct! 💅";
-            result.style.color = "green";
-        } else {
-            result.innerText = "Almost! Hint: it's a part of your body... 🎀";
-            result.style.color = "var(--barbie-pink)";
-        }
+    function openModal(id) {
+        document.getElementById('overlay').style.display = 'block';
+        document.getElementById('modal-' + id).style.display = 'block';
+    }
+
+    function closeModal() {
+        document.getElementById('overlay').style.display = 'none';
+        const modals = document.querySelectorAll('.modal');
+        modals.forEach(m => m.style.display = 'none');
     }
 </script>
 
