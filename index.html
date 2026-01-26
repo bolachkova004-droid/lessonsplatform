@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pink Squad Hub | The Glam Academy</title>
+    <style>
+        :root {
+            --barbie-pink: #ff0081;
+            --bubblegum: #ffcae5;
+            --soft-pink: #fff0f6;
+            --glam-gold: #d4af37;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--soft-pink);
+            color: #333;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: var(--barbie-pink);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        h1 { font-style: italic; text-transform: uppercase; letter-spacing: 2px; }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border: 2px solid var(--bubblegum);
+            transition: transform 0.3s;
+        }
+
+        .card:hover { transform: scale(1.02); }
+
+        .vocab-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+        }
+
+        .vocab-item {
+            background: var(--bubblegum);
+            padding: 10px;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: bold;
+            color: var(--barbie-pink);
+            cursor: help;
+        }
+
+        .practice-area {
+            background: #fff;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .btn {
+            background: var(--barbie-pink);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin-top: 10px;
+        }
+
+        .btn:hover { opacity: 0.8; }
+
+        #quiz-result { margin-top: 15px; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>The Glam Academy</h1>
+    <p>Welcome to your safe & stylish space, Gorgeous!</p>
+</header>
+
+<div class="container">
+    <section class="card">
+        <h2>💖 Today's Mission: Squad Goals</h2>
+        <p>We are talking about loyalty, boundaries, and how to be an ideal friend. Remember: <i>"Loyalty over everything"</i>, but don't forget your self-respect!</p>
+    </section>
+
+    <section class="card">
+        <h2>💄 Glam Dictionary</h2>
+        <div class="vocab-grid">
+            <div class="vocab-item" title="Support someone no matter what">Have someone’s back</div>
+            <div class="vocab-item" title="End a relationship">Cut ties</div>
+            <div class="vocab-item" title="Warning signs">Red flags</div>
+            <div class="vocab-item" title="Personal limits">Boundaries</div>
+            <div class="vocab-item" title="Inseparable friends">Thick as thieves</div>
+            <div class="vocab-item" title="Share gossip">Spill the tea</div>
+        </div>
+    </section>
+
+    <section class="card practice-area">
+        <h2>✨ Quick Practice</h2>
+        <p id="quiz-question">If your friend supports you in a difficult situation, she has your...</p>
+        <input type="text" id="quiz-answer" placeholder="Type the missing word..." style="padding: 10px; border-radius: 10px; border: 1px solid var(--bubblegum);">
+        <br>
+        <button class="btn" onclick="checkAnswer()">Check Answer</button>
+        <p id="quiz-result"></p>
+    </section>
+</div>
+
+<script>
+    function checkAnswer() {
+        const answer = document.getElementById('quiz-answer').value.toLowerCase().trim();
+        const result = document.getElementById('quiz-result');
+        if (answer === 'back') {
+            result.innerText = "Yasss, Queen! That's correct! 💅";
+            result.style.color = "green";
+        } else {
+            result.innerText = "Almost! Hint: it's a part of your body... 🎀";
+            result.style.color = "var(--barbie-pink)";
+        }
+    }
+</script>
+
+</body>
+</html>
