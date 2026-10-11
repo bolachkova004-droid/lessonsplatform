@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Marina · My Life, My Rhythm</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Playfair+Display:ital,wght@1,600;1,700&display=swap" rel="stylesheet">
+<style>
+/* Glam English lesson: one long scrolling lesson, sections in teaching order, sticky step nav. */
+:root {
+    --pink: #e6007a;
+    --pink-strong: #b8005f;
+    --pink-wash: #ffe3f0;
+    --pink-mist: #fff4f9;
+    --bg: #fff8fb;
+    --surface: #ffffff;
+    --line: #f6cfe1;
+    --ink: #2b1f2a;
+    --muted: #725e6d;
+    --on-pink: #ffffff;
+    --ok: #0f8a5b;
+    --ok-bg: #dcf5ea;
+    --bad: #c8193f;
+    --bad-bg: #ffe1e8;
+    --shown: #3f51b5;
+    --shown-bg: #e8ebff;
+    --hint-bg: #fff7dc;
+    --hint-line: #e2c25f;
+    --hero-a: #e6007a;
+    --hero-b: #ff6fb1;
+    --display: 'Playfair Display', Georgia, 'Times New Roman', serif;
+    --body: 'Montserrat', 'Segoe UI', Arial, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+        --pink: #ff5fa8; --pink-strong: #ff8cc2; --pink-wash: #3b1a2d; --pink-mist: #2a1522;
+        --bg: #1b1018; --surface: #24151f; --line: #4a2a3d; --ink: #f7e9f1; --muted: #c4a9b9;
+        --on-pink: #1b1018; --ok: #5fd6a1; --ok-bg: #133628; --bad: #ff7f98; --bad-bg: #3d1520;
+        --shown: #9fb0ff; --shown-bg: #1f2547; --hint-bg: #33290f; --hint-line: #8a7230;
+        --hero-a: #8c0049; --hero-b: #c2337a;
+        color-scheme: dark;
+    }
+}
+:root[data-theme="dark"] {
+    --pink: #ff5fa8; --pink-strong: #ff8cc2; --pink-wash: #3b1a2d; --pink-mist: #2a1522;
+    --bg: #1b1018; --surface: #24151f; --line: #4a2a3d; --ink: #f7e9f1; --muted: #c4a9b9;
+    --on-pink: #1b1018; --ok: #5fd6a1; --ok-bg: #133628; --bad: #ff7f98; --bad-bg: #3d1520;
+    --shown: #9fb0ff; --shown-bg: #1f2547; --hint-bg: #33290f; --hint-line: #8a7230;
+    --hero-a: #8c0049; --hero-b: #c2337a;
+    color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--body);
+    font-size: 17px;
+    line-height: 1.6;
+}
+a { color: var(--pink-strong); }
+:focus-visible { outline: 3px solid var(--pink); outline-offset: 2px; }
+
+/* ---------- Hero ---------- */
+.hero {
+    background: linear-gradient(135deg, var(--hero-a), var(--hero-b));
+    color: #fff;
+    padding-block: 44px 36px;
+    padding-inline: 16px;
+}
+.hero-inner { max-width: 880px; margin: 0 auto; }
+.hero .eyebrow { text-transform: uppercase; letter-spacing: 0.14em; font-size: 0.75rem; font-weight: 600; opacity: 0.9; }
+.hero h1 {
+    font-family: var(--display); font-style: italic; font-weight: 700;
+    font-size: clamp(2rem, 6vw, 3.2rem); line-height: 1.1; margin: 8px 0 12px; text-wrap: balance;
+}
+.hero .lead { max-width: 60ch; margin: 0 0 16px; opacity: 0.95; }
+.tags { display: flex; gap: 8px; flex-wrap: wrap; }
+.tag { border: 1px solid rgba(255,255,255,0.6); padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; }
+
+/* ---------- Step nav ---------- */
+.lesson-nav {
+    position: sticky; top: env(safe-area-inset-top, 0px); z-index: 50;
+    background: var(--surface); border-bottom: 1px solid var(--line);
+    display: flex; gap: 6px; overflow-x: auto; padding: 10px 16px; scrollbar-width: none;
+}
+.lesson-nav::-webkit-scrollbar { display: none; }
+.lesson-nav a {
+    white-space: nowrap; text-decoration: none; color: var(--pink-strong);
+    font-weight: 600; font-size: 0.82rem; padding: 6px 12px; border-radius: 18px; background: var(--pink-mist);
+}
+.lesson-nav a:hover { background: var(--pink-wash); }
+
+main { max-width: 880px; margin: 0 auto; padding-block: 24px 80px; padding-inline: 16px; display: grid; gap: 22px; }
+
+/* ---------- Sections ---------- */
+section.step {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 22px;
+    padding: 28px clamp(16px, 4vw, 36px); scroll-margin-top: 64px; min-width: 0;
+}
+.step-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 10px; }
+.step-head h2 { font-family: var(--display); font-style: italic; color: var(--pink); font-size: clamp(1.45rem, 4vw, 1.9rem); margin: 0; text-wrap: balance; }
+.mins { font-size: 0.78rem; font-weight: 600; color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase; font-variant-numeric: tabular-nums; }
+h3 { color: var(--pink-strong); margin: 24px 0 8px; font-size: 1.08rem; }
+.instr { font-weight: 600; margin: 6px 0 12px; }
+p { margin: 8px 0; }
+
+.goals { margin: 0; padding-left: 22px; }
+.goals li { padding: 3px 0; }
+
+.box { background: var(--pink-mist); border-radius: 16px; padding: 16px 20px; margin: 12px 0; }
+.ru { background: var(--hint-bg); border: 1px dashed var(--hint-line); border-radius: 12px; padding: 10px 14px; margin: 12px 0; font-size: 0.92rem; }
+.ru b:first-child { margin-right: 4px; }
+
+.quote { font-family: var(--display); font-style: italic; font-size: 1.3rem; color: var(--pink-strong); margin: 12px 0; padding-left: 16px; border-left: 3px solid var(--pink); }
+.quote small { display: block; font-family: var(--body); font-style: normal; font-size: 0.82rem; color: var(--muted); margin-top: 4px; }
+
+.reading { background: var(--pink-mist); border-radius: 18px; padding: 22px 24px; font-size: 1.04rem; line-height: 1.8; }
+.reading h4 { font-family: var(--display); font-style: italic; font-size: 1.35rem; margin: 0; color: var(--pink-strong); }
+.reading .by { color: var(--muted); font-size: 0.85rem; display: block; margin-bottom: 10px; }
+.reading p { max-width: 68ch; }
+
+.video { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; background: var(--pink-mist); border-radius: 18px; padding: 18px 20px; }
+.video .meta { flex: 1 1 260px; min-width: 0; }
+.video .meta strong { display: block; font-size: 1.05rem; }
+.video .meta span { color: var(--muted); font-size: 0.88rem; }
+
+/* ---------- Grammar ---------- */
+.g-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; margin: 12px 0; }
+.g-box { border-radius: 16px; padding: 16px 18px; background: var(--pink-mist); border: 1px solid var(--line); min-width: 0; }
+.g-box h4 { margin: 0 0 6px; color: var(--pink); font-size: 1.02rem; }
+.form { font-family: ui-monospace, Menlo, Consolas, monospace; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 4px 10px; display: inline-block; margin: 4px 0 8px; font-size: 0.9rem; }
+.g-box ul { margin: 4px 0 0; padding-left: 18px; }
+.table-wrap { overflow-x: auto; }
+table.simple { width: 100%; border-collapse: collapse; margin: 8px 0; font-size: 0.95rem; }
+table.simple th, table.simple td { padding: 8px 10px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+table.simple th { color: var(--pink-strong); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; }
+mark { background: var(--pink-wash); color: var(--pink-strong); padding: 0 4px; border-radius: 5px; font-weight: 600; }
+
+.timeline { position: relative; height: 74px; margin: 14px 8px 4px; }
+.timeline .line { position: absolute; top: 36px; left: 0; right: 10px; height: 2px; background: var(--muted); }
+.timeline .line::after { content: ""; position: absolute; right: -10px; top: -5px; border-left: 10px solid var(--muted); border-top: 6px solid transparent; border-bottom: 6px solid transparent; }
+.timeline .span { position: absolute; top: 29px; height: 16px; border-radius: 8px; background: var(--pink); opacity: 0.45; }
+.timeline .dot { position: absolute; top: 29px; width: 16px; height: 16px; border-radius: 50%; background: var(--pink-strong); transform: translateX(-50%); }
+.timeline .lbl { position: absolute; top: 4px; font-size: 0.72rem; font-weight: 600; color: var(--pink-strong); transform: translateX(-50%); white-space: nowrap; }
+.timeline .lbl.low { top: 52px; color: var(--muted); }
+
+/* ---------- Word cards ---------- */
+.flip-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 10px; }
+.flip { perspective: 800px; cursor: pointer; border: none; padding: 0; background: none; font: inherit; color: inherit; text-align: center; }
+.flip-inner { position: relative; display: grid; min-height: 124px; transition: transform 0.5s; transform-style: preserve-3d; }
+.flip.flipped .flip-inner { transform: rotateY(180deg); }
+.flip-front, .flip-back {
+    grid-area: 1 / 1; backface-visibility: hidden; -webkit-backface-visibility: hidden;
+    border-radius: 16px; padding: 12px; display: flex; flex-direction: column; justify-content: center; align-items: center;
+}
+.flip-front { background: var(--pink); color: var(--on-pink); font-weight: 600; font-size: 1.02rem; }
+.flip-back { background: var(--pink-mist); border: 1px solid var(--line); transform: rotateY(180deg); font-size: 0.84rem; line-height: 1.4; }
+.flip-back i { color: var(--pink-strong); margin-top: 6px; display: block; }
+.small { font-size: 0.82rem; color: var(--muted); }
+
+/* ---------- Exercises ---------- */
+.ex { margin: 10px 0 4px; }
+.ex ol.items { padding-left: 24px; margin: 0; }
+.ex ol.items li { padding: 8px 0; border-bottom: 1px dashed var(--line); }
+.ex ol.items li:last-child { border-bottom: none; }
+.gap {
+    font: inherit; color: var(--ink); border: none; border-bottom: 2px solid var(--pink);
+    background: var(--pink-mist); border-radius: 6px 6px 0 0; padding: 2px 8px; margin: 0 3px; outline: none; max-width: 100%;
+}
+select.gap { cursor: pointer; }
+input.gap.line { display: block; width: 100%; margin-top: 8px; padding: 8px 10px; }
+.gap:focus { background: var(--pink-wash); }
+.gap.ok { background: var(--ok-bg); border-color: var(--ok); color: var(--ok); }
+.gap.bad { background: var(--bad-bg); border-color: var(--bad); }
+.gap.shown { background: var(--shown-bg); border-color: var(--shown); color: var(--shown); }
+
+.ex-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 12px; }
+.btn {
+    background: var(--pink); color: var(--on-pink); border: none; padding: 10px 22px; border-radius: 24px;
+    font: 600 0.92rem var(--body); cursor: pointer; transition: background 0.2s; text-decoration: none; display: inline-block;
+}
+.btn:hover { background: var(--pink-strong); }
+.btn.ghost { background: transparent; color: var(--pink-strong); border: 1px solid var(--line); }
+.btn.ghost:hover { background: var(--pink-mist); }
+.result { font-weight: 700; color: var(--pink-strong); font-variant-numeric: tabular-nums; }
+
+.mc { margin: 10px 0; padding: 14px 16px; background: var(--pink-mist); border-radius: 14px; }
+.mc .q { font-weight: 600; margin: 0 0 8px; }
+.opts { display: flex; flex-wrap: wrap; gap: 8px; }
+.opt { font: 0.94rem var(--body); text-align: left; background: var(--surface); border: 1px solid var(--line); color: var(--ink); padding: 7px 14px; border-radius: 14px; cursor: pointer; }
+.opt:hover { border-color: var(--pink); }
+.opt.ok { background: var(--ok-bg); border-color: var(--ok); color: var(--ok); font-weight: 600; }
+.opt.ok::after { content: " ✓"; }
+.opt.bad { background: var(--bad-bg); border-color: var(--bad); text-decoration: line-through; }
+
+/* ---------- Speaking ---------- */
+.q-list { margin: 0; padding-left: 22px; display: grid; gap: 6px; }
+.picker { text-align: center; background: var(--pink-mist); border-radius: 18px; padding: 20px; margin: 12px 0; }
+.picker .shown-q { font-family: var(--display); font-style: italic; font-size: 1.3rem; color: var(--pink-strong); min-height: 2.4em; margin: 4px 0 14px; text-wrap: balance; }
+.picker ul { display: none; }
+.picker .count { display: block; font-size: 0.78rem; color: var(--muted); margin-top: 8px; font-variant-numeric: tabular-nums; }
+.phrases { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0; }
+.phrases span { background: var(--surface); border: 1px solid var(--line); padding: 5px 12px; border-radius: 16px; font-size: 0.9rem; }
+.two-col { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 12px; }
+.two-col > * { min-width: 0; }
+
+.timer { display: inline-flex; align-items: center; gap: 8px; background: var(--surface); border: 1px solid var(--line); padding: 4px 6px 4px 14px; border-radius: 24px; margin: 4px 6px 4px 0; }
+.timer .t { font-weight: 700; font-variant-numeric: tabular-nums; color: var(--pink-strong); min-width: 3.2em; }
+.timer.done .t { color: var(--bad); }
+.timer .btn { padding: 5px 12px; }
+
+.homework li { margin-bottom: 8px; }
+
+.score-badge {
+    position: fixed; right: 16px; bottom: calc(16px + env(safe-area-inset-bottom, 0px)); z-index: 60;
+    background: var(--pink); color: var(--on-pink); padding: 8px 16px; border-radius: 24px; font-weight: 700;
+    font-variant-numeric: tabular-nums; transition: transform 0.2s; box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+}
+.score-badge.pop { transform: scale(1.2); }
+
+footer { text-align: center; color: var(--muted); font-size: 0.82rem; padding-block: 0 30px; padding-inline: 16px; }
+
+@media (max-width: 600px) { body { font-size: 16px; } section.step { border-radius: 18px; } }
+@media (prefers-reduced-motion: reduce) { .flip-inner, .score-badge { transition: none; } }
+</style>
+</head>
+<body>
+<header class="hero"><div class="hero-inner">
+    <div class="eyebrow">English with Glam · Lesson for Marina</div>
+    <h1>My Life, My Rhythm</h1>
+    <p class="lead">Talking about yourself, your routines and what's happening in your life right now. Calmly, step by step, with lots of support.</p>
+    <div class="tags"><span class="tag">Intermediate</span><span class="tag">Present Simple vs Present Continuous</span><span class="tag">60 min</span></div>
+</div></header>
+
+<nav class="lesson-nav">
+    <a href="#warmup">Warm-up</a><a href="#survival">Helpful phrases</a><a href="#words">Words</a><a href="#reading">Reading</a><a href="#grammar">Grammar</a><a href="#practice">Practice</a><a href="#speaking">Speaking</a><a href="#homework">Homework</a>
+</nav>
+
+<main>
+<section class="step" id="warmup">
+    <div class="step-head"><h2>Warm-up: Two truths and a lie</h2><span class="mins">7 min</span></div>
+    <p>Listen to three facts from your teacher. Two are true and one is a lie. Can you guess the lie?</p>
+    <p class="instr">Now it's your turn. Think of 3 sentences about you:</p>
+    <div class="phrases"><span>I usually…</span><span>I never…</span><span>I really love…</span><span>At the moment I'm…</span><span>I've got…</span></div>
+    <h3>How confident do you feel in English? (1–10)</h3>
+    <div class="table-wrap"><table class="simple">
+        <tr><th>Skill</th><th>My score</th><th>What is difficult?</th></tr>
+        <tr><td>Speaking</td><td><input class="gap" id="m-conf-1" style="width:5ch"></td><td><input class="gap" id="m-conf-1b" style="width:100%"></td></tr>
+        <tr><td>Listening</td><td><input class="gap" id="m-conf-2" style="width:5ch"></td><td><input class="gap" id="m-conf-2b" style="width:100%"></td></tr>
+        <tr><td>Reading</td><td><input class="gap" id="m-conf-3" style="width:5ch"></td><td><input class="gap" id="m-conf-3b" style="width:100%"></td></tr>
+        <tr><td>Writing</td><td><input class="gap" id="m-conf-4" style="width:5ch"></td><td><input class="gap" id="m-conf-4b" style="width:100%"></td></tr>
+        <tr><td>Grammar</td><td><input class="gap" id="m-conf-5" style="width:5ch"></td><td><input class="gap" id="m-conf-5b" style="width:100%"></td></tr>
+    </table></div>
+</section>
+
+<section class="step" id="survival">
+    <div class="step-head"><h2>Phrases that save you</h2><span class="mins">3 min</span></div>
+    <p>Everyone forgets words, even native speakers! Use these phrases instead of silence.</p>
+    <div class="two-col">
+        <div class="box"><strong>When you need time</strong>
+            <div class="phrases"><span>Let me think…</span><span>That's a good question.</span><span>How can I put it?</span><span>Well, actually…</span></div></div>
+        <div class="box"><strong>When you forget a word</strong>
+            <div class="phrases"><span>What's the word for…?</span><span>It's a thing you use for…</span><span>It's like… but…</span><span>I mean…</span></div></div>
+        <div class="box"><strong>When you don't understand</strong>
+            <div class="phrases"><span>Could you say that again, please?</span><span>Sorry, what does … mean?</span><span>Could you speak a bit slower?</span></div></div>
+        <div class="box"><strong>When you make a mistake</strong>
+            <div class="phrases"><span>Sorry, I mean…</span><span>Let me start again.</span><span>Oops, I wanted to say…</span></div></div>
+    </div>
+</section>
+
+<section class="step" id="words">
+    <div class="step-head"><h2>Words for everyday life</h2><span class="mins">8 min</span></div>
+    <p class="small">Tap a card to see the meaning and an example.</p>
+    <div class="flip-grid">
+        <button class="flip"><div class="flip-inner"><div class="flip-front">a night owl</div><div class="flip-back">a person who likes staying up late<i>I'm a night owl. I go to bed at 2.</i></div></div></button>
+        <button class="flip"><div class="flip-inner"><div class="flip-front">a morning person</div><div class="flip-back">a person who feels great early in the day<i>She's a morning person. She's up at 6!</i></div></div></button>
+        <button class="flip"><div class="flip-inner"><div class="flip-front">grab a coffee</div><div class="flip-back">buy or get a coffee quickly<i>Let's grab a coffee before work.</i></div></div></button>
+        <button class="flip"><div class="flip-inner"><div class="flip-front">run errands</div><div class="flip-back">do small jobs: shopping, the post office, the bank<i>I run errands on Saturday morning.</i></div></div></button>
+        <button class="flip"><div class="flip-inner"><div class="flip-front">catch up with friends</div><div class="flip-back">meet friends and talk about news<i>I'm catching up with Lena tonight.</i></div></div></button>
+        <button class="flip"><div class="flip-inner"><div class="flip-front">unwind</div><div class="flip-back">relax after work or stress<i>A hot bath helps me unwind.</i></div></div></button>
+        <button class="flip"><div class="flip-inner"><div class="flip-front">sleep in</div><div class="flip-back">sleep later than usual in the morning<i>On Sundays I sleep in till 11.</i></div></div></button>
+        <button class="flip"><div class="flip-inner"><div class="flip-front">binge-watch</div><div class="flip-back">watch many episodes of a series at once<i>We binge-watched the whole season.</i></div></div></button>
+        <button class="flip"><div class="flip-inner"><div class="flip-front">take it easy</div><div class="flip-back">relax, don't work hard<i>It's Sunday. Just take it easy!</i></div></div></button>
+    </div>
+
+    <h3>Quick check: choose the right phrase</h3>
+    <div class="ex">
+        <ol class="items">
+            <li>I hate early mornings. I'm a real <select class="gap" data-a="night owl"><option value="">…</option><option>morning person</option><option>night owl</option></select>.</li>
+            <li>After a long day I like to <select class="gap" data-a="unwind"><option value="">…</option><option>unwind</option><option>run errands</option></select> with a book.</li>
+            <li>I haven't seen Kate for months. We need to <select class="gap" data-a="catch up"><option value="">…</option><option>catch up</option><option>sleep in</option></select>!</li>
+            <li>On Saturday morning I usually <select class="gap" data-a="run errands"><option value="">…</option><option>binge-watch</option><option>run errands</option></select>: the supermarket, the pharmacy, the post office.</li>
+            <li>Let's <select class="gap" data-a="grab a coffee"><option value="">…</option><option>grab a coffee</option><option>take it easy</option></select> before the meeting. We have 10 minutes.</li>
+            <li>It's your day off. Don't work. Just <select class="gap" data-a="take it easy"><option value="">…</option><option>take it easy</option><option>catch up</option></select>.</li>
+        </ol>
+        <div class="ex-actions"><button class="btn check">Check</button><button class="btn ghost reveal">Show answers</button><span class="result"></span></div>
+    </div>
+</section>
+
+<section class="step" id="reading">
+    <div class="step-head"><h2>Reading: Confessions of a Night Owl</h2><span class="mins">10 min</span></div>
+    <div class="reading">
+        <h4>Confessions of a Night Owl</h4>
+        <span class="by">a blog post by Lily, 29</span>
+        <p>Hi, I'm Lily, and I'm a night owl. My friends are usually in bed by eleven, but I rarely go to sleep before two. I'm not lazy. My brain just works better at night!</p>
+        <p>On weekdays I work from home, so I don't need to get up early. I usually wake up at around ten, grab a coffee and check my emails. In the afternoon I run errands or meet friends. My most productive time starts at about 9 p.m. That's when I write, plan and get creative.</p>
+        <p>At the weekend I take it easy. I sleep in, I catch up with friends and sometimes I binge-watch a good series.</p>
+        <p>This month, though, things are different. I'm learning Spanish because I'm going to Madrid in the summer, so I'm trying to go to bed earlier and study in the mornings. It's really hard! Right now, as I'm writing this, it's 8 a.m. and I'm drinking my third coffee. Wish me luck!</p>
+    </div>
+    <h3>True or false?</h3>
+    <div class="mc"><p class="q">1. Lily's friends go to bed later than she does.</p><div class="opts"><button class="opt">True</button><button class="opt" data-ok>False</button></div></div>
+    <div class="mc"><p class="q">2. Lily works from home.</p><div class="opts"><button class="opt" data-ok>True</button><button class="opt">False</button></div></div>
+    <div class="mc"><p class="q">3. She feels most creative in the evening.</p><div class="opts"><button class="opt" data-ok>True</button><button class="opt">False</button></div></div>
+    <div class="mc"><p class="q">4. At the weekend she gets up early.</p><div class="opts"><button class="opt">True</button><button class="opt" data-ok>False</button></div></div>
+    <div class="mc"><p class="q">5. This month she's changing her routine.</p><div class="opts"><button class="opt" data-ok>True</button><button class="opt">False</button></div></div>
+    <div class="mc"><p class="q">6. She's learning Spanish for her job.</p><div class="opts"><button class="opt">True</button><button class="opt" data-ok>False</button></div></div>
+    <h3>Grammar detective</h3>
+    <p>Find in the text: <b>3 things Lily does every day or usually</b> and <b>3 things that are happening now or this month</b>. Look at the verbs. What's the difference?</p>
+</section>
+
+<section class="step" id="grammar">
+    <div class="step-head"><h2>Present Simple or Present Continuous?</h2><span class="mins">8 min</span></div>
+    <div class="g-grid">
+        <div class="g-box">
+            <h4>Present Simple</h4>
+            <span class="form">I work · she works · do you work?</span>
+            <ul>
+                <li>habits and routines: <i>I <mark>usually wake up</mark> at ten.</i></li>
+                <li>facts, things that are always true: <i>My sister <mark>lives</mark> in Kazan.</i></li>
+                <li>signal words: always, usually, often, sometimes, never, every day, on Mondays</li>
+            </ul>
+        </div>
+        <div class="g-box">
+            <h4>Present Continuous</h4>
+            <span class="form">I'm working · she's working · are you working?</span>
+            <ul>
+                <li>right now, at this moment: <i>I<mark>'m drinking</mark> my third coffee.</i></li>
+                <li>temporary things, "these days": <i>I<mark>'m learning</mark> Spanish this month.</i></li>
+                <li>signal words: now, right now, at the moment, today, this week, these days, Look!, Listen!</li>
+            </ul>
+        </div>
+    </div>
+    <div class="box"><strong>Careful! "State" verbs</strong> are usually <b>not</b> in Continuous: <i>like, love, hate, want, need, know, understand, believe, remember, belong</i>.<br>
+        ✗ <s>I'm wanting a new phone.</s> &nbsp; ✓ I <b>want</b> a new phone.</div>
+    <p class="ru"><b>Подсказка.</b> Спросите себя: это <b>обычно / всегда</b> (Simple) или <b>сейчас / в этот период</b> (Continuous)? «Я работаю в банке» = I work. «Я сейчас работаю над проектом» = I'm working.</p>
+</section>
+
+<section class="step" id="practice">
+    <div class="step-head"><h2>Practice</h2><span class="mins">10 min</span></div>
+    <h3>1. Choose the correct form</h3>
+    <div class="ex">
+        <ol class="items">
+            <li>I usually <select class="gap" data-a="drink"><option value="">…</option><option>drink</option><option>am drinking</option></select> tea in the morning.</li>
+            <li>Look! It <select class="gap" data-a="is snowing"><option value="">…</option><option>snows</option><option>is snowing</option></select>!</li>
+            <li>She <select class="gap" data-a="is working"><option value="">…</option><option>works</option><option>is working</option></select> from home this week because her office is closed.</li>
+            <li>We <select class="gap" data-a="don't understand"><option value="">…</option><option>don't understand</option><option>aren't understanding</option></select> this rule.</li>
+            <li>My brother <select class="gap" data-a="lives"><option value="">…</option><option>lives</option><option>is living</option></select> in Moscow. He was born there.</li>
+            <li>Shh! The baby <select class="gap" data-a="is sleeping"><option value="">…</option><option>sleeps</option><option>is sleeping</option></select>.</li>
+            <li>I <select class="gap" data-a="want"><option value="">…</option><option>want</option><option>am wanting</option></select> a new phone.</li>
+            <li>How often <select class="gap" data-a="do you go"><option value="">…</option><option>do you go</option><option>are you going</option></select> to the gym?</li>
+        </ol>
+        <div class="ex-actions"><button class="btn check">Check</button><button class="btn ghost reveal">Show answers</button><span class="result"></span></div>
+    </div>
+
+    <h3>2. Put the verb in the correct form</h3>
+    <div class="ex">
+        <ol class="items">
+            <li>I <input class="gap" data-a="am reading|'m reading"> (read) a really good book at the moment.</li>
+            <li>My parents <input class="gap" data-a="don't like|do not like"> (not / like) spicy food.</li>
+            <li>What <input class="gap" data-a="are you doing"> (you / do) right now?</li>
+            <li>She <input class="gap" data-a="goes"> (go) to yoga every Tuesday.</li>
+            <li>These days I <input class="gap" data-a="am trying|'m trying"> (try) to sleep more.</li>
+            <li><input class="gap" data-a="Does he speak"> (he / speak) French?</li>
+            <li>Water <input class="gap" data-a="boils"> (boil) at 100°C.</li>
+            <li>They <input class="gap" data-a="aren't working|are not working|'re not working"> (not / work) today. It's a holiday!</li>
+        </ol>
+        <div class="ex-actions"><button class="btn check">Check</button><button class="btn ghost reveal">Show answers</button><span class="result"></span></div>
+    </div>
+
+    <h3>3. Now about you</h3>
+    <p>Finish the sentences so they are true for you. Say them out loud.</p>
+    <div class="phrases"><span>Every morning I…</span><span>I never…</span><span>On Fridays I usually…</span><span>At the moment I'm…</span><span>This month I'm trying to…</span><span>Right now I'm sitting…</span></div>
+</section>
+
+<section class="step" id="speaking">
+    <div class="step-head"><h2>Let's talk</h2><span class="mins">12 min</span></div>
+    <p>Press the button to get a question. Take your time and use the helpful phrases!</p>
+    <div class="picker">
+        <div class="shown-q">Press the button to start</div>
+        <button class="btn" type="button">Next question</button>
+        <span class="count"></span>
+        <ul>
+            <li>Are you a morning person or a night owl?</li>
+            <li>What do you usually do on weekday evenings?</li>
+            <li>What are you reading or watching at the moment?</li>
+            <li>What's something you're trying to change in your life these days?</li>
+            <li>How do you usually unwind after a long day?</li>
+            <li>Describe your perfect Sunday.</li>
+            <li>Why are you learning English? What do you want to do with it?</li>
+            <li>What do you usually do on your birthday?</li>
+            <li>What's happening at your work (or studies) this month?</li>
+            <li>What's one small thing that makes you happy every day?</li>
+        </ul>
+    </div>
+    <h3>Role-play: Small talk at a party</h3>
+    <div class="box">You meet someone new at a friend's party. Ask and answer 5 questions: job, free time, what you're doing these days, plans for the weekend. Start with: <i>"Hi, I'm Marina. How do you know Anna?"</i></div>
+</section>
+
+<section class="step" id="homework">
+    <div class="step-head"><h2>Homework</h2><span class="mins">2 min</span></div>
+    <ol class="homework">
+        <li><b>Write</b> 80–100 words: <i>"My typical week and what I'm doing these days"</i>. Use at least 4 Present Simple and 4 Present Continuous verbs and 3 new phrases from today.</li>
+        <li><b>Record</b> a 1-minute voice message: <i>"My perfect Sunday"</i>. Don't stop if you make a mistake. Just keep going!</li>
+        <li><b>Learn</b> the 9 phrases from the word cards.</li>
+    </ol>
+</section>
+</main>
+<footer>Good job today, Marina! Small steps every day. 💗</footer>
+<script>
+(function () {
+    function norm(s) {
+        return String(s).toLowerCase()
+            .replace(/[’‘`]/g, "'")
+            .replace(/[.,!?;:"]/g, ' ')
+            .replace(/\s+/g, ' ')
+            .trim();
+    }
+    function answers(el) { return el.dataset.a.split('|'); }
+
+    var scoreEl = document.getElementById('score');
+    var scored = new WeakSet();
+    var score = 0;
+    function addPoints(el, pts) {
+        if (!scoreEl || scored.has(el)) return;
+        scored.add(el);
+        score += pts;
+        scoreEl.textContent = '⭐ ' + score;
+        scoreEl.classList.add('pop');
+        setTimeout(function () { scoreEl.classList.remove('pop'); }, 250);
+    }
+
+    // Size gaps to the longest answer so the layout doesn't jump
+    document.querySelectorAll('input.gap[data-a]:not(.line)').forEach(function (inp) {
+        var longest = Math.max.apply(null, answers(inp).map(function (a) { return a.length; }));
+        inp.style.width = Math.min(Math.max(longest + 3, 6), 30) + 'ch';
+    });
+
+    function checkEx(ex) {
+        var fields = ex.querySelectorAll('.gap[data-a]');
+        var good = 0;
+        fields.forEach(function (f) {
+            f.classList.remove('ok', 'bad', 'shown');
+            var v = norm(f.value);
+            if (!v) return;
+            var ok = answers(f).some(function (a) { return norm(a) === v; });
+            f.classList.add(ok ? 'ok' : 'bad');
+            if (ok) { good++; addPoints(f, 10); }
+        });
+        var r = ex.querySelector('.result');
+        if (r) r.textContent = good + ' / ' + fields.length + (good === fields.length ? '  Perfect!' : '');
+    }
+    function revealEx(ex) {
+        ex.querySelectorAll('.gap[data-a]').forEach(function (f) {
+            var ok = answers(f).some(function (a) { return norm(a) === norm(f.value); });
+            if (ok && f.value) return;
+            f.value = answers(f)[0];
+            f.classList.remove('ok', 'bad');
+            f.classList.add('shown');
+            scored.add(f); // no points for revealed answers
+        });
+    }
+
+    document.querySelectorAll('.ex').forEach(function (ex) {
+        var c = ex.querySelector('.check'), r = ex.querySelector('.reveal');
+        if (c) c.addEventListener('click', function () { checkEx(ex); });
+        if (r) r.addEventListener('click', function () { revealEx(ex); });
+        ex.querySelectorAll('input.gap').forEach(function (i) {
+            i.addEventListener('keydown', function (e) { if (e.key === 'Enter') checkEx(ex); });
+        });
+    });
+
+    // Multiple choice
+    document.querySelectorAll('.mc').forEach(function (mc) {
+        mc.querySelectorAll('.opt').forEach(function (b) {
+            b.type = 'button';
+            b.addEventListener('click', function () {
+                if (b.hasAttribute('data-ok')) {
+                    b.classList.add('ok');
+                    if (!mc.dataset.missed) addPoints(mc, 10);
+                } else {
+                    b.classList.add('bad');
+                    mc.dataset.missed = '1';
+                }
+            });
+        });
+    });
+
+    // Flip cards
+    document.querySelectorAll('.flip').forEach(function (f) {
+        f.type = 'button';
+        f.addEventListener('click', function () { f.classList.toggle('flipped'); });
+    });
+
+    // Random question picker
+    document.querySelectorAll('.picker').forEach(function (p) {
+        var items = Array.prototype.map.call(p.querySelectorAll('li'), function (li) { return li.innerHTML; });
+        var pool = [];
+        var out = p.querySelector('.shown-q'), cnt = p.querySelector('.count'), btn = p.querySelector('button');
+        btn.addEventListener('click', function () {
+            if (!pool.length) pool = items.slice();
+            var i = Math.floor(Math.random() * pool.length);
+            out.innerHTML = pool.splice(i, 1)[0];
+            if (cnt) cnt.textContent = (items.length - pool.length) + ' / ' + items.length;
+        });
+    });
+
+    // Timers
+    document.querySelectorAll('.timer').forEach(function (t) {
+        var total = +t.dataset.sec, left = total, id = null;
+        var out = t.querySelector('.t'), btn = t.querySelector('button');
+        function show() { out.textContent = Math.floor(left / 60) + ':' + String(left % 60).padStart(2, '0'); }
+        show();
+        btn.type = 'button';
+        btn.addEventListener('click', function () {
+            if (id) { clearInterval(id); id = null; left = total; t.classList.remove('done'); btn.textContent = 'Start'; show(); return; }
+            btn.textContent = 'Reset';
+            id = setInterval(function () {
+                left--; show();
+                if (left <= 0) { clearInterval(id); id = null; t.classList.add('done'); btn.textContent = 'Again'; left = total; }
+            }, 1000);
+        });
+    });
+})();
+</script>
+</body>
+</html>

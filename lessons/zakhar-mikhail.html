@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Zakhar & Mikhail · Do Schools Kill Creativity?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Playfair+Display:ital,wght@1,600;1,700&display=swap" rel="stylesheet">
+<style>
+/* Glam English lesson: one long scrolling lesson, sections in teaching order, sticky step nav. */
+:root {
+    --pink: #e6007a;
+    --pink-strong: #b8005f;
+    --pink-wash: #ffe3f0;
+    --pink-mist: #fff4f9;
+    --bg: #fff8fb;
+    --surface: #ffffff;
+    --line: #f6cfe1;
+    --ink: #2b1f2a;
+    --muted: #725e6d;
+    --on-pink: #ffffff;
+    --ok: #0f8a5b;
+    --ok-bg: #dcf5ea;
+    --bad: #c8193f;
+    --bad-bg: #ffe1e8;
+    --shown: #3f51b5;
+    --shown-bg: #e8ebff;
+    --hint-bg: #fff7dc;
+    --hint-line: #e2c25f;
+    --hero-a: #e6007a;
+    --hero-b: #ff6fb1;
+    --display: 'Playfair Display', Georgia, 'Times New Roman', serif;
+    --body: 'Montserrat', 'Segoe UI', Arial, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+        --pink: #ff5fa8; --pink-strong: #ff8cc2; --pink-wash: #3b1a2d; --pink-mist: #2a1522;
+        --bg: #1b1018; --surface: #24151f; --line: #4a2a3d; --ink: #f7e9f1; --muted: #c4a9b9;
+        --on-pink: #1b1018; --ok: #5fd6a1; --ok-bg: #133628; --bad: #ff7f98; --bad-bg: #3d1520;
+        --shown: #9fb0ff; --shown-bg: #1f2547; --hint-bg: #33290f; --hint-line: #8a7230;
+        --hero-a: #8c0049; --hero-b: #c2337a;
+        color-scheme: dark;
+    }
+}
+:root[data-theme="dark"] {
+    --pink: #ff5fa8; --pink-strong: #ff8cc2; --pink-wash: #3b1a2d; --pink-mist: #2a1522;
+    --bg: #1b1018; --surface: #24151f; --line: #4a2a3d; --ink: #f7e9f1; --muted: #c4a9b9;
+    --on-pink: #1b1018; --ok: #5fd6a1; --ok-bg: #133628; --bad: #ff7f98; --bad-bg: #3d1520;
+    --shown: #9fb0ff; --shown-bg: #1f2547; --hint-bg: #33290f; --hint-line: #8a7230;
+    --hero-a: #8c0049; --hero-b: #c2337a;
+    color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--body);
+    font-size: 17px;
+    line-height: 1.6;
+}
+a { color: var(--pink-strong); }
+:focus-visible { outline: 3px solid var(--pink); outline-offset: 2px; }
+
+/* ---------- Hero ---------- */
+.hero {
+    background: linear-gradient(135deg, var(--hero-a), var(--hero-b));
+    color: #fff;
+    padding-block: 44px 36px;
+    padding-inline: 16px;
+}
+.hero-inner { max-width: 880px; margin: 0 auto; }
+.hero .eyebrow { text-transform: uppercase; letter-spacing: 0.14em; font-size: 0.75rem; font-weight: 600; opacity: 0.9; }
+.hero h1 {
+    font-family: var(--display); font-style: italic; font-weight: 700;
+    font-size: clamp(2rem, 6vw, 3.2rem); line-height: 1.1; margin: 8px 0 12px; text-wrap: balance;
+}
+.hero .lead { max-width: 60ch; margin: 0 0 16px; opacity: 0.95; }
+.tags { display: flex; gap: 8px; flex-wrap: wrap; }
+.tag { border: 1px solid rgba(255,255,255,0.6); padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; }
+
+/* ---------- Step nav ---------- */
+.lesson-nav {
+    position: sticky; top: env(safe-area-inset-top, 0px); z-index: 50;
+    background: var(--surface); border-bottom: 1px solid var(--line);
+    display: flex; gap: 6px; overflow-x: auto; padding: 10px 16px; scrollbar-width: none;
+}
+.lesson-nav::-webkit-scrollbar { display: none; }
+.lesson-nav a {
+    white-space: nowrap; text-decoration: none; color: var(--pink-strong);
+    font-weight: 600; font-size: 0.82rem; padding: 6px 12px; border-radius: 18px; background: var(--pink-mist);
+}
+.lesson-nav a:hover { background: var(--pink-wash); }
+
+main { max-width: 880px; margin: 0 auto; padding-block: 24px 80px; padding-inline: 16px; display: grid; gap: 22px; }
+
+/* ---------- Sections ---------- */
+section.step {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 22px;
+    padding: 28px clamp(16px, 4vw, 36px); scroll-margin-top: 64px; min-width: 0;
+}
+.step-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 10px; }
+.step-head h2 { font-family: var(--display); font-style: italic; color: var(--pink); font-size: clamp(1.45rem, 4vw, 1.9rem); margin: 0; text-wrap: balance; }
+.mins { font-size: 0.78rem; font-weight: 600; color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase; font-variant-numeric: tabular-nums; }
+h3 { color: var(--pink-strong); margin: 24px 0 8px; font-size: 1.08rem; }
+.instr { font-weight: 600; margin: 6px 0 12px; }
+p { margin: 8px 0; }
+
+.goals { margin: 0; padding-left: 22px; }
+.goals li { padding: 3px 0; }
+
+.box { background: var(--pink-mist); border-radius: 16px; padding: 16px 20px; margin: 12px 0; }
+.ru { background: var(--hint-bg); border: 1px dashed var(--hint-line); border-radius: 12px; padding: 10px 14px; margin: 12px 0; font-size: 0.92rem; }
+.ru b:first-child { margin-right: 4px; }
+
+.quote { font-family: var(--display); font-style: italic; font-size: 1.3rem; color: var(--pink-strong); margin: 12px 0; padding-left: 16px; border-left: 3px solid var(--pink); }
+.quote small { display: block; font-family: var(--body); font-style: normal; font-size: 0.82rem; color: var(--muted); margin-top: 4px; }
+
+.reading { background: var(--pink-mist); border-radius: 18px; padding: 22px 24px; font-size: 1.04rem; line-height: 1.8; }
+.reading h4 { font-family: var(--display); font-style: italic; font-size: 1.35rem; margin: 0; color: var(--pink-strong); }
+.reading .by { color: var(--muted); font-size: 0.85rem; display: block; margin-bottom: 10px; }
+.reading p { max-width: 68ch; }
+
+.video { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; background: var(--pink-mist); border-radius: 18px; padding: 18px 20px; }
+.video .meta { flex: 1 1 260px; min-width: 0; }
+.video .meta strong { display: block; font-size: 1.05rem; }
+.video .meta span { color: var(--muted); font-size: 0.88rem; }
+
+/* ---------- Grammar ---------- */
+.g-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; margin: 12px 0; }
+.g-box { border-radius: 16px; padding: 16px 18px; background: var(--pink-mist); border: 1px solid var(--line); min-width: 0; }
+.g-box h4 { margin: 0 0 6px; color: var(--pink); font-size: 1.02rem; }
+.form { font-family: ui-monospace, Menlo, Consolas, monospace; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 4px 10px; display: inline-block; margin: 4px 0 8px; font-size: 0.9rem; }
+.g-box ul { margin: 4px 0 0; padding-left: 18px; }
+.table-wrap { overflow-x: auto; }
+table.simple { width: 100%; border-collapse: collapse; margin: 8px 0; font-size: 0.95rem; }
+table.simple th, table.simple td { padding: 8px 10px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+table.simple th { color: var(--pink-strong); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; }
+mark { background: var(--pink-wash); color: var(--pink-strong); padding: 0 4px; border-radius: 5px; font-weight: 600; }
+
+.timeline { position: relative; height: 74px; margin: 14px 8px 4px; }
+.timeline .line { position: absolute; top: 36px; left: 0; right: 10px; height: 2px; background: var(--muted); }
+.timeline .line::after { content: ""; position: absolute; right: -10px; top: -5px; border-left: 10px solid var(--muted); border-top: 6px solid transparent; border-bottom: 6px solid transparent; }
+.timeline .span { position: absolute; top: 29px; height: 16px; border-radius: 8px; background: var(--pink); opacity: 0.45; }
+.timeline .dot { position: absolute; top: 29px; width: 16px; height: 16px; border-radius: 50%; background: var(--pink-strong); transform: translateX(-50%); }
+.timeline .lbl { position: absolute; top: 4px; font-size: 0.72rem; font-weight: 600; color: var(--pink-strong); transform: translateX(-50%); white-space: nowrap; }
+.timeline .lbl.low { top: 52px; color: var(--muted); }
+
+/* ---------- Word cards ---------- */
+.flip-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 10px; }
+.flip { perspective: 800px; cursor: pointer; border: none; padding: 0; background: none; font: inherit; color: inherit; text-align: center; }
+.flip-inner { position: relative; display: grid; min-height: 124px; transition: transform 0.5s; transform-style: preserve-3d; }
+.flip.flipped .flip-inner { transform: rotateY(180deg); }
+.flip-front, .flip-back {
+    grid-area: 1 / 1; backface-visibility: hidden; -webkit-backface-visibility: hidden;
+    border-radius: 16px; padding: 12px; display: flex; flex-direction: column; justify-content: center; align-items: center;
+}
+.flip-front { background: var(--pink); color: var(--on-pink); font-weight: 600; font-size: 1.02rem; }
+.flip-back { background: var(--pink-mist); border: 1px solid var(--line); transform: rotateY(180deg); font-size: 0.84rem; line-height: 1.4; }
+.flip-back i { color: var(--pink-strong); margin-top: 6px; display: block; }
+.small { font-size: 0.82rem; color: var(--muted); }
+
+/* ---------- Exercises ---------- */
+.ex { margin: 10px 0 4px; }
+.ex ol.items { padding-left: 24px; margin: 0; }
+.ex ol.items li { padding: 8px 0; border-bottom: 1px dashed var(--line); }
+.ex ol.items li:last-child { border-bottom: none; }
+.gap {
+    font: inherit; color: var(--ink); border: none; border-bottom: 2px solid var(--pink);
+    background: var(--pink-mist); border-radius: 6px 6px 0 0; padding: 2px 8px; margin: 0 3px; outline: none; max-width: 100%;
+}
+select.gap { cursor: pointer; }
+input.gap.line { display: block; width: 100%; margin-top: 8px; padding: 8px 10px; }
+.gap:focus { background: var(--pink-wash); }
+.gap.ok { background: var(--ok-bg); border-color: var(--ok); color: var(--ok); }
+.gap.bad { background: var(--bad-bg); border-color: var(--bad); }
+.gap.shown { background: var(--shown-bg); border-color: var(--shown); color: var(--shown); }
+
+.ex-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 12px; }
+.btn {
+    background: var(--pink); color: var(--on-pink); border: none; padding: 10px 22px; border-radius: 24px;
+    font: 600 0.92rem var(--body); cursor: pointer; transition: background 0.2s; text-decoration: none; display: inline-block;
+}
+.btn:hover { background: var(--pink-strong); }
+.btn.ghost { background: transparent; color: var(--pink-strong); border: 1px solid var(--line); }
+.btn.ghost:hover { background: var(--pink-mist); }
+.result { font-weight: 700; color: var(--pink-strong); font-variant-numeric: tabular-nums; }
+
+.mc { margin: 10px 0; padding: 14px 16px; background: var(--pink-mist); border-radius: 14px; }
+.mc .q { font-weight: 600; margin: 0 0 8px; }
+.opts { display: flex; flex-wrap: wrap; gap: 8px; }
+.opt { font: 0.94rem var(--body); text-align: left; background: var(--surface); border: 1px solid var(--line); color: var(--ink); padding: 7px 14px; border-radius: 14px; cursor: pointer; }
+.opt:hover { border-color: var(--pink); }
+.opt.ok { background: var(--ok-bg); border-color: var(--ok); color: var(--ok); font-weight: 600; }
+.opt.ok::after { content: " ✓"; }
+.opt.bad { background: var(--bad-bg); border-color: var(--bad); text-decoration: line-through; }
+
+/* ---------- Speaking ---------- */
+.q-list { margin: 0; padding-left: 22px; display: grid; gap: 6px; }
+.picker { text-align: center; background: var(--pink-mist); border-radius: 18px; padding: 20px; margin: 12px 0; }
+.picker .shown-q { font-family: var(--display); font-style: italic; font-size: 1.3rem; color: var(--pink-strong); min-height: 2.4em; margin: 4px 0 14px; text-wrap: balance; }
+.picker ul { display: none; }
+.picker .count { display: block; font-size: 0.78rem; color: var(--muted); margin-top: 8px; font-variant-numeric: tabular-nums; }
+.phrases { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0; }
+.phrases span { background: var(--surface); border: 1px solid var(--line); padding: 5px 12px; border-radius: 16px; font-size: 0.9rem; }
+.two-col { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 12px; }
+.two-col > * { min-width: 0; }
+
+.timer { display: inline-flex; align-items: center; gap: 8px; background: var(--surface); border: 1px solid var(--line); padding: 4px 6px 4px 14px; border-radius: 24px; margin: 4px 6px 4px 0; }
+.timer .t { font-weight: 700; font-variant-numeric: tabular-nums; color: var(--pink-strong); min-width: 3.2em; }
+.timer.done .t { color: var(--bad); }
+.timer .btn { padding: 5px 12px; }
+
+.homework li { margin-bottom: 8px; }
+
+.score-badge {
+    position: fixed; right: 16px; bottom: calc(16px + env(safe-area-inset-bottom, 0px)); z-index: 60;
+    background: var(--pink); color: var(--on-pink); padding: 8px 16px; border-radius: 24px; font-weight: 700;
+    font-variant-numeric: tabular-nums; transition: transform 0.2s; box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+}
+.score-badge.pop { transform: scale(1.2); }
+
+footer { text-align: center; color: var(--muted); font-size: 0.82rem; padding-block: 0 30px; padding-inline: 16px; }
+
+@media (max-width: 600px) { body { font-size: 16px; } section.step { border-radius: 18px; } }
+@media (prefers-reduced-motion: reduce) { .flip-inner, .score-badge { transition: none; } }
+</style>
+</head>
+<body>
+<header class="hero"><div class="hero-inner">
+    <div class="eyebrow">English with Glam · Lesson for Zakhar &amp; Mikhail</div>
+    <h1>Do Schools Kill Creativity?</h1>
+    <p class="lead">One of the most-watched TED Talks ever, 20 years later. Is Sir Ken Robinson still right in the age of AI? Third and mixed conditionals, then a real debate.</p>
+    <div class="tags"><span class="tag">B1+ → B2</span><span class="tag">Authentic video</span><span class="tag">3rd &amp; mixed conditionals</span><span class="tag">Debate</span><span class="tag">60–75 min</span></div>
+</div></header>
+
+<nav class="lesson-nav">
+    <a href="#warmup">Warm-up</a><a href="#words">Vocabulary</a><a href="#video">TED Talk</a><a href="#grammar">Grammar</a><a href="#practice">Practice</a><a href="#debate">Debate</a><a href="#homework">Homework</a>
+</nav>
+
+<main>
+<section class="step" id="warmup">
+    <div class="step-head"><h2>Warm-up</h2><span class="mins">7 min</span></div>
+    <div class="quote">"All children are born artists. The problem is to remain an artist as we grow up."<small>Pablo Picasso (quoted by Ken Robinson)</small></div>
+    <ol class="q-list">
+        <li>Do you agree with Picasso? Were you more creative as a child?</li>
+        <li>Which school subject was the most useful for you? Which was a waste of time?</li>
+        <li>Rank these subjects by how important schools think they are: <i>maths, dance, history, music, languages, drama, art, science</i>. Now rank them by how important <b>you</b> think they are.</li>
+    </ol>
+</section>
+
+<section class="step" id="words">
+    <div class="step-head"><h2>Vocabulary: education &amp; creativity</h2><span class="mins">8 min</span></div>
+    <h3>Match the word to its definition</h3>
+    <div class="ex">
+        <ol class="items">
+            <li>to <b>stigmatize</b> mistakes → <select class="gap" data-a="to treat them as shameful"><option value="">…</option><option>to treat them as shameful</option><option>to encourage them</option><option>to correct them quickly</option></select></li>
+            <li>to <b>squander</b> talent → <select class="gap" data-a="to waste it"><option value="">…</option><option>to develop it</option><option>to waste it</option><option>to test it</option></select></li>
+            <li>to <b>nurture</b> → <select class="gap" data-a="to help something grow"><option value="">…</option><option>to help something grow</option><option>to measure</option><option>to punish</option></select></li>
+            <li>to <b>stifle</b> creativity → <select class="gap" data-a="to stop it from developing"><option value="">…</option><option>to make it stronger</option><option>to stop it from developing</option><option>to pay for it</option></select></li>
+            <li>a <b>one-size-fits-all</b> approach → <select class="gap" data-a="the same method for everyone"><option value="">…</option><option>an individual plan</option><option>the same method for everyone</option><option>a very expensive system</option></select></li>
+            <li><b>academic inflation</b> → <select class="gap" data-a="degrees becoming worth less"><option value="">…</option><option>rising university fees</option><option>degrees becoming worth less</option><option>more teachers</option></select></li>
+            <li>to <b>come up with</b> sth → <select class="gap" data-a="to think of an idea"><option value="">…</option><option>to think of an idea</option><option>to agree with</option><option>to reach a place</option></select></li>
+            <li><b>to be pigeonholed</b> → <select class="gap" data-a="to be put in a narrow category"><option value="">…</option><option>to be promoted</option><option>to be put in a narrow category</option><option>to be ignored</option></select></li>
+        </ol>
+        <div class="ex-actions"><button class="btn check">Check</button><button class="btn ghost reveal">Show answers</button><span class="result"></span></div>
+    </div>
+    <h3>Collocations to steal for the debate</h3>
+    <div class="phrases"><span>to foster creativity</span><span>rote learning</span><span>standardized tests</span><span>to think outside the box</span><span>a fixed mindset</span><span>to fall through the cracks</span><span>to fulfil your potential</span><span>to be ahead of its time</span></div>
+</section>
+
+<section class="step" id="video">
+    <div class="step-head"><h2>TED Talk: Sir Ken Robinson</h2><span class="mins">25 min</span></div>
+    <div class="video">
+        <div class="meta"><strong>"Do schools kill creativity?"</strong><span>Sir Ken Robinson · TED 2006 · about 19 minutes · British humour, quite fast</span></div>
+        <a class="btn" href="https://www.ted.com/talks/sir_ken_robinson_do_schools_kill_creativity" target="_blank" rel="noopener">Open the talk on TED</a>
+    </div>
+    <p class="small">Can't open TED? Search YouTube for "Ken Robinson Do schools kill creativity".</p>
+
+    <h3>Comprehension</h3>
+    <div class="mc"><p class="q">1. Robinson says creativity in education is as important as…</p><div class="opts"><button class="opt">sport</button><button class="opt" data-ok>literacy</button><button class="opt">discipline</button></div></div>
+    <div class="mc"><p class="q">2. "If you're not prepared to be wrong, …"</p><div class="opts"><button class="opt">you'll never pass exams</button><button class="opt" data-ok>you'll never come up with anything original</button><button class="opt">you'll never become a teacher</button></div></div>
+    <div class="mc"><p class="q">3. According to Robinson, what is at the very bottom of the subject hierarchy?</p><div class="opts"><button class="opt">history and geography</button><button class="opt">art and music</button><button class="opt" data-ok>drama and dance</button></div></div>
+    <div class="mc"><p class="q">4. Why does he say university professors "live in their heads"?</p><div class="opts"><button class="opt" data-ok>Education focuses on the mind and ignores the body</button><button class="opt">They never leave the university</button><button class="opt">They are very clever</button></div></div>
+    <div class="mc"><p class="q">5. As a child, Gillian Lynne couldn't sit still at school. What did the doctor say?</p><div class="opts"><button class="opt">She needs medication.</button><button class="opt" data-ok>She isn't sick. She's a dancer.</button><button class="opt">She should change schools.</button></div></div>
+    <div class="mc"><p class="q">6. "We don't grow into creativity, we…"</p><div class="opts"><button class="opt" data-ok>grow out of it (we get educated out of it)</button><button class="opt">are born without it</button><button class="opt">buy it later</button></div></div>
+
+    <h3>Think deeper</h3>
+    <ol class="q-list">
+        <li>The talk is from 2006. What has changed in education since then? What hasn't?</li>
+        <li>Robinson talks about "academic inflation". Is a university degree still worth it in 2026?</li>
+        <li>How does AI change his argument? Does it make creativity more important or less?</li>
+    </ol>
+</section>
+
+<section class="step" id="grammar">
+    <div class="step-head"><h2>Third &amp; mixed conditionals</h2><span class="mins">8 min</span></div>
+    <p>Gillian Lynne's story is perfect for talking about how the past could have been different:</p>
+    <div class="g-grid">
+        <div class="g-box">
+            <h4>Third: unreal past → past result</h4>
+            <span class="form">If + had V3, would have V3</span>
+            <p><i>If the doctor <mark>hadn't noticed</mark> her talent, she <mark>might have been</mark> put on medication.</i></p>
+        </div>
+        <div class="g-box">
+            <h4>Mixed: past → present</h4>
+            <span class="form">If + had V3, would + V</span>
+            <p><i>If I <mark>had studied</mark> art, I <mark>would be</mark> a designer now.</i></p>
+            <p class="small">past cause, present result (now, today)</p>
+        </div>
+        <div class="g-box">
+            <h4>Mixed: present → past</h4>
+            <span class="form">If + V2, would have V3</span>
+            <p><i>If I <mark>were</mark> more patient, I <mark>wouldn't have quit</mark> the guitar.</i></p>
+            <p class="small">a permanent trait caused a past result</p>
+        </div>
+    </div>
+    <div class="box"><b>Level up: inversion</b> (formal, C1). Drop <i>if</i> and put <i>had</i> first:<br>
+        <i>If I had known → <mark>Had I known</mark>, I would have come.</i><br>
+        <i>If it hadn't been for the doctor → <mark>Had it not been for</mark> the doctor, she would never have danced.</i><br>
+        Also: <i>would</i> → <i>could / might</i> for possibility: <i>She <mark>might never have become</mark> a choreographer.</i></div>
+</section>
+
+<section class="step" id="practice">
+    <div class="step-head"><h2>Practice</h2><span class="mins">10 min</span></div>
+    <h3>1. Choose the correct form</h3>
+    <div class="ex">
+        <ol class="items">
+            <li>If I had studied harder at school, I <select class="gap" data-a="would have got"><option value="">…</option><option>would have got</option><option>would get</option></select> better grades.</li>
+            <li>If I had chosen a different university, I <select class="gap" data-a="would live"><option value="">…</option><option>would live</option><option>would have lived</option></select> in another city now.</li>
+            <li>If she weren't so shy, she <select class="gap" data-a="would have spoken"><option value="">…</option><option>would speak</option><option>would have spoken</option></select> at the meeting yesterday.</li>
+            <li><select class="gap" data-a="Had"><option value="">…</option><option>If</option><option>Had</option></select> I known about the test, I would have prepared.</li>
+            <li>If they <select class="gap" data-a="hadn't missed"><option value="">…</option><option>didn't miss</option><option>hadn't missed</option></select> the flight, they would be in Paris right now.</li>
+            <li>We would have won if our goalkeeper <select class="gap" data-a="hadn't been"><option value="">…</option><option>wasn't</option><option>hadn't been</option></select> injured.</li>
+        </ol>
+        <div class="ex-actions"><button class="btn check">Check</button><button class="btn ghost reveal">Show answers</button><span class="result"></span></div>
+    </div>
+
+    <h3>2. Sentence transformation (exam style)</h3>
+    <p>Complete the second sentence so it means the same as the first.</p>
+    <div class="ex">
+        <ol class="items">
+            <li>I didn't know you were in town, so I didn't call you.<br>If I <input class="gap" data-a="had known"> you were in town, I would have called you.</li>
+            <li>He didn't take the job in London, so he still lives in Moscow.<br>If he had taken the job in London, he <input class="gap" data-a="wouldn't live|would not live|wouldn't be living|would not be living"> in Moscow now.</li>
+            <li>I'm not good at maths, so I failed the exam.<br>If I <input class="gap" data-a="were|was"> good at maths, I wouldn't have failed the exam.</li>
+            <li>We got lost because we didn't have a map.<br>We <input class="gap" data-a="wouldn't have got|would not have got|wouldn't have gotten|would not have gotten"> lost if we had had a map.</li>
+            <li>She ignored her teachers' advice, and now she's a famous artist.<br>If she had listened to her teachers, she <input class="gap" data-a="wouldn't be|would not be|might not be|mightn't be"> a famous artist now.</li>
+            <li>If I had known, I would have come.<br><input class="gap" data-a="Had I"> known, I would have come.</li>
+            <li>Thanks to the doctor, Gillian became a dancer.<br>Had it not <input class="gap" data-a="been for"> the doctor, Gillian wouldn't have become a dancer.</li>
+        </ol>
+        <div class="ex-actions"><button class="btn check">Check</button><button class="btn ghost reveal">Show answers</button><span class="result"></span></div>
+    </div>
+
+    <h3>3. Sliding doors</h3>
+    <p>Think of one decision or event that changed your life. Tell your partner what would be different now, and what would have happened if things had gone the other way. Use at least one of each type.</p>
+    <div class="phrases"><span>If I hadn't…, I would never have…</span><span>If I had…, I'd probably be… now.</span><span>Had it not been for…, I…</span></div>
+</section>
+
+<section class="step" id="debate">
+    <div class="step-head"><h2>Debate</h2><span class="mins">15 min</span></div>
+    <div class="quote">"Within 20 years, AI will make traditional schools unnecessary."</div>
+    <p><b>Zakhar</b> argues FOR, <b>Mikhail</b> argues AGAINST. (Then swap sides for a second round!)</p>
+    <div class="box"><b>Format</b>
+        <ol class="q-list">
+            <li>Preparation: 3 min. Write 3 arguments + 1 example for each.</li>
+            <li>Opening statement: 2 min each.</li>
+            <li>Rebuttal: 2 min each. Answer your opponent's points.</li>
+            <li>Closing: 1 min each. Use one conditional sentence!</li>
+        </ol>
+        <div class="timer" data-sec="180"><span class="t"></span><button class="btn">Start</button></div>
+        <div class="timer" data-sec="120"><span class="t"></span><button class="btn">Start</button></div>
+        <div class="timer" data-sec="60"><span class="t"></span><button class="btn">Start</button></div>
+    </div>
+    <div class="two-col">
+        <div class="box"><strong>Making your point</strong>
+            <div class="phrases"><span>I'd argue that…</span><span>The key point here is…</span><span>The evidence suggests…</span><span>Take … for example.</span><span>Let's not forget that…</span></div></div>
+        <div class="box"><strong>Challenging</strong>
+            <div class="phrases"><span>I see where you're coming from, but…</span><span>That's a fair point, however…</span><span>That may be true, but it doesn't mean…</span><span>With all due respect…</span><span>What you're missing is…</span></div></div>
+    </div>
+    <p class="small">Other motions if you have time: "Schools should grade creativity." / "University is no longer worth the money." / "Homework should be banned."</p>
+</section>
+
+<section class="step" id="homework">
+    <div class="step-head"><h2>Homework</h2><span class="mins">2 min</span></div>
+    <ol class="homework">
+        <li><b>Opinion essay</b>, 200–250 words: <i>"Do schools kill creativity? Has anything changed since 2006?"</i> Use 3 conditional sentences (at least 1 mixed) and 5 words from today.</li>
+        <li><b>Listening:</b> watch Robinson's follow-up talk "Bring on the learning revolution!" (TED 2010) and write down 3 ideas he adds.</li>
+        <li><b>Speaking:</b> record a 2-minute "sliding doors" story about your life.</li>
+    </ol>
+</section>
+</main>
+<footer>Brilliant work, gentlemen. 💗</footer>
+<script>
+(function () {
+    function norm(s) {
+        return String(s).toLowerCase()
+            .replace(/[’‘`]/g, "'")
+            .replace(/[.,!?;:"]/g, ' ')
+            .replace(/\s+/g, ' ')
+            .trim();
+    }
+    function answers(el) { return el.dataset.a.split('|'); }
+
+    var scoreEl = document.getElementById('score');
+    var scored = new WeakSet();
+    var score = 0;
+    function addPoints(el, pts) {
+        if (!scoreEl || scored.has(el)) return;
+        scored.add(el);
+        score += pts;
+        scoreEl.textContent = '⭐ ' + score;
+        scoreEl.classList.add('pop');
+        setTimeout(function () { scoreEl.classList.remove('pop'); }, 250);
+    }
+
+    // Size gaps to the longest answer so the layout doesn't jump
+    document.querySelectorAll('input.gap[data-a]:not(.line)').forEach(function (inp) {
+        var longest = Math.max.apply(null, answers(inp).map(function (a) { return a.length; }));
+        inp.style.width = Math.min(Math.max(longest + 3, 6), 30) + 'ch';
+    });
+
+    function checkEx(ex) {
+        var fields = ex.querySelectorAll('.gap[data-a]');
+        var good = 0;
+        fields.forEach(function (f) {
+            f.classList.remove('ok', 'bad', 'shown');
+            var v = norm(f.value);
+            if (!v) return;
+            var ok = answers(f).some(function (a) { return norm(a) === v; });
+            f.classList.add(ok ? 'ok' : 'bad');
+            if (ok) { good++; addPoints(f, 10); }
+        });
+        var r = ex.querySelector('.result');
+        if (r) r.textContent = good + ' / ' + fields.length + (good === fields.length ? '  Perfect!' : '');
+    }
+    function revealEx(ex) {
+        ex.querySelectorAll('.gap[data-a]').forEach(function (f) {
+            var ok = answers(f).some(function (a) { return norm(a) === norm(f.value); });
+            if (ok && f.value) return;
+            f.value = answers(f)[0];
+            f.classList.remove('ok', 'bad');
+            f.classList.add('shown');
+            scored.add(f); // no points for revealed answers
+        });
+    }
+
+    document.querySelectorAll('.ex').forEach(function (ex) {
+        var c = ex.querySelector('.check'), r = ex.querySelector('.reveal');
+        if (c) c.addEventListener('click', function () { checkEx(ex); });
+        if (r) r.addEventListener('click', function () { revealEx(ex); });
+        ex.querySelectorAll('input.gap').forEach(function (i) {
+            i.addEventListener('keydown', function (e) { if (e.key === 'Enter') checkEx(ex); });
+        });
+    });
+
+    // Multiple choice
+    document.querySelectorAll('.mc').forEach(function (mc) {
+        mc.querySelectorAll('.opt').forEach(function (b) {
+            b.type = 'button';
+            b.addEventListener('click', function () {
+                if (b.hasAttribute('data-ok')) {
+                    b.classList.add('ok');
+                    if (!mc.dataset.missed) addPoints(mc, 10);
+                } else {
+                    b.classList.add('bad');
+                    mc.dataset.missed = '1';
+                }
+            });
+        });
+    });
+
+    // Flip cards
+    document.querySelectorAll('.flip').forEach(function (f) {
+        f.type = 'button';
+        f.addEventListener('click', function () { f.classList.toggle('flipped'); });
+    });
+
+    // Random question picker
+    document.querySelectorAll('.picker').forEach(function (p) {
+        var items = Array.prototype.map.call(p.querySelectorAll('li'), function (li) { return li.innerHTML; });
+        var pool = [];
+        var out = p.querySelector('.shown-q'), cnt = p.querySelector('.count'), btn = p.querySelector('button');
+        btn.addEventListener('click', function () {
+            if (!pool.length) pool = items.slice();
+            var i = Math.floor(Math.random() * pool.length);
+            out.innerHTML = pool.splice(i, 1)[0];
+            if (cnt) cnt.textContent = (items.length - pool.length) + ' / ' + items.length;
+        });
+    });
+
+    // Timers
+    document.querySelectorAll('.timer').forEach(function (t) {
+        var total = +t.dataset.sec, left = total, id = null;
+        var out = t.querySelector('.t'), btn = t.querySelector('button');
+        function show() { out.textContent = Math.floor(left / 60) + ':' + String(left % 60).padStart(2, '0'); }
+        show();
+        btn.type = 'button';
+        btn.addEventListener('click', function () {
+            if (id) { clearInterval(id); id = null; left = total; t.classList.remove('done'); btn.textContent = 'Start'; show(); return; }
+            btn.textContent = 'Reset';
+            id = setInterval(function () {
+                left--; show();
+                if (left <= 0) { clearInterval(id); id = null; t.classList.add('done'); btn.textContent = 'Again'; left = total; }
+            }, 1000);
+        });
+    });
+})();
+</script>
+</body>
+</html>
