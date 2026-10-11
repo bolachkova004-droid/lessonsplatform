@@ -2,6 +2,9 @@
 <html lang="ru" data-theme="light">
 <head>
 <meta charset="UTF-8">
+<meta name="robots" content="noindex, nofollow">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data: blob:; worker-src blob:; connect-src wss://broker.emqx.io:8084 wss://broker.hivemq.com:8884 wss://public.cloud.shiftr.io wss://test.mosquitto.org:8081 https://api.mymemory.translated.net ws://localhost:* ws://127.0.0.1:*; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Iris School · Интерактивный класс</title>
 <style>
@@ -342,6 +345,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
 .live-join h2 {margin-bottom:4px}.live-join p {margin:0}.live-join .ui-btn {margin-top:0}
 @media(max-width:680px){.live-bar {padding:9px 17px}.live-actions .ui-btn {font-size:11px;padding:6px 9px;min-height:30px}}
 @media (prefers-reduced-motion: reduce) {.live-cursor {transition:none}.live-dot,.live-ripple,.live-flash {animation:none!important}}
+.live-warn {color:var(--bad);font-weight:600}
 
 .book-cover strong {font-size:16px!important;overflow-wrap:anywhere}
 </style></head>
@@ -1456,7 +1460,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
 
 <section class="step lesson-card" id="teacher-marina">
     <div class="step-head"><h2>Марина · My Life, My Rhythm</h2><span class="mins">60 мин</span></div>
-    <p class="why">Только начала заниматься, неуверенная. Урок построен так, чтобы у неё всё получалось: сначала ваш пример, потом её ответ, много опорных фраз. Заодно проводим needs analysis.</p>
+    <p class="why">Урок для первых занятий: много опор, сначала пример преподавателя, потом ответ ученика. Заодно проводим needs analysis.</p>
     <div class="table-wrap"><table class="simple plan">
         <tr><td>0–7</td><td>Two truths and a lie: начните сами, потом она. Таблица уверенности 1–10 — запишите себе её ответы, это готовый needs analysis.</td></tr>
         <tr><td>7–10</td><td>«Phrases that save you». Договоритесь: вместо молчания она использует эти фразы.</td></tr>
@@ -1484,7 +1488,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
 
 <section class="step lesson-card" id="teacher-ksenia">
     <div class="step-head"><h2>Ксения · What Makes a Good Life?</h2><span class="mins">60 мин</span></div>
-    <p class="why">Сильная в аутентике, но слабая в грамматике. Берём настоящий TED Talk (Robert Waldinger, ~13 мин), где спикер сам постоянно использует Present Perfect, и на нём объясняем правило очень пошагово: время → диалог → сигнальные слова → упражнения.</p>
+    <p class="why">Аутентичный TED Talk (Robert Waldinger, ~13 мин), в котором спикер сам постоянно использует Present Perfect. Правило разбираем пошагово: время → диалог → сигнальные слова → упражнения.</p>
     <div class="table-wrap"><table class="simple plan">
         <tr><td>0–7</td><td>Ранжирование ценностей. Факт про 80% / 50% — из самого выступления.</td></tr>
         <tr><td>7–15</td><td>Слова из выступления + упражнение.</td></tr>
@@ -1511,7 +1515,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
 
 <section class="step lesson-card" id="teacher-pasha">
     <div class="step-head"><h2>Паша · Inside the Procrastinator's Mind</h2><span class="mins">60 мин</span></div>
-    <p class="why">Хороший уровень, тянет аутентику, но грамматика иногда идёт тяжело. TED Talk Тима Урбана (~14 мин) смешной и живой. Грамматика — 0/1/2 conditionals, с упором на главную ошибку: will/would после if.</p>
+    <p class="why">TED Talk Тима Урбана (~14 мин), смешной и живой. Грамматика — 0/1/2 conditionals с упором на главную ошибку: will/would после if.</p>
     <div class="table-wrap"><table class="simple plan">
         <tr><td>0–6</td><td>Вопросы о прокрастинации.</td></tr>
         <tr><td>6–14</td><td>Слова + упражнение.</td></tr>
@@ -1536,7 +1540,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
 
 <section class="step lesson-card" id="teacher-milana">
     <div class="step-head"><h2>Милана · Phone Off, Life On?</h2><span class="mins">60 мин</span></div>
-    <p class="why">14 лет, B1, забывает пройденное. Урок построен как игра с очками (счётчик звёзд в углу экрана, +10 за каждый верный ответ с первой попытки). Повторение B1: неправильные глаголы, сравнения, вопросы и отрицания, Present Perfect vs Past Simple, типичные ошибки.</p>
+    <p class="why">Урок-игра с очками (счётчик звёзд в углу экрана, +10 за верный ответ с первой попытки). Повторение B1: неправильные глаголы, сравнения, вопросы и отрицания, Present Perfect vs Past Simple, типичные ошибки.</p>
     <div class="table-wrap"><table class="simple plan">
         <tr><td>0–5</td><td>This or that: быстрые ответы, каждый с «because».</td></tr>
         <tr><td>5–13</td><td>Слова соцсетей + упражнение.</td></tr>
@@ -1564,7 +1568,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
 
 <section class="step lesson-card" id="teacher-sasha">
     <div class="step-head"><h2>Саша · Travel Stories</h2><span class="mins">60 мин</span></div>
-    <p class="why">Самое начало Intermediate. Тема простая и личная — путешествия. Грамматика: Past Simple vs Past Continuous, чтобы рассказывать истории. Всё с опорами и формулами.</p>
+    <p class="why">Тема простая и личная — путешествия. Грамматика: Past Simple vs Past Continuous, чтобы рассказывать истории. Всё с опорами и формулами.</p>
     <div class="table-wrap"><table class="simple plan">
         <tr><td>0–6</td><td>Угадай страну по эмодзи + быстрые вопросы.</td></tr>
         <tr><td>6–14</td><td>Слова + упражнение. Отметьте, что luggage неисчисляемое.</td></tr>
@@ -1590,7 +1594,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
 
 <section class="step lesson-card" id="teacher-zm">
     <div class="step-head"><h2>Захар &amp; Михаил · Do Schools Kill Creativity?</h2><span class="mins">60–75 мин</span></div>
-    <p class="why">Почти B2, всё хорошо запоминают. Длинный аутентичный TED Talk (Ken Robinson, ~19 мин), продвинутая лексика, 3rd и mixed conditionals, инверсия как «level up», настоящие дебаты с таймером. Если занимаются по отдельности, во втором раунде дебатов оппонент — вы.</p>
+    <p class="why">Длинный аутентичный TED Talk (Ken Robinson, ~19 мин), продвинутая лексика, 3rd и mixed conditionals, инверсия как «level up», дебаты с таймером. На индивидуальном уроке во втором раунде дебатов оппонент — преподаватель.</p>
     <div class="table-wrap"><table class="simple plan">
         <tr><td>0–7</td><td>Цитата Пикассо + иерархия предметов (потом сравните с тем, что скажет Робинсон).</td></tr>
         <tr><td>7–15</td><td>Лексика + коллокации для дебатов.</td></tr>
@@ -1991,13 +1995,13 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
       {url: 'wss://public.cloud.shiftr.io', username: 'public', password: 'public'},
       {url: 'wss://test.mosquitto.org:8081/mqtt'}
     ];
-    const BROKERS = (() => { try { const q = new URLSearchParams(location.search).get('brokers'); if (q) return q.split(',').filter(u => /^wss?:\/\//.test(u)).map(url => ({url})); } catch (_) {} return DEFAULT_BROKERS; })();
-    const PEER_TIMEOUT = 13000, PING_EVERY = 4000, SNAPSHOT_EVERY = 10000;
+    const BROKERS = (() => { try { const q = new URLSearchParams(location.search).get('brokers'); if (q) return q.split(',').filter(u => /^wss?:\/\/(localhost|127\.0\.0\.1)(:\d+)?(\/|$)/.test(u)).map(url => ({url})); } catch (_) {} return DEFAULT_BROKERS; })();
+    const PEER_TIMEOUT = 13000, PING_EVERY = 4000, SNAPSHOT_EVERY = 10000, MAX_AGE = 10 * 60 * 1000;
     const me = rid(10);
     let session = null, seq = 0, sendChain = Promise.resolve(), recvChain = Promise.resolve();
     let applying = false, pendingReset = false, snapshotDirty = false, lastPointerJson = '', lastPointerAt = 0, pointerTimer = null, lastAnchor = null;
     let lastHelloReply = 0, notifyGate = 0, repositionQueued = false, helloTimer = null;
-    const seen = new Map(), applied = new Map(), localEdits = new Map(), fieldTimers = new Map(), cursors = new Map(), peers = new Map();
+    const seen = new Map(), maxSeq = new Map(), applied = new Map(), localEdits = new Map(), fieldTimers = new Map(), cursors = new Map(), peers = new Map();
     const bar = document.createElement('div'); bar.className = 'live-bar'; bar.id = 'live-bar'; bar.hidden = true;
     $('.app-header').insertAdjacentElement('afterend', bar);
     const origReplace = history.replaceState.bind(history);
@@ -2026,11 +2030,11 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
       const pt = await crypto.subtle.decrypt({name: 'AES-GCM', iv: u.slice(0, 12)}, key, u.slice(12));
       return JSON.parse(new TextDecoder().decode(pt));
     }
-    function markSeen(id) { seen.set(id, Date.now()); if (seen.size > 800) { const cut = Date.now() - 120000; seen.forEach((t, k) => { if (t < cut) seen.delete(k); }); } }
+    function markSeen(id) { seen.set(id, Date.now()); if (seen.size > 6000) { const cut = Date.now() - MAX_AGE; seen.forEach((t, k) => { if (t < cut) seen.delete(k); }); } }
 
     function send(type, data = {}) {
       if (!session) return;
-      const s = session, msg = {v: 1, id: rid(9), from: me, role: s.role, seq: ++seq, lesson: s.lesson, type, ...data};
+      const s = session, msg = {v: 1, id: rid(9), from: me, role: s.role, seq: ++seq, ts: Date.now(), lesson: s.lesson, type, ...data};
       markSeen(msg.id);
       sendChain = sendChain.then(async () => {
         const payload = await seal(msg, s.key), t = 'iris-school/v1/' + s.room;
@@ -2043,6 +2047,9 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
         if (session !== s) return;
         let m; try { m = await unseal(String(payload), s.key); } catch (_) { return; }
         if (!m || m.v !== 1 || m.from === me || typeof m.id !== 'string' || seen.has(m.id) || m.lesson !== s.lesson) return;
+        // Защита от повторной отправки перехваченных сообщений: старые по времени или по номеру отбрасываются.
+        if (typeof m.ts !== 'number' || Math.abs(Date.now() - m.ts) > MAX_AGE || !Number.isInteger(m.seq)) return;
+        const top = maxSeq.get(m.from) || 0; if (m.seq <= top - 60) return; if (m.seq > top) maxSeq.set(m.from, m.seq);
         markSeen(m.id);
         applying = true; try { handle(m); } finally { applying = false; }
       }).catch(e => console.error('live', e));
@@ -2303,7 +2310,8 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
       const connText = {on: 'Связь есть', connecting: 'Подключаемся…', lost: 'Связь пропала, переподключаемся…'}[conn];
       const sections = sectionsFor(session.lesson), label = id => { const i = sections.findIndex(s => s.id === id); return i < 0 ? '' : (i + 1) + '. ' + (sections[i].dataset.label || ''); };
       let who;
-      if (teacher) who = peer ? 'Ученик на уроке' + (peer.section ? ' · этап ' + esc(label(peer.section)) : '') : 'Ждём ученика. Отправьте ему ссылку.';
+      const students = Array.from(peers.values()).filter(p => p.role === 'student' && Date.now() - p.last < PEER_TIMEOUT).length;
+      if (teacher) who = (students > 1 ? '<b class="live-warn">По ссылке ученика подключено устройств: ' + students + '. Если это не ученик, завершите урок и начните новый.</b> ' : '') + (peer ? 'Ученик на уроке' + (peer.section ? ' · этап ' + esc(label(peer.section)) : '') : 'Ждём ученика. Отправьте ему ссылку.');
       else who = peer ? 'Преподаватель на уроке' : 'Ждём преподавателя…';
       const away = teacher && peer && peer.section && inSessionLesson() && peer.section !== currentSection;
       bar.hidden = false; bar.className = 'live-bar conn-' + conn + (peer ? ' peer-on' : '');
@@ -2331,7 +2339,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
       leave(false);
       state.role = role === 'teacher' ? 'teacher' : 'student'; save();
       session = {lesson, room, keyStr, key, role: state.role, clients: [], follow: true, pointerOn: true, everConnected: false, teacherSection: null};
-      peers.clear(); applied.clear(); localEdits.clear();
+      peers.clear(); applied.clear(); localEdits.clear(); maxSeq.clear();
       if (exists) openLesson(lesson); else { route('home', false); notify('Получаем урок от преподавателя…'); }
       origReplace(null, '', liveHash());
       connect(); renderBar();
