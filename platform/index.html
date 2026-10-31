@@ -1392,6 +1392,66 @@ body.teacher-access .pane .gap[data-a]:hover, body.teacher-access .pane .mc:hove
 @keyframes cauBub {0% {transform:translateY(0);opacity:.9} 100% {transform:translateY(-46px);opacity:0}}
 @media (prefers-reduced-motion: reduce) {.pum, .cau-card, .cau-pot i, .pum-timer span {animation:none !important}}
 @keyframes shake {20% {transform:translateX(-5px)} 40% {transform:translateX(5px)} 60% {transform:translateX(-3px)} 80% {transform:translateX(3px)}}
+/* Motion belongs to the illustration; answer labels and click targets stay still. */
+.spk-sky {position:absolute;inset:0;z-index:0;overflow:hidden;border-radius:20px;pointer-events:none}
+.spk-cloud {position:absolute;left:55%;top:48%;width:180px;height:42px;border-radius:50%;background:radial-gradient(ellipse,#a9d6e22b,transparent 70%);filter:blur(5px);animation:spk-cloud 24s ease-in-out infinite alternate}
+.spk-cloud.second {left:66%;top:30%;width:140px;animation-duration:31s;animation-delay:-12s;opacity:.7}
+.spk-shooting-star {position:absolute;left:87%;top:18%;width:64px;height:2px;background:linear-gradient(90deg,transparent,#f1dfad);border-radius:50%;opacity:0;animation:spk-shoot 13s linear 2s infinite}
+.spk-shooting-star.second {left:66%;top:30%;width:42px;animation-duration:19s;animation-delay:9s}
+@keyframes spk-cloud {from {transform:translate(-24px,6px)} to {transform:translate(32px,-8px)}}
+@keyframes spk-shoot {0%,8% {opacity:0;transform:translate(0,0) rotate(-30deg)} 9% {opacity:.85} 14% {opacity:0;transform:translate(-145px,84px) rotate(-30deg)} 100% {opacity:0;transform:translate(-145px,84px) rotate(-30deg)}}
+.games.spooky .pum-body {background:none;animation:spk-pumpkin-bob 3.2s ease-in-out var(--d) infinite;transform-origin:50% 90%}
+.games.spooky .pum-art {display:block;width:100%;height:100%;overflow:visible}
+.games.spooky .pum-eyes {transform-box:fill-box;transform-origin:center;animation:spk-blink 5.5s calc(var(--d) + .5s) infinite}
+.games.spooky .pum:disabled {opacity:1}
+.games.spooky .pum.ok .pum-body {animation:spk-harvest .7s ease-in both}
+.games.spooky .pum.bad .pum-body {animation:spk-pumpkin-no .4s ease-in-out both}
+.games.spooky .pum.answer .pum-word {background:#b9ebd0;border-color:#89d0ad}
+.spk-sparks {position:absolute;left:50%;top:45%;width:0;height:0;pointer-events:none}
+.spk-sparks i {position:absolute;left:-4px;top:-4px;width:8px;height:8px;opacity:0;background:#ffe4a4;clip-path:polygon(50% 0,63% 37%,100% 50%,63% 63%,50% 100%,37% 63%,0 50%,37% 37%)}
+.games.spooky .pum.ok .spk-sparks i {animation:spk-spark .7s ease-out var(--delay) both}
+@keyframes spk-pumpkin-bob {0%,100% {transform:translateY(0) rotate(-1deg)} 50% {transform:translateY(-5px) rotate(1deg)}}
+@keyframes spk-blink {0%,40%,45%,100% {transform:scaleY(1)} 42%,43% {transform:scaleY(.08)}}
+@keyframes spk-harvest {0% {transform:scale(1);opacity:1} 30% {transform:translateY(-8px) scale(1.12)} 100% {transform:translateY(-22px) scale(.3);opacity:0}}
+@keyframes spk-pumpkin-no {20%,60% {transform:rotate(-5deg)} 40%,80% {transform:rotate(5deg)} 100% {transform:none}}
+@keyframes spk-spark {0% {opacity:0;transform:translate(0,0) scale(.3)} 15% {opacity:1} 100% {opacity:0;transform:translate(var(--x),var(--y)) scale(.15)}}
+.games.spooky .cau-scene {--brew:#9ae5bf;position:relative;background:radial-gradient(ellipse at 50% 100%,color-mix(in srgb,var(--brew) 16%,transparent),transparent 70%)}
+.games.spooky .cau-streak {align-self:center;min-height:26px;margin-bottom:6px;font-size:13px;font-weight:700;color:#d8f8e8}
+.games.spooky .cau-pot {box-shadow:inset 0 10px 0 var(--brew),0 10px 35px -16px var(--brew);transition:box-shadow .35s}
+.games.spooky .cau-pot::before {content:"";position:absolute;left:8px;right:8px;top:-13px;height:13px;border-radius:50%;background:var(--brew);box-shadow:0 0 18px -3px var(--brew);animation:spk-liquid 2.4s ease-in-out infinite;transition:background .35s,box-shadow .35s}
+.games.spooky .cau-pot i {background:var(--brew);transition:background .35s}
+.games.spooky .cau-pot i:nth-of-type(1) {left:40px}
+.games.spooky .cau-pot i:nth-of-type(2) {left:80px;animation-delay:.6s;width:10px;height:10px}
+.games.spooky .cau-pot i:nth-of-type(3) {left:118px;animation-delay:1.1s}
+.games.spooky .cau-pot i:nth-of-type(4) {left:58px;width:8px;height:8px;animation-delay:.3s;animation-duration:2.2s}
+.games.spooky .cau-pot i:nth-of-type(5) {left:100px;width:11px;height:11px;animation-delay:1.4s;animation-duration:2.4s}
+.games.spooky .cau-pot i:nth-of-type(6) {left:72px;width:6px;height:6px;animation-delay:.9s;animation-duration:1.5s}
+.cau-steam {position:absolute;left:22px;right:22px;bottom:75px;height:65px;pointer-events:none}
+.cau-steam b {position:absolute;left:15px;bottom:0;width:20px;height:50px;border-left:3px solid color-mix(in srgb,var(--brew) 45%,transparent);border-radius:50%;filter:blur(2px);opacity:0;animation:spk-steam 3s ease-out infinite}
+.cau-steam b:nth-child(2) {left:54px;animation-delay:1s}
+.cau-steam b:nth-child(3) {left:88px;animation-delay:2s}
+.games.spooky .cau-success .cau-pot {animation:spk-potion-cheer .6s ease-in-out}
+.games.spooky .cau-miss .cau-pot {animation:spk-pumpkin-no .4s ease-in-out}
+.cau-spell {position:absolute;left:8px;right:8px;bottom:100px;z-index:2;pointer-events:none;text-align:center;font-size:14px;font-weight:700;line-height:1.5;color:#e9dcff;text-shadow:0 0 14px #b5a5fb;animation:spk-spell 1.05s ease-out both}
+@keyframes spk-liquid {50% {transform:scaleX(.94) scaleY(1.15)}}
+@keyframes spk-steam {0% {opacity:0;transform:translateY(0) rotate(-8deg) scale(.8)} 25% {opacity:.65} 100% {opacity:0;transform:translate(12px,-40px) rotate(12deg) scale(1.2)}}
+@keyframes spk-potion-cheer {30% {transform:scale(1.06) rotate(-2deg)} 65% {transform:scale(1.02) rotate(2deg)} 100% {transform:none}}
+@keyframes spk-spell {0% {opacity:0;transform:translateY(14px) scale(.8)} 25%,70% {opacity:1;transform:translateY(0) scale(1)} 100% {opacity:0;transform:translateY(-26px) scale(1.04)}}
+.games.spooky .spk-victory {position:relative;isolation:isolate;height:150px;max-width:260px;margin:0 auto 12px;border-radius:22px;background:radial-gradient(ellipse,#9ae5bf1a,transparent 70%)}
+.spk-victory-moon {position:absolute;top:14px;left:calc(50% - 44px);width:88px;height:88px;border-radius:50%;background:#d8f9e7;box-shadow:inset -16px -6px 0 #96cdbe,0 0 38px #a4edcf30;animation:spk-moon-arrive .7s ease-out both}
+.spk-victory-ghost {position:absolute;left:calc(50% + 9px);top:64px;width:48px;height:60px;border-radius:50% 50% 0 0;background:#e5f4fb;clip-path:polygon(0 0,100% 0,100% 100%,83% 88%,67% 100%,50% 88%,33% 100%,17% 88%,0 100%);animation:spk-ghost 3s ease-in-out infinite}
+.spk-victory-ghost i {position:absolute;left:14px;top:23px;width:5px;height:8px;border-radius:50%;background:#163247}
+.spk-victory-ghost i + i {left:29px}
+.games.spooky .spk-victory .spk-sparks {top:50%;left:50%}
+.games.spooky .spk-victory .spk-sparks i {animation:spk-spark 1.4s ease-out calc(.3s + var(--delay)) both}
+.games.spooky .spk-victory-title {font-family:Georgia,serif;font-size:23px;font-weight:400;line-height:1.35;margin:0 0 16px;color:#d8f8e8}
+@keyframes spk-moon-arrive {from {opacity:0;transform:translateY(18px) scale(.7)} to {opacity:1;transform:none}}
+@keyframes spk-ghost {0%,100% {transform:translateY(0) rotate(-3deg)} 50% {transform:translateY(-9px) rotate(3deg)}}
+@media (prefers-reduced-motion:reduce) {
+  .spk-sky {display:none}
+  .games.spooky .pum-body, .games.spooky .pum-eyes, .games.spooky .spk-sparks i, .games.spooky .cau-pot, .games.spooky .cau-pot::before, .cau-steam b, .cau-spell, .spk-victory-moon, .spk-victory-ghost {animation:none !important;transition:none !important}
+}
+
 /* 🎃 Halloween season (ux.js adds body.season-halloween ≈ 20 Oct – 2 Nov) */
 body.season-halloween .app-header {border-bottom:5px solid transparent;border-image:repeating-linear-gradient(90deg,#f08a24 0 16px,#5b3f8c 16px 32px,#1c1428 32px 36px) 5}
 body.season-halloween .app-nav {box-shadow:0 -4px 0 -1px #f08a24, 0 -6px 0 #5b3f8c}
@@ -35221,6 +35281,21 @@ var qrcode = function () {
             if (box._g)
                 return;
             box._g = true;
+            const magical = box.classList.contains('spooky');
+            if (magical) {
+                const hero = box.closest('.spooky-games')?.querySelector('.spk-hero');
+                if (hero && !hero.querySelector('.spk-sky')) {
+                    const sky = document.createElement('div');
+                    sky.className = 'spk-sky';
+                    sky.setAttribute('aria-hidden', 'true');
+                    sky.innerHTML = '<i class="spk-cloud"></i><i class="spk-cloud second"></i><i class="spk-shooting-star"></i><i class="spk-shooting-star second"></i>';
+                    hero.appendChild(sky);
+                }
+            }
+            const magicSparks = () => '<span class="spk-sparks" aria-hidden="true">' + Array.from({ length: 8 }, (_, i) => {
+                const angle = i * Math.PI / 4;
+                return '<i style="--x:' + Math.round(Math.cos(angle) * 64) + 'px;--y:' + Math.round(Math.sin(angle) * 54 - 20) + 'px;--delay:' + i * 0.025 + 's"></i>';
+            }).join('') + '</span>';
             let words = [];
             try {
                 words = JSON.parse(box.dataset.gameWords || '[]');
@@ -35254,11 +35329,17 @@ var qrcode = function () {
             }
             const showBest = (card, g, label) => { const b = readBest(g); if (b)
                 card.querySelector('.game-best').textContent = '🏆 Лучший результат: ' + label(b); };
-            const finish = (card, html, stars = 0) => { card.querySelector('.game-area').innerHTML = '<div class="game-done">' + (stars ? '<div class="game-stars" aria-label="' + stars + ' из 3 звёзд">' + [1, 2, 3].map(n => '<span class="' + (n <= stars ? 'on' : '') + '" style="--d:' + n * 0.15 + 's">★</span>').join('') + '</div>' : '') + html + '</div>'; if (stars >= 2)
-                try {
-                    celebrate(card);
-                }
-                catch (_) { } card.querySelector('.game-start').textContent = '↺ Ещё раз'; card.querySelector('.game-start').hidden = false; };
+            const finish = (card, html, stars = 0) => {
+                const victory = magical && stars >= 2 ? '<div class="spk-victory" aria-hidden="true"><span class="spk-victory-moon"></span><span class="spk-victory-ghost"><i></i><i></i></span>' + magicSparks() + '</div><p class="spk-victory-title">' + (stars === 3 ? 'Великолепное заклинание!' : 'Волшебно получилось!') + '</p>' : '';
+                card.querySelector('.game-area').innerHTML = '<div class="game-done">' + victory + (stars ? '<div class="game-stars" aria-label="' + stars + ' из 3 звёзд">' + [1, 2, 3].map(n => '<span class="' + (n <= stars ? 'on' : '') + '" style="--d:' + (n * 0.15 + (victory ? 0.4 : 0)) + 's">★</span>').join('') + '</div>' : '') + html + '</div>';
+                if (stars >= 2)
+                    try {
+                        celebrate(card);
+                    }
+                    catch (_) { }
+                card.querySelector('.game-start').textContent = '↺ Ещё раз';
+                card.querySelector('.game-start').hidden = false;
+            };
             // 1. Найди пару
             const matchLabel = r => r.sec + ' с · ошибок: ' + r.err;
             function playMatch(card) {
@@ -35597,6 +35678,7 @@ var qrcode = function () {
             const stars3 = (n, t) => n >= t ? 3 : n >= Math.ceil(t * 0.6) ? 2 : 1;
             // 8. Тыквенная грядка: из тыкв выглядывают слова — успейте нажать нужное
             const pumLabel = r => r.score + ' из ' + r.total;
+            const pumpkinArt = '<svg class="pum-art" viewBox="0 0 200 180" fill="none" focusable="false"><ellipse cx="100" cy="158" rx="66" ry="10" fill="#07121f" opacity=".4"/><path d="M101 53q-5-23 13-32l9 9q-17 7-11 25" fill="#6ba985"/><path d="M109 38q27-17 39-2-22 14-39 2" fill="#92c99b"/><ellipse cx="69" cy="103" rx="40" ry="48" fill="#c56334"/><ellipse cx="132" cy="103" rx="40" ry="48" fill="#d57839"/><ellipse cx="86" cy="103" rx="35" ry="52" fill="#ec954d"/><ellipse cx="117" cy="103" rx="35" ry="52" fill="#f4ab5e"/><ellipse cx="102" cy="103" rx="25" ry="53" fill="#f8b766"/><g class="pum-eyes"><path d="m70 96 14-18 9 19Zm44 1 10-19 14 18Z" fill="#52322d"/><path d="m74 94 10-13 6 13Zm44 0 6-13 10 13Z" fill="#ffe1a0"/></g><path d="m77 115 12 5 7-3 8 5 8-5 13 1-4 11-13 9-16-2-12-8Z" fill="#52322d"/><path d="m84 122 11 5 12 1 13-4-11 9-13-1Z" fill="#ffe1a0"/></svg>';
             function playPumpkins(card) {
                 const set = shuffle(words).slice(0, 8), area = card.querySelector('.game-area');
                 let i = 0, score = 0, timer = null;
@@ -35613,7 +35695,7 @@ var qrcode = function () {
                     const w = set[i], opts = shuffle([w, ...shuffle(words.filter(x => x !== w)).slice(0, 3)]), holes = shuffle([0, 1, 2, 3, 4, 5]).slice(0, opts.length), cells = Array(6).fill(null);
                     opts.forEach((o, k) => { cells[holes[k]] = o; });
                     area.innerHTML = '<div class="quiz-top"><span>Тыква ' + (i + 1) + ' из ' + set.length + '</span><span>Счёт: <b>' + score + '</b></span></div><p class="quiz-q">' + esc(meaning(w)) + '</p>'
-                        + '<div class="pum-field">' + cells.map(o => '<div class="pum-hole">' + (o ? '<button type="button" class="pum" data-k="' + esc(o.w) + '" style="--d:' + (Math.random() * 0.6).toFixed(2) + 's"><span class="pum-body" aria-hidden="true"></span><span class="pum-word">' + esc(o.w) + '</span></button>' : '') + '</div>').join('') + '</div>'
+                        + '<div class="pum-field">' + cells.map(o => '<div class="pum-hole">' + (o ? '<button type="button" class="pum" data-k="' + esc(o.w) + '" style="--d:' + (Math.random() * 0.6).toFixed(2) + 's"><span class="pum-body" aria-hidden="true">' + pumpkinArt + '</span><span class="pum-word">' + esc(o.w) + '</span>' + magicSparks() + '</button>' : '') + '</div>').join('') + '</div>'
                         + '<div class="pum-timer" aria-hidden="true"><span></span></div><p class="game-status"></p>';
                     let over = false;
                     const end = (ok, b) => {
@@ -35623,11 +35705,14 @@ var qrcode = function () {
                         clearTimeout(timer);
                         if (ok)
                             score++;
-                        $$('.pum', area).forEach(x => { x.disabled = true; if (x.dataset.k === w.w)
+                        $$('.pum', area).forEach(x => { x.disabled = true; if (ok && x.dataset.k === w.w)
                             x.classList.add('ok'); });
+                        if (!ok)
+                            $$('.pum', area).find(x => x.dataset.k === w.w)?.classList.add('answer');
                         if (b && !ok)
                             b.classList.add('bad');
                         area.querySelector('.game-status').innerHTML = ok ? '✅ Spooky good!' : '👻 Это: <b>' + esc(w.w) + '</b>';
+                        area.querySelector('.quiz-top b').textContent = score;
                         speak(w.w);
                         i++;
                         setTimeout(ask, ok ? 900 : 1600);
@@ -35714,7 +35799,8 @@ var qrcode = function () {
             const cauLabel = r => r.score + ' из ' + r.total;
             function playCauldron(card) {
                 const items = shuffle([...shuffle(kase.ok || []).slice(0, 4).map(t => ({ t, ok: true })), ...shuffle(kase.bad || []).slice(0, 4).map(x => ({ t: x.b, ok: false, fix: x.r }))]), area = card.querySelector('.game-area');
-                let i = 0, score = 0;
+                let i = 0, score = 0, streak = 0;
+                const brewColors = ['#9ae5bf', '#8edfd8', '#b4b0ff', '#edb3df'];
                 const ask = () => {
                     if (i >= items.length) {
                         const r = { score, total: items.length };
@@ -35724,7 +35810,7 @@ var qrcode = function () {
                     }
                     const it = items[i];
                     area.innerHTML = '<div class="quiz-top"><span>Ингредиент ' + (i + 1) + ' из ' + items.length + '</span><span>Счёт: <b>' + score + '</b></span></div>'
-                        + '<div class="cau-scene"><div class="cau-card">' + esc(it.t) + '</div><div class="cau-pot" aria-hidden="true"><i></i><i></i><i></i></div></div>'
+                        + '<div class="cau-scene" style="--brew:' + brewColors[Math.min(streak, 3)] + '"><div class="cau-streak">' + (streak >= 2 ? '✦ ' + streak + ' подряд' : '') + '</div><div class="cau-card">' + esc(it.t) + '</div><div class="cau-pot" aria-hidden="true"><span class="cau-steam"><b></b><b></b><b></b></span><i></i><i></i><i></i><i></i><i></i><i></i></div></div>'
                         + '<div class="cau-btns"><button type="button" class="ui-btn cau-yes" data-v="1">🧪 Correct → into the potion</button><button type="button" class="ui-btn outline cau-no" data-v="0">🐸 Wrong → into the swamp</button></div><p class="game-status"></p>';
                     area.onclick = e => {
                         const b = e.target.closest('[data-v]');
@@ -35734,6 +35820,19 @@ var qrcode = function () {
                         const ok = (b.dataset.v === '1') === it.ok;
                         if (ok)
                             score++;
+                        streak = ok ? streak + 1 : 0;
+                        area.querySelector('.quiz-top b').textContent = score;
+                        $$('.cau-btns button', area).forEach(button => { button.disabled = true; });
+                        const scene = area.querySelector('.cau-scene');
+                        scene.style.setProperty('--brew', brewColors[Math.min(streak, 3)]);
+                        scene.classList.add(ok ? 'cau-success' : 'cau-miss');
+                        scene.querySelector('.cau-streak').textContent = streak >= 2 ? '✦ ' + streak + ' подряд' : '';
+                        if (streak >= 3) {
+                            const spell = document.createElement('div');
+                            spell.className = 'cau-spell';
+                            spell.textContent = '✦ Заклинание работает! ✦';
+                            scene.appendChild(spell);
+                        }
                         area.querySelector('.cau-card').classList.add(b.dataset.v === '1' ? 'in' : 'out', ok ? 'ok' : 'bad');
                         area.querySelector('.game-status').innerHTML = (ok ? '✅ ' : '❌ ') + (it.ok ? 'Это предложение верное.' : 'Ошибка! Правильно: <b>' + esc(it.fix) + '</b>');
                         i++;
