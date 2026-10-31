@@ -1466,69 +1466,34 @@ body.teacher-access .pane .gap[data-a]:hover, body.teacher-access .pane .mc:hove
 .hw-webs i:first-child {left:0}
 .hw-webs i:last-child {right:0;transform:scaleX(-1)}
 @media (max-width:680px) {.hw-webs i {opacity:.18}}
-/* bats */
+/* Separate wing joints keep the little bat's face and body steady. */
 .hw-bats {position:fixed;inset:0;pointer-events:none;z-index:60;overflow:hidden}
 body.bats-off .hw-bats {display:none}
-.hw-bat {position:absolute;top:var(--top);left:0;width:var(--size);color:#1c1428;filter:drop-shadow(0 2px 2px #0003);
-  animation:hwFly var(--dur) linear var(--delay) both}
+.hw-bat {position:absolute;top:var(--top);left:0;width:clamp(40px,var(--size),72px);filter:drop-shadow(0 3px 3px #30284526);animation:hwFly var(--dur) linear var(--delay) both}
 .hw-bat.rtl {animation-name:hwFlyBack}
-.hw-wing {display:block;animation:hwFlap .22s ease-in-out infinite alternate}
-.hw-wing svg {display:block;width:100%;height:auto;fill:currentColor}
-@keyframes hwFlap {from {transform:scaleY(1)} to {transform:scaleY(.45) translateY(2px)}}
-@keyframes hwFly {0% {transform:translate(-12vw,0)} 25% {transform:translate(22vw,var(--dip))} 50% {transform:translate(50vw,-10px)} 75% {transform:translate(78vw,var(--dip))} 100% {transform:translate(112vw,-20px)}}
-@keyframes hwFlyBack {0% {transform:translate(112vw,0) scaleX(-1)} 25% {transform:translate(78vw,var(--dip)) scaleX(-1)} 50% {transform:translate(50vw,-10px) scaleX(-1)} 75% {transform:translate(22vw,var(--dip)) scaleX(-1)} 100% {transform:translate(-12vw,-20px) scaleX(-1)}}
+.hw-flight {display:block;animation:hwGlide var(--sway,3s) ease-in-out infinite}
+.hw-flight svg {display:block;width:100%;height:auto;overflow:visible}
+.hw-wing-left, .hw-wing-right {transform-box:view-box;animation:hwWingLeft var(--flap,.7s) ease-in-out infinite}
+.hw-wing-left {transform-origin:46% 42%}
+.hw-wing-right {transform-origin:54% 42%;animation-name:hwWingRight}
+@keyframes hwWingLeft {0%,100% {transform:rotate(-7deg) scaleY(.96)} 50% {transform:rotate(13deg) scaleY(.62)}}
+@keyframes hwWingRight {0%,100% {transform:rotate(7deg) scaleY(.96)} 50% {transform:rotate(-13deg) scaleY(.62)}}
+@keyframes hwGlide {0%,100% {transform:translateY(0) rotate(-2deg)} 50% {transform:translateY(var(--dip,14px)) rotate(2deg)}}
+@keyframes hwFly {0% {transform:translateX(-14vw);opacity:0} 8%,92% {opacity:.95} 100% {transform:translateX(114vw);opacity:0}}
+@keyframes hwFlyBack {0% {transform:translateX(114vw) scaleX(-1);opacity:0} 8%,92% {opacity:.95} 100% {transform:translateX(-14vw) scaleX(-1);opacity:0}}
 @media (prefers-reduced-motion: reduce) {.hw-bats {display:none}.hw-pumpkin {animation:none}}
 @media print {.hw-bats, .hw-webs, .hw-toggle {display:none}}
 .hw-toggle-mobile {display:none;height:40px;margin:0 4px 0 0}
 @media (max-width:900px) {.hw-toggle-mobile {display:inline-flex;align-items:center;justify-content:center}}
 
-/* A quiet seasonal frame around the classroom; lesson text keeps its reading surface. */
-body.season-halloween {background:radial-gradient(ellipse at 100% 0%,#f4dfbd35,transparent 40%),#f6f7f5}
-body.season-halloween .app-sidebar {background:linear-gradient(180deg,#fffdf8,#fff 65%);border-color:#e5dfd4}
+/* Keep the original light classroom and add only a Halloween frame. */
+body.season-halloween .app-header {border-bottom:4px solid transparent;border-image:repeating-linear-gradient(90deg,#df9146 0 18px,#8a70ad 18px 36px,#ead7a7 36px 42px) 4}
+body.season-halloween .app-nav {box-shadow:0 -3px 0 -1px #df9146,0 -5px 0 #8a70ad}
+body.season-halloween .hero {position:relative;box-shadow:inset 0 0 0 2px #df914644}
 body.season-halloween .app-brand {margin-inline:0;gap:8px}
 body.season-halloween .app-brand .brand-name {white-space:nowrap}
-body.season-halloween .app-brand svg {color:#b26d33;filter:drop-shadow(0 2px 6px #dbaa6433)}
-body.season-halloween .app-header {background:linear-gradient(110deg,#0d202e,#203e46);border-image:none;border-bottom:2px solid #d9b16d;box-shadow:0 4px 18px -12px #0d202e66}
-body.season-halloween .app-breadcrumb, body.season-halloween .app-header .profile-control label {color:#c3d4dc}
-body.season-halloween .app-breadcrumb strong, body.season-halloween .app-header .profile-control select {color:#f0f6f2}
-body.season-halloween .app-header .profile-control select option {background:#fff;color:#263747}
-body.season-halloween .app-header .avatar {background:#b7e7d2;color:#183b34;box-shadow:0 0 0 3px #b7e7d218}
-body.season-halloween .app-header .save-state {color:#c9e7d9}
-body.season-halloween .app-header .save-state.failed {color:#ffd3d8}
-body.season-halloween .app-header .access-name {color:#f0f6f2}
-body.season-halloween .app-nav {box-shadow:none}
-body.season-halloween .app-nav button:hover {background:#fff4e5}
-body.season-halloween .app-nav button.active {background:#183640;color:#e5f5ed;box-shadow:inset 3px 0 0 #d9b16d}
-body.season-halloween .app-nav button.active .nav-count {background:#36545b;color:#e5f5ed}
-body.season-halloween .home-intro {position:relative;isolation:isolate;overflow:hidden;padding:24px 26px;background:linear-gradient(110deg,#fffdf8,#eef5f1);border:1px solid #e1ded3;border-radius:18px;box-shadow:0 12px 28px -22px #58756d55}
-body.season-halloween .home-intro::after {content:"";position:absolute;right:12px;top:8px;bottom:8px;width:180px;background:url('img/halloween-moon.svg') center/contain no-repeat;pointer-events:none;opacity:.9}
-body.season-halloween .home-intro > * {position:relative;z-index:1;max-width:calc(100% - 170px)}
-body.season-halloween .home-intro .kicker {color:#755e3d}
-body.season-halloween .home-intro p {color:#52615e}
-body.season-halloween .home-intro h1 {color:#20393e}
-body.season-halloween .hero {position:relative;border:1px solid #e6dbc8;box-shadow:inset 3px 0 0 #d9b16d}
-body.season-halloween :is(.next-lesson,.material-card,.t-card,.t-book) {border-color:#deddd3;box-shadow:0 5px 20px -16px #9c7c4955}
-body.season-halloween :is(.material-card,.t-card):hover {border-color:#bea878}
-body.season-halloween .t-card.has-todo {border-color:#e1b55a;box-shadow:0 0 0 2px #f0c34d33}
-body.season-halloween .book-cover {background:radial-gradient(ellipse at 100% 0%,#547d72,#173342 65%)}
-body.season-halloween .hw-greet {display:inline-flex;align-items:center;vertical-align:middle;max-width:100%;margin:8px 0 0 10px;padding:5px 10px;border:1px solid #e9d2a8;border-radius:999px;background:#fff1d6;color:#80531e;box-shadow:none;font:600 11px/1.5 var(--body);letter-spacing:.02em}
-body.season-halloween .hw-pumpkin {font-size:23px;filter:drop-shadow(0 3px 5px #d49b4530)}
-body.season-halloween .hw-toggle {min-width:42px;min-height:40px;border-color:#d5c19a;background:#fff8e9;box-shadow:0 2px 6px #07121f12}
-body.season-halloween .hw-toggle:focus-visible {outline-color:#f1d294}
-body.season-halloween .access-gate {background:radial-gradient(ellipse at 15% 10%,#e6f0e9,transparent 55%),radial-gradient(ellipse at 90% 90%,#f6e6cf,transparent 50%),#f7f8f5;overflow-y:auto}
-body.season-halloween .access-card {border-color:#dfd8c8;border-top:3px solid #cda66a;border-radius:20px;box-shadow:0 18px 54px -30px #2c514b55}
-@media (max-width:900px) {
-  body.season-halloween .app-nav button.active {box-shadow:inset 0 -3px 0 #d9b16d}
-}
 @media (min-width:901px) and (max-width:1150px) {
   body.season-halloween .app-brand .brand-name {font-size:19px}
-  body.season-halloween .hw-pumpkin {font-size:20px}
-}
-@media (max-width:600px) {
-  body.season-halloween .home-intro {padding:20px 18px;border-radius:16px}
-  body.season-halloween .home-intro::after {display:none}
-  body.season-halloween .home-intro > * {max-width:100%}
-  body.season-halloween .hw-greet {display:table;margin:12px 0 0;white-space:normal}
 }
 
 /* 👩‍🏫 Кабинет преподавателя */
@@ -37048,7 +37013,7 @@ var qrcode = function () {
         window.irisPaintTrainers = () => paintTrainers(document);
     })();
     window.__irisReady = true;
-    // 🎃 Сезонное оформление на Хеллоуин (≈20 октября – 2 ноября; для проверки — ?halloween=1): полосатая оранжево-фиолетовая рамка,
+    // 🎃 Сезонное оформление на Хеллоуин (≈20 октября – 2 ноября; для проверки — ?halloween=1): светлая платформа и праздничная рамка,
     // паутинки по углам, тыква у логотипа, «Happy Halloween!» на главной и летучие мыши, которые иногда перелетают экран.
     // Мыши не мешают нажимать (pointer-events: none), не летают при «уменьшить движение», выключаются кнопкой 🦇 (запоминается).
     (function halloweenSeason() {
@@ -37063,7 +37028,7 @@ var qrcode = function () {
             off = localStorage.getItem('iris-bats-off') === '1';
         }
         catch (_) { }
-        const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const motion = matchMedia('(prefers-reduced-motion: reduce)');
         const webs = document.createElement('div');
         webs.className = 'hw-webs';
         webs.setAttribute('aria-hidden', 'true');
@@ -37076,15 +37041,17 @@ var qrcode = function () {
         const brand = document.querySelector('.app-brand');
         if (brand && !brand.querySelector('.hw-pumpkin'))
             brand.insertAdjacentHTML('beforeend', '<span class="hw-pumpkin" aria-hidden="true">🎃</span>');
-        const BAT = '<svg viewBox="0 0 64 32"><path d="M32 11c1.6-3.4 3.6-5.6 5.6-6 .2 2.8 1.2 4.6 3 5.8 3.4-3.8 8.6-5.6 15-4.8-3 2-4.8 5-4.8 8.8 3-.2 5.8.8 8 2.8-5.2-.2-9.4 1.2-12.4 4-1.8-1.8-4.2-2.6-7-2.4-1.8 2.2-3.8 4-5.4 5.8-1.6-1.8-3.6-3.6-5.4-5.8-2.8-.2-5.2.6-7 2.4-3-2.8-7.2-4.2-12.4-4 2.2-2 5-3 8-2.8 0-3.8-1.8-6.8-4.8-8.8 6.4-.8 11.6 1 15 4.8 1.8-1.2 2.8-3 3-5.8 2 .4 4 2.6 5.6 6z"/></svg>';
+        const BAT = '<svg viewBox="0 0 200 112" fill="none" aria-hidden="true" focusable="false"><g class="hw-wing-left"><path d="M94 48C78 27 53 17 13 18c13 10 18 21 19 34 12-3 22 1 28 11 12-2 23 3 31 15Z" fill="#75618f" stroke="#3f3357" stroke-width="3" stroke-linejoin="round"/><path d="M92 50Q60 31 28 25m63 27Q58 39 35 49m57 6Q75 50 62 62" stroke="#ad99c1" stroke-width="2" stroke-linecap="round" opacity=".8"/></g><g class="hw-wing-right"><path d="M106 48c16-21 41-31 81-30-13 10-18 21-19 34-12-3-22 1-28 11-12-2-23 3-31 15Z" fill="#75618f" stroke="#3f3357" stroke-width="3" stroke-linejoin="round"/><path d="M108 50q32-19 64-25m-63 27q33-13 56-3m-57 6q17-5 30 7" stroke="#ad99c1" stroke-width="2" stroke-linecap="round" opacity=".8"/></g><path d="m86 31-5-23q16 4 21 19m12 4 5-23q-16 4-21 19" fill="#64517e" stroke="#3f3357" stroke-width="3" stroke-linejoin="round"/><path d="m86 24-2-10 10 9m20 1 2-10-10 9" stroke="#bf9bbb" stroke-width="3" stroke-linecap="round"/><ellipse cx="100" cy="65" rx="21" ry="32" fill="#64517e" stroke="#3f3357" stroke-width="3"/><ellipse cx="100" cy="75" rx="12" ry="17" fill="#ac96bb"/><ellipse cx="100" cy="43" rx="25" ry="23" fill="#7b6694" stroke="#3f3357" stroke-width="3"/><ellipse cx="90" cy="41" rx="7" ry="9" fill="#fff3d5"/><ellipse cx="110" cy="41" rx="7" ry="9" fill="#fff3d5"/><ellipse cx="92" cy="42" rx="3.2" ry="5" fill="#312b48"/><ellipse cx="108" cy="42" rx="3.2" ry="5" fill="#312b48"/><circle cx="93" cy="40" r="1.2" fill="#fff"/><circle cx="109" cy="40" r="1.2" fill="#fff"/><ellipse cx="81" cy="51" rx="4" ry="2.5" fill="#cd9cb3" opacity=".8"/><ellipse cx="119" cy="51" rx="4" ry="2.5" fill="#cd9cb3" opacity=".8"/><path d="m97 49 3 2 3-2m-10 7q7 7 14 0" stroke="#3f3357" stroke-width="2.2" stroke-linecap="round"/><path d="m96 58 2 4 2-3m4-1-2 4-2-3" fill="#fff3d5"/></svg>';
         function launch(n) {
-            if (off || still || document.hidden)
+            if (off || motion.matches || document.hidden)
                 return;
-            for (let k = 0; k < n; k++) {
-                const bat = document.createElement('span'), dur = 7 + Math.random() * 5, size = 26 + Math.random() * 22, rtl = Math.random() < .5;
+            const count = Math.min(n, Math.max(0, 4 - sky.children.length));
+            const compact = matchMedia('(max-width:680px)').matches;
+            for (let k = 0; k < count; k++) {
+                const bat = document.createElement('span'), dur = 11 + Math.random() * 4, size = compact ? 42 + Math.random() * 12 : 54 + Math.random() * 18, rtl = Math.random() < .5;
                 bat.className = 'hw-bat' + (rtl ? ' rtl' : '');
-                bat.style.cssText = '--top:' + (6 + Math.random() * 34).toFixed(1) + 'vh;--dur:' + dur.toFixed(1) + 's;--delay:' + (k * (0.5 + Math.random() * 0.9)).toFixed(2) + 's;--size:' + size.toFixed(0) + 'px;--dip:' + (20 + Math.random() * 60).toFixed(0) + 'px';
-                bat.innerHTML = '<span class="hw-wing">' + BAT + '</span>';
+                bat.style.cssText = '--top:' + (6 + Math.random() * 34).toFixed(1) + 'vh;--dur:' + dur.toFixed(1) + 's;--delay:' + (k * (0.5 + Math.random() * 0.9)).toFixed(2) + 's;--size:' + size.toFixed(0) + 'px;--dip:' + (10 + Math.random() * 12).toFixed(0) + 'px;--flap:' + (0.6 + Math.random() * 0.2).toFixed(2) + 's;--sway:' + (3 + Math.random() * 1.5).toFixed(2) + 's';
+                bat.innerHTML = '<span class="hw-flight">' + BAT + '</span>';
                 bat.addEventListener('animationend', e => { if (e.target === bat)
                     bat.remove(); });
                 sky.appendChild(bat);
@@ -37116,7 +37083,7 @@ var qrcode = function () {
         }
         catch (_) { }
         greet();
-        setTimeout(() => launch(4), 1200);
+        setTimeout(() => launch(3), 1200);
         (function loop() { setTimeout(() => { launch(1 + (Math.random() < .4 ? 1 : 0)); loop(); }, 35000 + Math.random() * 35000); })();
     })();
     /* ---------- 👩‍🏫 Кабинет преподавателя: ученики и их уроки на главной, быстрый выбор урока, домашки на проверку ---------- */
