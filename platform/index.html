@@ -1453,9 +1453,6 @@ body.teacher-access .pane .gap[data-a]:hover, body.teacher-access .pane .mc:hove
 }
 
 /* 🎃 Halloween season (ux.js adds body.season-halloween ≈ 20 Oct – 2 Nov) */
-body.season-halloween .app-header {border-bottom:5px solid transparent;border-image:repeating-linear-gradient(90deg,#f08a24 0 16px,#5b3f8c 16px 32px,#1c1428 32px 36px) 5}
-body.season-halloween .app-nav {box-shadow:0 -4px 0 -1px #f08a24, 0 -6px 0 #5b3f8c}
-body.season-halloween .hero {position:relative;box-shadow:inset 0 0 0 3px #f08a2433}
 .hw-pumpkin {display:inline-block;margin-left:6px;font-size:1.05em;animation:hwBob 3.2s ease-in-out infinite;transform-origin:50% 90%}
 @keyframes hwBob {0%,100% {transform:rotate(-6deg)} 50% {transform:rotate(6deg) translateY(-2px)}}
 .hw-greet {display:inline-block;margin-left:8px;padding:2px 10px;border-radius:999px;font-size:.45em;vertical-align:middle;letter-spacing:.02em;
@@ -1484,6 +1481,55 @@ body.bats-off .hw-bats {display:none}
 @media print {.hw-bats, .hw-webs, .hw-toggle {display:none}}
 .hw-toggle-mobile {display:none;height:40px;margin:0 4px 0 0}
 @media (max-width:900px) {.hw-toggle-mobile {display:inline-flex;align-items:center;justify-content:center}}
+
+/* A quiet seasonal frame around the classroom; lesson text keeps its reading surface. */
+body.season-halloween {background:radial-gradient(ellipse at 100% 0%,#f4dfbd35,transparent 40%),#f6f7f5}
+body.season-halloween .app-sidebar {background:linear-gradient(180deg,#fffdf8,#fff 65%);border-color:#e5dfd4}
+body.season-halloween .app-brand {margin-inline:0;gap:8px}
+body.season-halloween .app-brand .brand-name {white-space:nowrap}
+body.season-halloween .app-brand svg {color:#b26d33;filter:drop-shadow(0 2px 6px #dbaa6433)}
+body.season-halloween .app-header {background:linear-gradient(110deg,#0d202e,#203e46);border-image:none;border-bottom:2px solid #d9b16d;box-shadow:0 4px 18px -12px #0d202e66}
+body.season-halloween .app-breadcrumb, body.season-halloween .app-header .profile-control label {color:#c3d4dc}
+body.season-halloween .app-breadcrumb strong, body.season-halloween .app-header .profile-control select {color:#f0f6f2}
+body.season-halloween .app-header .profile-control select option {background:#fff;color:#263747}
+body.season-halloween .app-header .avatar {background:#b7e7d2;color:#183b34;box-shadow:0 0 0 3px #b7e7d218}
+body.season-halloween .app-header .save-state {color:#c9e7d9}
+body.season-halloween .app-header .save-state.failed {color:#ffd3d8}
+body.season-halloween .app-header .access-name {color:#f0f6f2}
+body.season-halloween .app-nav {box-shadow:none}
+body.season-halloween .app-nav button:hover {background:#fff4e5}
+body.season-halloween .app-nav button.active {background:#183640;color:#e5f5ed;box-shadow:inset 3px 0 0 #d9b16d}
+body.season-halloween .app-nav button.active .nav-count {background:#36545b;color:#e5f5ed}
+body.season-halloween .home-intro {position:relative;isolation:isolate;overflow:hidden;padding:24px 26px;background:linear-gradient(110deg,#fffdf8,#eef5f1);border:1px solid #e1ded3;border-radius:18px;box-shadow:0 12px 28px -22px #58756d55}
+body.season-halloween .home-intro::after {content:"";position:absolute;right:12px;top:8px;bottom:8px;width:180px;background:url('img/halloween-moon.svg') center/contain no-repeat;pointer-events:none;opacity:.9}
+body.season-halloween .home-intro > * {position:relative;z-index:1;max-width:calc(100% - 170px)}
+body.season-halloween .home-intro .kicker {color:#755e3d}
+body.season-halloween .home-intro p {color:#52615e}
+body.season-halloween .home-intro h1 {color:#20393e}
+body.season-halloween .hero {position:relative;border:1px solid #e6dbc8;box-shadow:inset 3px 0 0 #d9b16d}
+body.season-halloween :is(.next-lesson,.material-card,.t-card,.t-book) {border-color:#deddd3;box-shadow:0 5px 20px -16px #9c7c4955}
+body.season-halloween :is(.material-card,.t-card):hover {border-color:#bea878}
+body.season-halloween .t-card.has-todo {border-color:#e1b55a;box-shadow:0 0 0 2px #f0c34d33}
+body.season-halloween .book-cover {background:radial-gradient(ellipse at 100% 0%,#547d72,#173342 65%)}
+body.season-halloween .hw-greet {display:inline-flex;align-items:center;vertical-align:middle;max-width:100%;margin:8px 0 0 10px;padding:5px 10px;border:1px solid #e9d2a8;border-radius:999px;background:#fff1d6;color:#80531e;box-shadow:none;font:600 11px/1.5 var(--body);letter-spacing:.02em}
+body.season-halloween .hw-pumpkin {font-size:23px;filter:drop-shadow(0 3px 5px #d49b4530)}
+body.season-halloween .hw-toggle {min-width:42px;min-height:40px;border-color:#d5c19a;background:#fff8e9;box-shadow:0 2px 6px #07121f12}
+body.season-halloween .hw-toggle:focus-visible {outline-color:#f1d294}
+body.season-halloween .access-gate {background:radial-gradient(ellipse at 15% 10%,#e6f0e9,transparent 55%),radial-gradient(ellipse at 90% 90%,#f6e6cf,transparent 50%),#f7f8f5;overflow-y:auto}
+body.season-halloween .access-card {border-color:#dfd8c8;border-top:3px solid #cda66a;border-radius:20px;box-shadow:0 18px 54px -30px #2c514b55}
+@media (max-width:900px) {
+  body.season-halloween .app-nav button.active {box-shadow:inset 0 -3px 0 #d9b16d}
+}
+@media (min-width:901px) and (max-width:1150px) {
+  body.season-halloween .app-brand .brand-name {font-size:19px}
+  body.season-halloween .hw-pumpkin {font-size:20px}
+}
+@media (max-width:600px) {
+  body.season-halloween .home-intro {padding:20px 18px;border-radius:16px}
+  body.season-halloween .home-intro::after {display:none}
+  body.season-halloween .home-intro > * {max-width:100%}
+  body.season-halloween .hw-greet {display:table;margin:12px 0 0;white-space:normal}
+}
 
 /* 👩‍🏫 Кабинет преподавателя */
 .t-stats {display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:18px 0 14px}
