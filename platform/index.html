@@ -1467,7 +1467,7 @@ body.teacher-access .pane .gap[data-a]:hover, body.teacher-access .pane .mc:hove
 .hw-webs i:last-child {right:0;transform:scaleX(-1)}
 @media (max-width:680px) {.hw-webs i {opacity:.18}}
 /* Separate wing joints keep the little bat's face and body steady. */
-.hw-bats {position:fixed;inset:0;pointer-events:none;z-index:60;overflow:hidden}
+.hw-bats {position:fixed;inset:0;pointer-events:none;z-index:90;overflow:hidden}
 body.bats-off .hw-bats {display:none}
 .hw-bat {position:absolute;top:var(--top);left:0;width:clamp(40px,var(--size),72px);filter:drop-shadow(0 3px 3px #30284526);animation:hwFly var(--dur) linear var(--delay) both}
 .hw-bat.rtl {animation-name:hwFlyBack}
@@ -1479,8 +1479,8 @@ body.bats-off .hw-bats {display:none}
 @keyframes hwWingLeft {0%,100% {transform:rotate(-7deg) scaleY(.96)} 50% {transform:rotate(13deg) scaleY(.62)}}
 @keyframes hwWingRight {0%,100% {transform:rotate(7deg) scaleY(.96)} 50% {transform:rotate(-13deg) scaleY(.62)}}
 @keyframes hwGlide {0%,100% {transform:translateY(0) rotate(-2deg)} 50% {transform:translateY(var(--dip,14px)) rotate(2deg)}}
-@keyframes hwFly {0% {transform:translateX(-14vw);opacity:0} 8%,92% {opacity:.95} 100% {transform:translateX(114vw);opacity:0}}
-@keyframes hwFlyBack {0% {transform:translateX(114vw) scaleX(-1);opacity:0} 8%,92% {opacity:.95} 100% {transform:translateX(-14vw) scaleX(-1);opacity:0}}
+@keyframes hwFly {0% {transform:translate(-14vw,0);opacity:0} 8%,92% {opacity:.95} 100% {transform:translate(114vw,var(--travel,0px));opacity:0}}
+@keyframes hwFlyBack {0% {transform:translate(114vw,0) scaleX(-1);opacity:0} 8%,92% {opacity:.95} 100% {transform:translate(-14vw,var(--travel,0px)) scaleX(-1);opacity:0}}
 @media (prefers-reduced-motion: reduce) {.hw-bats {display:none}.hw-pumpkin {animation:none}}
 @media print {.hw-bats, .hw-webs, .hw-toggle {display:none}}
 .hw-toggle-mobile {display:none;height:40px;margin:0 4px 0 0}
@@ -37042,6 +37042,7 @@ var qrcode = function () {
         if (brand && !brand.querySelector('.hw-pumpkin'))
             brand.insertAdjacentHTML('beforeend', '<span class="hw-pumpkin" aria-hidden="true">🎃</span>');
         const BAT = '<svg viewBox="0 0 200 112" fill="none" aria-hidden="true" focusable="false"><g class="hw-wing-left"><path d="M94 48C78 27 53 17 13 18c13 10 18 21 19 34 12-3 22 1 28 11 12-2 23 3 31 15Z" fill="#75618f" stroke="#3f3357" stroke-width="3" stroke-linejoin="round"/><path d="M92 50Q60 31 28 25m63 27Q58 39 35 49m57 6Q75 50 62 62" stroke="#ad99c1" stroke-width="2" stroke-linecap="round" opacity=".8"/></g><g class="hw-wing-right"><path d="M106 48c16-21 41-31 81-30-13 10-18 21-19 34-12-3-22 1-28 11-12-2-23 3-31 15Z" fill="#75618f" stroke="#3f3357" stroke-width="3" stroke-linejoin="round"/><path d="M108 50q32-19 64-25m-63 27q33-13 56-3m-57 6q17-5 30 7" stroke="#ad99c1" stroke-width="2" stroke-linecap="round" opacity=".8"/></g><path d="m86 31-5-23q16 4 21 19m12 4 5-23q-16 4-21 19" fill="#64517e" stroke="#3f3357" stroke-width="3" stroke-linejoin="round"/><path d="m86 24-2-10 10 9m20 1 2-10-10 9" stroke="#bf9bbb" stroke-width="3" stroke-linecap="round"/><ellipse cx="100" cy="65" rx="21" ry="32" fill="#64517e" stroke="#3f3357" stroke-width="3"/><ellipse cx="100" cy="75" rx="12" ry="17" fill="#ac96bb"/><ellipse cx="100" cy="43" rx="25" ry="23" fill="#7b6694" stroke="#3f3357" stroke-width="3"/><ellipse cx="90" cy="41" rx="7" ry="9" fill="#fff3d5"/><ellipse cx="110" cy="41" rx="7" ry="9" fill="#fff3d5"/><ellipse cx="92" cy="42" rx="3.2" ry="5" fill="#312b48"/><ellipse cx="108" cy="42" rx="3.2" ry="5" fill="#312b48"/><circle cx="93" cy="40" r="1.2" fill="#fff"/><circle cx="109" cy="40" r="1.2" fill="#fff"/><ellipse cx="81" cy="51" rx="4" ry="2.5" fill="#cd9cb3" opacity=".8"/><ellipse cx="119" cy="51" rx="4" ry="2.5" fill="#cd9cb3" opacity=".8"/><path d="m97 49 3 2 3-2m-10 7q7 7 14 0" stroke="#3f3357" stroke-width="2.2" stroke-linecap="round"/><path d="m96 58 2 4 2-3m4-1-2 4-2-3" fill="#fff3d5"/></svg>';
+        let flightLane = 0;
         function launch(n) {
             if (off || motion.matches || document.hidden)
                 return;
@@ -37049,8 +37050,12 @@ var qrcode = function () {
             const compact = matchMedia('(max-width:680px)').matches;
             for (let k = 0; k < count; k++) {
                 const bat = document.createElement('span'), dur = 11 + Math.random() * 4, size = compact ? 42 + Math.random() * 12 : 54 + Math.random() * 18, rtl = Math.random() < .5;
+                const dip = 10 + Math.random() * 12;
+                const maxTop = Math.max(8, innerHeight - size * 0.56 - dip - 8);
+                const top = 8 + ((flightLane++ % 3) + Math.random()) / 3 * (maxTop - 8);
+                const end = Math.max(8, Math.min(maxTop, top + (Math.random() - 0.5) * innerHeight * 0.45));
                 bat.className = 'hw-bat' + (rtl ? ' rtl' : '');
-                bat.style.cssText = '--top:' + (6 + Math.random() * 34).toFixed(1) + 'vh;--dur:' + dur.toFixed(1) + 's;--delay:' + (k * (0.5 + Math.random() * 0.9)).toFixed(2) + 's;--size:' + size.toFixed(0) + 'px;--dip:' + (10 + Math.random() * 12).toFixed(0) + 'px;--flap:' + (0.6 + Math.random() * 0.2).toFixed(2) + 's;--sway:' + (3 + Math.random() * 1.5).toFixed(2) + 's';
+                bat.style.cssText = '--top:' + top.toFixed(1) + 'px;--travel:' + (end - top).toFixed(1) + 'px;--dur:' + dur.toFixed(1) + 's;--delay:' + (k * (0.5 + Math.random() * 0.9)).toFixed(2) + 's;--size:' + size.toFixed(0) + 'px;--dip:' + dip.toFixed(0) + 'px;--flap:' + (0.6 + Math.random() * 0.2).toFixed(2) + 's;--sway:' + (3 + Math.random() * 1.5).toFixed(2) + 's';
                 bat.innerHTML = '<span class="hw-flight">' + BAT + '</span>';
                 bat.addEventListener('animationend', e => { if (e.target === bat)
                     bat.remove(); });
@@ -37084,7 +37089,7 @@ var qrcode = function () {
         catch (_) { }
         greet();
         setTimeout(() => launch(3), 1200);
-        (function loop() { setTimeout(() => { launch(1 + (Math.random() < .4 ? 1 : 0)); loop(); }, 35000 + Math.random() * 35000); })();
+        (function loop() { setTimeout(() => { launch(1 + (Math.random() < .4 ? 1 : 0)); loop(); }, 12000 + Math.random() * 8000); })();
     })();
     /* ---------- 👩‍🏫 Кабинет преподавателя: ученики и их уроки на главной, быстрый выбор урока, домашки на проверку ---------- */
     (function () {
