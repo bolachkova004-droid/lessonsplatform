@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; base-uri 'none'; form-action 'none'">
+<title>Iris School</title>
+<style>body{font-family:system-ui,sans-serif;background:#f6f4fa;color:#2b2540;display:grid;place-items:center;min-height:100vh;margin:0;padding:16px;box-sizing:border-box;text-align:center}a{color:#6b4fbb}</style>
+</head>
+<body>
+<p id="msg">Переносим ваши данные…</p>
+<script>
+/* Receives one browser's saved data from the old address (see deploy/github-stub/platform/index.html).
+   Only the old site, in the window that opened this page, can send it. Nothing already saved here is overwritten. */
+(function () {
+  var OLD = 'https://bolachkova004-droid.github.io';
+  var msg = document.getElementById('msg');
+  var opener = window.opener;
+  var finished = false;
+  var platform = 'platform/' + location.search + location.hash;   // the personal code travels in the address as usual
+
+  function showLink(text) {
+    msg.textContent = text + ' ';
+    var a = document.createElement('a');
+    a.href = platform;
+    a.textContent = 'Открыть Iris School';
+    msg.appendChild(a);
+  }
+
+  // Some in-app browsers open the page in the same tab, so the old page is gone: still bring the student to their room.
+  if (!opener) { location.replace(platform); return; }
+
+  window.addEventListener('message', function (e) {
+    if (finished || e.origin !== OLD || e.source !== opener) return;
+    var m = e.data;
+    if (!m || m.type !== 'iris-migrate' || !m.data || typeof m.data !== 'object') return;
+    finished = true;
+    try {
+      Object.keys(m.data).forEach(function (k) {
+        var v = m.data[k];
+        if (k.indexOf('iris-') === 0 && typeof v === 'string' && localStorage.getItem(k) === null) localStorage.setItem(k, v);
+      });
+    } catch (err) {
+      opener.postMessage({type: 'iris-migrate-failed'}, OLD);
+      showLink('Не удалось сохранить данные. Старый адрес их не удалил — напишите преподавателю.');
+      return;
+    }
+    opener.postMessage({type: 'iris-migrate-done'}, OLD);
+    location.replace(platform);
+  });
+
+  var tries = 0;
+  (function ready() {
+    if (finished) return;
+    if (tries++ > 40) { showLink('Старая страница не ответила.'); return; }
+    try { opener.postMessage({type: 'iris-migrate-ready'}, OLD); } catch (err) {}
+    setTimeout(ready, 250);
+  })();
+})();
+</script>
+</body>
+</html>
