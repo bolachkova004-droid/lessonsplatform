@@ -1,0 +1,55 @@
+# Тестовый сайт: каждое изменение в ветке main само попадает на https://test.ira-iris.ru
+# Там можно спокойно всё проверить: тестовый сайт общается со своими каналами связи,
+# поэтому ваши действия там (разборы, открытые уроки, живой урок) не доходят до настоящих учеников.
+name: Тестовый сайт
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: test-site
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Собрать тестовую копию
+        run: |
+          mkdir out
+          rsync -a --exclude .git --exclude .github --exclude deploy --exclude README.md ./ out/
+          # свои каналы связи: ничего не уходит настоящим ученикам
+          find out -name '*.html' -print0 | xargs -0 sed -i 's#iris-school/v1/#iris-school-test/v1/#g'
+          if grep -rq 'iris-school/v1/' out --include='*.html'; then echo "Остались боевые каналы связи"; exit 1; fi
+          # настройки сервера для тестового адреса
+          sed -e 's#www\\\.ira-iris\\\.ru#test\\.ira-iris\\.ru#g' -e 's#https://www\.ira-iris\.ru#https://test.ira-iris.ru#g' deploy/htaccess > out/.htaccess
+          grep -q 'test\\.ira-iris\\.ru' out/.htaccess
+
+      - name: Загрузить на test.ira-iris.ru
+        env:
+          FTP_HOST: ${{ vars.FTP_HOST }}
+          FTP_USER: ${{ secrets.FTP_USER }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+          TARGET: ${{ vars.TEST_DIR }}
+        run: |
+          sudo apt-get -qq update && sudo apt-get -qq install -y lftp >/dev/null
+          lftp -u "$FTP_USER,$FTP_PASSWORD" "$FTP_HOST" <<EOF
+          set ftp:ssl-force true
+          set ssl:verify-certificate yes
+          set net:max-retries 3
+          mirror -R --ignore-time --parallel=3 --exclude-glob '*.html' --exclude-glob .htaccess out/ $TARGET/
+          mirror -R --parallel=2 --include-glob '*.html' --include-glob .htaccess --exclude-glob '*.mp3' --exclude-glob '*.webp' --exclude-glob '*.jpg' out/ $TARGET/
+          bye
+          EOF
+
+      - name: Проверить, что сайт отдаёт новую версию
+        run: |
+          sleep 5
+          want=$(sha256sum out/platform/index.html | cut -c1-16)
+          got=$(curl -fsSL --compressed https://test.ira-iris.ru/platform/index.html | sha256sum | cut -c1-16)
+          echo "ожидали $want, получили $got"; test "$want" = "$got"
