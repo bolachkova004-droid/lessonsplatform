@@ -1,0 +1,67 @@
+# Опубликовать на сайт: загружает проверенную версию на https://www.ira-iris.ru
+# Запуск: вкладка Actions → «Опубликовать на сайт» → Run workflow.
+# Откат: то же самое, но в поле «Что публиковать» указать метку прошлой версии (вида release-2026-11-10-2130).
+name: Опубликовать на сайт
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Что публиковать: main (последнее) или метка прошлой версии для отката'
+        required: true
+        default: main
+
+concurrency:
+  group: production
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.version }}
+
+      - name: Собрать копию для сайта
+        run: |
+          mkdir out
+          rsync -a --exclude .git --exclude .github --exclude deploy --exclude README.md ./ out/
+          cp deploy/htaccess out/.htaccess
+          grep -rq 'iris-school-test/' out --include='*.html' && { echo "В версии остались тестовые каналы связи"; exit 1; } || true
+          test -s out/platform/index.html
+
+      - name: Загрузить на www.ira-iris.ru
+        env:
+          FTP_HOST: ${{ vars.FTP_HOST }}
+          FTP_USER: ${{ secrets.FTP_USER }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+          TARGET: ${{ vars.PROD_DIR }}
+        run: |
+          sudo apt-get -qq update && sudo apt-get -qq install -y lftp >/dev/null
+          lftp -u "$FTP_USER,$FTP_PASSWORD" "$FTP_HOST" <<EOF
+          set ftp:ssl-force true
+          set ssl:verify-certificate yes
+          set net:max-retries 3
+          mirror -R --ignore-time --parallel=3 --exclude-glob '*.html' --exclude-glob .htaccess out/ $TARGET/
+          mirror -R --parallel=2 --include-glob '*.html' --include-glob .htaccess --exclude-glob '*.mp3' --exclude-glob '*.webp' --exclude-glob '*.jpg' out/ $TARGET/
+          bye
+          EOF
+
+      - name: Проверить, что сайт отдаёт новую версию
+        run: |
+          sleep 5
+          want=$(sha256sum out/platform/index.html | cut -c1-16)
+          got=$(curl -fsSL --compressed https://www.ira-iris.ru/platform/index.html | sha256sum | cut -c1-16)
+          echo "ожидали $want, получили $got"; test "$want" = "$got"
+
+      - name: Запомнить опубликованную версию (для отката)
+        if: ${{ inputs.version == 'main' }}
+        run: |
+          tag="release-$(TZ=Europe/Moscow date +%Y-%m-%d-%H%M)"
+          git tag "$tag" && git push origin "$tag"
+          echo "Опубликовано как $tag" >> "$GITHUB_STEP_SUMMARY"
