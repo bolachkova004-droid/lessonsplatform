@@ -37,6 +37,11 @@ def harvest(s):
                     if isinstance(it, dict):
                         for kk in ('audio', 'say'):
                             if isinstance(it.get(kk), str): out.append(('f', it[kk]))
+    for v in attr_values(s, 'data-lines'):  # аудирование: реплики разными голосами
+        try: lines = json.loads(v)
+        except Exception: continue
+        for ln in lines:
+            if isinstance(ln, list) and len(ln) == 2: out.append((ln[0] or 'f', ln[1]))
     for m in re.finditer(r'<[^>]*\sdata-say="([^"]*)"[^>]*>', s):
         tag = m.group(0)
         who = re.search(r'data-who="([^"]*)"', tag)
@@ -44,6 +49,8 @@ def harvest(s):
     return [(w, norm(t)) for w, t in out if norm(t)]
 
 def covered(text, who, audio, dict_words):
+    if who in ('m', 'f2', 'm2'):  # у реплик аудирования — свой голос
+        return bool(audio.get(who + '|' + text))
     if audio.get((who or 'f') + '|' + text) or any(audio.get(w + '|' + text) for w in ('f', 'm', 'f2', 'm2')):
         return True
     w = text.lower()
