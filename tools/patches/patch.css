@@ -75,3 +75,5 @@ body.irv-open{overflow:hidden}
 .pack-add{flex:none;white-space:nowrap}
 @media (max-width:520px){.irv{padding:10px}.irv-card{padding:16px 14px;border-radius:16px}.goal-btn{padding:10px}.goal-btn small{font-size:11.5px}.goal-grid.areas{grid-template-columns:repeat(2,minmax(0,1fr))}.pack-row{flex-wrap:wrap}.pack-main{flex:1 1 calc(100% - 54px)}.pack-add{margin-left:50px;padding:4px 10px}}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .irv-card{background:#211a2d;color:#eee8f6}:root:not([data-theme="light"]) .why-note{background:#3a3020;border-color:#6a5730;color:#f5e9c8}:root:not([data-theme="light"]) .goal-btn,:root:not([data-theme="light"]) .me-tile,:root:not([data-theme="light"]) .irv-opts .opt,:root:not([data-theme="light"]) .pack-tab{background:#2b2238;border-color:#463a58;color:#eee8f6}}
+.iris-offline{position:fixed;left:50%;transform:translateX(-50%);top:10px;z-index:2100;max-width:calc(100% - 32px);padding:9px 14px;border-radius:12px;background:#2d2340;color:#fff;font-size:14px;box-shadow:0 8px 24px rgba(0,0,0,.2);text-align:center}
+.iris-offline[hidden]{display:none}
