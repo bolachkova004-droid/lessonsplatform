@@ -30,7 +30,7 @@ jobs:
       - name: Собрать копию для сайта
         run: |
           mkdir out
-          rsync -a --exclude .git --exclude .github --exclude deploy --exclude README.md ./ out/
+          rsync -a --exclude .git --exclude .github --exclude deploy --exclude tools --exclude .gitignore --exclude README.md ./ out/
           cp deploy/htaccess out/.htaccess
           grep -rq 'iris-school-test/' out --include='*.html' && { echo "В версии остались тестовые каналы связи"; exit 1; } || true
           test -s out/platform/index.html

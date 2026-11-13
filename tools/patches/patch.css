@@ -1,0 +1,77 @@
+/* слой доработок: объяснения ошибок, «Работа над ошибками», моя цель и слова, транскрипция */
+.ipa{font-family:"Charis SIL","Doulos SIL","Gentium Plus","Noto Sans","Segoe UI",system-ui,sans-serif;font-weight:400;color:#7a6f8a;font-size:.9em;margin-left:.35em;white-space:nowrap;letter-spacing:.01em}
+.word-en+.ipa{display:inline-block;margin:0 0 2px}
+.translation-top strong+.ipa{display:block;margin:2px 0 0;font-size:13px}
+.translation-top{flex-wrap:wrap}
+.ipa-card{display:block;margin:4px 0 0;font-size:12px;opacity:.8;pointer-events:none}
+.why-note{margin:8px 0 4px;padding:10px 12px;border-radius:12px;background:#fff8e6;border:1px solid #f1dca4;color:#4a3d1c;font-size:14px;line-height:1.45;text-align:left;white-space:normal}
+.why-note p{margin:4px 0}
+.why-note mark{background:#ffe08a;color:inherit;border-radius:3px;padding:0 2px}
+.why-note s{opacity:.7}
+.why-head{font-weight:700;margin-bottom:2px}
+.why-ans summary{cursor:pointer;color:#8a5a00;font-weight:600;margin-top:4px}
+.why-rev{font-size:12.5px;color:#7a6630}
+.mc .why-note{flex-basis:100%}
+.irv-added{margin:8px 0 0;padding:8px 12px;border-radius:12px;background:#f1edf7;color:#4b3a66;font-size:14px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+body.irv-open{overflow:hidden}
+.irv{position:fixed;inset:0;z-index:2000;background:rgba(30,20,45,.45);display:flex;align-items:flex-start;justify-content:center;padding:max(16px,4vh) 16px 16px;overflow:auto}
+.irv[hidden]{display:none}
+.irv-card{background:#fff;color:#2d2340;border-radius:20px;box-shadow:0 20px 60px rgba(30,20,45,.3);width:min(620px,100%);padding:20px 20px 18px;box-sizing:border-box}
+.irv-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:10px}
+.irv-top h2{margin:2px 0 0;font-size:21px;line-height:1.25}
+.irv-top .icon-btn{flex:none;font-size:18px;min-width:40px;min-height:40px}
+.irv-sub{margin:0 0 12px;color:#6b5f7b}
+.irv-bar{height:6px;background:#f1edf7;border-radius:6px;overflow:hidden;margin:0 0 12px}
+.irv-bar span{display:block;height:100%;background:linear-gradient(90deg,#c23b8a,#7c5cc4);transition:width .3s}
+.irv-meta{font-size:12.5px;color:#7a6f8a;margin-bottom:4px}
+.irv-task{font-size:13px;font-weight:600;color:#7c5cc4;margin-bottom:6px}
+.irv-q{font-size:17px;line-height:1.6;margin:6px 0 10px}
+.irv-q .irv-in{display:inline-block;width:auto;min-width:9ch;max-width:100%;margin:0 4px;padding:6px 10px}
+.irv-form>.irv-in{width:100%;box-sizing:border-box;font-size:16px}
+.irv-in.ok{border-color:#2e9e62;background:#eefaf3}.irv-in.bad{border-color:#d0475e;background:#fff1f3}
+.irv-blank{display:inline-block;min-width:5ch;border-bottom:2px solid #7c5cc4}
+.irv-opts{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 4px}
+.irv-opts .opt{min-height:44px;padding:8px 14px;border-radius:12px;border:1.5px solid #ddd3ec;background:#fff;font:inherit;font-size:15px;cursor:pointer;color:inherit}
+.irv-opts .opt.ok{border-color:#2e9e62;background:#eefaf3}.irv-opts .opt.bad{border-color:#d0475e;background:#fff1f3}
+.irv-hint{font-size:14px;color:#6b5f7b}
+.irv-chip{display:inline-block;padding:2px 8px;margin:2px;border-radius:8px;background:#f1edf7}
+.irv-actions{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:12px}
+.irv-ok{padding:10px 12px;border-radius:12px;background:#eefaf3;color:#1f6b43;font-weight:600}
+.irv-was{font-size:12.5px;color:#8a7f99;margin:10px 0 0}
+.irv-empty{text-align:center;padding:10px 0 6px}.irv-empty h3{margin:6px 0}
+.irv-big{font-size:44px}
+.goal-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.goal-grid.areas{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}
+.goal-btn{display:flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:left;padding:12px;border-radius:14px;border:1.5px solid #e3dced;background:#fbf9fd;font:inherit;color:inherit;cursor:pointer;min-height:44px}
+.goal-btn.small{flex-direction:row;align-items:center;gap:8px}
+.goal-btn.on,.goal-btn:hover{border-color:#c23b8a;background:#fdf1f7}
+.goal-btn small{color:#7a6f8a;font-size:12.5px}
+.goal-emo{font-size:22px;line-height:1}
+.goal-foot{margin-top:12px}
+.goal-text{width:100%;box-sizing:border-box;font:inherit;font-size:15px}
+.iris-me{margin:14px 0}
+.me-row{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.me-sub{font-size:13px;color:#7a6f8a;margin-top:2px}
+.me-tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px;margin-top:12px}
+.me-tile{display:flex;align-items:center;gap:12px;text-align:left;padding:12px 14px;border-radius:14px;border:1.5px solid #e3dced;background:#fbf9fd;font:inherit;color:inherit;cursor:pointer;min-height:56px}
+.me-tile b{display:block}.me-tile small{display:block;color:#7a6f8a;font-size:12.5px;margin-top:2px}
+.me-tile.has-due{border-color:#c23b8a;background:#fdf1f7}
+.me-emo{font-size:26px;flex:none}
+.pack-tools{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:10px}
+.pack-switch{max-width:100%;flex:1 1 220px}
+.pack-known{font-size:13.5px;color:#6b5f7b}
+.pack-tabs{display:flex;gap:6px;margin-bottom:10px}
+.pack-tab{flex:1;min-height:42px;border-radius:12px;border:1.5px solid #e3dced;background:#fff;font:inherit;cursor:pointer;color:inherit}
+.pack-tab.on{border-color:#7c5cc4;background:#f4f0fb;font-weight:600}
+.pack-list{list-style:none;margin:0;padding:0}
+.pack-row{display:flex;gap:10px;align-items:flex-start;padding:10px 0;border-bottom:1px solid #f0ebf5}
+.pack-row:last-child{border-bottom:0}
+.pack-row.known .pack-en:after{content:' ✓';color:#2e9e62}
+.pack-main{flex:1;min-width:0}
+.pack-ru{color:#4b3a66}
+.pack-ex{font-size:13.5px;color:#6b5f7b;margin-top:3px}
+.pack-ex .ui-link{padding:0 4px}
+.pack-row .icon-btn{flex:none;min-width:40px;min-height:40px}
+.pack-add{flex:none;white-space:nowrap}
+@media (max-width:520px){.irv{padding:10px}.irv-card{padding:16px 14px;border-radius:16px}.goal-btn{padding:10px}.goal-btn small{font-size:11.5px}.goal-grid.areas{grid-template-columns:repeat(2,minmax(0,1fr))}.pack-row{flex-wrap:wrap}.pack-main{flex:1 1 calc(100% - 54px)}.pack-add{margin-left:50px;padding:4px 10px}}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .irv-card{background:#211a2d;color:#eee8f6}:root:not([data-theme="light"]) .why-note{background:#3a3020;border-color:#6a5730;color:#f5e9c8}:root:not([data-theme="light"]) .goal-btn,:root:not([data-theme="light"]) .me-tile,:root:not([data-theme="light"]) .irv-opts .opt,:root:not([data-theme="light"]) .pack-tab{background:#2b2238;border-color:#463a58;color:#eee8f6}}
