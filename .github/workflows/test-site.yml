@@ -22,7 +22,7 @@ jobs:
       - name: Собрать тестовую копию
         run: |
           mkdir out
-          rsync -a --exclude .git --exclude .github --exclude deploy --exclude README.md ./ out/
+          rsync -a --exclude .git --exclude .github --exclude deploy --exclude tools --exclude .gitignore --exclude README.md ./ out/
           # свои каналы связи: ничего не уходит настоящим ученикам
           find out -name '*.html' -print0 | xargs -0 sed -i 's#iris-school/v1/#iris-school-test/v1/#g'
           if grep -rq 'iris-school/v1/' out --include='*.html'; then echo "Остались боевые каналы связи"; exit 1; fi
