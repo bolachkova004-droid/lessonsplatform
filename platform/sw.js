@@ -41,6 +41,6 @@ self.addEventListener('fetch', e => {
     if (u.origin !== location.origin) return;
     if (u.pathname.includes('/api/')) return; // почтовый ящик — всегда напрямую
     if (req.mode === 'navigate' || /\.html$/.test(u.pathname)) { e.respondWith(page(req)); return; }
-    if (/\/img\//.test(u.pathname)) { e.respondWith(asset(req)); return; }
+    if (/\/(img|assets)\//.test(u.pathname)) { e.respondWith(asset(req)); return; } // общий код (assets/app-<хэш>) не меняется — берём из памяти
     // записи (audio) браузер просит кусками (Range) — их не кэшируем, отдаём как есть
 });

@@ -49,6 +49,11 @@ HOOKS = [
     # после обрыва связи — дослать ответы открытого урока
     ('iris-resync', "        function scheduleSync() {",
      "        window.__irisResync = () => { try { scheduleSync(); } catch (_) { } }; /*iris-resync*/\n        function scheduleSync() {"),
+    # общий код и стили — отдельными файлами с этого же сайта (assets/app-*.js|css)
+    ("script-src 'self'", "script-src 'unsafe-inline';", "script-src 'self' 'unsafe-inline';"),
+    ("style-src 'self'", "style-src 'unsafe-inline';", "style-src 'self' 'unsafe-inline';"),
+    # пока загрузчик открывает уроки и качает общий код, сообщение «платформа не запустилась» не показываем
+    ('window.__irisReady || window.__irisBooting)', "if (window.__irisReady)", "if (window.__irisReady || window.__irisBooting)"),
     ('Онлайн-перевод сейчас не отвечает', "'Перевод онлайн сейчас недоступен.'",
      "'Онлайн-перевод сейчас не отвечает. Впишите перевод сами — слово всё равно сохранится в словаре.'", 3),
 ]
@@ -190,9 +195,24 @@ def main():
     ap.add_argument('--tts', help='папка Kokoro (модель и venv) для дозаписи фраз')
     ap.add_argument('--no-audio', action='store_true')
     ap.add_argument('--cache', default=os.path.join(ROOT, '.cache'))
+    ap.add_argument('--secret-file', help='файл с кодом преподавателя (вне репозитория); или переменная IRIS_SECRET')
+    ap.add_argument('--no-seal', action='store_true', help='не шифровать уроки (только для отладки)')
     args = ap.parse_args()
+    import seal as sealer
+    secret = os.environ.get('IRIS_SECRET') or (open(args.secret_file).read().strip() if args.secret_file else '')
     paths = [os.path.join(ROOT, 'platform', 'index.html')] + sorted(glob.glob(os.path.join(ROOT, 'platform', 's-*.html')))
     pages = {p: open(p, encoding='utf8').read() for p in paths}
+    for p, s in pages.items():
+        if 'iris-sealed' in s or 'data-iris-src' in s:
+            if not secret:
+                raise SystemExit('страницы зашифрованы: нужен код преподавателя (IRIS_SECRET или --secret-file)')
+            pages[p] = sealer.unseal(s, secret)
+    if not secret and not args.no_seal:
+        raise SystemExit('нужен код преподавателя (IRIS_SECRET или --secret-file), чтобы зашифровать уроки; для отладки — --no-seal')
+    m = re.search(r'const irisInflate = (\(\(\) => \{.*?\}\)\(\));\n\s*window\.irisInflate', pages[paths[0]], re.S)
+    if not m:
+        raise SystemExit('не нашёл распаковщик irisInflate')
+    loader = slim(open(os.path.join(ROOT, 'tools', 'patches', 'loader.js'), encoding='utf8').read()).replace('__IRIS_INFLATE__', m.group(1))
     payload = pack_payload()
     pack_texts = sorted({norm for rows in payload['packs'].values() for w in rows for norm in (harvest.norm(w['en']), harvest.norm(w['ex']))})
 
@@ -276,9 +296,25 @@ def main():
         if os.path.basename(p).startswith('s-'):
             s = light_privacy(s)
             s, trimmed = light_audio(s)
+        if not args.no_seal:
+            s = sealer.seal(s, secret, loader)
         open(p, 'w', encoding='utf8').write(s)
         print('%-40s записей добавлено: %3d  без записи: %d  лишних убрано: %d  размер: %d КБ' % (os.path.relpath(p, ROOT), added, len(need[p]) - added, trimmed, len(s.encode()) // 1024))
 
 
+def clean_assets():
+    # общие файлы, на которые больше не ссылается ни одна страница, — удалить
+    d = os.path.join(ROOT, 'platform', 'assets')
+    if not os.path.isdir(d):
+        return
+    used = set()
+    for p in glob.glob(os.path.join(ROOT, 'platform', '*.html')):
+        used.update(re.findall(r'assets/(app-[0-9a-f]{12}\.(?:json|css|js))\b', open(p, encoding='utf8').read()))
+    for f in os.listdir(d):
+        if re.fullmatch(r'app-[0-9a-f]{12}\.(js|css|json)', f) and f not in used:
+            os.remove(os.path.join(d, f))
+
+
 if __name__ == '__main__':
     main()
+    clean_assets()

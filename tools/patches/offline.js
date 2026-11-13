@@ -3,7 +3,8 @@
     'use strict';
     try {
         if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
-            window.addEventListener('load', function () { navigator.serviceWorker.register('sw.js').catch(function () { }); });
+            var reg = function () { navigator.serviceWorker.register('sw.js').catch(function () { }); };
+            if (document.readyState === 'complete') reg(); else window.addEventListener('load', reg); // код может загрузиться уже после load
         }
     } catch (_) { }
     var bar = null;
@@ -27,5 +28,5 @@
             try { if (window.irisProgressSync) window.irisProgressSync(); } catch (_) { }
         }, 1500);
     });
-    if (navigator.onLine === false) window.addEventListener('load', function () { show(true); });
+    if (navigator.onLine === false) show(true);
 })();
