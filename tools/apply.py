@@ -17,7 +17,10 @@ sys.path.insert(0, os.path.join(ROOT, 'tools', 'voice'))
 sys.path.insert(0, os.path.join(ROOT, 'tools', 'data'))
 import harvest, packs as packdata  # noqa: E402
 
-PATCH_ORDER = ['explain.js', 'review.js', 'goal.js', 'ipa.js']
+PATCH_ORDER = ['explain.js', 'review.js', 'goal.js', 'ipa.js', 'offline.js']
+EARLY_ORDER = ['early/box-client.js']          # сразу после библиотеки MQTT, до основного скрипта
+EARLY_START, EARLY_END = '<!--iris-early:start-->', '<!--iris-early:end-->'
+IN_APP = r"/(Telegram|FBAN|FBAV|Instagram|VKClient|VKAndroidApp|WhatsApp|Line\/|MicroMessenger|OKApp|; wv\))/i"
 START, END = '<!--iris-patch:start-->', '<!--iris-patch:end-->'
 VOICE = 'bf_emma'
 
@@ -33,18 +36,72 @@ HOOKS = [
     # цель ученика (скрытое поле iris-goal) не считается письменным ответом в сводке преподавателя
     ('iris-goal-score', "                if (!el.dataset.a) {\n                    sc[3]++;",
      "                if (!el.dataset.a) {\n                    if (el.dataset.field !== 'iris-goal') /*iris-goal-score*/\n                    sc[3]++;"),
+    # свой «почтовый ящик» (platform/api/box.php) — первым в списке серверов связи; без ящика на хостинге он просто молчит
+    ('iris-box', "        const DEFAULT_BROKERS = [\n",
+     "        const DEFAULT_BROKERS = [\n            { url: 'iris-box' }, /*iris-box*/\n"),
+    # разрешить странице обращаться к своему сайту (ящик) и запускать офлайн-режим (sw.js)
+    ("connect-src 'self'", 'connect-src wss://', "connect-src 'self' wss://"),
+    ("worker-src blob: 'self'", 'worker-src blob:;', "worker-src blob: 'self';"),
+    # личный код не остаётся в адресной строке (история, скриншоты, пересылка), если вход сохранился в браузере.
+    # Во встроенных браузерах мессенджеров код остаётся: оттуда открывают «в Safari», а память у них разная.
+    ('iris-url-key', "        function keepInUrl(token, hash) { try {\n            const u = new URL(location.href);\n            u.searchParams.set('k', token);",
+     "        function keepInUrl(token, hash) { try {\n            const u = new URL(location.href);\n            let kept = false; /*iris-url-key*/\n            try { kept = (JSON.parse(localStorage.getItem('iris-access-v1') || 'null') || {}).t === token; } catch (_) { }\n            if (kept && !" + IN_APP + ".test(navigator.userAgent)) u.searchParams.delete('k'); else u.searchParams.set('k', token);"),
+    # после обрыва связи — дослать ответы открытого урока
+    ('iris-resync', "        function scheduleSync() {",
+     "        window.__irisResync = () => { try { scheduleSync(); } catch (_) { } }; /*iris-resync*/\n        function scheduleSync() {"),
+    # общий код и стили — отдельными файлами с этого же сайта (assets/app-*.js|css)
+    ("script-src 'self'", "script-src 'unsafe-inline';", "script-src 'self' 'unsafe-inline';"),
+    ("style-src 'self'", "style-src 'unsafe-inline';", "style-src 'self' 'unsafe-inline';"),
+    # пока загрузчик открывает уроки и качает общий код, сообщение «платформа не запустилась» не показываем
+    ('window.__irisReady || window.__irisBooting)', "if (window.__irisReady)", "if (window.__irisReady || window.__irisBooting)"),
+    ('Онлайн-перевод сейчас не отвечает', "'Перевод онлайн сейчас недоступен.'",
+     "'Онлайн-перевод сейчас не отвечает. Впишите перевод сами — слово всё равно сохранится в словаре.'", 3),
 ]
 
 
 def apply_hooks(s, path):
-    for mark, old, new in HOOKS:
+    for h in HOOKS:
+        mark, old, new = h[:3]
+        want = h[3] if len(h) > 3 else 1
         if mark in s:
             continue
         n = s.count(old)
-        if n != 1:
-            raise SystemExit('%s: крючок %s — найдено %d вхождений вместо 1' % (path, mark, n))
+        if n != want:
+            raise SystemExit('%s: крючок %s — найдено %d вхождений вместо %d' % (path, mark, n, want))
         s = s.replace(old, new)
     return s
+
+
+def light_privacy(s):
+    """Личная страница ученика: только его запись доступа и его имя в меню (аудит, п. 5)."""
+    owners = {d.get('owner') for d in read_json(s, 'platform-data')}
+    m = json_block(s, 'access-data')
+    a = json.loads(m.group(2))
+    a['entries'] = [e for e in a['entries'] if e.get('profile') in owners]
+    s = s[:m.start(2)] + json.dumps(a, ensure_ascii=False).replace('</', '<\\/') + s[m.end(2):]
+    def opts(mm):
+        keep = ''.join(o for o in re.findall(r'<option value="[^"]*">[^<]*</option>', mm.group(2)) if re.search(r'value="([^"]*)"', o).group(1) in owners)
+        return mm.group(1) + keep + mm.group(3)
+    s = re.sub(r'(<select id="profile-select"[^>]*>)(.*?)(</select>)', opts, s, count=1, flags=re.S)
+    return s
+
+
+def light_audio(s):
+    """Личная страница: в списке записей — только фразы, которые есть на этой странице (аудит, п. 4)."""
+    import html as H
+    hay = H.unescape(re.sub(r'<script type="application/json" id="audio-(data|dur)">.*?</script>', '', s, flags=re.S))
+    hay2 = hay.replace('\\u2019', '’').replace('\\"', '"')
+    audio, dur = read_json(s, 'audio-data'), read_json(s, 'audio-dur')
+    keep, said = {}, {t for _, t in harvest.harvest(s)}
+    for k, v in audio.items():
+        t = k.split('|', 1)[1]
+        if t in said or t in hay2 or json.dumps(t, ensure_ascii=False)[1:-1] in hay:
+            keep[k] = v
+    files = set(keep.values())
+    s = write_manifest(s, 'audio-data', keep)
+    if json_block(s, 'audio-dur'):
+        s = write_manifest(s, 'audio-dur', {k: v for k, v in dur.items() if k in files})
+    return s, len(audio) - len(keep)
 
 
 def json_block(s, tag):
@@ -138,9 +195,24 @@ def main():
     ap.add_argument('--tts', help='папка Kokoro (модель и venv) для дозаписи фраз')
     ap.add_argument('--no-audio', action='store_true')
     ap.add_argument('--cache', default=os.path.join(ROOT, '.cache'))
+    ap.add_argument('--secret-file', help='файл с кодом преподавателя (вне репозитория); или переменная IRIS_SECRET')
+    ap.add_argument('--no-seal', action='store_true', help='не шифровать уроки (только для отладки)')
     args = ap.parse_args()
+    import seal as sealer
+    secret = os.environ.get('IRIS_SECRET') or (open(args.secret_file).read().strip() if args.secret_file else '')
     paths = [os.path.join(ROOT, 'platform', 'index.html')] + sorted(glob.glob(os.path.join(ROOT, 'platform', 's-*.html')))
     pages = {p: open(p, encoding='utf8').read() for p in paths}
+    for p, s in pages.items():
+        if 'iris-sealed' in s or 'data-iris-src' in s:
+            if not secret:
+                raise SystemExit('страницы зашифрованы: нужен код преподавателя (IRIS_SECRET или --secret-file)')
+            pages[p] = sealer.unseal(s, secret)
+    if not secret and not args.no_seal:
+        raise SystemExit('нужен код преподавателя (IRIS_SECRET или --secret-file), чтобы зашифровать уроки; для отладки — --no-seal')
+    m = re.search(r'const irisInflate = (\(\(\) => \{.*?\}\)\(\));\n\s*window\.irisInflate', pages[paths[0]], re.S)
+    if not m:
+        raise SystemExit('не нашёл распаковщик irisInflate')
+    loader = slim(open(os.path.join(ROOT, 'tools', 'patches', 'loader.js'), encoding='utf8').read()).replace('__IRIS_INFLATE__', m.group(1))
     payload = pack_payload()
     pack_texts = sorted({norm for rows in payload['packs'].values() for w in rows for norm in (harvest.norm(w['en']), harvest.norm(w['ex']))})
 
@@ -174,8 +246,18 @@ def main():
     if '</script' in js.lower() or '</style' in css.lower():
         raise SystemExit('в доработках не должно быть </script> и </style>')
 
+    early = '\n'.join(slim(open(os.path.join(ROOT, 'tools', 'patches', f), encoding='utf8').read()) for f in EARLY_ORDER)
     for p, s in pages.items():
         s = apply_hooks(s, p)
+        # ранние доработки — сразу после библиотеки MQTT
+        a, b = s.find(EARLY_START), s.find(EARLY_END)
+        if a >= 0 and b > a:
+            s = s[:a] + s[b + len(EARLY_END):]
+        i = s.find('<script>/* MQTT.js')
+        j = s.find('</script>', i) + len('</script>')
+        if i < 0:
+            raise SystemExit(p + ': нет библиотеки MQTT')
+        s = s[:j] + '\n' + EARLY_START + '<script>' + early + '</script>' + EARLY_END + s[j:]
         # манифест записей
         audio, dur = read_json(s, 'audio-data'), read_json(s, 'audio-dur')
         added = 0
@@ -210,9 +292,29 @@ def main():
         if i < 0:
             raise SystemExit(p + ': нет </body>')
         s = s[:i] + block + s[i:]
+        trimmed = 0
+        if os.path.basename(p).startswith('s-'):
+            s = light_privacy(s)
+            s, trimmed = light_audio(s)
+        if not args.no_seal:
+            s = sealer.seal(s, secret, loader)
         open(p, 'w', encoding='utf8').write(s)
-        print('%-40s записей добавлено: %3d  без записи: %d' % (os.path.relpath(p, ROOT), added, len(need[p]) - added))
+        print('%-40s записей добавлено: %3d  без записи: %d  лишних убрано: %d  размер: %d КБ' % (os.path.relpath(p, ROOT), added, len(need[p]) - added, trimmed, len(s.encode()) // 1024))
+
+
+def clean_assets():
+    # общие файлы, на которые больше не ссылается ни одна страница, — удалить
+    d = os.path.join(ROOT, 'platform', 'assets')
+    if not os.path.isdir(d):
+        return
+    used = set()
+    for p in glob.glob(os.path.join(ROOT, 'platform', '*.html')):
+        used.update(re.findall(r'assets/(app-[0-9a-f]{12}\.(?:json|css|js))\b', open(p, encoding='utf8').read()))
+    for f in os.listdir(d):
+        if re.fullmatch(r'app-[0-9a-f]{12}\.(js|css|json)', f) and f not in used:
+            os.remove(os.path.join(d, f))
 
 
 if __name__ == '__main__':
     main()
+    clean_assets()

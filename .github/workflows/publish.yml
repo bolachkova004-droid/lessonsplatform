@@ -32,7 +32,7 @@ jobs:
           mkdir out
           rsync -a --exclude .git --exclude .github --exclude deploy --exclude tools --exclude .gitignore --exclude README.md ./ out/
           cp deploy/htaccess out/.htaccess
-          grep -rq 'iris-school-test/' out --include='*.html' && { echo "В версии остались тестовые каналы связи"; exit 1; } || true
+          grep -rq 'iris-school-test/' out --include='*.html' --include='*.js' && { echo "В версии остались тестовые каналы связи"; exit 1; } || true
           test -s out/platform/index.html
 
       - name: Загрузить на www.ira-iris.ru
