@@ -886,6 +886,21 @@ $('.irv-fb', box).innerHTML = (ok ? '<div class="irv-ok">✅ Верно!</div>' 
 if (!train.listen || !ok) speak(w.en);
 train.i++;
 }
+function todayISO() { var d = new Date(); return d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2); }
+function dailyTiles() {
+var data = [];
+try { data = JSON.parse(($('#platform-data') || {}).textContent || '[]'); } catch (_) { }
+var me = C.state().profile, today = todayISO(), out = [];
+data.forEach(function (d) {
+if (d.owner !== me || !d.daily || !Array.isArray(d.daily.days)) return;
+var days = d.daily.days, n = days.filter(function (x) { return x <= today; }).length, pre = String(d.hwSection || '').replace(/-hw-prep$/, '');
+if (today > days[days.length - 1]) return;
+var sid = n ? pre + '-hw-day' + n : d.hwSection, sec = (d.sections || []).filter(function (x) { return x.id === sid; })[0];
+out.push('<button type="button" class="me-tile me-daily has-due" data-go="' + esc(sid) + '"><span class="me-emo">📅</span><span><b>' +
+(n ? 'Сегодня: день ' + n + ' из ' + days.length : 'Скоро старт: ' + esc(d.title)) + '</b><small>' + esc(n ? (sec ? sec.label.replace(/^Day \d+ · /, '') : d.title) + ' · ' + d.title : 'первый день откроется ' + days[0].split('-').reverse().slice(0, 2).join('.')) + '</small></span></button>');
+});
+return out.join('');
+}
 function paintMe() {
 var home = $('#screen-home');
 if (!home || !isStudent()) { var o = $('#iris-me'); if (o) o.remove(); return; }
@@ -897,7 +912,7 @@ if (anchor.nextElementSibling !== box) anchor.insertAdjacentElement('afterend', 
 var g = goal(), area = g ? areaFor(g) : '', a = AREAS[area];
 var rv = window.irisReview, due = rv ? rv.due() : 0, total = rv ? rv.total() : 0;
 box.innerHTML = '<div class="me-row"><div><div class="kicker">МОЯ ЦЕЛЬ</div><b>' + (g ? esc(goalLabel(g)) : 'Расскажите, для чего вам английский') + '</b>' + (g && g.text ? '<div class="me-sub">' + esc(g.text) + '</div>' : '') + '</div><button type="button" class="ui-btn small ' + (g ? 'soft' : '') + ' me-goal">' + (g ? 'Изменить' : '🎯 Выбрать цель') + '</button></div>' +
-'<div class="me-tiles">' +
+'<div class="me-tiles">' + dailyTiles() +
 (a ? '<button type="button" class="me-tile me-pack"><span class="me-emo">' + a[1] + '</span><span><b>Слова: ' + esc(a[2]) + '</b><small>выучено ' + known(area) + ' из ' + (PACKS[area] || []).length + ' · с транскрипцией и озвучкой</small></span></button>' : '') +
 '<button type="button" class="me-tile irv-home' + (due ? ' has-due' : '') + '"><span class="me-emo">🔁</span><span><b>Работа над ошибками' + (due ? ' · <span class="irv-count">' + due + '</span>' : '') + '</b><small>' + (due ? 'задания на сегодня — 3–5 минут' : total ? 'на сегодня всё, в очереди ' + total : 'ошибки из домашки появятся здесь') + '</small></span></button>' +
 '</div>';
@@ -906,6 +921,8 @@ window.irisPaintMe = paintMe;
 document.addEventListener('click', function (e) {
 var t = e.target;
 if (!t || !t.closest) return;
+var go = t.closest('.me-daily');
+if (go) { location.hash = go.getAttribute('data-go'); return; }
 if (t.closest('.me-goal')) openGoal();
 else if (t.closest('.me-pack')) openPack();
 else if (t.closest('.irv-home') && window.irisReview) window.irisReview.open();

@@ -83,3 +83,10 @@ body.irv-open{overflow:hidden}
 .iris-login-card p{margin:0;color:#6b5f7b;line-height:1.45}
 .iris-login-card .field{font-size:16px;padding:12px;border-radius:12px;border:1.5px solid #ddd3ec}
 .iris-login-card .ui-btn{min-height:46px}
+
+/* Grammar Easy: шаг «Как выбрать» */
+.eg-choose {display:grid;gap:6px;margin-top:4px}
+.eg-choose > div {display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1.2fr);gap:8px;align-items:center;background:#fff;border-radius:10px;padding:7px 10px}
+.eg-choose > div > b {color:var(--ef-p)}
+.eg-choose .eg-form {font-weight:700}
+@media (max-width:560px){.eg-choose > div {grid-template-columns:1fr}.eg-choose > div > b {display:none}.eg-choose .eg-form::before {content:'→ ';color:var(--ef-p)}}
