@@ -118,6 +118,68 @@ def load_lessons():
     return out, vocab
 
 
+def load_fixes():
+    """tools/lessons/g_*.py → build_fixes() → {id раздела: (где, html)} — замена объяснений в готовых уроках."""
+    import importlib.util
+    out = {}
+    for f in sorted(glob.glob(os.path.join(ROOT, 'tools', 'lessons', 'g_*.py'))):
+        spec = importlib.util.spec_from_file_location(os.path.basename(f)[:-3], f)
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+        out.update(mod.build_fixes())
+    return out
+
+
+def _div_end(s, a):
+    """Конец <div …>, открытого в позиции a (по глубине вложенности)."""
+    depth = 0
+    for t in re.finditer(r'<div\b|</div>', s[a:]):
+        depth += 1 if t.group(0) == '<div' else -1
+        if depth == 0:
+            return a + t.end()
+    raise SystemExit('div не закрыт')
+
+
+def apply_fixes(s, fixes):
+    """Заменяет таблицу Grammar Bank (или указанный кусок) в разделе урока. Вставка между метками
+    <!--iris-g:id--> … <!--/iris-g-->, поэтому повторный запуск заменяет её же."""
+    done = []
+    for sid, (where, block) in fixes.items():
+        m = re.search(r'<section class="step" id="%s"[^>]*>' % re.escape(sid), s)
+        if not m:
+            continue
+        a, b = m.end(), s.find('</section>', m.end())
+        body = s[a:b]
+        tag, end = '<!--iris-g:%s-->' % sid, '<!--/iris-g-->'
+        new = tag + block + end
+        i = body.find(tag)
+        if i >= 0:
+            j = body.find(end, i) + len(end)
+            body = body[:i] + new + body[j:]
+        elif where == 'bank':
+            i = body.find('<div class="bank bank-grammar">')
+            if i < 0:
+                raise SystemExit('%s: нет Grammar Bank' % sid)
+            j = _div_end(body, i)
+            inner = body[i + len('<div class="bank bank-grammar">'):j - len('</div>')]
+            # всё, что в таблице после правила (упражнения, карточки), остаётся на месте
+            cut = [k for k in (inner.find('<div class="ex"'), inner.find('<p class="rubric"'), inner.find('<div class="deck')) if k >= 0]
+            rest = inner[min(cut):] if cut else ''
+            body = body[:i] + new + rest + body[j:]
+        else:
+            _, start, stop = where
+            i, j = body.find(start), body.find(stop)
+            if i < 0 or j < i:
+                raise SystemExit('%s: не нашёл место для замены' % sid)
+            body = body[:i] + new + body[j:]
+        body = re.sub(r'Read the (?:rules? in the )?(?:<b>)?Grammar Bank(?:</b>)?(?: [0-9A-Z]{2}\b)?', 'Read the steps', body)
+        body = body.replace('Прочитайте Grammar Bank', 'Прочитайте шаги')
+        body = re.sub(r'More exercises: Grammar Bank [0-9A-Z]{2} →', 'More exercises →', body)
+        s = s[:a] + body + s[b:]
+        done.append(sid)
+    return s, done
+
+
 def light_privacy(s):
     """Личная страница ученика: только его запись доступа и его имя в меню (аудит, п. 5)."""
     owners = {d.get('owner') for d in read_json(s, 'platform-data')}
@@ -257,8 +319,12 @@ def main():
             pages[p] = sealer.unseal(s, secret)
     if not secret and not args.no_seal:
         raise SystemExit('нужен код преподавателя (IRIS_SECRET или --secret-file), чтобы зашифровать уроки; для отладки — --no-seal')
+    fixes = load_fixes()
     for p in pages:
         pages[p] = inject_lessons(pages[p], lessons, lesson_vocab)
+        pages[p], done = apply_fixes(pages[p], fixes)
+        if done:
+            print('%-40s объяснений грамматики обновлено: %d' % (os.path.relpath(p, ROOT), len(done)))
     m = re.search(r'const irisInflate = (\(\(\) => \{.*?\}\)\(\));\n\s*window\.irisInflate', pages[paths[0]], re.S)
     if not m:
         raise SystemExit('не нашёл распаковщик irisInflate')

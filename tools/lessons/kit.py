@@ -147,18 +147,23 @@ def reading(title, small, paragraphs):
     return '<div class="reading"><h3>%s</h3><p class="small">%s</p>%s</div>' % (e(title), e(small), ''.join('<p>%s</p>' % e(p) for p in paragraphs))
 
 
-def easy(title, idea, rows, examples, traps, note=''):
-    """Grammar Easy: idea (html), rows: [[(text, blk-a..d)]], examples: [(emoji, sentence)], traps: [(wrong, right, why)]"""
+def easy(title, idea, rows, examples, traps, note='', choose=None):
+    """Grammar Easy: idea (html), rows: [[(text, blk-a..d)]], examples: [(emoji, sentence)], traps: [(wrong, right, why)],
+    choose: [(ситуация по-русски, форма / пример)] — шаг «Как выбрать», когда форм несколько"""
     def row(r):
         return '<div class="eg-row">%s</div>' % '<span class="eg-plus">+</span>'.join('<span class="blk blk-%s">%s</span>' % (c, e(t)) for t, c in r)
     ex = ''.join('<li>%s<span>%s</span>%s</li>' % (img(em), e(s), say(s)) for em, s in examples)
     tr = ''.join('<div>❌ <s>%s</s> → <span class="ok">✅ %s</span><br><small>%s</small></div>' % (e(w), e(r), why) for w, r, why in traps)
-    return ('<div class="easy-g"><div class="eg-head"><span>Grammar Easy · Грамматика без страха</span><b>%s</b></div>'
-            '<div class="eg-step"><span class="eg-n">1</span><div><b>Одна мысль</b><p>%s</p></div></div>'
-            '<div class="eg-step"><span class="eg-n">2</span><div><b>Формула-конструктор</b>%s%s</div></div>'
-            '<div class="eg-step"><span class="eg-n">3</span><div><b>Смотри, как это работает · нажми 🔊</b><ul class="eg-ex">%s</ul></div></div>'
-            '<div class="eg-step"><span class="eg-n">4</span><div><b>Осторожно!</b><div class="eg-traps">%s</div></div></div></div>'
-            % (title, idea, ''.join(row(r) for r in rows), '<p class="eg-note">%s</p>' % note if note else '', ex, tr))
+    steps = [('Одна мысль', '<p>%s</p>' % idea)]
+    if choose:
+        steps.append(('Как выбрать? Спросите себя', '<div class="eg-choose">%s</div>' % ''.join(
+            '<div><span>%s</span><b>→</b><span class="eg-form">%s</span></div>' % (q, a) for q, a in choose)))
+    steps += [('Формула-конструктор', ''.join(row(r) for r in rows) + ('<p class="eg-note">%s</p>' % note if note else '')),
+              ('Смотри, как это работает · нажми 🔊', '<ul class="eg-ex">%s</ul>' % ex),
+              ('Осторожно!', '<div class="eg-traps">%s</div>' % tr)]
+    return ('<div class="easy-g"><div class="eg-head"><span>Grammar Easy · Грамматика без страха</span><b>%s</b></div>%s</div>'
+            % (title, ''.join('<div class="eg-step"><span class="eg-n">%d</span><div><b>%s</b>%s</div></div>' % (i, h, b)
+                              for i, (h, b) in enumerate(steps, 1))))
 
 
 def say_list(items):
