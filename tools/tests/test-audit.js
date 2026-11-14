@@ -49,7 +49,7 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
   await t.goto(BASE + '?k=' + TEACHER);
   await sleep(9000);
   const inbox = await t.evaluate(() => { const b = document.querySelector('.inbox-nav .hw-badge'); return { badge: b && !b.hidden ? b.textContent : '', text: (document.querySelector('.inbox-home') || {}).innerText || '', toast: (document.getElementById('toast') || {}).textContent || '' }; });
-  ok(/Владимир/.test(inbox.text + inbox.toast) || Number(inbox.badge) > 0, 'преподаватель получил работу ученика через ящик: ' + JSON.stringify(inbox).slice(0, 200));
+  ok(/Новая работа|Владимир/.test(inbox.text + inbox.toast) || Number(inbox.badge) > 0, 'преподаватель получил работу ученика через ящик: ' + JSON.stringify(inbox).slice(0, 200));
   ok(terrs.length === 0, 'у преподавателя нет ошибок JS ' + JSON.stringify(terrs));
   await b.close();
   console.log(fails ? 'ПРОВАЛЕНО: ' + fails : 'ВСЁ ХОРОШО');

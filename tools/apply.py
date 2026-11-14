@@ -23,6 +23,7 @@ EARLY_START, EARLY_END = '<!--iris-early:start-->', '<!--iris-early:end-->'
 IN_APP = r"/(Telegram|FBAN|FBAV|Instagram|VKClient|VKAndroidApp|WhatsApp|Line\/|MicroMessenger|OKApp|; wv\))/i"
 START, END = '<!--iris-patch:start-->', '<!--iris-patch:end-->'
 VOICE = 'bf_emma'
+VOICES = {'f': 'bf_emma', 'm': 'bm_george', 'f2': 'bf_isabella', 'm2': 'bm_fable'}
 
 HOOKS = [
     # доступ к профилю и сохранению для слоя доработок (функции объявлены в том же замыкании)
@@ -70,6 +71,113 @@ def apply_hooks(s, path):
             raise SystemExit('%s: крючок %s — найдено %d вхождений вместо %d' % (path, mark, n, want))
         s = s.replace(old, new)
     return s
+
+
+def inject_lessons(s, lessons, vocab):
+    """Новые уроки из tools/lessons: запись в списке уроков + панель (повторный запуск заменяет их)."""
+    import seal as sealer
+    data = read_json(s, 'platform-data')
+    owners = {d['owner'] for d in data}
+    mine = [(d, h) for d, h in lessons if d['owner'] in owners]
+    if not mine:
+        return s
+    ids = {d['id'] for d, _ in mine}
+    for pid, a, b in sorted(sealer._panes(s, ids), key=lambda x: -x[1]):
+        s = s[:a] + s[b:]
+    data = [d for d in data if d['id'] not in ids]
+    for d, h in mine:
+        base = next(x for x in data if x['owner'] == d['owner'])
+        full = {k: base[k] for k in ('name', 'greeting', 'initials') if k in base}
+        full.update(d)
+        last = [x for x in data if x['owner'] == d['owner']][-1]
+        pos = sealer._panes(s, {last['id']})
+        at = pos[0][2] if pos else s.find('<div id="lesson-panels">') + len('<div id="lesson-panels">')
+        s = s[:at] + '\n' + h + s[at:]
+        data.insert(data.index(last) + 1, full)
+    m = json_block(s, 'platform-data')
+    s = s[:m.start(2)] + json.dumps(data, ensure_ascii=False).replace('</', '<\\/') + s[m.end(2):]
+    v = read_json(s, 'vocabulary-data')
+    if isinstance(v, dict) and vocab:
+        for k, x in vocab.items():
+            v.setdefault(k, x)
+        s = write_manifest(s, 'vocabulary-data', v)
+    return s
+
+
+def load_lessons():
+    """tools/lessons/l_*.py → build() → [(meta, pane_html)], {слово: перевод}"""
+    import importlib.util
+    out, vocab = [], {}
+    for f in sorted(glob.glob(os.path.join(ROOT, 'tools', 'lessons', 'l_*.py'))):
+        spec = importlib.util.spec_from_file_location(os.path.basename(f)[:-3], f)
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+        for meta, pane, voc in mod.build():
+            out.append((meta, pane))
+            vocab.update(voc)
+    return out, vocab
+
+
+def load_fixes():
+    """tools/lessons/g_*.py → build_fixes() → {id раздела: (где, html)} — замена объяснений в готовых уроках."""
+    import importlib.util
+    out = {}
+    for f in sorted(glob.glob(os.path.join(ROOT, 'tools', 'lessons', 'g_*.py'))):
+        spec = importlib.util.spec_from_file_location(os.path.basename(f)[:-3], f)
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+        out.update(mod.build_fixes())
+    return out
+
+
+def _div_end(s, a):
+    """Конец <div …>, открытого в позиции a (по глубине вложенности)."""
+    depth = 0
+    for t in re.finditer(r'<div\b|</div>', s[a:]):
+        depth += 1 if t.group(0) == '<div' else -1
+        if depth == 0:
+            return a + t.end()
+    raise SystemExit('div не закрыт')
+
+
+def apply_fixes(s, fixes):
+    """Заменяет таблицу Grammar Bank (или указанный кусок) в разделе урока. Вставка между метками
+    <!--iris-g:id--> … <!--/iris-g-->, поэтому повторный запуск заменяет её же."""
+    done = []
+    for sid, (where, block) in fixes.items():
+        m = re.search(r'<section class="step" id="%s"[^>]*>' % re.escape(sid), s)
+        if not m:
+            continue
+        a, b = m.end(), s.find('</section>', m.end())
+        body = s[a:b]
+        tag, end = '<!--iris-g:%s-->' % sid, '<!--/iris-g-->'
+        new = tag + block + end
+        i = body.find(tag)
+        if i >= 0:
+            j = body.find(end, i) + len(end)
+            body = body[:i] + new + body[j:]
+        elif where == 'bank':
+            i = body.find('<div class="bank bank-grammar">')
+            if i < 0:
+                raise SystemExit('%s: нет Grammar Bank' % sid)
+            j = _div_end(body, i)
+            inner = body[i + len('<div class="bank bank-grammar">'):j - len('</div>')]
+            # всё, что в таблице после правила (упражнения, карточки), остаётся на месте
+            cut = [k for k in (inner.find('<div class="ex"'), inner.find('<p class="rubric"'), inner.find('<div class="deck')) if k >= 0]
+            rest = inner[min(cut):] if cut else ''
+            body = body[:i] + new + rest + body[j:]
+        else:
+            _, start, stop = where
+            i, j = body.find(start), body.find(stop)
+            if i < 0 or j < i:
+                raise SystemExit('%s: не нашёл место для замены' % sid)
+            body = body[:i] + new + body[j:]
+        body = re.sub(r'Read the (?:rules? in the )?(?:<b>)?Grammar Bank(?:</b>)?(?: [0-9A-Z]{2}\b)?', 'Read the steps', body)
+        body = body.replace('Прочитайте Grammar Bank', 'Прочитайте шаги')
+        body = re.sub(r'More exercises: Grammar Bank [0-9A-Z]{2} →', 'More exercises →', body)
+        s = s[:a] + body + s[b:]
+        done.append(sid)
+    return s, done
 
 
 def light_privacy(s):
@@ -186,8 +294,8 @@ def slim(js):
     return '\n'.join(out)
 
 
-def clip_name(text):
-    return 'audio/' + hashlib.sha1((VOICE + '|' + text).encode()).hexdigest()[:16] + '.mp3'
+def clip_name(text, who='f'):
+    return 'audio/' + hashlib.sha1((VOICES.get(who, VOICE) + '|' + text).encode()).hexdigest()[:16] + '.mp3'
 
 
 def main():
@@ -202,6 +310,8 @@ def main():
     secret = os.environ.get('IRIS_SECRET') or (open(args.secret_file).read().strip() if args.secret_file else '')
     paths = [os.path.join(ROOT, 'platform', 'index.html')] + sorted(glob.glob(os.path.join(ROOT, 'platform', 's-*.html')))
     pages = {p: open(p, encoding='utf8').read() for p in paths}
+    sys.path.insert(0, os.path.join(ROOT, 'tools', 'lessons'))
+    lessons, lesson_vocab = load_lessons()
     for p, s in pages.items():
         if 'iris-sealed' in s or 'data-iris-src' in s:
             if not secret:
@@ -209,6 +319,12 @@ def main():
             pages[p] = sealer.unseal(s, secret)
     if not secret and not args.no_seal:
         raise SystemExit('нужен код преподавателя (IRIS_SECRET или --secret-file), чтобы зашифровать уроки; для отладки — --no-seal')
+    fixes = load_fixes()
+    for p in pages:
+        pages[p] = inject_lessons(pages[p], lessons, lesson_vocab)
+        pages[p], done = apply_fixes(pages[p], fixes)
+        if done:
+            print('%-40s объяснений грамматики обновлено: %d' % (os.path.relpath(p, ROOT), len(done)))
     m = re.search(r'const irisInflate = (\(\(\) => \{.*?\}\)\(\));\n\s*window\.irisInflate', pages[paths[0]], re.S)
     if not m:
         raise SystemExit('не нашёл распаковщик irisInflate')
@@ -221,16 +337,16 @@ def main():
     for p, s in pages.items():
         audio, dw = read_json(s, 'audio-data'), set(read_json(s, 'core-dict'))
         items = harvest.harvest(s) + [('f', t) for t in pack_texts]
-        miss = sorted({t for w, t in items if not harvest.covered(t, w, audio, dw)})
+        miss = sorted({(w if w in VOICES else 'f', t) for w, t in items if not harvest.covered(t, w, audio, dw)})
         need[p] = miss
-    union = sorted({t for v in need.values() for t in v})
+    union = sorted({x for v in need.values() for x in v})
     audio_dir = os.path.join(ROOT, 'platform', 'audio')
-    todo = [t for t in union if not os.path.exists(os.path.join(ROOT, 'platform', clip_name(t)))]
+    todo = [x for x in union if not os.path.exists(os.path.join(ROOT, 'platform', clip_name(x[1], x[0])))]
     durs = {}
     if todo and args.tts and not args.no_audio:
         py = os.path.join(args.tts, 'venv', 'bin', 'python')
         print('озвучка: записываю %d фраз…' % len(todo))
-        r = subprocess.run([py, os.path.join(ROOT, 'tools', 'voice', 'render.py'), args.tts, audio_dir], input=json.dumps([[VOICE, t] for t in todo]), capture_output=True, text=True)
+        r = subprocess.run([py, os.path.join(ROOT, 'tools', 'voice', 'render.py'), args.tts, audio_dir], input=json.dumps([[VOICES[w], t] for w, t in todo]), capture_output=True, text=True)
         if r.returncode:
             sys.stderr.write(r.stderr)
             raise SystemExit('озвучка: ошибка')
@@ -261,10 +377,10 @@ def main():
         # манифест записей
         audio, dur = read_json(s, 'audio-data'), read_json(s, 'audio-dur')
         added = 0
-        for t in need[p]:
-            name = clip_name(t)
+        for who, t in need[p]:
+            name = clip_name(t, who)
             if os.path.exists(os.path.join(ROOT, 'platform', name)):
-                audio['f|' + t] = name
+                audio[who + '|' + t] = name
                 if name in durs:
                     dur[name] = durs[name]
                 elif name not in dur:
