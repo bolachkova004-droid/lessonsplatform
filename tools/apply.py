@@ -15,9 +15,10 @@ import argparse, glob, hashlib, json, os, re, subprocess, sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, 'tools', 'voice'))
 sys.path.insert(0, os.path.join(ROOT, 'tools', 'data'))
-import harvest, packs as packdata  # noqa: E402
+import harvest, packs as packdata, advent as adventdata  # noqa: E402
 
-PATCH_ORDER = ['explain.js', 'review.js', 'goal.js', 'ipa.js', 'offline.js']
+PATCH_ORDER = ['explain.js', 'review.js', 'goal.js', 'ipa.js', 'offline.js', 'advent.js']
+CSS_ORDER = ['patch.css', 'advent.css']
 EARLY_ORDER = ['early/box-client.js']          # сразу после библиотеки MQTT, до основного скрипта
 EARLY_START, EARLY_END = '<!--iris-early:start-->', '<!--iris-early:end-->'
 IN_APP = r"/(Telegram|FBAN|FBAV|Instagram|VKClient|VKAndroidApp|WhatsApp|Line\/|MicroMessenger|OKApp|; wv\))/i"
@@ -330,7 +331,9 @@ def main():
         raise SystemExit('не нашёл распаковщик irisInflate')
     loader = slim(open(os.path.join(ROOT, 'tools', 'patches', 'loader.js'), encoding='utf8').read()).replace('__IRIS_INFLATE__', m.group(1))
     payload = pack_payload()
-    pack_texts = sorted({norm for rows in payload['packs'].values() for w in rows for norm in (harvest.norm(w['en']), harvest.norm(w['ex']))})
+    pack_texts = sorted({norm for rows in payload['packs'].values() for w in rows for norm in (harvest.norm(w['en']), harvest.norm(w['ex']))}
+                        | {harvest.norm(t) for t in adventdata.texts()})
+    advent = adventdata.payload()
 
     # --- озвучка ---
     need = {}
@@ -358,7 +361,7 @@ def main():
     ipa_table = build_ipa(words, args.cache, os.path.join(ROOT, 'tools', 'data', 'ipa.json'))
 
     js = '\n'.join(slim(open(os.path.join(ROOT, 'tools', 'patches', f), encoding='utf8').read()) for f in PATCH_ORDER)
-    css = open(os.path.join(ROOT, 'tools', 'patches', 'patch.css'), encoding='utf8').read()
+    css = '\n'.join(open(os.path.join(ROOT, 'tools', 'patches', f), encoding='utf8').read() for f in CSS_ORDER)
     if '</script' in js.lower() or '</style' in css.lower():
         raise SystemExit('в доработках не должно быть </script> и </style>')
 
@@ -397,12 +400,13 @@ def main():
         a, b = s.find(START), s.find(END)
         if a >= 0 and b > a:
             s = s[:a] + s[b + len(END):]
-        for tag in ('ipa-data', 'iris-packs'):
+        for tag in ('ipa-data', 'iris-packs', 'iris-advent'):
             m = json_block(s, tag)
             if m:
                 s = s[:m.start()] + s[m.end():]
         block = (START + '\n<script type="application/json" id="ipa-data">' + json.dumps(ipa_table, ensure_ascii=False, separators=(',', ':')) + '</script>\n'
                  + '<script type="application/json" id="iris-packs">' + json.dumps(payload, ensure_ascii=False, separators=(',', ':')).replace('</', '<\\/') + '</script>\n'
+                 + '<script type="application/json" id="iris-advent">' + json.dumps(advent, ensure_ascii=False, separators=(',', ':')).replace('</', '<\\/') + '</script>\n'
                  + '<style id="iris-patch-css">' + css + '</style>\n<script id="iris-patch-js">' + js + '</script>\n' + END + '\n')
         i = s.rfind('</body>')
         if i < 0:
