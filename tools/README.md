@@ -69,5 +69,6 @@ python3 tools/apply.py --no-audio               # только скрипты, �
 ## Задания 16 ноября 2026
 
 - `lessons/l_pelageya_gym.py` — Пелагея: «Gym 2A: Tom's Busy Week», дополнительная домашка по уроку 2A, открыта сразу.
+- `lessons/l_pelageya_postcard.py` — Пелагея: «Gym: A Weekend by the Sea» (18 ноября), упор на аудирование и чтение, открыта сразу.
 - `lessons/l_zakhar_mikhail.py` — Захар и Михаил: «What If? 5 Days of Conditionals», B2, по одному дню 17–21 ноября.
   Только пройденный урок 3A (условные предложения) и продвинутые формы; урок 4 (modals of deduction) не затронут.
