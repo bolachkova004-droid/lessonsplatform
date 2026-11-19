@@ -252,7 +252,9 @@ def std(S):
         + rubric('a', L['task'], L.get('task_ru', '')) + listening(P + '-lis1', L['lines'], L['head'], emoji=L.get('emoji', '🎧'), names=L['names'])
         + mc(P + '-q1', L['gist'][0], L['gist'][1], L['gist'][2])
         + rubric('b', 'Listen again. Answer the cards.', 'Послушайте ещё раз и ответьте на карточки.')
-        + deck('Details · Детали', [mc('%s-q%d' % (P, i + 2), q, o, k) for i, (q, o, k) in enumerate(L['details'])]))
+        + deck('Details · Детали', [mc('%s-q%d' % (P, i + 2), q, o, k) for i, (q, o, k) in enumerate(L['details'])])
+        + (rubric('c', 'Listen once more and complete the notes. One to three words or a number.', 'Послушайте ещё раз и заполните заметки: 1–3 слова или число.')
+           + ex_gaps(ids, L['notes'], size=16) if L.get('notes') else ''))
     V = S['vocab']
     add('vocab', 'Vocabulary', V['title'], '10 min',
         rubric('a', 'Tap each card, press 🔊 and repeat.', 'Нажимайте на карточки, слушайте и повторяйте.') + bank(S['code'], V['theme'], V['cards'])
@@ -306,5 +308,6 @@ def std(S):
     secs.append((gid, 'Games', section(gid, 'Games', 'Play and review', '10 min', games_block(LID, words, S['case']))))
     meta = {k: S[k] for k in ('id', 'owner', 'title', 'level', 'category', 'minutes', 'grammar', 'date', 'code', 'gvp')}
     meta.update({'hwSection': P + '-hw-prep', 'hwSince': S['date'] + 'T06:00:00Z', 'draft': S.get('draft', True)})
+    meta.update(S.get('meta', {}))
     d, h = lesson(meta, {}, secs, S['eyebrow'], S['lead'], S['tags'], S.get('quote'))
     return d, h, vocab_of(V['cards'])
