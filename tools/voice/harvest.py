@@ -49,7 +49,7 @@ def harvest(s):
     return [(w, norm(t)) for w, t in out if norm(t)]
 
 def covered(text, who, audio, dict_words):
-    if who in ('m', 'f2', 'm2'):  # у реплик аудирования — свой голос
+    if who and who != 'f':  # у реплик аудирования — свой голос
         return bool(audio.get(who + '|' + text))
     if audio.get((who or 'f') + '|' + text) or any(audio.get(w + '|' + text) for w in ('f', 'm', 'f2', 'm2')):
         return True

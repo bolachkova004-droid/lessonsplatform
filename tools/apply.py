@@ -24,7 +24,9 @@ EARLY_START, EARLY_END = '<!--iris-early:start-->', '<!--iris-early:end-->'
 IN_APP = r"/(Telegram|FBAN|FBAV|Instagram|VKClient|VKAndroidApp|WhatsApp|Line\/|MicroMessenger|OKApp|; wv\))/i"
 START, END = '<!--iris-patch:start-->', '<!--iris-patch:end-->'
 VOICE = 'bf_emma'
-VOICES = {'f': 'bf_emma', 'm': 'bm_george', 'f2': 'bf_isabella', 'm2': 'bm_fable'}
+VOICES = {'f': 'bf_emma', 'm': 'bm_george', 'f2': 'bf_isabella', 'm2': 'bm_fable',
+          # B1–B2: самые живые голоса Kokoro (и американский акцент — как на экзаменах)
+          'f3': 'af_heart', 'f4': 'af_bella', 'm3': 'am_michael', 'm4': 'am_fenrir'}
 
 HOOKS = [
     # доступ к профилю и сохранению для слоя доработок (функции объявлены в том же замыкании)
