@@ -260,7 +260,7 @@ def std(S):
         + rubric('c', 'Complete the sentences.', 'Вставьте слово.') + ex_gaps(ids, V['gaps']))
     G = S['grammar']
     add('grammar', 'Grammar', G['title'], '12 min',
-        rubric('a', 'Read the steps. Press 🔊 and repeat.', 'Прочитайте шаги, слушайте и повторяйте.') + easy(G['head'], G['idea'], G['rows'], G['examples'], G['traps'], G.get('note', ''))
+        rubric('a', 'Read the steps. Press 🔊 and repeat.', 'Прочитайте шаги, слушайте и повторяйте.') + easy(G['head'], G['idea'], G['rows'], G['examples'], G['traps'], G.get('note', ''), choose=G.get('choose'))
         + rubric('b', '<b>Step 1.</b> ' + G['ex1'][0], G['ex1'][1]) + ex_gaps(ids, G['ex1'][2])
         + rubric('c', '<b>Step 2.</b> ' + G['ex2'][0], G['ex2'][1]) + ex_order(ids, G['ex2'][2]))
     R = S['part2']
