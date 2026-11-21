@@ -15,7 +15,7 @@ import argparse, glob, hashlib, json, os, re, subprocess, sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, 'tools', 'voice'))
 sys.path.insert(0, os.path.join(ROOT, 'tools', 'data'))
-import harvest, packs as packdata, advent as adventdata  # noqa: E402
+import harvest, packs as packdata, advent as adventdata, students as studentdata  # noqa: E402
 
 PATCH_ORDER = ['explain.js', 'review.js', 'goal.js', 'ipa.js', 'offline.js', 'advent.js']
 CSS_ORDER = ['patch.css', 'advent.css']
@@ -76,11 +76,12 @@ def apply_hooks(s, path):
     return s
 
 
-def inject_lessons(s, lessons, vocab):
-    """Новые уроки из tools/lessons: запись в списке уроков + панель (повторный запуск заменяет их)."""
+def inject_lessons(s, lessons, vocab, extra_owners=()):
+    """Новые уроки из tools/lessons: запись в списке уроков + панель (повторный запуск заменяет их).
+    extra_owners — новые ученики (tools/data/students.py), у которых в странице ещё может не быть уроков."""
     import seal as sealer
     data = read_json(s, 'platform-data')
-    owners = {d['owner'] for d in data}
+    owners = {d['owner'] for d in data} | set(extra_owners) | set(re.findall(r'<!--iris-owner:([a-z0-9-]+)-->', s))
     mine = [(d, h) for d, h in lessons if d['owner'] in owners]
     if not mine:
         return s
@@ -88,15 +89,23 @@ def inject_lessons(s, lessons, vocab):
     for pid, a, b in sorted(sealer._panes(s, ids), key=lambda x: -x[1]):
         s = s[:a] + s[b:]
     data = [d for d in data if d['id'] not in ids]
+    new = {x['id']: x for x in studentdata.NEW}
     for d, h in mine:
-        base = next(x for x in data if x['owner'] == d['owner'])
-        full = {k: base[k] for k in ('name', 'greeting', 'initials') if k in base}
+        base = next((x for x in data if x['owner'] == d['owner']), None)
+        if base:
+            full = {k: base[k] for k in ('name', 'greeting', 'initials') if k in base}
+        else:
+            st = new.get(d['owner'], {})
+            full = {'name': st.get('name', d['owner']), 'greeting': st.get('name', d['owner']), 'initials': st.get('initials', d['owner'][:1].upper())}
         full.update(d)
-        last = [x for x in data if x['owner'] == d['owner']][-1]
-        pos = sealer._panes(s, {last['id']})
+        prev = [x for x in data if x['owner'] == d['owner']]
+        pos = sealer._panes(s, {prev[-1]['id']}) if prev else []
         at = pos[0][2] if pos else s.find('<div id="lesson-panels">') + len('<div id="lesson-panels">')
         s = s[:at] + '\n' + h + s[at:]
-        data.insert(data.index(last) + 1, full)
+        if prev:
+            data.insert(data.index(prev[-1]) + 1, full)
+        else:
+            data.append(full)
     m = json_block(s, 'platform-data')
     s = s[:m.start(2)] + json.dumps(data, ensure_ascii=False).replace('</', '<\\/') + s[m.end(2):]
     v = read_json(s, 'vocabulary-data')
@@ -105,6 +114,52 @@ def inject_lessons(s, lessons, vocab):
             v.setdefault(k, x)
         s = write_manifest(s, 'vocabulary-data', v)
     return s
+
+
+def ensure_students(pages, index_path, secret):
+    """Новые ученики: запись доступа, пункт в списке, переход с главной на личную страницу и сама страница."""
+    import hashlib as hl, hmac as hm
+    import seal as sealer
+    from cryptography.hazmat.primitives.ciphers.aead import AESGCM
+    s = pages[index_path]
+    acc = read_json(s, 'access-data')
+    tpl = next(p for p in pages if os.path.basename(p).startswith('s-'))
+    created = []
+    for st in studentdata.NEW:
+        tok = sealer.student_token(secret, st['id'])
+        if not any(e.get('id') == st['id'] for e in acc['entries']):
+            raw = hm.new(secret.encode(), ('iris-class:' + st['profile']).encode(), hl.sha256).digest()
+            iv = os.urandom(12)
+            c = sealer.b64e(iv + AESGCM(hl.sha256(('iris-class-wrap:' + tok).encode()).digest()).encrypt(iv, raw, None))
+            acc['entries'].append({'id': st['id'], 'profile': st['profile'], 'name': st['name'],
+                                   'v': sealer.b64e(hl.sha256(('iris-entry:' + tok).encode()).digest()), 'c': c})
+        pid = hl.sha256(('iris-page:' + tok).encode()).hexdigest()[:20]
+        m = re.search(r'var P = \[([^\]]*)\]', s)
+        if m and pid not in m.group(1):
+            s = s[:m.end(1)] + ', "%s"' % pid + s[m.end(1):]
+        if '<option value="%s">' % st['profile'] not in s:
+            m = re.search(r'(<select id="profile-select"[^>]*>.*?)(</select>)', s, re.S)
+            s = s[:m.end(1)] + '<option value="%s">%s</option>' % (st['profile'], st['name']) + s[m.end(1):]
+        page = os.path.join(ROOT, 'platform', 's-%s.html' % pid)
+        if page not in pages:
+            t = pages[tpl]
+            old = re.search(r"if \(hx\(b\) !== '([0-9a-f]{20})'\)", t).group(1)
+            t = t.replace("if (hx(b) !== '%s')" % old, "if (hx(b) !== '%s')" % pid)
+            ids = {d['id'] for d in read_json(t, 'platform-data')}
+            for _, a, b in sorted(sealer._panes(t, ids), key=lambda x: -x[1]):
+                t = t[:a] + t[b:]
+            t = set_json(t, 'platform-data', [])
+            mm = re.search(r'(<select id="profile-select"[^>]*>)(.*?)(</select>)', s, re.S)
+            t = re.sub(r'(<select id="profile-select"[^>]*>)(.*?)(</select>)', lambda x: x.group(1) + mm.group(2) + x.group(3), t, count=1, flags=re.S)
+            t = t.replace('<body>', '<body>\n<!--iris-owner:%s-->' % st['profile'], 1)
+            la = read_json(t, 'access-data')  # лёгкая версия (без хранилища преподавателя); light_privacy оставит только свою запись
+            la['entries'] = [x for x in acc['entries'] if x.get('profile') == st['profile']]
+            t = write_manifest(t, 'access-data', la)
+            pages[page] = t
+            created.append(os.path.relpath(page, ROOT))
+    s = write_manifest(s, 'access-data', acc)
+    pages[index_path] = s
+    return created
 
 
 def load_lessons():
@@ -323,8 +378,11 @@ def main():
     if not secret and not args.no_seal:
         raise SystemExit('нужен код преподавателя (IRIS_SECRET или --secret-file), чтобы зашифровать уроки; для отладки — --no-seal')
     fixes = load_fixes()
+    for p in ensure_students(pages, paths[0], secret):
+        print('новый ученик: создана страница', p)
+    paths = [paths[0]] + sorted(p for p in pages if p != paths[0])
     for p in pages:
-        pages[p] = inject_lessons(pages[p], lessons, lesson_vocab)
+        pages[p] = inject_lessons(pages[p], lessons, lesson_vocab, [x['id'] for x in studentdata.NEW] if p == paths[0] else ())
         pages[p], done = apply_fixes(pages[p], fixes)
         if done:
             print('%-40s объяснений грамматики обновлено: %d' % (os.path.relpath(p, ROOT), len(done)))

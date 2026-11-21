@@ -90,3 +90,30 @@ body.irv-open{overflow:hidden}
 .eg-choose > div > b {color:var(--ef-p)}
 .eg-choose .eg-form {font-weight:700}
 @media (max-width:560px){.eg-choose > div {grid-template-columns:1fr}.eg-choose > div > b {display:none}.eg-choose .eg-form::before {content:'→ ';color:var(--ef-p)}}
+
+/* Гибкие уроки: карта урока, спрятанные ответы, ролевые карточки, jigsaw, цикл задания, квест, таймлайн */
+.route{margin:6px 0 14px;padding:12px 14px;border-radius:16px;background:linear-gradient(135deg,#f6f1ff,#fff4f9);border:1px solid #e7dcf6}
+.route b{display:block;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#6b4fa0;margin-bottom:6px}
+.route ol{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:6px}
+.route li{display:flex;align-items:center;gap:6px;background:#fff;border:1px solid #eadff5;border-radius:999px;padding:5px 11px;font-size:13px}
+.route li+li::before{content:'→';color:#b39ad8;margin-right:2px}
+.reveal{margin:10px 0;border:1px dashed #d9c8ee;border-radius:14px;background:#fcfaff}
+.reveal summary{cursor:pointer;padding:10px 14px;font-weight:700;color:#5b3a9e}
+.reveal-body{padding:0 14px 12px}
+.box.think{background:#f2f8f5;border-color:#cfe6da}
+.box.examples ol{margin:6px 0 0;padding-left:20px;line-height:1.7}
+.role-card ul{margin:6px 0 0;padding-left:18px;line-height:1.55}
+.role-card.role-a{border-top:4px solid #e6007a}.role-card.role-b{border-top:4px solid #2b5fae}
+.jig{position:relative;padding-top:26px}.jig-tag{position:absolute;top:8px;left:12px;font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#6b4fa0}
+.cycle{display:grid;gap:10px;margin:8px 0}
+.cyc{position:relative;border:1px solid #eadff5;border-radius:16px;padding:12px 14px 12px 50px;background:#fff}
+.cyc>span{position:absolute;left:12px;top:12px;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:#6b4fa0;color:#fff;font-weight:800}
+.cyc>b{display:block;margin-bottom:4px}
+.room{display:inline-flex;gap:4px;align-items:center;background:#1d1747;color:#ffd166;border-radius:8px;padding:2px 8px;margin-right:4px;font-size:13px}
+.room b{color:#fff}
+.bet{margin-left:6px;font-size:13px;color:#725e6d}
+.timeline{list-style:none;padding:0;margin:8px 0;border-left:3px solid #e7dcf6}
+.timeline li{position:relative;padding:4px 0 8px 16px}.timeline li::before{content:'';position:absolute;left:-8px;top:9px;width:13px;height:13px;border-radius:50%;background:#e6007a}
+.timeline b{display:block}
+.debate .two-col ul{margin:4px 0 0;padding-left:18px}
+.survey li b{display:block;margin-bottom:4px}
