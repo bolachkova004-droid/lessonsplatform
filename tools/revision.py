@@ -11,7 +11,7 @@ import html, json, random, re
 from kit import _ex, rubric, select, picker, phrases
 
 LABEL = 'Revision'
-GRAMMAR_LABELS = {'Grammar', 'Grammar Bank', 'Homework: grammar', 'Practice', 'Accuracy', 'Language focus', 'Teach', 'Test again', 'Homework: rule'}
+GRAMMAR_LABELS = {'Grammar', 'Grammar Bank', 'Homework: grammar', 'Practice', 'Accuracy', 'Language focus', 'Teach', 'Test again', 'Homework: rule', 'Grammar practice'}
 
 
 def _read(s, tag):

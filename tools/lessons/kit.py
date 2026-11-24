@@ -1,6 +1,6 @@
 """Конструктор уроков: те же блоки и та же разметка, что у уроков платформы.
 Урок = запись для списка уроков (DATA) + панель HTML. Всё текстовое экранируется здесь."""
-import html, json, os, datetime
+import html, json, os, datetime, random
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 IMG = os.path.join(ROOT, 'platform', 'img')
@@ -98,7 +98,12 @@ def _ex(items):
             % ''.join('            <li>%s</li>\n' % x for x in items))
 
 
+KEEP_ORDER = ({'True', 'False'}, {'Yes', 'No'}, {'True', 'False', 'Not given'})
+
+
 def select(fid, answer, options):
+    if set(options) not in KEEP_ORDER:  # правильный вариант не всегда первым: перемешано, одинаково при каждой сборке
+        options = random.Random('iris-select:' + fid).sample(list(options), len(options))
     return '<select class="gap" id="%s" data-a="%s"><option value="">…</option>%s</select>' % (fid, e(answer), ''.join('<option>%s</option>' % e(o) for o in options))
 
 
@@ -227,6 +232,8 @@ def lesson(meta, owner_meta, sections_html, eyebrow, lead, tags, quote=None):
     """meta — поля DATA; sections_html: [(id, label, html)]"""
     d = dict(owner_meta)
     d.update(meta)
+    import practice  # 📚 «Grammar practice» после грамматики урока (темы — practice.LESSONS)
+    sections_html = practice.inject(d['id'], sections_html)
     d['sections'] = [{'id': sid, 'label': lab} for sid, lab, _ in sections_html]
     return d, pane(d['id'], eyebrow, d['title'], lead, tags, sections_html, quote)
 
