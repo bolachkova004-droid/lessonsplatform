@@ -370,6 +370,8 @@ def main():
     pages = {p: open(p, encoding='utf8').read() for p in paths}
     sys.path.insert(0, os.path.join(ROOT, 'tools', 'lessons'))
     lessons, lesson_vocab = load_lessons()
+    sys.path.insert(0, os.path.join(ROOT, 'tools'))
+    import revision
     for p, s in pages.items():
         if 'iris-sealed' in s or 'data-iris-src' in s:
             if not secret:
@@ -384,6 +386,9 @@ def main():
     for p in pages:
         pages[p] = inject_lessons(pages[p], lessons, lesson_vocab, [x['id'] for x in studentdata.NEW] if p == paths[0] else ())
         pages[p], done = apply_fixes(pages[p], fixes)
+        pages[p], nrev = revision.add(pages[p])  # 🔁 повторение пройденного — первым этапом каждого урока
+        if nrev and p == paths[0]:
+            print('повторение добавлено в уроков:', nrev)
         if done:
             print('%-40s объяснений грамматики обновлено: %d' % (os.path.relpath(p, ROOT), len(done)))
     m = re.search(r'const irisInflate = (\(\(\) => \{.*?\}\)\(\));\n\s*window\.irisInflate', pages[paths[0]], re.S)
