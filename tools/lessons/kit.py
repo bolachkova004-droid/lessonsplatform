@@ -307,6 +307,8 @@ def std(S):
     words = [(w, r) for w, _, r, _, _ in V['cards']]
     secs.append((gid, 'Games', section(gid, 'Games', 'Play and review', '10 min', games_block(LID, words, S['case']))))
     meta = {k: S[k] for k in ('id', 'owner', 'title', 'level', 'category', 'minutes', 'grammar', 'date', 'code', 'gvp')}
+    if not isinstance(meta['grammar'], str):  # в описании урока ключ grammar занят разделом грамматики — строка для карточки берётся из gvp
+        meta['grammar'] = S.get('grammar_line') or S['gvp']['g']
     meta.update({'hwSection': P + '-hw-prep', 'hwSince': S['date'] + 'T06:00:00Z', 'draft': S.get('draft', True)})
     meta.update(S.get('meta', {}))
     d, h = lesson(meta, {}, secs, S['eyebrow'], S['lead'], S['tags'], S.get('quote'))

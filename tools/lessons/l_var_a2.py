@@ -383,4 +383,5 @@ def mussa():
 
 
 def build():
-    return [pelageya(), varya(), olya(), efim(), vladimir(), sasha(), vika(), mussa()]
+    # Пелагея 2D — полная версия в l_pelageya_2de.py
+    return [varya(), olya(), efim(), vladimir(), sasha(), vika(), mussa()]
