@@ -504,7 +504,7 @@ LESSONS = {
     'darya': ['classroom'], 'darya-2': ['second_cond', 'third_cond'],
 }
 
-AFTER_ID = {'mussa-3': 'ms3-listen'}  # уроки без раздела «Grammar»: после какого раздела ставить практику
+AFTER_ID = {}  # уроки без раздела «Grammar»: после какого раздела ставить практику
 AFTER = ('Grammar', 'Grammar Bank', 'Language focus', 'Language for teachers', 'Teach', 'Test again', 'Room 3', 'Practice')
 
 

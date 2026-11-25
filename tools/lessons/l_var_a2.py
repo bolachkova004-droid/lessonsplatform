@@ -1,387 +1,458 @@
-"""Ноябрь 2026, вторая волна A0–A2 — разная структура уроков:
-Пелагея 2D — история в картинках + речёвка: «Kate's Birthday», past simple -ed (+ произношение /t/ /d/ /ɪd/).
-Варя 3B — опрос «Find someone who…»: «Have You Ever…?», present perfect ever / never.
-Оля 1E — задание-покупки на рынке: «At the Market», some / any, How much / How many.
-Ефим 1D — викторина и «угадай вид спорта»: «Sports Day», can / have to / don't have to.
-Владимир 1D — задача с картой: «Getting Around», comparatives (faster, cheaper).
-Саша 3B — test–teach–test: «Moving Day», present perfect just / already / yet.
-Вика Ch9 — чтение по ролям (reading circle): «Powder and Arms», should / shouldn't.
-Мусса S3 — TPR + карта: «This Way, Please!», directions."""
+"""Уроки 30 ноября, A0–A2 — полная версия (по образцу урока Дарьи: «время подумать», аудирование с деталями и заметками,
+10 слов, грамматика «заметь → правило → тренировка», практика, чтение, особое задание урока, аукцион ошибок,
+задание «подготовка → рассказ», произношение, письмо, рефлексия, домашка).
+Варя 3B «Have You Ever…?» · Оля 1E «At the Market» · Ефим 1D «Sports Day» · Владимир 1D «Getting Around»
+(Саша, Вика, Мусса — в l_var_a2b.py)."""
 from flex import *
 
 DATE = '2026-11-30'
 
 
-def pelageya():
-    P, LID = 'pg8', 'pelageya-8'
-    ids = Ids(P)
-    cards = [('a birthday', '', 'день рождения', "It was Kate's birthday.", '🎂'), ('a present', '', 'подарок', 'Tom wrapped a present.', '🎁'), ('a candle', '', 'свеча', 'She blew out the candles.', '🕯️'),
-             ('to invite', '', 'приглашать', 'Kate invited six friends.', '💌'), ('to dance', '', 'танцевать', 'We danced all evening.', '💃'), ('to bake', '', 'печь', 'Anna baked a cake.', '🍰'),
-             ('balloons', '', 'шарики', 'Tom painted funny balloons.', '🎈'), ('to laugh', '', 'смеяться', 'Everyone laughed.', '😂')]
-    story = [('f', "Saturday was Kate's birthday. She invited six friends to her flat."), ('f', 'Anna baked a big chocolate cake, and Tom painted funny faces on the balloons.'),
-             ('f', 'At seven o\'clock everyone arrived. They played games and danced.'), ('f', 'Then Kate opened her presents and blew out the candles. Everyone laughed and clapped. It was a great party!')]
-    sections = [
-        ('chant', 'Chant', 'the -ed chant', '6 min',
-         route([('🎵', 'chant'), ('🖼️', 'picture story'), ('🎧', 'listen'), ('📘', 'Grammar Easy'), ('👂', '/t/ /d/ /ɪd/'), ('✍️', 'my birthday')])
-         + rubric('a', 'Press 🔊 and say the chant with a rhythm! Clap on every verb.', 'Нажмите 🔊 и повторяйте в ритме, хлопайте на каждом глаголе.')
-         + say_list([('I played, I danced, I laughed all day!', 'I <u>PLAYED</u>, I <u>DANCED</u>, I <u>LAUGHED</u> all <u>DAY</u>!'), ('She baked, she painted, she wanted to stay!', 'she <u>BAKED</u>, she <u>PAINT</u>ed, she <u>WANT</u>ed to <u>STAY</u>!')])),
-        ('pictures', 'Picture story', 'Kate\'s party', '10 min',
-         rubric('a', 'Look at the pictures. What happened at Kate\'s party? Guess with your teacher.', 'Что было на вечеринке? Угадайте с преподавателем.')
-         + timeline([('💌', 'Kate invited six friends'), ('🍰🎈', 'Anna baked a cake, Tom painted balloons'), ('🎲💃', 'they played games and danced'), ('🎁🕯️', 'Kate opened presents, blew out the candles')])
-         + listening(P + '-lis', story, "Kate's birthday", 'Listen twice', '🎂', {'f': 'Anna'})
-         + deck('Check', [mc(P + '-q1', 'How many friends did Kate invite?', ['six', 'four', 'ten'], 0), mc(P + '-q2', 'What did Anna bake?', ['a chocolate cake', 'bread', 'cookies'], 0),
-                          mc(P + '-q3', 'What did Tom paint?', ['funny faces on balloons', 'a picture', 'the door'], 0)])),
-        ('grammar', 'Grammar', 'past simple -ed — Grammar Easy', '10 min',
-         easy('play → played · dance → danced',
-              'О прошлом: к глаголу добавляем <b>-ed</b>. Одинаково для всех: I / she / they <b>played</b>. Если глагол на <b>-e</b> → только <b>-d</b> (dance → danced). Согласная + <b>y</b> → <b>-ied</b> (study → studied).',
-              [[('Kate', 'a'), ('invited', 'd'), ('six friends.', 'b')], [('They', 'a'), ('danced', 'd'), ('all evening.', 'b')]],
-              [('💌', 'Kate invited six friends.'), ('🍰', 'Anna baked a cake.'), ('💃', 'They danced.'), ('😂', 'Everyone laughed.')],
-              [('She inviteed…', 'She invited…', 'На -e → только -d.'), ('They was danced.', 'They danced.', 'Без was.')])
-         + ex_gaps(ids, [('Kate', ['invited'], 'her friends.', 'invite'), ('They', ['played'], 'games.', 'play'), ('Anna', ['baked'], 'a cake.', 'bake'), ('Everyone', ['laughed'], '.', 'laugh'),
-                         ('I', ['studied'], 'English yesterday.', 'study')])),
-        ('sounds', 'Pronunciation', '/t/ /d/ /ɪd/', '8 min',
-         rubric('a', '-ed has three sounds! Press 🔊 and choose the sound.', 'У -ed три звука. Нажмите 🔊 и выберите.')
-         + ex_listen_pick(ids, [('danced', '/t/', ['/t/', '/d/', '/ɪd/']), ('played', '/d/', ['/t/', '/d/', '/ɪd/']), ('painted', '/ɪd/', ['/t/', '/d/', '/ɪd/']), ('laughed', '/t/', ['/t/', '/d/', '/ɪd/']), ('invited', '/ɪd/', ['/t/', '/d/', '/ɪd/'])])
-         + reveal('💡 Tip', '<p>After <b>t</b> or <b>d</b> → /ɪd/ (painted, wanted, invited). After p, k, s, sh, ch, f → /t/ (danced, laughed). Other → /d/ (played, cleaned).</p>')),
-        ('write', 'Writing', 'my last birthday', '10 min',
-         rubric('a', 'Write about your last birthday — 4 sentences with -ed verbs.', 'Ваш последний день рождения: 4 предложения.')
-         + lines(ids, ['On my birthday I…', 'I invited / visited…', 'We… (play / dance / cook / watch)', 'In the evening I…'])
-         + vocab_section(ids, '2D', 'A birthday party', cards, [('🕯️ →', 'a candle', ['a candle', 'a present', 'a balloon'], ''), ('🎁 →', 'a present', ['a present', 'a birthday', 'a cake'], '')], []) + send_box()),
-    ]
-    hw = hw_pair(ids, [('🎈 →', 'balloons', ['balloons', 'candles', 'presents'], ''), ('😂 →', 'to laugh', ['to laugh', 'to dance', 'to bake'], ''), ('💌 →', 'to invite', ['to invite', 'to play', 'to paint'], '')],
-                 [('danced', 'danced', ['danced', 'dance', 'dancing']), ('wanted', 'wanted', ['wanted', 'want', 'wants']), ('cleaned', 'cleaned', ['cleaned', 'clean', 'cleans'])],
-                 [('She blew out the', ['candles'], '.'), ('Anna', ['baked'], 'a cake.'), ('Tom wrapped a', ['present'], '.')],
-                 'Write the past simple.', 'Напишите прошедшее время.', [('I', ['watched'], 'a film yesterday.', 'watch'), ('We', ['cooked'], 'dinner.', 'cook'), ('She', ['phoned'], 'her mum.', 'phone'), ('They', ['visited'], 'Moscow.', 'visit')],
-                 [('I playd tennis. →', ['I played tennis.']), ('She was cleaned her room. →', ['She cleaned her room.'])])
-    return flex({'id': LID, 'prefix': P, 'owner': 'pelageya', 'code': '2D', 'title': "Kate's Birthday", 'level': 'A1–A2', 'category': 'Parties', 'minutes': '50 min',
-                 'grammar': 'Past simple: -ed verbs · /t/ /d/ /ɪd/ (Grammar Easy)', 'date': DATE, 'gvp': {'g': 'past simple regular verbs', 'v': 'a birthday party', 'p': '-ed: /t/ /d/ /ɪd/'},
-                 'eyebrow': 'IRIS SCHOOL · Пелагея · урок 2D', 'tags': ['A1–A2', 'Picture story', 'Chant', 'past simple -ed'],
-                 'lead': 'Today we start with a chant and a picture story! Kate had a birthday party — find out what happened and learn to talk about the past with -ed.',
-                 'cards': cards, 'case': {'bad': [('She inviteed…', 'She invited…'), ('They was danced.', 'They danced.')], 'ok': ['Kate invited six friends.', 'Everyone laughed.']},
-                 'sections': sections, 'hw': hw})
-
-
 def varya():
-    P, LID = 'vr8', 'varya-8'
-    ids = Ids(P)
-    cards = [('to ride a camel', '', 'кататься на верблюде', 'Have you ever ridden a camel?', '🐪'), ('to climb a mountain', '', 'подняться на гору', "I've climbed a mountain.", '🏔️'),
-             ('to win a prize', '', 'выиграть приз', "She's won a prize.", '🏆'), ('to meet a famous person', '', 'встретить знаменитость', "I've never met a famous person.", '🌟'),
-             ('to fly in a plane', '', 'летать на самолёте', 'Have you ever flown in a plane?', '✈️'), ('to break a bone', '', 'сломать кость', "He's broken his arm.", '🦴'),
-             ('to see the sea', '', 'видеть море', "I've seen the sea.", '🌊'), ('to cook for friends', '', 'готовить для друзей', "I've cooked for ten friends.", '🍳')]
-    sections = [
-        ('survey', 'Find someone who', 'find someone who…', '14 min',
-         route([('🔎', 'find someone who…'), ('📘', 'Grammar Easy'), ('🎧', 'Mia\'s interview'), ('🏆', 'class records'), ('✍️', 'my experiences')])
-         + rubric('a', 'Ask your teacher (and your family at home!). Write the name and one extra detail.', 'Спросите преподавателя (и дома — семью). Запишите имя и деталь.')
-         + survey(ids, ['Have you ever ridden a camel?', 'Have you ever climbed a mountain?', 'Have you ever won a prize?', 'Have you ever met a famous person?', 'Have you ever broken a bone?'])
-         + phrases(['Have you ever…?', 'Yes, I have!', "No, I haven't.", 'When?', 'Where?'])),
-        ('rule', 'Grammar', 'Have you ever…? — Grammar Easy', '10 min',
-         easy("Have you ever…? · I've never…",
-              'Опыт в жизни, неважно когда → <b>have / has + V3</b>. «Ты когда-нибудь…?» = <b>Have you ever…?</b> «Никогда» = <b>I\'ve never…</b> Когда? → уже past simple: <b>When did you…?</b>',
-              [[('Have', 'd'), ('you', 'a'), ('ever', 'c'), ('ridden', 'd'), ('a camel?', 'b')], [("I've", 'a'), ('never', 'c'), ('met', 'd'), ('a famous person.', 'b')]],
-              [('🐪', 'Have you ever ridden a camel?'), ('🏔️', "Yes, I have. I've climbed Elbrus!"), ('🌟', "I've never met a famous person.")],
-              [('Did you ever ride a camel?', 'Have you ever ridden a camel?', 'Опыт → have + V3.'), ("I've never meet him.", "I've never met him.", 'V3: met.')])
-         + ex_gaps(ids, [('Have you ever', ['seen'], 'a whale?', 'see'), ("I've never", ['flown'], 'in a helicopter.', 'fly'), ('She has', ['won'], 'two prizes.', 'win'), ('', ['Have'], 'you ever broken a bone?', '❓')])),
-        ('listen', 'Listening', "Mia's interview", '10 min',
-         listening(P + '-lis', [('f', 'Grandpa, have you ever ridden a camel?'), ('m', "Yes, I have! In Egypt, in 1985. It was very tall and very slow."), ('f', 'Have you ever met a famous person?'),
-                                ('m', "Hmm… Yes! I've met a cosmonaut. He came to my school."), ('f', 'Wow! Have you ever broken a bone?'), ('m', "No, I've never broken a bone. I've been lucky!")],
-                   "Mia interviews Grandpa", 'Listen twice', '👴', {'f': 'Mia', 'm': 'Grandpa'})
-         + deck('Check', [mc(P + '-q1', 'Where did Grandpa ride a camel?', ['in Egypt', 'in India', 'in Moscow'], 0), mc(P + '-q2', 'Who has he met?', ['a cosmonaut', 'a singer', 'a footballer'], 0),
-                          mc(P + '-q3', 'Has he ever broken a bone?', ["No, he hasn't.", 'Yes, he has.'], 0)])),
-        ('records', 'Speaking', 'class records', '8 min',
-         rubric('a', 'Tell your teacher your «records»: the best thing you\'ve ever done, the strangest food you\'ve ever eaten, the most beautiful place you\'ve ever seen.', 'Ваши «рекорды».')
-         + picker(['the best thing you have ever done', 'the strangest food you have ever eaten', 'the most beautiful place you have ever seen', 'the longest journey you have ever made'])
-         + vocab_section(ids, '3B', 'Experiences', cards, [('🏆 →', 'to win a prize', ['to win a prize', 'to see the sea', 'to break a bone'], ''), ('🐪 →', 'to ride a camel', ['to ride a camel', 'to fly in a plane', 'to climb a mountain'], '')], [])),
-        ('write', 'Writing', 'my experiences', '8 min', rubric('a', 'Write 5 sentences: things you have and haven\'t done.', 'Пять предложений: что вы делали и не делали.')
-         + lines(ids, ["I've…", "I've…", "I've never…", "I've never…", 'Have you ever…?']) + send_box()),
-    ]
-    hw = hw_pair(ids, [('🦴 →', 'to break a bone', ['to break a bone', 'to win a prize', 'to see the sea'], ''), ('✈️ →', 'to fly in a plane', ['to fly in a plane', 'to ride a camel', 'to climb a mountain'], ''),
-                       ('🌊 →', 'to see the sea', ['to see the sea', 'to cook for friends', 'to meet a famous person'], '')],
-                 [('ever', 'ever', ['ever', 'never', 'every']), ("I've never", "I've never", ["I've never", 'I never', "I've ever"]), ('ridden', 'ridden', ['ridden', 'written', 'hidden'])],
-                 [('Have you ever', ['ridden'], 'a horse?'), ("I've", ['never'], 'been to Paris.'), ("She's", ['won'], 'a prize.')],
-                 'Write the present perfect.', 'Present perfect.', [("I've never", ['eaten'], 'sushi.', 'eat'), ('Have you ever', ['been'], 'to the sea?', 'be'), ('He has', ['climbed'], 'a mountain.', 'climb'),
-                                                                   ('We have never', ['seen'], 'snow in May.', 'see')],
-                 [('Did you ever see a whale? →', ['Have you ever seen a whale?']), ("I've never meet him. →", ["I've never met him.", 'I have never met him.'])])
-    return flex({'id': LID, 'prefix': P, 'owner': 'varya', 'code': '3B', 'title': 'Have You Ever…?', 'level': 'A2', 'category': 'Experiences', 'minutes': '55 min',
-                 'grammar': "Present perfect: Have you ever…? I've never… (Grammar Easy)", 'date': DATE, 'gvp': {'g': 'present perfect for experiences', 'v': 'life experiences', 'p': ''},
-                 'eyebrow': 'IRIS SCHOOL · Варя · урок 3B', 'tags': ['A2', 'Find someone who', 'Survey', 'Have you ever…?'],
-                 'lead': 'Today you are a reporter! Start with a «Find someone who…» survey, then learn the grammar, listen to Mia\'s interview with Grandpa and tell your teacher your personal records.',
-                 'cards': cards, 'case': {'bad': [('Did you ever ride a camel?', 'Have you ever ridden a camel?')], 'ok': ["I've never met a famous person.", 'Have you ever climbed a mountain?']},
-                 'sections': sections, 'hw': hw})
+    return std({
+        'id': 'varya-8', 'prefix': 'vr8', 'owner': 'varya', 'code': '3B', 'title': 'Have You Ever…?', 'level': 'A2', 'category': 'Experiences',
+        'minutes': '75 min', 'grammar': "Present perfect: Have you ever…? I've never… · When did you…?", 'date': DATE,
+        'gvp': {'g': "present perfect for experiences (ever / never) + past simple for details", 'v': 'life experiences', 'p': "'ve / 's in fast speech"},
+        'eyebrow': 'IRIS SCHOOL · Варя · урок 3B', 'tags': ['A2', 'Experiences', 'Find someone who', "Have you ever…?"],
+        'lead': 'Today you are a reporter! Mia interviews her grandpa about his amazing life, you read about a girl who has visited 30 countries, '
+                'do a «Find someone who…» survey and tell your teacher your personal records.',
+        'think': ('What is the most exciting thing you have done in your life? Where were you? How did you feel?',
+                  'Самое интересное, что вы делали в жизни? Где? Что чувствовали? Запишите, потом расскажите.',
+                  ['The most exciting thing: …', 'It was in… (where / when)', 'I felt…']),
+        'aims': ['understand an interview about life experiences', 'use 10 phrases about experiences', "ask and answer: Have you ever…? I've never…", 'add details with the past simple: When did you…?'],
+        'listen': {'title': "Grandpa's adventures", 'task': 'Mia interviews her grandpa for a school project. Listen once: has Grandpa had an exciting life?', 'task_ru': 'У дедушки была интересная жизнь?',
+                   'head': 'Mia interviews Grandpa', 'names': {'f2': 'Mia', 'm2': 'Grandpa'}, 'emoji': '👴',
+                   'lines': [('f2', "Grandpa, it's for my school project. Have you ever ridden a camel?"),
+                             ('m2', 'Yes, I have! In Egypt, in 1985. It was very tall and very slow. I fell off!'),
+                             ('f2', 'Really? Have you ever met a famous person?'),
+                             ('m2', "Yes! I've met a cosmonaut. He came to my school when I was ten. I asked him about space food."),
+                             ('f2', 'Cool! Have you ever climbed a mountain?'),
+                             ('m2', "I've climbed Elbrus twice. The first time I didn't get to the top — the weather was terrible."),
+                             ('f2', 'Have you ever broken a bone?'), ('m2', "No, I've never broken a bone. I've been lucky!"),
+                             ('f2', 'And have you ever flown in a helicopter?'), ('m2', "Never. But I'd love to. Maybe on my eightieth birthday!"),
+                             ('f2', 'OK, last question. What is the best thing you have ever done?'), ('m2', "That's easy. I've had a wonderful family. That's the best thing.")],
+                   'gist': ('Has Grandpa had an exciting life?', ['Yes, he has done a lot.', "No, he hasn't done anything.", 'He has only travelled.'], 0),
+                   'details': [('Where did he ride a camel?', ['in Egypt', 'in India', 'in Moscow'], 0), ('What happened on the camel?', ['He fell off.', 'He fell asleep.', 'He lost his hat.'], 0),
+                               ('Who has he met?', ['a cosmonaut', 'a singer', 'a footballer'], 0), ('How many times has he climbed Elbrus?', ['twice', 'once', 'three times'], 0),
+                               ("What hasn't he done yet?", ['flown in a helicopter', 'climbed a mountain', 'met a famous person'], 0)],
+                   'notes': [('Grandpa rode a camel in', ['1985'], '.'), ('The cosmonaut came to his', ['school'], '.'), ('The first time on Elbrus the', ['weather'], 'was terrible.'),
+                             ('The best thing in his life: his', ['family'], '.')]},
+        'vocab': {'title': 'experiences', 'theme': 'Life experiences', 'cards': [
+            ('to ride a camel', 'to sit on a camel and travel', 'кататься на верблюде', 'Have you ever ridden a camel?', '🐪'), ('to climb a mountain', 'to go up a mountain', 'подняться на гору', "I've climbed a mountain.", '🏔️'),
+            ('to win a prize', 'to get a prize in a competition', 'выиграть приз', "She's won a prize.", '🏆'), ('to meet a famous person', 'to see and talk to a star', 'встретить знаменитость', "I've never met a famous person.", '🌟'),
+            ('to fly in a helicopter', 'to travel in a helicopter', 'летать на вертолёте', 'Have you ever flown in a helicopter?', '🚁'), ('to break a bone', 'to hurt your arm or leg badly', 'сломать кость', "He's broken his arm.", '🦴'),
+            ('to try a new food', 'to eat something for the first time', 'попробовать новую еду', "I've tried snails!", '🐌'), ('to go abroad', 'to travel to another country', 'ездить за границу', 'Have you ever gone abroad?', '🌍'),
+            ('to sleep in a tent', 'to sleep outside in a small «house» of cloth', 'спать в палатке', "I've slept in a tent.", '⛺'), ('to fall off', 'to fall from a horse, bike or camel', 'упасть (с)', 'I fell off my bike.', '🤕')],
+            'match': [('to travel to another country →', 'to go abroad', ['to go abroad', 'to fall off', 'to win a prize'], ''), ('to hurt your arm or leg badly →', 'to break a bone', ['to break a bone', 'to fall off', 'to try a new food'], ''),
+                      ('🏆 →', 'to win a prize', ['to win a prize', 'to meet a famous person', 'to climb a mountain'], ''), ('⛺ →', 'to sleep in a tent', ['to sleep in a tent', 'to ride a camel', 'to go abroad'], ''),
+                      ('🐌 →', 'to try a new food', ['to try a new food', 'to break a bone', 'to fly in a helicopter'], '')],
+            'gaps': [('Grandpa fell', ['off'], 'the camel.'), ('Have you ever slept in a', ['tent'], '?'), ("I've never won a", ['prize'], '.'), ('She has gone', ['abroad'], 'three times.')]},
+        'notice': ('Look at Mia and Grandpa\'s sentences. Which ones are about «sometime in my life» and which are about a definite time?',
+                   'Какие предложения про опыт «когда-то в жизни», а какие — про конкретное время?',
+                   ['Have you <mark>ever ridden</mark> a camel? — Yes, I <mark>have</mark>!', 'I <mark>rode</mark> a camel in Egypt <mark>in 1985</mark>.', "I<mark>'ve never broken</mark> a bone.", 'He <mark>came</mark> to my school <mark>when I was ten</mark>.'],
+                   [('«Have you ever ridden…?» asks about…', ['your life experience, no time', 'last weekend', 'tomorrow'], 0),
+                    ('«I rode a camel in 1985» — why past simple?', ['there is a definite time', 'it is a plan', 'it is happening now'], 0),
+                    ('After have / has we use…', ['the third form (V3): ridden, met, broken', 'the first form: ride, meet', '-ing: riding'], 0)]),
+        'grammar': {'title': 'Have you ever…?', 'head': "Have you ever…? · I've never…",
+                    'idea': 'Опыт в жизни, <b>неважно когда</b> → <b>have / has + V3</b>. «Ты когда-нибудь…?» = <b>Have you ever…?</b> «Никогда» = <b>I\'ve never…</b> '
+                            'Как только называем <b>когда</b> (in 1985, last year, when I was ten) → <b>past simple</b>: When did you…? I rode…',
+                    'choose': [('Опыт, без времени', "have / has + V3: I've climbed a mountain."), ('Никогда', "I've never + V3: I've never broken a bone."), ('Есть время / подробности', 'past simple: I climbed it in 2019. When did you go?')],
+                    'rows': [[('Have', 'd'), ('you', 'a'), ('ever', 'c'), ('ridden', 'd'), ('a camel?', 'b')], [("I've", 'a'), ('never', 'c'), ('met', 'd'), ('a famous person.', 'b')],
+                             [('She', 'a'), ('has', 'd'), ('won', 'd'), ('two prizes.', 'b')]],
+                    'note': 'V3: ride → ridden · meet → met · fly → flown · win → won · break → broken · see → seen · eat → eaten · be → been',
+                    'examples': [('🐪', 'Have you ever ridden a camel?'), ('🏔️', "Yes, I have. I climbed Elbrus in 2019."), ('🌟', "I've never met a famous person."), ('🏆', 'My sister has won three prizes.')],
+                    'traps': [('Did you ever ride a camel?', 'Have you ever ridden a camel?', 'Опыт без времени → have + V3.'), ("I've never meet him.", "I've never met him.", 'После have — V3: met.'),
+                              ("I've climbed Elbrus in 2019.", 'I climbed Elbrus in 2019.', 'Есть время (in 2019) → past simple.')],
+                    'ex1': ('Complete with the present perfect.', 'Present perfect: have / has + V3.', [
+                        ('Have you ever', ['seen'], 'a whale?', 'see'), ("I've never", ['flown'], 'in a helicopter.', 'fly'), ('She has', ['won'], 'two prizes.', 'win'),
+                        ('', ['Have'], 'you ever broken a bone?', '❓'), ('My dad has', ['been'], 'to China twice.', 'be'), ("We've never", ['eaten'], 'snails.', 'eat')]),
+                    'ex2': ('Put the words in order.', 'Соберите предложения.', [
+                        (['Have', 'you', 'ever', 'ridden a horse?'], 'Have you ever ridden a horse?'), (["I've", 'never', 'slept', 'in a tent.'], "I've never slept in a tent."),
+                        (['has', 'He', 'climbed', 'Elbrus twice.'], 'He has climbed Elbrus twice.')])},
+        'part2': {'key': 'read', 'label': 'Reading', 'title': '30 countries at 14', 'task': 'Read about Lily. How many countries has she visited?', 'task_ru': 'Сколько стран посетила Лили?',
+                  'head': 'Lily, 14: «I\'ve Visited 30 Countries»', 'small': 'a magazine story · about 170 words', 'text': [
+                      "Lily Brown is fourteen, and she has already visited thirty countries. Her parents are travel bloggers, so the family travels for six months every year.",
+                      "«I've slept in a tent in the Sahara Desert and I've swum with turtles in Thailand,» says Lily. «I've also tried a lot of strange food. In Mexico I ate grasshoppers! They were crunchy.»",
+                      "But it is not always easy. Lily has missed a lot of school, so she studies online with a teacher in London. «I've never been to a normal school for a whole year,» she says. «Sometimes I miss my friends.»",
+                      "Has she ever been to Russia? «Not yet! But I'd love to see Moscow in winter and ride on the Trans-Siberian Railway. That's my dream.»"],
+                  'tf': [('Lily has visited thirty countries.', True), ('Her parents are teachers.', False), ('She ate grasshoppers in Mexico.', True), ('She has been to a normal school for many years.', False),
+                         ('She has already been to Russia.', False)],
+                  'gaps': ('Find the verbs in the text.', 'Найдите глаголы в тексте.', [("I've", ['slept'], 'in a tent in the Sahara Desert.', 'sleep'), ("I've", ['swum'], 'with turtles in Thailand.', 'swim'),
+                                                                                       ('In Mexico I', ['ate'], 'grasshoppers!', 'eat — когда? в Мексике')])},
+        'extra': [('survey', 'Find someone who', 'find someone who…', '10 min', lambda ids:
+                   rubric('a', 'Survey! Ask your teacher (and at home — your family). Write the answer and one extra detail with the past simple.', 'Спросите преподавателя (а дома — семью). Запишите ответ и деталь в past simple.')
+                   + survey(ids, ['Have you ever ridden a camel or a horse?', 'Have you ever climbed a mountain?', 'Have you ever won a prize?', 'Have you ever met a famous person?',
+                                  'Have you ever slept in a tent?', 'Have you ever tried a really strange food?'])
+                   + phrases(['Have you ever…?', 'Yes, I have! / No, I haven\'t.', 'When did you…?', 'Where was it?', 'Did you like it?']))],
+        'mix': {'title': 'a reporter\'s notes', 'task': 'A young reporter wrote these sentences — with mistakes. Correct them.', 'task_ru': 'Заметки репортёра с ошибками. Исправьте.',
+                'items': [('Did you ever see the sea? →', ['Have you ever seen the sea?']), ("I've never eat sushi. →", ["I've never eaten sushi.", 'I have never eaten sushi.']),
+                          ('She have been to Italy. →', ['She has been to Italy.', "She's been to Italy."]), ("I've visited Paris last year. →", ['I visited Paris last year.'])]},
+        'auction': [('Have you ever ridden a camel?', True, ''), ('I have never meet a famous person.', False, 'I have never met a famous person.'),
+                    ('She has won two prizes.', True, ''), ('Did you ever fly in a helicopter?', False, 'Have you ever flown in a helicopter?'),
+                    ('I climbed Elbrus in 2019.', True, ''), ("I've broke my arm.", False, "I've broken my arm."), ('Have you ever been to Egypt? — Yes, I did.', False, 'Yes, I have.'),
+                    ("We've never slept in a tent.", True, '')],
+        'pron': {'title': "'ve and 's", 'task': "In fast speech <i>I have</i> → <b>I've</b>, <i>she has</i> → <b>she's</b>. Press 🔊 and repeat.", 'task_ru': 'В быстрой речи — сокращения.',
+                 'list': [("I've never broken a bone.", "/aɪv/ <u>NEV</u>er <u>BRO</u>ken a <u>BONE</u>"), ("She's won a prize.", "/ʃiːz/ <u>WON</u> a <u>PRIZE</u>"), ('Have you ever been abroad?', 'have you <u>EV</u>er been a<u>BROAD</u>? ↗')],
+                 'pick': [("I've seen it.", "I've seen it.", ["I've seen it.", 'I see it.', 'I saw it.']), ("She's won.", "She's won.", ["She's won.", 'She won.', 'She wins.'])]},
+        'speaking': {'title': 'your records', 'questions': ['Have you ever been abroad? Where did you go?', 'Have you ever tried a really strange food?', 'Have you ever won a prize? What for?',
+                                                          'Have you ever met a famous person?', 'What is the most beautiful place you have ever seen?', 'What is the best present you have ever got?'],
+                     'phrases': ['Yes, I have! I… (when / where)', "No, I haven't, but I'd love to…", "I've never… but my…has", 'It was…'],
+                     'task': ('Tell your teacher your three «personal records».', 'Расскажите три ваших «рекорда».')},
+        'task': {'task': 'Your personal records! Choose three: the most beautiful place you have ever seen, the strangest food you have ever eaten, the longest journey you have ever made, the scariest thing you have ever done.',
+                 'task_ru': 'Ваши рекорды: выберите три и подготовьтесь рассказать.',
+                 'plan': ['Record 1: The most… I have ever… is…', 'When / where? I… (past simple)', 'Record 2: …', 'Record 3: …', 'One question for my teacher: Have you ever…?'],
+                 'report': ["The most beautiful place I've ever seen is…", 'I went there in…', 'It was amazing because…', 'Have you ever…?']},
+        'writing': {'title': 'my experiences', 'task': 'Write about your experiences: three things you have done (with a detail) and two things you have never done.', 'task_ru': 'Три вещи, которые вы делали (с деталью), и две — никогда.',
+                    'example': "I've been to Turkey. I went there with my family in 2023. I've tried octopus — it was strange! I've never ridden a horse. I've never flown in a helicopter, but I'd love to.",
+                    'placeholders': ["I've… I… (when / where)", "I've…", "I've…", "I've never…", "I've never…, but I'd love to."]},
+        'cans': [('I can understand an interview about life experiences', 'понять интервью об опыте'), ('I can use 10 phrases about experiences', 'использовать 10 фраз по теме'),
+                 ("I can ask and answer: Have you ever…?", 'спросить и ответить про опыт'), ('I can add details with the past simple', 'добавить детали в past simple')],
+        'hw': {'words_select': [('🦴 →', 'to break a bone', ['to break a bone', 'to win a prize', 'to go abroad'], ''), ('🚁 →', 'to fly in a helicopter', ['to fly in a helicopter', 'to ride a camel', 'to climb a mountain'], ''),
+                                ('to fall from a horse or bike →', 'to fall off', ['to fall off', 'to break a bone', 'to sleep in a tent'], '')],
+               'listen': [('ever', 'ever', ['ever', 'never', 'every']), ("I've never", "I've never", ["I've never", 'I never', "I've ever"]), ('ridden', 'ridden', ['ridden', 'written', 'hidden'])],
+               'words_gaps': [('Have you ever', ['ridden'], 'a horse?'), ('She has gone', ['abroad'], 'many times.'), ("I've never slept in a", ['tent'], '.')],
+               'gaps': ('Present perfect or past simple?', 'Present perfect или past simple?', [("I've never", ['eaten'], 'sushi.', 'eat'), ('Have you ever', ['been'], 'to the sea?', 'be'),
+                                                                                              ('We', ['went'], 'to Sochi last summer.', 'go'), ('He has', ['climbed'], 'a mountain.', 'climb'), ('When', ['did'], 'you meet him?', '')]),
+               'fix': [('Did you ever see a whale? →', ['Have you ever seen a whale?']), ("I've never meet him. →", ["I've never met him.", 'I have never met him.']),
+                       ("I've been to Paris in 2020. →", ['I went to Paris in 2020.', 'I was in Paris in 2020.'])],
+               'order': [(['Have', 'you', 'ever', 'won a prize?'], 'Have you ever won a prize?'), (["I've", 'never', 'broken', 'a bone.'], "I've never broken a bone.")]},
+        'case': {'bad': [('Did you ever ride a camel?', 'Have you ever ridden a camel?'), ("I've never meet him.", "I've never met him."), ("I've climbed Elbrus in 2019.", 'I climbed Elbrus in 2019.')],
+                 'ok': ["I've never met a famous person.", 'Have you ever climbed a mountain?', 'She has won two prizes.', 'When did you go there?']},
+    })
 
 
 def olya():
-    P, LID = 'ol5', 'olya-5'
-    ids = Ids(P)
-    cards = [('flour', 'white powder for bread and cakes', 'мука', 'a kilo of flour', '🌾'), ('eggs', '', 'яйца', 'six eggs', '🥚'), ('butter', '', 'масло (сливочное)', 'some butter', '🧈'),
-             ('sugar', '', 'сахар', 'How much sugar?', '🍬'), ('apples', '', 'яблоки', 'How many apples?', '🍎'), ('milk', '', 'молоко', 'a litre of milk', '🥛'),
-             ('a kilo', '', 'килограмм', 'a kilo of apples', '⚖️'), ('a recipe', 'instructions for cooking something', 'рецепт', "Grandma's recipe", '📋')]
-    sections = [
-        ('recipe', 'Task', 'the recipe', '10 min',
-         route([('📋', 'read a recipe'), ('📝', 'make a shopping list'), ('📘', 'some / any, much / many'), ('🛒', 'role-play: the market'), ('🥧', 'your recipe')])
-         + rubric('a', 'Kate wants to bake an apple pie. Read the recipe.', 'Кейт хочет испечь яблочный пирог. Прочитайте рецепт.')
-         + box('<b>Grandma\'s Apple Pie</b><br>• 4 apples • 200 g flour • 150 g sugar • 100 g butter • 2 eggs • a little milk<br>Mix the flour, butter and sugar. Add the eggs and a little milk. Put the apples on top. Bake for 40 minutes.', '🥧')
-         + rubric('b', 'Kate has got: 1 apple, 500 g sugar, no flour, 2 eggs, no butter, milk. Make her shopping list.', 'У Кейт есть: 1 яблоко, сахар, нет муки, 2 яйца, нет масла, молоко. Составьте список покупок.')
-         + ex_select(ids, [('apples →', 'buy 3', ['buy 3', "don't buy"], ''), ('flour →', 'buy', ['buy', "don't buy"], ''), ('sugar →', "don't buy", ['buy', "don't buy"], ''), ('butter →', 'buy', ['buy', "don't buy"], '')])),
-        ('rule', 'Grammar', 'some / any — Grammar Easy', '12 min',
-         easy('some / any · How much? / How many?',
-              'Можно посчитать (apples, eggs) → <b>How many?</b> Нельзя посчитать (flour, sugar, milk) → <b>How much?</b> <b>some</b> — в утверждениях (I need some flour). <b>any</b> — в вопросах и отрицаниях (Have you got any butter? There isn\'t any flour).',
-              [[('I need', 'd'), ('some', 'c'), ('flour.', 'b')], [("There isn't", 'd'), ('any', 'c'), ('butter.', 'b')], [('How many', 'c'), ('apples', 'b'), ('do you need?', 'd')]],
-              [('🌾', 'I need some flour.'), ('🧈', "There isn't any butter."), ('🍎', 'How many apples do you need?'), ('🍬', 'How much sugar is there?')],
-              [('How much apples?', 'How many apples?', 'Можно посчитать → many.'), ('I need any eggs.', 'I need some eggs.', 'Утверждение → some.')])
-         + ex_select(ids, [('How', 'many', ['much', 'many'], 'eggs do you need?'), ('How', 'much', ['much', 'many'], 'milk is there?'), ("We haven't got", 'any', ['some', 'any'], 'butter.'), ('I want', 'some', ['some', 'any'], 'apples.')])),
-        ('market', 'Role-play', 'at the market', '14 min',
-         listening(P + '-lis', [('m', 'Good morning! Can I help you?'), ('f', "Yes, please. I'd like some apples."), ('m', 'How many would you like?'), ('f', "Three, please. And have you got any butter?"),
-                                ('m', "Yes, we have. How much do you need?"), ('f', 'A hundred grams, please. How much is that?'), ('m', "That's two hundred roubles."), ('f', 'Here you are. Thank you!')],
-                   'Kate at the market', 'Listen, then act it out', '🛒', {'m': 'Seller', 'f': 'Kate'})
-         + roleplay(('You: the customer', ['Buy everything on Kate\'s list.', 'Ask: Have you got any…?', 'Ask: How much is it?']), ('Teacher: the seller', ['You have no flour today!', 'Apples are 50 roubles each.', 'Offer something else.']))
-         + phrases(["I'd like some…, please.", 'Have you got any…?', 'How much is it?', 'How many would you like?', 'Here you are.'])),
-        ('write', 'Writing', 'your recipe', '10 min',
-         rubric('a', 'Write a simple recipe you love (5 lines): ingredients and steps.', 'Ваш любимый простой рецепт: продукты и шаги.')
-         + lines(ids, ['Name: …', 'You need: some…, a little…, two…', 'First, …', 'Then …', 'Finally, …'])
-         + vocab_section(ids, '1E', 'Food and cooking', cards, [('🌾 →', 'flour', ['flour', 'sugar', 'butter'], ''), ('instructions for cooking →', 'a recipe', ['a recipe', 'a kilo', 'a menu'], '')], []) + send_box()),
-    ]
-    hw = hw_pair(ids, [('🥚 →', 'eggs', ['eggs', 'apples', 'butter'], ''), ('🧈 →', 'butter', ['butter', 'milk', 'flour'], ''), ('⚖️ →', 'a kilo', ['a kilo', 'a litre', 'a recipe'], '')],
-                 [('flour', 'flour', ['flour', 'flower', 'floor']), ('butter', 'butter', ['butter', 'better', 'bitter']), ('How much', 'How much', ['How much', 'How many', 'How mush'])],
-                 [('a kilo of', ['flour'], ''), ('a litre of', ['milk'], ''), ("Grandma's", ['recipe'], '')],
-                 'some or any? much or many?', 'some / any, much / many.', [('Have you got', ['any'], 'eggs?', ''), ('I need', ['some'], 'milk.', ''), ('How', ['many'], 'apples?', ''), ('How', ['much'], 'flour?', '')],
-                 [('How much eggs do you need? →', ['How many eggs do you need?']), ("There isn't some milk. →", ["There isn't any milk.", 'There is not any milk.'])])
-    return flex({'id': LID, 'prefix': P, 'owner': 'olya', 'code': '1E', 'title': 'At the Market', 'level': 'A2', 'category': 'Food & shopping', 'minutes': '55 min',
-                 'grammar': 'some / any · How much? / How many? (Grammar Easy)', 'date': DATE, 'gvp': {'g': 'countable / uncountable; some / any; How much / How many', 'v': 'food and cooking', 'p': ''},
-                 'eyebrow': 'IRIS SCHOOL · Оля · урок 1E', 'tags': ['A2', 'Task', 'Market role-play', 'some · any'],
-                 'lead': 'A real task: read Grandma\'s apple pie recipe, make a shopping list and buy everything at the market — in English!',
-                 'cards': cards, 'case': {'bad': [('How much apples?', 'How many apples?'), ('I need any eggs.', 'I need some eggs.')], 'ok': ["I'd like some apples, please.", 'Have you got any butter?']},
-                 'sections': sections, 'hw': hw})
+    return std({
+        'id': 'olya-5', 'prefix': 'ol5', 'owner': 'olya', 'code': '1E', 'title': 'At the Market', 'level': 'A2', 'category': 'Food & shopping',
+        'minutes': '75 min', 'grammar': 'some / any · How much? / How many? · a kilo of, a bottle of', 'date': DATE,
+        'gvp': {'g': 'countable / uncountable; some / any; How much / How many; containers', 'v': 'food, cooking and the market', 'p': 'weak /ə/ in «a kilo of», «some»'},
+        'eyebrow': 'IRIS SCHOOL · Оля · урок 1E', 'tags': ['A2', 'Food & shopping', 'Market role-play', 'some · any'],
+        'lead': "A real task: read Grandma's apple pie recipe, make a shopping list and buy everything at the market — in English! "
+                'On the way: a market conversation, a food blog and the grammar of «some, any, much, many».',
+        'think': ('What did you buy last time you went shopping for food? Where do you usually buy fruit and vegetables?',
+                  'Что вы покупали в последний раз? Где обычно покупаете овощи и фрукты?', ['Last time I bought…', 'I usually buy fruit at…', 'My favourite thing at the market: …']),
+        'warm': ('Quick quiz: countable or not?', 'Мини-тест: можно посчитать или нет?', [
+            ('Can you count «apples»?', ['Yes: one apple, two apples', 'No'], 0), ('Can you count «milk»?', ['No: some milk, a litre of milk', 'Yes: two milks'], 0),
+            ('Which is right?', ['How much sugar?', 'How many sugar?'], 0), ('Which is right?', ['How many eggs?', 'How much eggs?'], 0)]),
+        'aims': ['understand a conversation at a market', 'use 10 food and shopping words', 'use some / any and How much / How many', 'buy food in English: a kilo of, a bottle of'],
+        'listen': {'title': 'at the market', 'task': 'Kate is at the market with her shopping list. Listen once: does she buy everything?', 'task_ru': 'Кейт купила всё?',
+                   'head': 'Kate at the market', 'names': {'m2': 'Seller', 'f2': 'Kate'}, 'emoji': '🛒',
+                   'lines': [('m2', 'Good morning! Can I help you?'), ('f2', "Good morning. Yes, please. I'd like some apples. Green ones."),
+                             ('m2', 'How many would you like?'), ('f2', 'Three, please. No — four. I\'m making an apple pie.'),
+                             ('m2', 'Lovely. Anything else?'), ('f2', 'Have you got any flour?'),
+                             ('m2', "Sorry, we haven't got any flour today. Try the shop next to the bakery."), ('f2', 'OK. What about butter?'),
+                             ('m2', 'Yes, we have. How much do you need?'), ('f2', 'Two hundred grams, please. And a bottle of milk.'),
+                             ('m2', "Here you are. That's four apples, two hundred grams of butter and a bottle of milk. Four hundred and twenty roubles, please."),
+                             ('f2', 'Here you are. Thank you!'), ('m2', 'Thank you. Enjoy your pie!')],
+                   'gist': ('Does Kate buy everything at the market?', ['No — there is no flour.', 'Yes, everything.', 'She buys nothing.'], 0),
+                   'details': [('What colour apples does she want?', ['green', 'red', 'yellow'], 0), ('How many apples does she buy?', ['four', 'three', 'six'], 0),
+                               ('Where can she buy flour?', ['in the shop next to the bakery', 'at the market', 'in the supermarket'], 0),
+                               ('How much butter does she buy?', ['200 grams', 'a kilo', '100 grams'], 0), ('What is she making?', ['an apple pie', 'a salad', 'pancakes'], 0)],
+                   'notes': [('Kate buys four', ['apples', 'green apples'], '.'), ('She buys two hundred grams of', ['butter'], '.'), ('She buys a', ['bottle'], 'of milk.'),
+                             ('Total:', ['420', 'four hundred and twenty'], 'roubles.')]},
+        'vocab': {'title': 'food and shopping', 'theme': 'Food and the market', 'cards': [
+            ('flour', 'white powder for bread and cakes', 'мука', 'a kilo of flour', '🌾'), ('eggs', 'birds lay them; we fry or boil them', 'яйца', 'six eggs', '🥚'), ('butter', 'yellow fat from milk', 'сливочное масло', '200 grams of butter', '🧈'),
+            ('sugar', 'it makes food sweet', 'сахар', 'How much sugar?', '🍬'), ('a kilo of', '1,000 grams of', 'килограмм', 'a kilo of apples', '⚖️'), ('a bottle of', 'a glass or plastic container', 'бутылка', 'a bottle of milk', '🍼'),
+            ('a packet of', 'a paper or plastic container', 'пачка', 'a packet of tea', '📦'), ('a recipe', 'instructions for cooking something', 'рецепт', "Grandma's recipe", '📋'),
+            ('a shopping list', 'a list of things to buy', 'список покупок', "Don't forget the shopping list!", '📝'), ('change', 'money you get back', 'сдача', 'Here is your change.', '🪙')],
+            'match': [('instructions for cooking something →', 'a recipe', ['a recipe', 'a shopping list', 'change'], ''), ('money you get back →', 'change', ['change', 'a packet of', 'butter'], ''),
+                      ('🍼 milk →', 'a bottle of', ['a bottle of', 'a packet of', 'a kilo of'], ''), ('📦 tea →', 'a packet of', ['a packet of', 'a bottle of', 'a kilo of'], ''),
+                      ('white powder for bread →', 'flour', ['flour', 'sugar', 'butter'], '')],
+            'gaps': [('a', ['bottle'], 'of water'), ('a', ['packet'], 'of biscuits'), ('a', ['kilo'], 'of potatoes'), ('Here is your', ['change'], '.')]},
+        'notice': ('Look at the sentences from the market. When do we use <i>some</i>, <i>any</i>, <i>much</i>, <i>many</i>?', 'Когда some, any, much, many?',
+                   ["I'd like <mark>some</mark> apples.", "We haven't got <mark>any</mark> flour.", 'How <mark>many</mark> apples would you like?', 'How <mark>much</mark> butter do you need?'],
+                   [('«some» is in…', ['positive sentences (+)', 'negatives (−)', 'all questions'], 0), ('«any» is in…', ['negatives and questions', 'positive sentences', 'only with apples'], 0),
+                    ('apples (one, two, three) →', ['How many?', 'How much?'], 0)]),
+        'grammar': {'title': 'some / any · much / many', 'head': 'some / any · How much? / How many?',
+                    'idea': 'Можно посчитать (apples, eggs) → <b>How many?</b> Нельзя посчитать (flour, sugar, milk) → <b>How much?</b> '
+                            '<b>some</b> — в утверждениях (I need some flour). <b>any</b> — в вопросах и отрицаниях (Have you got any butter? There isn\'t any flour). '
+                            'Вежливая просьба — тоже <b>some</b>: Can I have some water?',
+                    'choose': [('Утверждение (+)', 'some: I need some eggs.'), ('Вопрос / отрицание', "any: Have you got any milk? There isn't any milk."), ('Посчитать можно', 'How many apples?'), ('Посчитать нельзя', 'How much sugar?')],
+                    'rows': [[('I need', 'd'), ('some', 'c'), ('flour.', 'b')], [("There isn't", 'd'), ('any', 'c'), ('butter.', 'b')], [('How many', 'c'), ('apples', 'b'), ('do you need?', 'd')]],
+                    'note': 'Посчитать нельзя: flour, sugar, milk, butter, water, bread, money · Посчитать можно: apples, eggs, potatoes, bottles, packets',
+                    'examples': [('🌾', 'I need some flour.'), ('🧈', "There isn't any butter."), ('🍎', 'How many apples do you need?'), ('🍬', 'How much sugar is there?')],
+                    'traps': [('How much apples?', 'How many apples?', 'Можно посчитать → many.'), ('I need any eggs.', 'I need some eggs.', 'Утверждение → some.'), ('two milks', 'two bottles of milk', 'Молоко не считаем — считаем бутылки.')],
+                    'ex1': ('some or any? much or many?', 'some / any, much / many.', [
+                        ('I need', ['some'], 'eggs for the pie.', 'some / any'), ('Have you got', ['any'], 'butter?', 'some / any'), ("We haven't got", ['any'], 'flour.', 'some / any'),
+                        ('How', ['many'], 'apples do you need?', 'much / many'), ('How', ['much'], 'milk is there?', 'much / many'), ("I'd like", ['some'], 'tea, please.', 'some / any')]),
+                    'ex2': ('Put the words in order.', 'Соберите предложения.', [
+                        (["I'd like", 'some', 'apples, please.'], "I'd like some apples, please."), (['any', 'Have you got', 'flour?'], 'Have you got any flour?'),
+                        (['How much', 'butter', 'do you need?'], 'How much butter do you need?')])},
+        'part2': {'key': 'read', 'label': 'Reading', 'title': "Grandma's apple pie", 'task': "Read the food blog. How long do you bake the pie?", 'task_ru': 'Сколько минут печь пирог?',
+                  'head': "Anna's Kitchen: Grandma's Apple Pie", 'small': 'a food blog · about 160 words', 'text': [
+                      "This is my grandma's recipe, and it's the easiest pie in the world. You don't need any special equipment — just a bowl and an oven.",
+                      'You need: four apples, two hundred grams of flour, a hundred and fifty grams of sugar, a hundred grams of butter, two eggs and a little milk.',
+                      'First, mix the flour, butter and sugar with your hands. Then add the eggs and some milk. Put half of the mixture in a dish. Cut the apples and put them on top. Put the rest of the mixture on the apples.',
+                      "Bake the pie for forty minutes. Grandma always says: «Don't open the oven too early!» Eat it warm with some ice cream. My kids love it, and it costs only about three hundred roubles."],
+                  'tf': [('You need special equipment.', False), ('You need four apples.', True), ('You add the eggs before the flour.', False), ('You bake the pie for forty minutes.', True),
+                         ('The pie is expensive.', False)],
+                  'gaps': ('Complete from the recipe.', 'Вставьте из рецепта.', [('two hundred grams of', ['flour'], '', ''), ('Then add the eggs and', ['some'], 'milk.', ''),
+                                                                                  ('Eat it warm with', ['some'], 'ice cream.', '')])},
+        'extra': [('task', 'Task', 'the shopping list', '8 min', lambda ids:
+                   rubric('a', 'Kate wants to bake the pie. She has got: 1 apple, 500 g sugar, no flour, 2 eggs, no butter, some milk. What does she need to buy?', 'Что Кейт нужно купить?')
+                   + ex_select(ids, [('apples →', 'buy 3', ['buy 3', "don't buy"], ''), ('flour →', 'buy 200 g', ['buy 200 g', "don't buy"], ''), ('sugar →', "don't buy", ['buy 150 g', "don't buy"], ''),
+                                     ('butter →', 'buy 100 g', ['buy 100 g', "don't buy"], ''), ('eggs →', "don't buy", ['buy 2', "don't buy"], '')])
+                   + rubric('b', 'Write her shopping list in English.', 'Напишите список покупок по-английски.')
+                   + lines(ids, ['three…', '200 grams of…', '100 grams of…'])),
+                  ('market', 'Role-play', 'at the market', '10 min', lambda ids:
+                   rubric('a', 'Role-play: you are the customer, your teacher is the seller. Buy everything on the list. Then swap!', 'Вы — покупатель, преподаватель — продавец. Потом наоборот.')
+                   + roleplay(('You: the customer', ["Buy everything on Kate's list.", 'Ask: Have you got any…?', 'Ask: How much is it?', 'Count your change!']),
+                              ('Teacher: the seller', ['You have no flour today!', 'Apples are 50 roubles each.', 'Offer something else: pears?', 'Give the wrong change once 😉']))
+                   + phrases(["I'd like some…, please.", 'Have you got any…?', 'How much is it?', 'A kilo of…, please.', "I think that's the wrong change.", 'Here you are.']))],
+        'mix': {'title': 'Kate\'s notes', 'task': "Kate's notes have mistakes. Correct them.", 'task_ru': 'В заметках Кейт ошибки. Исправьте.',
+                'items': [('How much eggs do we need? →', ['How many eggs do we need?']), ("There isn't some milk. →", ["There isn't any milk.", 'There is not any milk.']),
+                          ('I need any butter. →', ['I need some butter.']), ('Can I have two milks? →', ['Can I have two bottles of milk?'])]},
+        'auction': [("I'd like some apples, please.", True, ''), ('How much eggs do you need?', False, 'How many eggs do you need?'), ("We haven't got any flour.", True, ''),
+                    ('Have you got some butter?', False, 'Have you got any butter?'), ('How much is it?', True, ''), ('I need any sugar.', False, 'I need some sugar.'),
+                    ('a bottle of milk', True, ''), ('three breads', False, 'three loaves of bread / some bread')],
+        'pron': {'title': 'weak «of» and «some»', 'task': 'In <i>a kilo of</i>, <i>some</i> the small words are weak: /əv/, /səm/. Press 🔊 and repeat.', 'task_ru': 'Маленькие слова звучат слабо.',
+                 'list': [('a kilo of apples', 'a <u>KI</u>lo /əv/ <u>AP</u>ples'), ("I'd like some milk, please.", "I'd <u>LIKE</u> /səm/ <u>MILK</u>, please"), ('How much is it?', 'how <u>MUCH</u> is it? ↘')]},
+        'speaking': {'title': 'food and shopping', 'questions': ['Where do you usually buy food?', 'Do you like markets? Why?', 'What do you always have in your fridge?',
+                                                               'Can you cook? What is your best dish?', 'How much bread do you eat in a week?', 'What is your favourite cake?'],
+                     'phrases': ['I usually buy…', 'There is always some… in my fridge.', "I haven't got any…", 'My best dish is…'],
+                     'task': ('Tell your teacher how to make your favourite dish.', 'Расскажите рецепт любимого блюда.')},
+        'task': {'task': 'A guest is coming to dinner! Choose a dish you can cook. What do you need? What have you got at home? What do you need to buy?', 'task_ru': 'К вам гость! Что приготовите, что есть дома, что купить?',
+                 'plan': ['My dish: …', 'I need: some…, two…, a kilo of…', "I've got some… at home.", "I haven't got any…, so I need to buy…"],
+                 'report': ["I'm going to make…", 'I need some…', "I haven't got any…", 'How much / How many…?']},
+        'writing': {'title': 'your recipe', 'task': 'Write a simple recipe you love (5 lines): what you need and the steps.', 'task_ru': 'Ваш простой рецепт: продукты и шаги.',
+                    'example': 'Pancakes. You need some flour, two eggs, some milk and a little sugar. First, mix the eggs and the sugar. Then add the milk and the flour. Fry the pancakes in a hot pan. Eat them with some honey!',
+                    'placeholders': ['Name: …', 'You need: some…, a little…, two…', 'First, …', 'Then …', 'Finally, …']},
+        'cans': [('I can understand a conversation at a market', 'понять разговор на рынке'), ('I can use 10 food and shopping words', 'использовать 10 слов по теме'),
+                 ('I can use some / any and How much / How many', 'использовать some / any, much / many'), ('I can buy food in English', 'купить продукты по-английски')],
+        'hw': {'words_select': [('🥚 →', 'eggs', ['eggs', 'apples', 'butter'], ''), ('🧈 →', 'butter', ['butter', 'milk', 'flour'], ''), ('⚖️ →', 'a kilo of', ['a kilo of', 'a bottle of', 'a packet of'], '')],
+               'listen': [('flour', 'flour', ['flour', 'flower', 'floor']), ('butter', 'butter', ['butter', 'better', 'bitter']), ('How much', 'How much', ['How much', 'How many', 'How mush'])],
+               'words_gaps': [('a kilo of', ['flour', 'apples', 'sugar', 'potatoes'], ''), ('a bottle of', ['milk', 'water', 'juice'], ''), ("Grandma's", ['recipe'], '')],
+               'gaps': ('some or any? much or many?', 'some / any, much / many.', [('Have you got', ['any'], 'eggs?', ''), ('I need', ['some'], 'milk.', ''), ('How', ['many'], 'apples?', ''),
+                                                                                  ('How', ['much'], 'flour?', ''), ("There aren't", ['any'], 'bananas.', '')]),
+               'fix': [('How much eggs do you need? →', ['How many eggs do you need?']), ("There isn't some milk. →", ["There isn't any milk.", 'There is not any milk.']), ('I need any apples. →', ['I need some apples.'])],
+               'order': [(["I'd like", 'some', 'butter, please.'], "I'd like some butter, please."), (['How many', 'eggs', 'do we need?'], 'How many eggs do we need?')]},
+        'case': {'bad': [('How much apples?', 'How many apples?'), ('I need any eggs.', 'I need some eggs.'), ('two milks', 'two bottles of milk')],
+                 'ok': ["I'd like some apples, please.", 'Have you got any butter?', 'How much sugar do you need?', 'a kilo of flour']},
+    })
 
 
 def efim():
-    P, LID = 'ef4', 'efim-4'
-    ids = Ids(P)
-    cards = [('a referee', 'the person who controls a match', 'судья', 'The referee showed a red card.', '🧑‍⚖️'), ('a team', '', 'команда', 'a football team', '👥'), ('a goal', '', 'гол', 'He scored a goal.', '⚽'),
-             ('a rule', '', 'правило', 'the rules of tennis', '📏'), ('to score', 'to get a point or goal', 'забить', 'She scored three points.', '🎯'), ('a racket', '', 'ракетка', 'a tennis racket', '🎾'),
-             ('a helmet', '', 'шлем', 'You have to wear a helmet.', '⛑️'), ('to win', '', 'выигрывать', 'Who won the match?', '🏆')]
-    sections = [
-        ('quiz', 'Quiz show', 'sports quiz', '10 min',
-         route([('🏆', 'quiz show'), ('📘', 'can / have to'), ('🕵️', 'guess the sport'), ('🎧', 'a new sport'), ('📝', 'invent a sport')])
-         + deck('Quiz show · Спортивная викторина', [mc(P + '-z1', 'How many players are in a football team on the pitch?', ['eleven', 'nine', 'six'], 0), mc(P + '-z2', 'In tennis you use a…', ['racket', 'bat', 'stick'], 0),
-                                                       mc(P + '-z3', 'In basketball you can\'t…', ['run with the ball without bouncing it', 'jump', 'pass the ball'], 0), mc(P + '-z4', 'Who controls a football match?', ['a referee', 'a coach', 'a fan'], 0)])),
-        ('rule', 'Grammar', 'can and have to — Grammar Easy', '12 min',
-         easy("can · can't · have to · don't have to",
-              '<b>can</b> — можно, <b>can\'t</b> — нельзя (правило). <b>have to</b> — обязательно. <b>don\'t have to</b> — не обязательно (можно, но не нужно). he / she → <b>has to</b>, <b>doesn\'t have to</b>.',
-              [[('In football', 'b'), ('you', 'a'), ("can't", 'd'), ('touch the ball with your hands.', 'c')], [('Cyclists', 'a'), ('have to', 'd'), ('wear a helmet.', 'c')], [('You', 'a'), ("don't have to", 'd'), ('be tall.', 'c')]],
-              [('⚽', "In football you can't touch the ball with your hands."), ('⛑️', 'Cyclists have to wear a helmet.'), ('🏀', "You don't have to be tall to play basketball.")],
-              [("You don't have to touch the ball! (=нельзя)", "You can't touch the ball!", 'Нельзя → can\'t.'), ('She have to train.', 'She has to train.', 'she → has to.')])
-         + ex_select(ids, [('In football the goalkeeper', 'can', ['can', "can't"], 'use his hands.'), ('In tennis you', 'have to', ['have to', "don't have to"], 'use a racket.'),
-                           ('You', "don't have to", ["don't have to", "can't"], 'be fast to play chess.'), ('In basketball you', "can't", ['can', "can't"], 'kick the ball.')])),
-        ('guess', 'Game', 'guess the sport', '10 min',
-         rubric('a', 'Your teacher describes a sport with can / have to. Guess it! Then you describe one.', 'Преподаватель описывает вид спорта — угадайте. Потом вы.')
-         + escape(ids, [('🏐', 'Sport 1', 'You have to hit the ball over a net with your hands. You can\'t catch it. →', ['volleyball']), ('🏊', 'Sport 2', 'You have to be in water. You don\'t have to use a ball. →', ['swimming']),
-                        ('♟️', 'Sport 3', 'You don\'t have to run. You have to think a lot. You can\'t talk. →', ['chess'])])),
-        ('listen', 'Listening', 'a new sport', '8 min',
-         listening(P + '-lis', [('m', "Have you heard of padel? It's like tennis, but the court is smaller and it has walls."), ('f', 'Do you have to use a big racket?'),
-                                ('m', "No, the racket is small and it hasn't got strings. And you have to play in pairs — two against two."), ('f', 'Can the ball hit the walls?'),
-                                ('m', "Yes, it can! That's the fun part.")], 'What is padel?', 'Listen twice', '🎾', {'m': 'Max', 'f': 'Zoe'})
-         + deck('Check', [mc(P + '-q1', 'Padel is like…', ['tennis', 'football', 'golf'], 0), mc(P + '-q2', 'You have to play…', ['two against two', 'alone', 'in teams of six'], 0),
-                          mc(P + '-q3', 'Can the ball hit the walls?', ['Yes, it can.', "No, it can't."], 0)])),
-        ('invent', 'Project', 'invent a sport', '10 min',
-         cycle('<p>Invent a new sport (for example, football on bikes 😄).</p>', lines(ids, ['Name: …', 'You have to…', 'You can…', "You can't…", "You don't have to…"]), '<p>Explain your sport to your teacher. Would she play it?</p>')
-         + vocab_section(ids, '1D', 'Sport', cards, [('the person who controls a match →', 'a referee', ['a referee', 'a team', 'a coach'], ''), ('⛑️ →', 'a helmet', ['a helmet', 'a racket', 'a goal'], '')], []) + send_box()),
-    ]
-    hw = hw_pair(ids, [('🎾 →', 'a racket', ['a racket', 'a helmet', 'a goal'], ''), ('to get a point or goal →', 'to score', ['to score', 'to win', 'to play'], ''), ('📏 →', 'a rule', ['a rule', 'a team', 'a referee'], '')],
-                 [('referee', 'referee', ['referee', 'refugee', 'reverie']), ('a helmet', 'a helmet', ['a helmet', 'a hamlet', 'a helmut']), ('scored', 'scored', ['scored', 'scared', 'stored'])],
-                 [('He', ['scored'], 'a goal.'), ('Who', ['won'], 'the match?'), ('You have to wear a', ['helmet'], '.')],
-                 "can / can't / have to / don't have to", 'Вставьте модальный глагол.', [('In chess you', ["can't", 'cannot'], 'talk.', 'нельзя'), ('Swimmers', ['have to'], 'be in the water.', 'обязательно'),
-                                                                                        ('You', ["don't have to", 'do not have to'], 'be tall to play.', 'не обязательно'), ('She', ['has to'], 'train every day.', 'обязательно')],
-                 [('He have to train. →', ['He has to train.']), ("You don't have to kick the ball in basketball! (=нельзя) →", ["You can't kick the ball in basketball!"])])
-    return flex({'id': LID, 'prefix': P, 'owner': 'efim', 'code': '1D', 'title': 'Sports Day', 'level': 'A2', 'category': 'Sport', 'minutes': '55 min',
-                 'grammar': "can / can't · have to / don't have to (Grammar Easy)", 'date': DATE, 'gvp': {'g': "can / can't for rules; have to / don't have to", 'v': 'sports and rules', 'p': ''},
-                 'eyebrow': 'IRIS SCHOOL · Ефим · урок 1D', 'tags': ['A2', 'Quiz show', 'Guess the sport', 'can · have to'],
-                 'lead': 'A sports quiz, a «guess the sport» game, a strange new sport called padel — and at the end you invent your own sport with its rules!',
-                 'cards': cards, 'case': {'bad': [('She have to train.', 'She has to train.')], 'ok': ["You can't touch the ball with your hands.", 'Cyclists have to wear a helmet.']},
-                 'sections': sections, 'hw': hw})
+    return std({
+        'id': 'efim-4', 'prefix': 'ef4', 'owner': 'efim', 'code': '1D', 'title': 'Sports Day', 'level': 'A2', 'category': 'Sport',
+        'minutes': '75 min', 'grammar': "can / can't · have to / don't have to — rules in sport", 'date': DATE,
+        'gvp': {'g': "can / can't for rules; have to / has to / don't have to", 'v': 'sports and rules', 'p': '/hæftə/ — have to'},
+        'eyebrow': 'IRIS SCHOOL · Ефим · урок 1D', 'tags': ['A2', 'Sport', 'Guess the sport', 'can · have to'],
+        'lead': 'A sports quiz, a strange new sport called padel, the story of a school sports day — and at the end you invent your own sport with its rules!',
+        'think': ('Which sport do you like to play or watch? Which sport would you never try? Why?',
+                  'Какой спорт любите? Какой никогда не попробуете и почему?', ['I like… because…', 'I would never try… because…', 'My favourite team / player: …']),
+        'warm': ('Sports quiz! Choose the answer.', 'Спортивная викторина!', [
+            ('How many players are in a football team on the pitch?', ['eleven', 'nine', 'six'], 0), ('In tennis you use a…', ['racket', 'bat', 'stick'], 0),
+            ("In basketball you can't…", ['run with the ball without bouncing it', 'jump', 'pass the ball'], 0), ('Who controls a football match?', ['a referee', 'a coach', 'a fan'], 0)]),
+        'aims': ['understand someone explaining the rules of a sport', 'use 10 sport words', "use can / can't for rules", "use have to / don't have to"],
+        'listen': {'title': 'a new sport', 'task': 'Max explains a new sport to Zoe. Listen once: does Zoe want to try it?', 'task_ru': 'Зои хочет попробовать?',
+                   'head': 'What is padel?', 'names': {'m3': 'Max', 'f3': 'Zoe'}, 'emoji': '🎾',
+                   'lines': [('m3', "Zoe, have you heard of padel? I play it every Saturday now."), ('f3', 'Padel? No. What is it?'),
+                             ('m3', "It's like tennis, but the court is smaller and it has glass walls."), ('f3', 'Do you have to use a big racket?'),
+                             ('m3', "No, the racket is small and it hasn't got strings. And you have to play in pairs — two against two."),
+                             ('f3', 'Can the ball hit the walls?'), ('m3', "Yes, it can! That's the fun part. But it has to bounce on the ground first."),
+                             ('f3', 'Do you have to be very fit?'), ('m3', "No, you don't have to be fit or tall. My dad plays, and he's sixty!"),
+                             ('f3', 'How do you serve?'), ('m3', "You have to serve under your arm, like this. You can't serve over your head like in tennis."),
+                             ('f3', 'OK, it sounds fun. Can I come with you on Saturday?'), ('m3', "Sure! You don't have to bring a racket — you can borrow mine.")],
+                   'gist': ('Does Zoe want to try padel?', ['Yes, she does.', "No, she doesn't.", "She doesn't say."], 0),
+                   'details': [('Padel is like…', ['tennis', 'football', 'golf'], 0), ('What is special about the court?', ['It has glass walls.', 'It is very big.', 'It is in water.'], 0),
+                               ('How many players are on each side?', ['two', 'one', 'four'], 0), ("How old is Max's dad?", ['sixty', 'forty', 'eighty'], 0),
+                               ('How do you serve in padel?', ['under your arm', 'over your head', 'with your foot'], 0)],
+                   'notes': [('Max plays padel every', ['Saturday'], '.'), ('The racket has no', ['strings'], '.'), ('The ball has to', ['bounce'], 'on the ground first.'),
+                             ("Zoe doesn't have to bring a", ['racket'], '.')]},
+        'vocab': {'title': 'sport', 'theme': 'Sport and rules', 'cards': [
+            ('a referee', 'the person who controls a match', 'судья', 'The referee showed a red card.', '🧑‍⚖️'), ('a team', 'a group of players', 'команда', 'a football team', '👥'),
+            ('a goal', 'a point in football or hockey', 'гол', 'He scored a goal.', '⚽'), ('a rule', 'what you can and can\'t do in a game', 'правило', 'the rules of tennis', '📏'),
+            ('to score', 'to get a point or goal', 'забить, набрать очко', 'She scored three points.', '🎯'), ('a racket', 'you hit the ball with it in tennis', 'ракетка', 'a tennis racket', '🎾'),
+            ('a helmet', 'a hard hat that protects your head', 'шлем', 'You have to wear a helmet.', '⛑️'), ('to win / to lose', 'to be the best / not to be the best', 'выиграть / проиграть', 'Who won the match?', '🏆'),
+            ('a court', 'a place for tennis or basketball', 'корт, площадка', 'a tennis court', '🏟️'), ('to serve', 'to start a point in tennis', 'подавать (мяч)', 'You have to serve under your arm.', '🏸')],
+            'match': [('the person who controls a match →', 'a referee', ['a referee', 'a team', 'a coach'], ''), ('a hard hat for your head →', 'a helmet', ['a helmet', 'a racket', 'a goal'], ''),
+                      ('a place for tennis →', 'a court', ['a court', 'a pool', 'a goal'], ''), ('to start a point in tennis →', 'to serve', ['to serve', 'to score', 'to win'], ''),
+                      ('what you can and can\'t do in a game →', 'a rule', ['a rule', 'a team', 'a match'], '')],
+            'gaps': [('He', ['scored'], 'a great goal.'), ('Our', ['team'], 'won the match!'), ('The', ['referee'], 'showed a yellow card.'), ('You have to wear a', ['helmet'], 'on a bike.')]},
+        'notice': ("Look at Max's sentences. Which mean «обязательно», «нельзя», «не обязательно»?", 'Какие значат «обязательно», «нельзя», «не обязательно»?',
+                   ['You <mark>have to</mark> play in pairs.', "You <mark>can't</mark> serve over your head.", "You <mark>don't have to</mark> be fit or tall.", 'The ball <mark>can</mark> hit the walls.'],
+                   [('«You have to play in pairs» means…', ['обязательно', 'нельзя', 'не обязательно'], 0), ("«You can't serve over your head» means…", ['нельзя', 'обязательно', 'можно'], 0),
+                    ("«You don't have to be tall» means…", ['не обязательно (можно, но не нужно)', 'нельзя', 'обязательно'], 0)]),
+        'grammar': {'title': "can · can't · have to", 'head': "can · can't · have to · don't have to",
+                    'idea': '<b>can</b> — можно, <b>can\'t</b> — нельзя (правило). <b>have to</b> — обязательно. <b>don\'t have to</b> — не обязательно (можно, но не нужно). '
+                            'he / she / it → <b>has to</b>, <b>doesn\'t have to</b>. После can и have to — глагол без to и без -s.',
+                    'choose': [('Можно', 'can: The ball can hit the walls.'), ('Нельзя', "can't: You can't touch the ball."), ('Обязательно', 'have to / has to: You have to wear a helmet.'), ('Не обязательно', "don't have to: You don't have to be tall.")],
+                    'rows': [[('In football', 'b'), ('you', 'a'), ("can't", 'd'), ('touch the ball with your hands.', 'c')], [('Cyclists', 'a'), ('have to', 'd'), ('wear a helmet.', 'c')],
+                             [('You', 'a'), ("don't have to", 'd'), ('be tall.', 'c')]],
+                    'note': "Вопрос: Do you have to…? Does she have to…? Can you…? · Внимание: don't have to ≠ can't!",
+                    'examples': [('⚽', "In football you can't touch the ball with your hands."), ('⛑️', 'Cyclists have to wear a helmet.'), ('🏀', "You don't have to be tall to play basketball."),
+                                 ('🥅', 'The goalkeeper can use his hands.')],
+                    'traps': [("You don't have to touch the ball! (=нельзя)", "You can't touch the ball!", "Нельзя → can't."), ('She have to train.', 'She has to train.', 'she → has to.'),
+                              ('You can to play.', 'You can play.', 'После can — без to.')],
+                    'ex1': ("can / can't / have to / don't have to", 'Вставьте подходящее.', [
+                        ('In chess you', ["can't", 'cannot'], 'talk.', 'нельзя'), ('Swimmers', ['have to'], 'be in the water.', 'обязательно'), ('You', ["don't have to", 'do not have to'], 'be tall to play.', 'не обязательно'),
+                        ('She', ['has to'], 'train every day.', 'обязательно'), ('The goalkeeper', ['can'], 'use his hands.', 'можно'), ('', ['Do'], 'you have to wear a uniform?', '❓')]),
+                    'ex2': ('Put the words in order.', 'Соберите предложения.', [
+                        (['have to', 'You', 'wear a helmet.'], 'You have to wear a helmet.'), (["can't", 'You', 'kick the ball.'], "You can't kick the ball."),
+                        (["doesn't have to", 'He', 'be tall.'], "He doesn't have to be tall.")])},
+        'part2': {'key': 'read', 'label': 'Reading', 'title': 'school sports day', 'task': 'Read the school letter. What do parents have to bring?', 'task_ru': 'Что родители должны принести?',
+                  'head': 'Sports Day at Green Hill School', 'small': 'a letter to parents · about 160 words', 'text': [
+                      'Dear parents, our Sports Day is on Friday, 12th June, from 10 a.m. to 2 p.m. All children have to come in their school sports uniform and trainers.',
+                      "Children can take part in running, jumping, football and the famous egg-and-spoon race. They don't have to do every event — they can choose three.",
+                      "Parents can watch from the area next to the field. Please note: you can't stand on the running track, and you can't bring dogs to the school.",
+                      "It is often hot in June, so children have to bring a hat and a bottle of water. You don't have to bring food — there is a picnic lunch for everyone at 12 o'clock.",
+                      'At the end there is a race for parents too. You don\'t have to run fast — just have fun!'],
+                  'tf': [('Children have to wear their sports uniform.', True), ('Children have to do every event.', False), ('Parents can bring their dogs.', False),
+                         ('Children have to bring a hat.', True), ('Parents have to bring food.', False)],
+                  'gaps': ('Complete from the letter.', 'Вставьте из письма.', [('Children', ['have to'], 'bring a bottle of water.', ''), ('You', ["can't", 'cannot'], 'stand on the running track.', ''),
+                                                                               ('You', ["don't have to", 'do not have to'], 'run fast.', '')])},
+        'extra': [('guess', 'Game', 'guess the sport', '8 min', lambda ids:
+                   rubric('a', 'Read the rules and guess the sport! Then describe a sport — your teacher guesses.', 'Угадайте вид спорта по правилам. Потом загадайте свой.')
+                   + escape(ids, [('🏐', 'Sport 1', "You have to hit the ball over a net with your hands. You can't catch it. →", ['volleyball']),
+                                  ('🏊', 'Sport 2', "You have to be in water. You don't have to use a ball. →", ['swimming']),
+                                  ('♟️', 'Sport 3', "You don't have to run. You have to think a lot. You can't talk. →", ['chess']),
+                                  ('🏒', 'Sport 4', 'You have to wear skates and a helmet. You hit a small black puck. →', ['hockey', 'ice hockey'])])
+                   + phrases(['You have to…', 'You can…', "You can't…", "You don't have to…", 'Is it…?']))],
+        'mix': {'title': 'sport rules', 'task': 'A student wrote rules with mistakes. Correct them.', 'task_ru': 'Правила с ошибками. Исправьте.',
+                'items': [('He have to train every day. →', ['He has to train every day.']), ('You can to play here. →', ['You can play here.']),
+                          ("She don't have to come. →", ["She doesn't have to come.", 'She does not have to come.']), ('Do you has to wear a helmet? →', ['Do you have to wear a helmet?'])]},
+        'auction': [("In football you can't touch the ball with your hands.", True, ''), ('She have to train every day.', False, 'She has to train every day.'),
+                    ("You don't have to be tall to play padel.", True, ''), ('You can to serve under your arm.', False, 'You can serve under your arm.'),
+                    ('Cyclists have to wear a helmet.', True, ''), ('Do you have to wear a uniform?', True, ''),
+                    ("In chess you don't have to talk! (=нельзя)", False, "In chess you can't talk!"), ('He doesn\'t has to come.', False, "He doesn't have to come.")],
+        'pron': {'title': 'have to /hæftə/', 'task': '<i>have to</i> sounds like /ˈhæftə/, <i>has to</i> — /ˈhæstə/. Press 🔊 and repeat.', 'task_ru': 'have to звучит как «хэфтэ».',
+                 'list': [('You have to wear a helmet.', 'you /ˈhæftə/ wear a <u>HEL</u>met'), ('She has to train.', 'she /ˈhæstə/ <u>TRAIN</u>'), ("You don't have to run.", "you <u>DON'T</u> /ˈhæftə/ <u>RUN</u>")]},
+        'speaking': {'title': 'sport in your life', 'questions': ['Do you do any sport? How often?', 'Did you like sports at school?', 'What rules do you have to follow at work?',
+                                                                'Have you ever played padel or tennis?', 'Which sport is the most dangerous?', 'Do you watch football on TV?'],
+                     'phrases': ['I play… twice a week.', 'At school we had to…', 'At work I have to…', "I don't have to…", 'I think… is dangerous because…'],
+                     'task': ('Invent a sport and explain its rules.', 'Придумайте вид спорта и объясните правила.')},
+        'task': {'task': 'Invent a new sport (for example, football on bikes or chess in a swimming pool 😄). Give it a name and five rules.', 'task_ru': 'Придумайте новый вид спорта: название и пять правил.',
+                 'plan': ['Name: …', 'You have to…', 'You can…', "You can't…", "You don't have to…"],
+                 'report': ['My sport is called…', 'You have to…', "You can't…", 'The winner is…', 'Would you play it?']},
+        'writing': {'title': 'rules', 'task': 'Write five rules for your home, your office or your favourite sport.', 'task_ru': 'Пять правил для дома, офиса или любимого спорта.',
+                    'example': "At my office you have to come at nine. You can't eat at your desk. You don't have to wear a tie. You can work from home on Fridays. You have to turn off the lights when you leave.",
+                    'placeholders': ['You have to…', 'You can…', "You can't…", "You don't have to…", 'Everyone has to…']},
+        'cans': [('I can understand someone explaining a sport', 'понять объяснение правил'), ('I can use 10 sport words', 'использовать 10 слов по теме'),
+                 ("I can use can / can't for rules", "использовать can / can't"), ("I can use have to / don't have to", "использовать have to / don't have to")],
+        'hw': {'words_select': [('🎾 →', 'a racket', ['a racket', 'a helmet', 'a goal'], ''), ('to get a point or goal →', 'to score', ['to score', 'to win', 'to serve'], ''), ('📏 →', 'a rule', ['a rule', 'a team', 'a referee'], '')],
+               'listen': [('referee', 'referee', ['referee', 'refugee', 'reverie']), ('a helmet', 'a helmet', ['a helmet', 'a hamlet', 'a helmut']), ('scored', 'scored', ['scored', 'scared', 'stored'])],
+               'words_gaps': [('He', ['scored'], 'a goal.'), ('Who', ['won'], 'the match?'), ('a tennis', ['court', 'racket'], '')],
+               'gaps': ("can / can't / have to / don't have to", 'Вставьте модальный глагол.', [('In chess you', ["can't", 'cannot'], 'talk.', 'нельзя'), ('Swimmers', ['have to'], 'be in the water.', 'обязательно'),
+                                                                                              ('You', ["don't have to", 'do not have to'], 'be tall to play.', 'не обязательно'), ('She', ['has to'], 'train every day.', 'обязательно'),
+                                                                                              ('', ['Does'], 'he have to wear a uniform?', '❓')]),
+               'fix': [('He have to train. →', ['He has to train.']), ("You don't have to kick the ball in basketball! (=нельзя) →", ["You can't kick the ball in basketball!"]), ('You can to play. →', ['You can play.'])],
+               'order': [(['have to', 'You', 'serve under your arm.'], 'You have to serve under your arm.'), (["can't", 'You', 'bring dogs.'], "You can't bring dogs.")]},
+        'case': {'bad': [('She have to train.', 'She has to train.'), ("You don't have to touch the ball! (нельзя)", "You can't touch the ball!"), ('You can to play.', 'You can play.')],
+                 'ok': ["You can't touch the ball with your hands.", 'Cyclists have to wear a helmet.', "You don't have to be tall.", 'The ball can hit the walls.']},
+    })
 
 
 def vladimir():
-    P, LID = 'vl4', 'vladimir-4'
-    ids = Ids(P)
-    cards = [('the metro', '', 'метро', 'The metro is faster.', '🚇'), ('a taxi', '', 'такси', 'A taxi is more expensive.', '🚕'), ('a bus', '', 'автобус', 'The bus is cheaper.', '🚌'),
-             ('a scooter', '', 'самокат', 'an electric scooter', '🛴'), ('a traffic jam', 'a lot of cars that cannot move', 'пробка', "There's a traffic jam.", '🚗'),
-             ('a ticket', '', 'билет', 'a metro ticket', '🎫'), ('to get to', 'to arrive at', 'добраться до', 'How do I get to the airport?', '📍'), ('rush hour', 'the busy time when people go to work', 'час пик', 'Avoid rush hour!', '⏰')]
-    sections = [
-        ('problem', 'Problem', 'the problem', '8 min',
-         route([('🗺️', 'a problem to solve'), ('📊', 'compare the options'), ('📘', 'comparatives'), ('🎧', 'ask for advice'), ('✅', 'your decision')])
-         + box('<b>Problem:</b> Your colleague from London, Tom, lands at Sheremetyevo airport at 8 a.m. on Monday. He has a meeting in the city centre at 10. He has a big suitcase. How should he get there?', '✈️')
-         + rubric('a', 'Look at the options.', 'Посмотрите на варианты.')
-         + box('🚕 <b>Taxi:</b> 60–90 min (traffic jams in rush hour!) · 2,500 roubles<br>🚆 <b>Aeroexpress train + metro:</b> 55 min · 600 roubles<br>🚌 <b>Bus + metro:</b> 80 min · 120 roubles', '📊')),
-        ('compare', 'Grammar', 'compare the options', '12 min',
-         easy('faster · cheaper · more comfortable',
-              'Сравниваем два варианта: короткое слово + <b>-er</b> (fast → faster), длинное — <b>more</b> + слово (more comfortable). Дальше <b>than</b>. good → <b>better</b>, bad → <b>worse</b>.',
-              [[('The train', 'a'), ('is', 'd'), ('faster', 'c'), ('than a taxi.', 'b')], [('A taxi', 'a'), ('is', 'd'), ('more comfortable', 'c'), ('than a bus.', 'b')]],
-              [('🚆', 'The train is faster than a taxi in rush hour.'), ('🚌', 'The bus is cheaper than the train.'), ('🚕', 'A taxi is more comfortable with a big suitcase.')],
-              [('more cheap', 'cheaper', 'Короткое слово → -er.'), ('faster that', 'faster than', 'than.')])
-         + ex_gaps(ids, [('The bus is', ['cheaper'], 'than the train.', 'cheap'), ('A taxi is', ['more expensive'], 'than the bus.', 'expensive'), ('In rush hour the train is', ['faster'], 'than a taxi.', 'fast'),
-                         ('With a big suitcase, a taxi is', ['more comfortable'], '.', 'comfortable'), ('The metro is', ['better'], 'than the bus in winter.', 'good')])),
-        ('advice', 'Listening', 'ask for advice', '10 min',
-         listening(P + '-lis', [('m', 'Alice, how do I get from Sheremetyevo to the centre? I have a meeting at ten.'), ('f', 'Take the Aeroexpress. It is faster than a taxi in the morning, and much cheaper.'),
-                                ('m', 'But I have a big suitcase.'), ('f', "Then a taxi is more comfortable. But at eight o'clock there are traffic jams. You might be late!"), ('m', 'OK, the train then. Thanks!')],
-                   'Tom asks Alice', 'Listen twice', '📞', {'m': 'Tom', 'f': 'Alice'})
-         + deck('Check', [mc(P + '-q1', 'What does Alice recommend?', ['the Aeroexpress', 'a taxi', 'a bus'], 0), mc(P + '-q2', 'Why not a taxi?', ['traffic jams', 'it is dirty', 'no taxis'], 0)])),
-        ('decide', 'Task', 'your decision', '12 min',
-         cycle('<p>Decide: how should Tom travel? And how do YOU get to work?</p>', lines(ids, ['Tom should take… because it is …-er than…', 'It is also more … than…', 'I usually get to work by… It is … than…']),
-               '<p>Explain your decision to your teacher. She disagrees — defend your choice!</p>' + phrases(['I think… is better because…', "It's faster / cheaper than…", "Yes, but it's more…"]))
-         + vocab_section(ids, '1D', 'Transport', cards, [('a lot of cars that cannot move →', 'a traffic jam', ['a traffic jam', 'rush hour', 'a ticket'], ''), ('🛴 →', 'a scooter', ['a scooter', 'a bus', 'a taxi'], '')], []) + send_box()),
-    ]
-    hw = hw_pair(ids, [('the busy time when people go to work →', 'rush hour', ['rush hour', 'a traffic jam', 'the metro'], ''), ('🚇 →', 'the metro', ['the metro', 'a bus', 'a taxi'], ''), ('🎫 →', 'a ticket', ['a ticket', 'a map', 'a bus'], '')],
-                 [('cheaper', 'cheaper', ['cheaper', 'cheap', 'chipper']), ('faster', 'faster', ['faster', 'fast', 'father']), ('more expensive', 'more expensive', ['more expensive', 'expensive', 'more extensive'])],
-                 [('How do I get', ['to'], 'the airport?'), ("There's a traffic", ['jam'], '.'), ('Avoid rush', ['hour'], '!')],
-                 'Write the comparative.', 'Сравнительная степень.', [('A plane is', ['faster'], 'than a train.', 'fast'), ('Moscow is', ['bigger'], 'than Tver.', 'big'), ('This hotel is', ['more comfortable'], 'than that one.', 'comfortable'),
-                                                                     ('Today the weather is', ['worse'], 'than yesterday.', 'bad')],
-                 [('The bus is more cheap. →', ['The bus is cheaper.']), ('A taxi is faster that a bus. →', ['A taxi is faster than a bus.'])])
-    return flex({'id': LID, 'prefix': P, 'owner': 'vladimir', 'code': '1D', 'title': 'Getting Around', 'level': 'A2', 'category': 'Transport', 'minutes': '50 min',
-                 'grammar': 'Comparatives: faster, cheaper, more comfortable, better (Grammar Easy)', 'date': DATE, 'gvp': {'g': 'comparative adjectives + than', 'v': 'transport', 'p': ''},
-                 'eyebrow': 'IRIS SCHOOL · Владимир · урок 1D', 'tags': ['A2', 'Problem solving', 'Transport', 'Comparatives'],
-                 'lead': 'A real problem to solve: a colleague lands at the airport at 8 and has a meeting at 10. Compare the options, ask for advice and make a decision!',
-                 'cards': cards, 'case': {'bad': [('more cheap', 'cheaper'), ('faster that', 'faster than')], 'ok': ['The train is faster than a taxi.', 'The bus is cheaper.']},
-                 'sections': sections, 'hw': hw})
-
-
-def sasha():
-    P, LID = 'sa5', 'sasha-5'
-    ids = Ids(P)
-    cards = [('to move house', 'to go to live in a new home', 'переезжать', 'We are moving house.', '🏠'), ('a box', '', 'коробка', 'I have packed ten boxes.', '📦'), ('to unpack', 'to take things out of boxes', 'распаковывать', "I haven't unpacked yet.", '📭'),
-             ('a removal van', 'a big car for moving furniture', 'грузовик для переезда', 'The removal van has just arrived.', '🚚'), ('a landlord', 'a person who rents you a flat', 'арендодатель', "I've already paid the landlord.", '🧑‍💼'),
-             ('the keys', '', 'ключи', "I've just got the keys!", '🔑'), ('to set up', 'to prepare and connect', 'настроить, подключить', 'Have you set up the internet yet?', '🔌'), ('a to-do list', '', 'список дел', 'My to-do list is long.', '📝')]
-    sections = [
-        ('test', 'Test', 'test yourself', '8 min',
-         route([('🧪', 'test'), ('🎧', 'moving day'), ('📘', 'just / already / yet'), ('🧪', 'test again'), ('📝', 'your to-do list')])
-         + rubric('a', 'Test first! Choose the correct word. No help yet.', 'Сначала тест — без подсказок.')
-         + ex_select(ids, [("I've", 'just', ['just', 'yet'], 'got the keys — five minutes ago!'), ("Have you unpacked", 'yet', ['yet', 'already'], '?'), ("We've", 'already', ['already', 'yet'], 'paid the landlord.'),
-                           ("I haven't set up the internet", 'yet', ['yet', 'just'], '.')])),
-        ('listen', 'Listening', 'moving day', '10 min',
-         listening(P + '-lis', [('f', "Sasha! How's the move going?"), ('m', "Crazy! The removal van has just arrived. I've already packed twenty boxes."), ('f', 'Have you got the keys yet?'),
-                                ('m', "Yes, I've just got them from the landlord. But I haven't found my phone charger yet!"), ('f', 'Ha! Have you set up the internet?'),
-                                ('m', "Not yet. That's on my to-do list for tomorrow.")], 'Moving day', 'Listen and check your test', '📦', {'f': 'Masha', 'm': 'Sasha'})
-         + deck('Check', [mc(P + '-q1', 'What has just arrived?', ['the removal van', 'Masha', 'a pizza'], 0), mc(P + '-q2', 'How many boxes has he packed?', ['twenty', 'ten', 'two'], 0),
-                          mc(P + '-q3', "What hasn't he found yet?", ['his phone charger', 'the keys', 'the van'], 0)])),
-        ('teach', 'Teach', 'just · already · yet', '10 min',
-         easy("just · already · yet",
-              'Present perfect + маленькие слова. <b>just</b> = только что. <b>already</b> = уже (раньше, чем ждали). <b>yet</b> = ещё не (в отрицании) / уже? (в вопросе) — <b>в конце</b>.',
-              [[("I've", 'a'), ('just', 'c'), ('got', 'd'), ('the keys.', 'b')], [("I've", 'a'), ('already', 'c'), ('packed', 'd'), ('20 boxes.', 'b')], [("I haven't", 'a'), ('unpacked', 'd'), ('yet.', 'c')]],
-              [('🔑', "I've just got the keys!"), ('📦', "I've already packed twenty boxes."), ('📭', "I haven't unpacked yet."), ('🔌', 'Have you set up the internet yet?')],
-              [("I haven't yet unpacked.", "I haven't unpacked yet.", 'yet — в конце.'), ("I've got just the keys.", "I've just got the keys.", 'just — перед глаголом.')],
-              choose=[('Только что', "just: I've just…"), ('Уже', "already: I've already…"), ('Ещё не / уже?', "yet: I haven't… yet. / Have you… yet?")])),
-        ('retest', 'Test again', 'test again', '8 min',
-         ex_gaps(ids, [("I've", ['just'], 'finished — two minutes ago.', ''), ("Have you called the landlord", ['yet'], '?', ''), ("She's", ['already'], 'unpacked everything!', ''), ("We haven't bought a sofa", ['yet'], '.', '')])),
-        ('list', 'Task', 'your to-do list', '12 min',
-         rubric('a', 'Write your to-do list for this week. Then tell your teacher what you have already done and what you haven\'t done yet.', 'Ваш список дел: что уже сделано, а что ещё нет.')
-         + lines(ids, ["✅ I've already…", "✅ I've just…", "❌ I haven't … yet.", "❌ I haven't … yet."])
-         + vocab_section(ids, '3B', 'Moving house', cards, [('to take things out of boxes →', 'to unpack', ['to unpack', 'to set up', 'to move house'], ''), ('a person who rents you a flat →', 'a landlord', ['a landlord', 'a neighbour', 'a driver'], '')], []) + send_box()),
-    ]
-    hw = hw_pair(ids, [('📦 →', 'a box', ['a box', 'a van', 'a key'], ''), ('🚚 →', 'a removal van', ['a removal van', 'a taxi', 'a bus'], ''), ('to prepare and connect →', 'to set up', ['to set up', 'to unpack', 'to move'], '')],
-                 [('already', 'already', ['already', 'all ready', 'early']), ('yet', 'yet', ['yet', 'yes', 'jet']), ('just', 'just', ['just', 'juice', 'jest'])],
-                 [("I've just got the", ['keys'], '!'), ('My to-do', ['list'], 'is long.'), ("I haven't", ['unpacked'], 'yet.')],
-                 'just, already or yet?', 'just / already / yet.', [("I've", ['just'], 'arrived home.', 'только что'), ("Have you finished", ['yet'], '?', ''), ("He's", ['already'], 'gone to bed.', 'уже'), ("I haven't read it", ['yet'], '.', '')],
-                 [("I haven't yet finished. →", ["I haven't finished yet.", 'I have not finished yet.']), ("I've finished just. →", ["I've just finished.", 'I have just finished.'])])
-    return flex({'id': LID, 'prefix': P, 'owner': 'sasha', 'code': '3B', 'title': 'Moving Day', 'level': 'Pre-Intermediate → Intermediate', 'category': 'Home & moving', 'minutes': '50 min',
-                 'grammar': 'Present perfect: just / already / yet', 'date': DATE, 'gvp': {'g': 'present perfect with just, already, yet', 'v': 'moving house', 'p': ''},
-                 'eyebrow': 'IRIS SCHOOL · Саша · урок 3B', 'tags': ['Pre-Int → Int', 'Test–teach–test', 'Moving house', 'just · already · yet'],
-                 'lead': 'Test first, then listen to a crazy moving day, learn the rule, test again — and finish with your own real to-do list.',
-                 'cards': cards, 'case': {'bad': [("I haven't yet finished.", "I haven't finished yet.")], 'ok': ["I've just got the keys!", "I've already packed 20 boxes."]},
-                 'sections': sections, 'hw': hw})
-
-
-def vika():
-    P, LID = 'vk9', 'vika-7'
-    ids = Ids(P)
-    cards = [('the crew', 'all the people who work on a ship', 'команда (корабля)', "The captain didn't like the crew.", '👥'), ('a voyage', 'a long journey by sea', 'плавание, путешествие', 'a dangerous voyage', '🧭'),
-             ('gunpowder', 'a powder that explodes', 'порох', 'They moved the gunpowder.', '💥'), ('arms', 'weapons', 'оружие', 'Put the arms near the cabin.', '🗡️'),
-             ('a cabin', 'a small room on a ship', 'каюта', "the captain's cabin", '🚪'), ('to trust', 'to believe someone is honest', 'доверять', "Don't trust anyone!", '🤝'),
-             ('the mate', 'the officer after the captain', 'помощник капитана', 'Mr Arrow, the mate', '🧑‍✈️'), ('a secret', '', 'секрет', 'The map was a secret.', '🤫')]
-    text = ['Jim went on board the Hispaniola. The captain, Mr Smollett, was a serious, strict man. He asked to speak to the Squire and the Doctor.',
-            '«I don\'t like this voyage,» said the captain. «I don\'t like the men, and I don\'t like my mate, Mr Arrow.»',
-            '«Why not?» asked the Squire angrily.', '«The crew know more about this trip than I do,» said the captain. «Everyone is talking about a treasure map. That is dangerous. You should not tell everyone your secrets.»',
-            'He asked them to move the gunpowder and the arms to the back of the ship, near the cabins, and to put the men they trusted there too.',
-            'The Squire was angry, but the Doctor agreed with the captain. «We should listen to him,» he said. Then they heard Long John Silver singing happily on the deck.']
-    sections = [
-        ('roles', 'Reading circle', 'choose your roles', '6 min',
-         route([('🎭', 'reading-circle roles'), ('📖', 'read chapter 9'), ('🗣️', 'share your role'), ('📘', 'should / shouldn\'t'), ('🧭', 'advice for the captain')])
-         + rubric('a', 'Today we read like a book club. You have two roles; your teacher has the other two. Read the chapter with your role in mind.', 'Читаем как книжный клуб: у вас две роли, у преподавателя — две.')
-         + roleplay(('Your roles', ['📝 <b>Summariser</b>: tell the chapter in 4 sentences.', '❓ <b>Question master</b>: write 3 questions about the chapter.']),
-                    ('Teacher\'s roles', ['🔤 <b>Word master</b>: explains 4 new words.', '🔗 <b>Connector</b>: connects the story to real life.']))),
-        ('read', 'Reading', 'chapter 9', '12 min',
-         reading('Treasure Island · Chapter 9: Powder and Arms', 'adapted for A2 · about 190 words', text)
-         + deck('Check', [mc(P + '-q1', 'Who is Mr Smollett?', ['the captain', 'the cook', 'the doctor'], 0), mc(P + '-q2', "Why doesn't the captain like the voyage?", ['The crew know about the treasure map.', 'The ship is old.', 'It is too cold.'], 0),
-                          mc(P + '-q3', 'What does he want to move?', ['the gunpowder and arms', 'the food', 'the map'], 0), mc(P + '-q4', 'Who agrees with the captain?', ['the Doctor', 'the Squire', 'Silver'], 0)])),
-        ('share', 'Speaking', 'share your role', '10 min',
-         rubric('a', 'Do your roles: write your summary and your questions. Then share with your teacher.', 'Выполните свои роли и поделитесь.')
-         + lines(ids, ['Summary 1: …', 'Summary 2: …', 'Summary 3: …', 'Summary 4: …', 'Question 1: …', 'Question 2: …', 'Question 3: …'])),
-        ('should', 'Grammar', "should / shouldn't — Grammar Easy", '10 min',
-         easy("You should… · You shouldn't…",
-              'Совет: <b>should + глагол</b> («стоит, следует»). Совет «не делать»: <b>shouldn\'t</b>. Одинаково для всех: I / he / they should. После should — <b>без to</b>.',
-              [[('You', 'a'), ("shouldn't", 'd'), ('tell everyone', 'c'), ('your secrets.', 'b')], [('We', 'a'), ('should', 'd'), ('listen', 'c'), ('to him.', 'b')]],
-              [('🤫', "You shouldn't tell everyone your secrets."), ('🧭', 'We should listen to the captain.'), ('💥', 'They should move the gunpowder.')],
-              [('You should to listen.', 'You should listen.', 'Без to.'), ('He shoulds go.', 'He should go.', 'Без -s.')])
-         + ex_select(ids, [('The Squire', "shouldn't", ['should', "shouldn't"], 'tell everyone about the map.'), ('They', 'should', ['should', "shouldn't"], 'move the arms near the cabins.'),
-                           ('Jim', 'should', ['should', "shouldn't"], 'be careful.'), ('The crew', "shouldn't", ['should', "shouldn't"], 'know about the treasure.')])),
-        ('advice', 'Writing', 'advice for the captain', '10 min',
-         rubric('a', 'You are Jim. Write 4 pieces of advice for Captain Smollett or the Squire.', 'Вы — Джим. Четыре совета капитану или сквайру.')
-         + lines(ids, ['Captain, you should…', 'You shouldn\'t…', 'Mr Trelawney, you should…', 'We all should…'])
-         + vocab_section(ids, 'Ch9', 'Treasure Island, chapter 9', cards, [('all the people who work on a ship →', 'the crew', ['the crew', 'the mate', 'a cabin'], ''), ('a long journey by sea →', 'a voyage', ['a voyage', 'a trip', 'a secret'], '')], []) + send_box()),
-    ]
-    hw = hw_pair(ids, [('a small room on a ship →', 'a cabin', ['a cabin', 'a deck', 'the crew'], ''), ('weapons →', 'arms', ['arms', 'gunpowder', 'maps'], ''), ('to believe someone is honest →', 'to trust', ['to trust', 'to tell', 'to agree'], '')],
-                 [('voyage', 'voyage', ['voyage', 'village', 'voice']), ('the crew', 'the crew', ['the crew', 'the screw', 'the clue']), ('gunpowder', 'gunpowder', ['gunpowder', 'gun power', 'powder'])],
-                 [('The captain was strict and', ['serious'], '.'), ("Don't", ['trust'], 'Silver!'), ('They moved the', ['gunpowder'], '.')],
-                 "should or shouldn't?", "should / shouldn't.", [('You', ["shouldn't", 'should not'], 'tell your secrets to strangers.', ''), ('Jim', ['should'], 'listen to the Doctor.', ''),
-                                                               ('Sailors', ['should'], 'obey the captain.', ''), ('The Squire', ["shouldn't", 'should not'], 'be so angry.', '')],
-                 [('You should to be careful. →', ['You should be careful.']), ('He shoulds listen. →', ['He should listen.'])])
-    return flex({'id': LID, 'prefix': P, 'owner': 'vika', 'code': 'Ch9', 'title': 'Chapter 9: Powder and Arms', 'level': 'A2', 'category': 'Reading: Treasure Island', 'minutes': '50 min',
-                 'grammar': "should / shouldn't for advice (Grammar Easy) · reading circle", 'date': DATE, 'gvp': {'g': "should / shouldn't", 'v': 'Treasure Island, chapter 9', 'p': ''},
-                 'eyebrow': 'IRIS SCHOOL · Вика · Treasure Island', 'tags': ['A2', 'Treasure Island', 'Reading circle', "should"],
-                 'lead': 'Today we read like a real book club: you and your teacher each have reading roles. Captain Smollett doesn\'t trust the crew — what advice would you give him?',
-                 'cards': cards, 'case': {'bad': [('You should to listen.', 'You should listen.')], 'ok': ["You shouldn't tell everyone your secrets.", 'We should listen to the captain.']},
-                 'sections': sections, 'hw': hw})
-
-
-def mussa():
-    P, LID = 'ms3', 'mussa-3'
-    ids = Ids(P)
-    cards = [('left', '', 'налево', 'Turn left.', '⬅️'), ('right', '', 'направо', 'Turn right.', '➡️'), ('straight on', '', 'прямо', 'Go straight on.', '⬆️'),
-             ('next to', '', 'рядом с', 'next to the hotel', '↔️'), ('near', '', 'рядом, недалеко', 'near the river', '📍'), ('the cable car', '', 'канатная дорога', 'Where is the cable car?', '🚡'),
-             ('a toilet', '', 'туалет', 'Where is the toilet?', '🚻'), ('a bridge', '', 'мост', 'Cross the bridge.', '🌉')]
-    sections = [
-        ('tpr', 'TPR', 'move and say', '8 min',
-         route([('🙋', 'move and say'), ('🗺️', 'the village map'), ('🎧', 'a tourist asks'), ('🎭', 'show the way'), ('✍️', 'write the way')])
-         + rubric('a', 'Stand up! Press 🔊, say it and do it: point left, right, walk forward.', 'Встаньте! Нажмите 🔊, повторите и покажите рукой.')
-         + say_list([('Turn left.', '⬅️ turn <u>LEFT</u>'), ('Turn right.', '➡️ turn <u>RIGHT</u>'), ('Go straight on.', '⬆️ go straight <u>ON</u>'), ("It's next to the hotel.", '↔️ next to the hotel'), ('Cross the bridge.', '🌉 cross the bridge')])),
-        ('map', 'Map', 'the village map', '10 min',
-         box('<b>Map of the village:</b><br>🏨 Hotel — ☕ Café (next to the hotel)<br>⬆️ straight on → 🌉 Bridge → 🚡 Cable car<br>⬅️ left from the hotel → 🏪 Shop · 🚻 Toilet (near the shop)<br>➡️ right from the hotel → 🐎 Horse stables', '🗺️')
-         + rubric('a', 'You are at the hotel. Choose the answer.', 'Вы у гостиницы. Выберите ответ.')
-         + ex_select(ids, [('Where is the café? →', "It's next to the hotel.", ["It's next to the hotel.", 'Cross the bridge.', 'Turn right.'], ''), ('Where is the cable car? →', 'Go straight on and cross the bridge.', ['Go straight on and cross the bridge.', 'Turn left.', "It's next to the hotel."], ''),
-                           ('Where are the horses? →', 'Turn right.', ['Turn right.', 'Turn left.', 'Go straight on.'], ''), ('Where is the toilet? →', 'Turn left. It\'s near the shop.', ["Turn left. It's near the shop.", 'Turn right.', 'Cross the bridge.'], '')])),
-        ('listen', 'Listening', 'a tourist asks', '8 min',
-         listening(P + '-lis', [('f', 'Excuse me, where is the cable car?'), ('m', 'Go straight on and cross the bridge. The cable car is there.'), ('f', 'Is it far?'), ('m', 'No, it\'s near. Five minutes.'), ('f', 'Thank you!'), ('m', "You're welcome!")],
-                   'A tourist asks Mussa', 'Listen twice', '🚡', {'f': 'Tourist', 'm': 'Mussa'})
-         + deck('Check', [mc(P + '-q1', 'Where does she want to go?', ['the cable car', 'the café', 'the hotel'], 0), mc(P + '-q2', 'Is it far?', ['No, five minutes.', 'Yes, one hour.'], 0)])),
-        ('show', 'Role-play', 'show the way', '10 min',
-         rubric('a', 'Your teacher is a tourist. She asks the way. Use the map and help her. Then swap!', 'Преподаватель — туристка, спрашивает дорогу. Помогите по карте. Потом поменяйтесь.')
-         + phrases(['Excuse me, where is…?', 'Go straight on.', 'Turn left / right.', "It's next to…", "It's near…", 'Cross the bridge.', "You're welcome!"])),
-        ('write', 'Writing', 'write the way', '8 min',
-         rubric('a', 'Write the way from the hotel to two places.', 'Напишите, как пройти от гостиницы до двух мест.')
-         + lines(ids, ['To the cable car: …', 'To the shop: …'])
-         + vocab_section(ids, 'S3', 'Directions', cards, [('⬅️ →', 'left', ['left', 'right', 'straight on'], ''), ('🌉 →', 'a bridge', ['a bridge', 'a toilet', 'the cable car'], '')], []) + send_box()),
-    ]
-    hw = hw_pair(ids, [('➡️ →', 'right', ['right', 'left', 'near'], ''), ('⬆️ →', 'straight on', ['straight on', 'next to', 'left'], ''), ('🚡 →', 'the cable car', ['the cable car', 'a bridge', 'a shop'], '')],
-                 [('left', 'left', ['left', 'lift', 'let']), ('right', 'right', ['right', 'write', 'light']), ('near', 'near', ['near', 'here', 'nearly'])],
-                 [('Turn', ['left'], '.'), ('Go straight', ['on'], '.'), ("It's next", ['to'], 'the hotel.')],
-                 'Complete.', 'Вставьте слово.', [('', ['Turn'], 'right.', ''), ('Cross the', ['bridge'], '.', ''), ('Excuse me, where', ['is'], 'the café?', ''), ("It's", ['near'], 'the shop.', 'рядом')],
-                 [('Go straight. →', ['Go straight on.']), ('Where the café? →', ['Where is the café?', "Where's the café?"])])
-    return flex({'id': LID, 'prefix': P, 'owner': 'mussa', 'code': 'S3', 'title': 'This Way, Please!', 'level': 'A0', 'category': 'Starter · directions', 'minutes': '45 min',
-                 'grammar': 'Directions: turn left / right, go straight on, next to, near', 'date': DATE, 'gvp': {'g': 'imperatives for directions; next to / near', 'v': 'directions in the village', 'p': ''},
-                 'eyebrow': 'IRIS SCHOOL · Мусса · урок S3', 'tags': ['A0', 'TPR', 'Map', 'Directions'],
-                 'lead': 'Tourists often ask the way! Stand up, move and learn the words with your body, then help a tourist find the cable car on the village map.',
-                 'cards': cards, 'case': {'bad': [('Go straight.', 'Go straight on.'), ('Where the café?', 'Where is the café?')], 'ok': ['Turn left.', "It's next to the hotel."]},
-                 'sections': sections, 'hw': hw})
+    return std({
+        'id': 'vladimir-4', 'prefix': 'vl4', 'owner': 'vladimir', 'code': '1D', 'title': 'Getting Around', 'level': 'A2', 'category': 'Transport',
+        'minutes': '75 min', 'grammar': 'Comparatives and superlatives: faster, cheaper, more comfortable, the best', 'date': DATE,
+        'gvp': {'g': 'comparative adjectives + than; superlatives (the fastest, the most comfortable)', 'v': 'transport and travel in the city', 'p': 'weak «than» /ðən/'},
+        'eyebrow': 'IRIS SCHOOL · Владимир · урок 1D', 'tags': ['A2', 'Problem solving', 'Transport', 'Comparatives'],
+        'lead': 'A real problem to solve: a colleague lands at the airport at 8 and has a meeting at 10. Compare the options, listen to advice, read about the world\'s best metro and make a decision!',
+        'think': ('How do you get to work? How long does it take? What do you like and not like about it?',
+                  'Как вы добираетесь до работы? Сколько времени? Что нравится, что нет?', ['I get to work by…', 'It takes…minutes.', 'I like / I don\'t like… because…']),
+        'aims': ['understand advice about transport', 'use 10 transport words', 'compare: faster, cheaper, more comfortable than', 'choose the best: the fastest, the cheapest'],
+        'listen': {'title': 'ask for advice', 'task': 'Tom phones his Moscow colleague Alice. Listen once: what does she recommend?', 'task_ru': 'Что советует Алиса?',
+                   'head': 'Tom asks Alice for advice', 'names': {'m3': 'Tom', 'f3': 'Alice'}, 'emoji': '📞',
+                   'lines': [('m3', 'Hi Alice, it\'s Tom. I land at Sheremetyevo at eight on Monday, and the meeting is at ten. How do I get to the centre?'),
+                             ('f3', 'Hi Tom! Well, a taxi is the most comfortable, but on Monday morning there are terrible traffic jams. It can take ninety minutes.'),
+                             ('m3', 'Ninety minutes? That\'s slower than walking!'), ('f3', 'Almost! The Aeroexpress train is faster — about forty minutes to Belorussky station. Then two stops on the metro.'),
+                             ('m3', 'Is it expensive?'), ('f3', "No, it's much cheaper than a taxi. About six hundred roubles. A taxi is about two and a half thousand."),
+                             ('m3', 'But I have a big suitcase.'), ('f3', "The train has space for suitcases. The metro is more difficult with a big bag, but it's only two stops."),
+                             ('m3', 'And the bus?'), ('f3', "The bus is the cheapest, but it's the slowest too. Not for a Monday meeting!"),
+                             ('m3', 'OK, the train then. Thanks, Alice!'), ('f3', "You're welcome. And buy a Troika card — it's the easiest way to pay.")],
+                   'gist': ('What does Alice recommend?', ['the Aeroexpress train and the metro', 'a taxi', 'the bus'], 0),
+                   'details': [('Why not a taxi on Monday morning?', ['traffic jams', 'it is dirty', 'there are no taxis'], 0), ('How long is the train to the station?', ['about forty minutes', 'ninety minutes', 'ten minutes'], 0),
+                               ('How much is the train?', ['about 600 roubles', 'about 2,500 roubles', 'it is free'], 0), ('What is the cheapest option?', ['the bus', 'the train', 'the taxi'], 0),
+                               ('What should Tom buy?', ['a Troika card', 'a map', 'a new suitcase'], 0)],
+                   'notes': [('Tom lands at', ['eight', '8', '8 a.m.', "eight o'clock"], 'on Monday.'), ('A taxi can take', ['ninety minutes', '90 minutes'], 'in the morning.'),
+                             ('The train goes to', ['Belorussky station', 'Belorussky'], '.'), ('Then', ['two'], 'stops on the metro.')]},
+        'vocab': {'title': 'getting around', 'theme': 'Transport', 'cards': [
+            ('the metro', 'trains under the city', 'метро', 'The metro is faster.', '🚇'), ('a taxi', 'a car you pay to take you somewhere', 'такси', 'A taxi is more expensive.', '🚕'),
+            ('a bus stop', 'the place where the bus stops', 'остановка', 'The bus stop is near my house.', '🚏'), ('a scooter', 'a small vehicle you stand on', 'самокат', 'an electric scooter', '🛴'),
+            ('a traffic jam', 'a lot of cars that cannot move', 'пробка', "There's a traffic jam.", '🚗'), ('a ticket', 'paper or card that lets you travel', 'билет', 'a metro ticket', '🎫'),
+            ('to get to', 'to arrive at', 'добраться до', 'How do I get to the airport?', '📍'), ('rush hour', 'the busy time when people go to work', 'час пик', 'Avoid rush hour!', '⏰'),
+            ('to change', 'to get off one train and take another', 'пересесть', 'Change at Belorussky.', '🔁'), ('a suitcase', 'a big bag for travelling', 'чемодан', 'I have a big suitcase.', '🧳')],
+            'match': [('a lot of cars that cannot move →', 'a traffic jam', ['a traffic jam', 'rush hour', 'a ticket'], ''), ('🛴 →', 'a scooter', ['a scooter', 'a bus', 'a taxi'], ''),
+                      ('the busy time when people go to work →', 'rush hour', ['rush hour', 'a bus stop', 'the metro'], ''), ('a big bag for travelling →', 'a suitcase', ['a suitcase', 'a ticket', 'a scooter'], ''),
+                      ('to get off one train and take another →', 'to change', ['to change', 'to get to', 'to wait'], '')],
+            'gaps': [('How do I get', ['to'], 'the airport?'), ('Avoid rush', ['hour'], '!'), ('', ['Change'], 'at Belorussky station.'), ('The bus', ['stop'], 'is near my house.')]},
+        'notice': ("Look at Alice's sentences. How do we compare two things? How do we choose the best of three?", 'Как сравнить два варианта? Как выбрать лучший из трёх?',
+                   ['The train is <mark>faster than</mark> a taxi.', "It's <mark>much cheaper than</mark> a taxi.", 'A taxi is <mark>the most comfortable</mark>.', 'The bus is <mark>the cheapest</mark>, but <mark>the slowest</mark> too.'],
+                   [('Two things → short word +…', ['-er + than: faster than', '-est: fastest', 'more: more fast'], 0), ('Long word (comfortable) →', ['more / the most comfortable', 'comfortabler', 'comfortablest'], 0),
+                    ('The best of three or more →', ['the + -est / the most', '-er than', 'very'], 0)]),
+        'grammar': {'title': 'compare the options', 'head': 'faster than · the fastest',
+                    'idea': 'Сравниваем <b>два</b> варианта: короткое слово + <b>-er</b> (fast → faster), длинное — <b>more</b> + слово (more comfortable), дальше <b>than</b>. '
+                            'Лучший из <b>всех</b>: <b>the -est</b> (the fastest) или <b>the most</b> (the most comfortable). good → better → the best, bad → worse → the worst.',
+                    'choose': [('Сравниваю два', '-er / more + than: The train is faster than a taxi.'), ('Лучший из всех', 'the -est / the most: The bus is the cheapest.'), ('Намного', 'much + -er: much cheaper')],
+                    'rows': [[('The train', 'a'), ('is', 'd'), ('faster', 'c'), ('than a taxi.', 'b')], [('A taxi', 'a'), ('is', 'd'), ('more comfortable', 'c'), ('than a bus.', 'b')],
+                             [('The bus', 'a'), ('is', 'd'), ('the cheapest.', 'c')]],
+                    'note': 'big → bigger (две g) · easy → easier · good → better → the best · bad → worse → the worst',
+                    'examples': [('🚆', 'The train is faster than a taxi in rush hour.'), ('🚌', 'The bus is the cheapest.'), ('🚕', 'A taxi is the most comfortable with a big suitcase.'),
+                                 ('🚇', 'The metro is much better than the bus in winter.')],
+                    'traps': [('more cheap', 'cheaper', 'Короткое слово → -er.'), ('faster that', 'faster than', 'than, не that.'), ('the most cheap', 'the cheapest', 'Короткое слово → the -est.')],
+                    'ex1': ('Write the correct form.', 'Напишите правильную форму.', [
+                        ('The bus is', ['cheaper'], 'than the train.', 'cheap'), ('A taxi is', ['more expensive'], 'than the bus.', 'expensive'), ('In rush hour the train is', ['faster'], 'than a taxi.', 'fast'),
+                        ('The bus is', ['the slowest'], 'option.', 'slow'), ('A taxi is', ['the most comfortable'], 'with a big suitcase.', 'comfortable'), ('The metro is', ['better'], 'than the bus in winter.', 'good')]),
+                    'ex2': ('Put the words in order.', 'Соберите предложения.', [
+                        (['is', 'faster', 'The train', 'than a taxi.'], 'The train is faster than a taxi.'), (['the cheapest', 'The bus', 'is', 'option.'], 'The bus is the cheapest option.'),
+                        (['much', "It's", 'cheaper.'], "It's much cheaper.")])},
+        'part2': {'key': 'read', 'label': 'Reading', 'title': 'the best metro?', 'task': 'Read the article. Which metro is the busiest in the world?', 'task_ru': 'Какое метро самое загруженное?',
+                  'head': 'Metro Records Around the World', 'small': 'a travel article · about 170 words', 'text': [
+                      'The London Underground is the oldest metro in the world. It opened in 1863 — more than 160 years ago. Londoners call it «the Tube».',
+                      'The Moscow metro is famous for its beautiful stations. Some look like palaces, with chandeliers and paintings. It is also one of the most punctual metros: trains come every 90 seconds in rush hour.',
+                      'The busiest metro is in Tokyo. More than eight million people use it every day. At some stations, staff called «pushers» help people get into the full trains!',
+                      'The longest metro is in Shanghai. It is over 800 kilometres long — longer than the road from Moscow to St Petersburg.',
+                      'And the cheapest? Probably Tehran, where a ticket costs less than ten roubles.'],
+                  'tf': [('The London Underground is the oldest metro.', True), ('Moscow trains come every five minutes in rush hour.', False), ('The Tokyo metro is the busiest.', True),
+                         ('The Shanghai metro is shorter than the road from Moscow to St Petersburg.', False), ('A ticket in Tehran is very expensive.', False)],
+                  'gaps': ('Complete from the article.', 'Вставьте из статьи.', [('London: the', ['oldest'], 'metro.', 'old'), ('Tokyo: the', ['busiest'], 'metro.', 'busy'),
+                                                                                 ('Shanghai: the', ['longest'], 'metro.', 'long')])},
+        'extra': [('problem', 'Problem', 'Tom\'s problem', '10 min', lambda ids:
+                   box('<b>Problem:</b> Your colleague from London, Tom, lands at Sheremetyevo airport at 8 a.m. on Monday. He has a meeting in the city centre at 10. He has a big suitcase. How should he get there?', '✈️')
+                   + box('🚕 <b>Taxi:</b> 60–90 min (traffic jams!) · 2,500 roubles · very comfortable<br>🚆 <b>Aeroexpress + metro:</b> 55 min · 600 roubles · OK with a suitcase<br>'
+                         '🚌 <b>Bus + metro:</b> 80 min · 120 roubles · difficult with a suitcase', '📊')
+                   + rubric('a', 'Compare the options. Choose the right word.', 'Сравните варианты.')
+                   + ex_select(ids, [('The taxi is', 'the most expensive', ['the most expensive', 'the cheapest'], 'option.'), ('The bus is', 'cheaper', ['cheaper', 'more expensive'], 'than the train.'),
+                                     ('The train is', 'faster', ['faster', 'slower'], 'than the bus.'), ('With a suitcase, the bus is', 'the most difficult', ['the most difficult', 'the easiest'], 'option.')])
+                   + rubric('b', 'Your decision: how should Tom travel? Write two sentences.', 'Ваше решение — два предложения.')
+                   + lines(ids, ['Tom should take… because it is…-er than…', 'It is also the… option.']))],
+        'mix': {'title': 'travel notes', 'task': 'These travel notes have mistakes. Correct them.', 'task_ru': 'Заметки с ошибками. Исправьте.',
+                'items': [('The bus is more cheap. →', ['The bus is cheaper.']), ('A taxi is faster that a bus. →', ['A taxi is faster than a bus.']),
+                          ('It is the most cheap option. →', ['It is the cheapest option.', "It's the cheapest option."]), ('The metro is gooder than the bus. →', ['The metro is better than the bus.'])]},
+        'auction': [('The train is faster than a taxi.', True, ''), ('The bus is more cheap than the train.', False, 'The bus is cheaper than the train.'),
+                    ('A taxi is the most comfortable.', True, ''), ('The metro is faster that the bus.', False, 'The metro is faster than the bus.'),
+                    ('Tokyo has the busiest metro.', True, ''), ('London has the most old metro.', False, 'London has the oldest metro.'),
+                    ('The bus is much slower.', True, ''), ('Today the traffic is badder.', False, 'Today the traffic is worse.')],
+        'pron': {'title': 'weak «than»', 'task': '<i>than</i> is weak: /ðən/. The stress is on the adjective. Press 🔊 and repeat.', 'task_ru': 'than звучит слабо, ударение — на прилагательном.',
+                 'list': [('The train is faster than a taxi.', 'the train is <u>FAST</u>er /ðən/ a <u>TAX</u>i'), ("It's much cheaper than a taxi.", "it's much <u>CHEAP</u>er /ðən/ a taxi"),
+                          ('The bus is the cheapest.', 'the bus is the <u>CHEAP</u>est')]},
+        'speaking': {'title': 'transport in your city', 'questions': ['What is the fastest way to get to work in your city?', 'Do you prefer the metro or a car? Why?', 'How long are the traffic jams in rush hour?',
+                                                                    'Have you ever used an electric scooter?', 'What is the most beautiful metro station you know?', 'Which city has the best transport?'],
+                     'phrases': ['The fastest way is…', 'I prefer… because it is…-er than…', "It's much cheaper / more comfortable", 'The best… is…'],
+                     'task': ('Explain the best way to get around your city to a tourist.', 'Объясните туристу, как лучше передвигаться по вашему городу.')},
+        'task': {'task': 'A friend from abroad is visiting your city for three days. Compare taxi, metro, bus and scooter. What is the best way for him to get around? Why?',
+                 'task_ru': 'Друг из-за границы приезжает на три дня. Сравните варианты транспорта и посоветуйте лучший.',
+                 'plan': ['Taxi: …', 'Metro: …', 'Bus / scooter: …', 'The best way is… because…', 'One warning: avoid…'],
+                 'report': ['The fastest way is…', "It's much cheaper than…", 'The most comfortable is…', 'I recommend…', 'Avoid rush hour!']},
+        'writing': {'title': 'a message to Tom', 'task': 'Write a message to Tom: explain how to get from the airport to the centre and why.', 'task_ru': 'Сообщение Тому: как добраться и почему.',
+                    'example': "Hi Tom! Take the Aeroexpress train. It's faster than a taxi in the morning and much cheaper. It takes about 40 minutes to Belorussky station. Then take the metro — it's only two stops. Buy a Troika card. See you at ten!",
+                    'placeholders': ['Hi Tom! Take the…', "It's …-er than…", 'It takes…', 'Then…', 'See you…!']},
+        'cans': [('I can understand advice about transport', 'понять совет о транспорте'), ('I can use 10 transport words', 'использовать 10 слов по теме'),
+                 ('I can compare two options with -er / more … than', 'сравнить два варианта'), ('I can choose the best with the -est / the most', 'выбрать лучший вариант')],
+        'hw': {'words_select': [('the busy time when people go to work →', 'rush hour', ['rush hour', 'a traffic jam', 'the metro'], ''), ('🚇 →', 'the metro', ['the metro', 'a bus', 'a taxi'], ''),
+                                ('🧳 →', 'a suitcase', ['a suitcase', 'a ticket', 'a scooter'], '')],
+               'listen': [('cheaper', 'cheaper', ['cheaper', 'cheap', 'chipper']), ('faster', 'faster', ['faster', 'fast', 'father']), ('the most comfortable', 'the most comfortable', ['the most comfortable', 'more comfortable', 'comfortable'])],
+               'words_gaps': [('How do I get', ['to'], 'the airport?'), ("There's a traffic", ['jam'], '.'), ('Avoid rush', ['hour'], '!')],
+               'gaps': ('Write the correct form.', 'Сравнительная или превосходная степень.', [('A plane is', ['faster'], 'than a train.', 'fast'), ('Moscow is', ['bigger'], 'than Tver.', 'big'),
+                                                                                              ('This hotel is', ['more comfortable'], 'than that one.', 'comfortable'), ('Today the weather is', ['worse'], 'than yesterday.', 'bad'),
+                                                                                              ('It is', ['the best'], 'café in town.', 'good')]),
+               'fix': [('The bus is more cheap. →', ['The bus is cheaper.']), ('A taxi is faster that a bus. →', ['A taxi is faster than a bus.']), ('It is the most cheap. →', ['It is the cheapest.', "It's the cheapest."])],
+               'order': [(['is', 'cheaper', 'The bus', 'than the train.'], 'The bus is cheaper than the train.'), (['the most', 'A taxi', 'is', 'comfortable.'], 'A taxi is the most comfortable.')]},
+        'case': {'bad': [('more cheap', 'cheaper'), ('faster that', 'faster than'), ('the most cheap', 'the cheapest')],
+                 'ok': ['The train is faster than a taxi.', 'The bus is the cheapest.', "It's much cheaper.", 'A taxi is the most comfortable.']},
+    })
 
 
 def build():
-    # Пелагея 2D — полная версия в l_pelageya_2de.py
-    return [varya(), olya(), efim(), vladimir(), sasha(), vika(), mussa()]
+    return [varya(), olya(), efim(), vladimir()]

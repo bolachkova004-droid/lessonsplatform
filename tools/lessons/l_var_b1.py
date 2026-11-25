@@ -1,473 +1,471 @@
-"""Ноябрь 2026, вторая волна B1 / Intermediate — у каждого урока своя структура:
-Юля К 2B — дилеммы (говорим сразу): «What Would You Do?», second conditional.
-Оля B1 2C — детектив: «Lost Property», must / might / can't be.
-Саша B1 3B — викторина + мини-презентация: «Made in…», passive (present / past).
-Екатерина 3B — «испорченный телефон» + ролевая игра: «Can You Pass On a Message?», reported speech.
-Иола 4A — проект: «Volunteers Wanted», present perfect simple vs continuous.
-Милана 3B — опрос + история: «Thrill Seekers», -ed / -ing adjectives, so / such.
-Марина 3B — история по картинкам + диктоглосс: «Travel Disasters», past continuous vs past simple.
-Ксения 4A — дебаты: «City or Countryside?», comparatives: much / far / a bit, (not) as…as, the more… the more."""
+"""Уроки 30 ноября, B1 / Intermediate — полная версия (по образцу урока Дарьи).
+Юля К 2B «What Would You Do?» (second conditional, дилеммы) · Оля B1 2C «Lost Property» (must / might / can't, детектив) ·
+Саша B1 3B «Made in…» (passive, викторина + мини-презентация) · Екатерина 3B «Can You Pass On a Message?» (reported speech)
+(Иола, Милана, Марина, Ксения — в l_var_b1b.py)."""
 from flex import *
 
 DATE = '2026-11-30'
 
 
 def yulia():
-    P, LID = 'yk6', 'yulia-k-6'
-    ids = Ids(P)
-    cards = [('a dilemma', 'a difficult choice between two options', 'дилемма', 'I have a dilemma.', '⚖️'), ('honest', 'telling the truth', 'честный', 'Would you be honest?', '😇'),
-             ('to hand in', 'to give something to a person in authority', 'сдать (находку)', 'I would hand it in to the police.', '👮'), ('to own up', 'to admit you did something wrong', 'признаться', 'He owned up to breaking the vase.', '🙋'),
-             ('a white lie', 'a small lie to be kind', 'ложь во спасение', 'Is a white lie OK?', '🤍'), ('to keep a secret', 'not to tell anyone', 'хранить секрет', 'Can you keep a secret?', '🤫'),
-             ('a reward', 'money or a gift for doing something good', 'вознаграждение', 'She got a reward.', '🎁'), ('to feel guilty', 'to feel bad about something you did', 'чувствовать вину', 'I would feel guilty.', '😣')]
-    lines_ = [('f3', "OK, here's one for you. You find a wallet in the street. There are five hundred euros inside and an ID card. What would you do?"),
-              ('m3', "Honestly? I'd hand it in to the police. If I lost my wallet, I'd want someone to do the same for me."),
-              ('f3', "What if there was no ID card? Just the money?"), ('m3', "Hmm… that's harder. I'd still hand it in. If I kept it, I'd feel guilty for weeks."),
-              ('f3', 'Next one. Your best friend gives you a terrible birthday present. Would you tell her?'),
-              ('m3', "No way! I'd say «Thank you, I love it!» That's a white lie. It wouldn't help anyone if I told the truth."),
-              ('f3', 'And if you saw a colleague taking money from the office?'), ('m3', "I'd talk to the colleague first. If they didn't stop, I'd tell my manager. What about you?"),
-              ('f3', "I'd probably do the same. But I'd be very nervous!")]
-    sections = [
-        ('dilemmas', 'Speak first', 'three dilemmas', '12 min',
-         route([('⚖️', 'dilemmas (speak first)'), ('🎧', 'two friends'), ('🔍', 'notice the grammar'), ('📝', 'magazine quiz'), ('💌', 'advice letter')])
-         + rubric('a', 'No grammar yet — just talk. Read each dilemma, decide, and explain to your teacher.', 'Пока без грамматики — просто обсудите. Что бы вы сделали?')
-         + opinion(ids, ['You find a wallet with €500 and an ID card.', 'Your friend gives you a present you hate.', 'You see a colleague taking money from the office.',
-                         'A shop gives you too much change.'], ['keep quiet', 'act / tell', "it depends"])
-         + phrases(['I think I would…', "I wouldn't…", 'It depends on…', 'Honestly…'])),
-        ('listen', 'Listening', 'what would you do?', '10 min',
-         rubric('a', 'Listen to two friends discussing the same dilemmas. Do they agree with you?', 'Два друга обсуждают те же дилеммы. Они согласны с вами?')
-         + listening(P + '-lis', lines_, 'Two friends: «What would you do?»', 'Listen twice', '🗣️', {'f3': 'Kate', 'm3': 'Tom'})
-         + deck('Details', [mc(P + '-q1', 'What would Tom do with the wallet?', ['hand it in to the police', 'keep the money', 'leave it'], 0),
-                            mc(P + '-q2', 'Why?', ["He'd want the same if he lost his wallet.", 'He wants a reward.', 'He is a police officer.'], 0),
-                            mc(P + '-q3', 'What about the terrible present?', ['He would tell a white lie.', 'He would tell the truth.', 'He would give it back.'], 0),
-                            mc(P + '-q4', 'And the colleague taking money?', ['talk to the colleague first', 'call the police', 'do nothing'], 0)])),
-        ('notice', 'Grammar', 'notice the pattern', '12 min',
-         rubric('a', 'Look at Tom\'s sentences. What tense comes after <i>if</i>? Is the situation real or imagined?', 'Какое время после if? Ситуация реальная или воображаемая?')
-         + examples(["If I <mark>lost</mark> my wallet, I<mark>'d want</mark> someone to do the same.", "If I <mark>kept</mark> it, I<mark>'d feel</mark> guilty.", "It <mark>wouldn't help</mark> anyone if I <mark>told</mark> the truth."])
-         + deck('Discover', [mc(P + '-d1', 'After «if» Tom uses…', ['the past simple', 'will', 'the present'], 0), mc(P + '-d2', 'But he is talking about…', ['an imagined present or future', 'the past', 'a fact'], 0),
-                             mc(P + '-d3', 'In the other part he uses…', ["would ('d) + verb", 'will + verb', 'the past'], 0)])
-         + reveal('📘 Check the rule', easy("If I found…, I'd…",
-                                             'Воображаемая, маловероятная ситуация <b>сейчас или в будущем</b> → <b>if + past simple</b>, <b>would + глагол</b>. Прошедшее время здесь не про прошлое — оно показывает «нереально». '
-                                             'Совет: <b>If I were you, I\'d…</b>',
-                                             [[('If', 'c'), ('I', 'a'), ('found', 'd'), ('a wallet,', 'b')], [("I'd", 'd'), ('hand it in.', 'b')]],
-                                             [('👛', "If I found a wallet, I'd hand it in."), ('🎁', "If I hated the present, I wouldn't say so."), ('💡', "If I were you, I'd tell the truth.")],
-                                             [("If I would find…", 'If I found…', 'После if — без would.'), ("If I found it, I will keep it.", "If I found it, I'd keep it.", 'would, не will.')]))
-         + ex_gaps(ids, [('If I', ['found'], "€500, I'd hand it in.", 'find'), ('I', ["'d tell", 'would tell'], 'my manager if I saw it.', 'tell'), ('If you', ['were'], 'me, what would you do?', 'be'),
-                         ('She', ["wouldn't keep", 'would not keep'], 'the money.', 'not / keep')])),
-        ('quiz', 'Quiz', 'how honest are you?', '10 min',
-         rubric('a', 'A magazine quiz. Choose your answers, then count your points and read your result.', 'Тест из журнала: выберите ответы и посчитайте баллы.')
-         + opinion(ids, ['If a shop gave you too much change, would you give it back?', 'If your friend asked about her new haircut (and you hated it), would you tell the truth?',
-                         'If you broke something in a hotel, would you own up?', 'If you knew a big secret about a friend, would you keep it?'], ['a) yes, always (3)', 'b) probably (2)', 'c) no (1)'])
-         + reveal('📊 Results', '<p><b>10–12:</b> You are honest — maybe too honest! <b>7–9:</b> You are honest but kind; you use white lies to protect people. <b>4–6:</b> Hmm… remind us never to lend you our wallet! 😄</p>')
-         + vocab_section(ids, '2B', 'Honesty and dilemmas', cards, [('a small lie to be kind →', 'a white lie', ['a white lie', 'a dilemma', 'a reward'], ''), ('to admit you did something wrong →', 'to own up', ['to own up', 'to hand in', 'to keep a secret'], '')], [])),
-        ('write', 'Writing', 'an advice column', '10 min',
-         rubric('a', 'A reader writes: «My neighbour\'s dog barks all night. I\'m too shy to complain. What should I do?» Write a reply with three pieces of advice.', 'Ответьте читателю: три совета.')
-         + lines(ids, ["If I were you, I'd…", 'If you talked to him, he would probably…', "If that didn't work, I'd…", 'Good luck!']) + send_box()),
-    ]
-    hw = hw_pair(ids, [('a difficult choice between two options →', 'a dilemma', ['a dilemma', 'a reward', 'a secret'], ''), ('money or a gift for doing something good →', 'a reward', ['a reward', 'a white lie', 'a dilemma'], ''),
-                       ('telling the truth →', 'honest', ['honest', 'guilty', 'shy'], '')],
-                 [('guilty', 'guilty', ['guilty', 'gilded', 'gentle']), ('honest', 'honest', ['honest', 'hottest', 'honey']), ('a dilemma', 'a dilemma', ['a dilemma', 'a lemon', 'a diploma'])],
-                 [('I would hand it', ['in'], 'to the police.'), ('He owned', ['up'], 'to his mistake.'), ('Can you keep a', ['secret'], '?')],
-                 'Second conditional: write the verbs.', 'Второй тип условных.', [('If I', ['had'], 'more time, I would learn Italian.', 'have'), ('What', ['would'], 'you do if you won a million?', ''),
-                                                                                  ('If he', ['were', 'was'], 'taller, he would play basketball.', 'be'), ('I', ["wouldn't lie", 'would not lie'], 'to my best friend.', 'not / lie')],
-                 [("If I would have a car, I'd drive. →", ["If I had a car, I'd drive.", 'If I had a car, I would drive.']), ('If I found it, I will keep it. →', ["If I found it, I'd keep it.", 'If I found it, I would keep it.'])])
-    return flex({'id': LID, 'prefix': P, 'owner': 'yulia-k', 'code': '2B', 'title': 'What Would You Do?', 'level': 'B1', 'category': 'Dilemmas & honesty', 'minutes': '60 min',
-                 'grammar': "Second conditional: If I found…, I'd… · If I were you…", 'date': DATE, 'gvp': {'g': 'second conditional', 'v': 'honesty and dilemmas', 'p': "'d"},
-                 'eyebrow': 'IRIS SCHOOL · Юля К · урок 2B', 'tags': ['B1', 'Dilemmas', 'Speak first', 'Second conditional'],
-                 'lead': 'This lesson starts with talking, not grammar: tricky dilemmas about honesty. Then you hear two friends discuss them, notice how they say it — and take a magazine quiz.',
-                 'cards': cards, 'case': {'bad': [('If I would find it…', 'If I found it…'), ('If I found it, I will keep it.', "If I found it, I'd keep it.")], 'ok': ["If I were you, I'd tell the truth.", "I'd hand it in."]},
-                 'sections': sections, 'hw': hw})
+    return std({
+        'id': 'yulia-k-6', 'prefix': 'yk6', 'owner': 'yulia-k', 'code': '2B', 'title': 'What Would You Do?', 'level': 'B1', 'category': 'Dilemmas & honesty',
+        'minutes': '80 min', 'grammar': "Second conditional: If I found…, I'd… · If I were you… · What would you do if…?", 'date': DATE,
+        'gvp': {'g': 'second conditional (if + past, would + verb); If I were you', 'v': 'honesty, dilemmas and moral choices', 'p': "'d and wouldn't in fast speech"},
+        'eyebrow': 'IRIS SCHOOL · Юля К · урок 2B', 'tags': ['B1', 'Dilemmas', 'Honesty quiz', 'Second conditional'],
+        'lead': 'This lesson starts with talking, not grammar: tricky dilemmas about honesty. Then two friends discuss them, you notice how they say it, '
+                'read a true story about a lost wallet, take a magazine quiz and write advice for a reader with a problem.',
+        'think': ('Think of a time when it was difficult to tell the truth. What did you do? Would you do the same today?',
+                  'Вспомните ситуацию, когда трудно было сказать правду. Что вы сделали? Сделали бы так сейчас?', ['Once I…', 'I decided to…', 'Today I would / wouldn\'t… because…']),
+        'aims': ['understand two friends discussing dilemmas', 'use 10 words about honesty', "talk about imagined situations: If I found…, I'd…", "give advice: If I were you, I'd…"],
+        'listen': {'title': 'what would you do?', 'task': 'Kate asks Tom about four dilemmas. Listen once: is Tom an honest person?', 'task_ru': 'Том — честный человек?',
+                   'head': 'Two friends: «What would you do?»', 'names': {'f3': 'Kate', 'm3': 'Tom'}, 'emoji': '⚖️',
+                   'lines': [('f3', "OK, here's one for you. You find a wallet in the street. There are five hundred euros inside and an ID card. What would you do?"),
+                             ('m3', "Honestly? I'd hand it in to the police. If I lost my wallet, I'd want someone to do the same for me."),
+                             ('f3', 'What if there was no ID card? Just the money?'), ('m3', "Hmm… that's harder. I'd still hand it in. If I kept it, I'd feel guilty for weeks."),
+                             ('f3', 'Next one. Your best friend gives you a terrible birthday present. Would you tell her?'),
+                             ('m3', "No way! I'd say «Thank you, I love it!» That's a white lie. It wouldn't help anyone if I told the truth."),
+                             ('f3', 'And if you saw a colleague taking money from the office?'), ('m3', "I'd talk to the colleague first. If they didn't stop, I'd tell my manager."),
+                             ('f3', 'Last one. A shop assistant gives you too much change — a thousand roubles extra.'),
+                             ('m3', "I'd give it back. She'd have to pay it from her own money. That wouldn't be fair. What about you?"),
+                             ('f3', "I'd probably do the same. But to be honest, if it was only ten roubles, I wouldn't go back!")],
+                   'gist': ('Is Tom an honest person?', ['Yes, mostly — but he tells white lies.', 'No, he keeps the money.', 'He never answers.'], 0),
+                   'details': [('What would Tom do with the wallet?', ['hand it in to the police', 'keep the money', 'leave it'], 0),
+                               ('Why?', ["He'd want the same if he lost his wallet.", 'He wants a reward.', 'He is a police officer.'], 0),
+                               ('What about the terrible present?', ['He would tell a white lie.', 'He would tell the truth.', 'He would give it back.'], 0),
+                               ('What would he do first about the colleague?', ['talk to the colleague', 'call the police', 'do nothing'], 0),
+                               ('Why would he give back the extra change?', ['The shop assistant would have to pay it.', 'He is rich.', 'There is a camera.'], 0)],
+                   'notes': [('There are', ['500', 'five hundred'], 'euros in the wallet.'), ('If he kept it, he would feel', ['guilty'], '.'), ('The extra change is', ['1,000', 'a thousand', '1000'], 'roubles.'),
+                             ("Kate wouldn't go back for", ['ten roubles', '10 roubles', 'ten'], '.')]},
+        'vocab': {'title': 'honesty', 'theme': 'Honesty and dilemmas', 'cards': [
+            ('a dilemma', 'a difficult choice between two options', 'дилемма', 'I have a dilemma.', '⚖️'), ('honest', 'telling the truth', 'честный', 'Would you be honest?', '😇'),
+            ('to hand in', 'to give something to a person in authority', 'сдать (находку)', 'I would hand it in to the police.', '👮'), ('to own up', 'to admit you did something wrong', 'признаться', 'He owned up to breaking the vase.', '🙋'),
+            ('a white lie', 'a small lie to be kind', 'ложь во спасение', 'Is a white lie OK?', '🤍'), ('to keep a secret', 'not to tell anyone', 'хранить секрет', 'Can you keep a secret?', '🤫'),
+            ('a reward', 'money or a gift for doing something good', 'вознаграждение', 'She got a reward.', '🎁'), ('to feel guilty', 'to feel bad about something you did', 'чувствовать вину', 'I would feel guilty.', '😣'),
+            ('fair', 'right and equal for everyone', 'справедливый', "That wouldn't be fair.", '⚖️'), ('to cheat', 'to be dishonest to win or get something', 'жульничать, обманывать', 'He cheated in the exam.', '🃏')],
+            'match': [('a small lie to be kind →', 'a white lie', ['a white lie', 'a dilemma', 'a reward'], ''), ('to admit you did something wrong →', 'to own up', ['to own up', 'to hand in', 'to keep a secret'], ''),
+                      ('right and equal for everyone →', 'fair', ['fair', 'honest', 'guilty'], ''), ('money or a gift for doing something good →', 'a reward', ['a reward', 'a white lie', 'a dilemma'], ''),
+                      ('to be dishonest to win →', 'to cheat', ['to cheat', 'to own up', 'to hand in'], '')],
+            'gaps': [('I would hand it', ['in'], 'to the police.'), ('He owned', ['up'], 'to his mistake.'), ('Can you keep a', ['secret'], '?'), ('If I lied, I would feel', ['guilty'], '.')]},
+        'notice': ("Look at Tom's sentences. What tense comes after <i>if</i>? Is the situation real or imagined?", 'Какое время после if? Ситуация реальная или воображаемая?',
+                   ["If I <mark>lost</mark> my wallet, I<mark>'d want</mark> someone to do the same.", "If I <mark>kept</mark> it, I<mark>'d feel</mark> guilty.",
+                    "It <mark>wouldn't help</mark> anyone if I <mark>told</mark> the truth.", 'What <mark>would</mark> you <mark>do</mark>?'],
+                   [('After «if» Tom uses…', ['the past simple', 'will', 'the present'], 0), ('But he is talking about…', ['an imagined present or future', 'the past', 'a fact'], 0),
+                    ('In the other part he uses…', ["would ('d) + verb", 'will + verb', 'the past'], 0)]),
+        'grammar': {'title': 'second conditional', 'head': "If I found…, I'd…",
+                    'idea': 'Воображаемая, маловероятная ситуация <b>сейчас или в будущем</b> → <b>if + past simple</b>, <b>would + глагол</b>. Прошедшее время здесь не про прошлое — оно показывает «нереально». '
+                            'Совет: <b>If I were you, I\'d…</b> (were — для всех лиц). Части можно менять местами: I\'d hand it in if I found it.',
+                    'choose': [('Реально, вероятно', "first: If it rains, I'll stay home."), ('Воображаемо, маловероятно', "second: If I won a million, I'd travel."), ('Совет', "If I were you, I'd…")],
+                    'rows': [[('If', 'c'), ('I', 'a'), ('found', 'd'), ('a wallet,', 'b')], [("I'd", 'd'), ('hand it in.', 'b')], [('If I were you,', 'c'), ("I'd", 'd'), ('tell the truth.', 'b')]],
+                    'note': "would = 'd · would not = wouldn't · Вопрос: What would you do if…? Would you…?",
+                    'examples': [('👛', "If I found a wallet, I'd hand it in."), ('🎁', "If I hated the present, I wouldn't say so."), ('💡', "If I were you, I'd tell the truth."), ('❓', 'What would you do if you saw it?')],
+                    'traps': [('If I would find…', 'If I found…', 'После if — без would.'), ('If I found it, I will keep it.', "If I found it, I'd keep it.", 'would, не will.'), ('If I was you…', 'If I were you…', 'В совете — were.')],
+                    'ex1': ('Complete with the second conditional.', 'Второй тип условных.', [
+                        ('If I', ['found'], "€500, I'd hand it in.", 'find'), ('I', ["'d tell", 'would tell'], 'my manager if I saw it.', 'tell'), ('If you', ['were'], 'me, what would you do?', 'be'),
+                        ('She', ["wouldn't keep", 'would not keep'], 'the money.', 'not / keep'), ('If he', ['lied'], ', he would feel guilty.', 'lie'), ('What', ['would'], 'you do if you won a million?', '')]),
+                    'ex2': ('Put the words in order.', 'Соберите предложения.', [
+                        (['If I were you,', "I'd", 'tell the truth.'], "If I were you, I'd tell the truth."), (['would', 'What', 'you', 'do?'], 'What would you do?'),
+                        (["I wouldn't", 'keep it', 'if I found it.'], "I wouldn't keep it if I found it.")])},
+        'part2': {'key': 'read', 'label': 'Reading', 'title': 'the wallet experiment', 'task': 'Read about a famous experiment. Which city was the most honest?', 'task_ru': 'Какой город оказался самым честным?',
+                  'head': 'The Lost Wallet Experiment', 'small': 'a science article · about 200 words', 'text': [
+                      'What would you do if you found a wallet in the street? Researchers decided to find out. They «lost» more than 17,000 wallets in 355 cities in 40 countries.',
+                      'Each wallet had a business card with an email address, a shopping list and a key. Some wallets had no money, and some had about 13 dollars.',
+                      "The results surprised everyone. People returned the wallets with money MORE often than the empty ones. When there was a lot of money — almost 100 dollars — even more people returned them.",
+                      "Why? The researchers think most people don't want to see themselves as thieves. «If I kept the money, I'd feel like a bad person» — that feeling is stronger than the wish for money.",
+                      'The most honest countries were Switzerland and Norway, where about three quarters of the wallets came back. And the key? People returned wallets with keys more often — because the owner would need them.'],
+                  'tf': [('The researchers lost more than 17,000 wallets.', True), ('Every wallet had money in it.', False), ('People returned wallets with money more often than empty ones.', True),
+                         ('People returned fewer wallets when there was a lot of money.', False), ('Wallets with keys came back more often.', True)],
+                  'gaps': ('Complete from the article.', 'Вставьте из статьи.', [('What would you do if you', ['found'], 'a wallet in the street?', 'find'),
+                                                                                 ("If I kept the money, I'd feel like a bad", ['person'], '.', ''), ('because the owner', ['would'], 'need them.', '')])},
+        'extra': [('dilemmas', 'Speak first', 'three dilemmas', '8 min', lambda ids:
+                   rubric('a', 'No grammar yet — just talk. Read each dilemma, decide, and explain to your teacher.', 'Пока без грамматики — просто обсудите. Что бы вы сделали?')
+                   + opinion(ids, ['You find a wallet with €500 and an ID card.', 'Your friend gives you a present you hate.', 'You see a colleague taking money from the office.',
+                                   'A shop gives you too much change.', 'Your friend cheats in an important exam.'], ['keep quiet', 'act / tell', 'it depends'])
+                   + phrases(['I think I would…', "I wouldn't…", 'It depends on…', 'Honestly…']), 'start'),
+                  ('quiz', 'Quiz', 'how honest are you?', '8 min', lambda ids:
+                   rubric('a', 'A magazine quiz. Choose your answers, count your points and read your result.', 'Тест из журнала: выберите ответы и посчитайте баллы.')
+                   + opinion(ids, ['If a shop gave you too much change, would you give it back?', 'If your friend asked about her new haircut (and you hated it), would you tell the truth?',
+                                   'If you broke something in a hotel, would you own up?', 'If you knew a big secret about a friend, would you keep it?'], ['a) yes, always (3)', 'b) probably (2)', 'c) no (1)'])
+                   + reveal('📊 Results', '<p><b>10–12:</b> You are honest — maybe too honest! <b>7–9:</b> You are honest but kind; you use white lies to protect people. <b>4–6:</b> Hmm… remind us never to lend you our wallet! 😄</p>'))],
+        'mix': {'title': 'a forum post', 'task': 'A forum post with mistakes. Correct them.', 'task_ru': 'Пост на форуме с ошибками. Исправьте.',
+                'items': [("If I would have a car, I'd drive. →", ["If I had a car, I'd drive.", 'If I had a car, I would drive.']), ('If I found it, I will keep it. →', ["If I found it, I'd keep it.", 'If I found it, I would keep it.']),
+                          ("If I was you, I'd call her. →", ["If I were you, I'd call her.", 'If I were you, I would call her.']), ('What you would do? →', ['What would you do?'])]},
+        'auction': [("If I found a wallet, I'd hand it in.", True, ''), ("If I would find a wallet, I'd keep it.", False, "If I found a wallet, I'd keep it."),
+                    ("If I were you, I'd tell her.", True, ''), ('If I found the money, I will give it back.', False, "If I found the money, I'd give it back."),
+                    ("I wouldn't lie to my best friend.", True, ''), ('What you would do?', False, 'What would you do?'),
+                    ('Would you own up if you broke it?', True, ''), ("If he has more time, he'd help.", False, "If he had more time, he'd help.")],
+        'pron': {'title': "'d · wouldn't", 'task': "<i>I would</i> → <b>I'd</b> /aɪd/; <i>would not</i> → <b>wouldn't</b> /ˈwʊdnt/. Press 🔊 and repeat.", 'task_ru': 'Сокращения в быстрой речи.',
+                 'list': [("I'd hand it in.", "/aɪd/ hand it <u>IN</u>"), ("I wouldn't keep it.", "I /ˈwʊdnt/ <u>KEEP</u> it"), ("If I were you, I'd tell the truth.", "if I were <u>YOU</u>, /aɪd/ tell the <u>TRUTH</u>")],
+                 'pick': [("I'd keep it.", "I'd keep it.", ["I'd keep it.", 'I keep it.', "I'll keep it."]), ("I wouldn't tell.", "I wouldn't tell.", ["I wouldn't tell.", "I won't tell.", "I didn't tell."])]},
+        'speaking': {'title': 'what would you do?', 'questions': ['What would you do if you won a million roubles?', 'If you could live anywhere, where would you live?', 'Would you tell a friend a hard truth?',
+                                                                'If you found €50 in the street, would you keep it?', 'Is a white lie ever OK?', 'What would you change in your city if you were the mayor?'],
+                     'phrases': ["If I…, I'd…", "I wouldn't…", 'It depends on…', 'To be honest…', "If I were you, I'd…"],
+                     'task': ('Give advice to a reader with a problem.', 'Дайте совет читателю с проблемой.')},
+        'task': {'task': "Problem page! A reader writes: «My neighbour's dog barks all night. I'm too shy to complain. My sister says I should call the police. What should I do?» Prepare three pieces of advice and present them.",
+                 'task_ru': 'Читатель пишет: соседская собака лает всю ночь, а он стесняется жаловаться. Подготовьте три совета и расскажите.',
+                 'plan': ["If I were you, I'd…", 'If you talked to him, he would probably…', "If that didn't work, I'd…", "I wouldn't… because…"],
+                 'report': ["If I were you, I'd…", 'He would probably…', "I wouldn't call the police because…", 'What do you think?']},
+        'writing': {'title': 'an advice column', 'task': 'Write a reply to the reader (5 sentences) with three pieces of advice.', 'task_ru': 'Ответ читателю: пять предложений, три совета.',
+                    'example': "Dear Shy Neighbour, I understand — it's not easy! If I were you, I'd write a friendly note first. If your neighbour read it, he would probably feel sorry. If that didn't work, I'd talk to him face to face. I wouldn't call the police — it would make things worse. Good luck!",
+                    'placeholders': ['Dear…, I understand…', "If I were you, I'd…", 'If you…, he would probably…', "If that didn't work, I'd…", 'Good luck!']},
+        'cans': [('I can understand people discussing dilemmas', 'понять обсуждение дилемм'), ('I can use 10 words about honesty', 'использовать 10 слов по теме'),
+                 ("I can talk about imagined situations: If I found…, I'd…", 'говорить о воображаемых ситуациях'), ("I can give advice: If I were you…", 'давать советы')],
+        'hw': {'words_select': [('a difficult choice between two options →', 'a dilemma', ['a dilemma', 'a reward', 'a secret'], ''), ('money or a gift for doing something good →', 'a reward', ['a reward', 'a white lie', 'a dilemma'], ''),
+                                ('telling the truth →', 'honest', ['honest', 'guilty', 'fair'], '')],
+               'listen': [('guilty', 'guilty', ['guilty', 'gilded', 'gentle']), ('honest', 'honest', ['honest', 'hottest', 'honey']), ('a dilemma', 'a dilemma', ['a dilemma', 'a lemon', 'a diploma'])],
+               'words_gaps': [('I would hand it', ['in'], 'to the police.'), ('He owned', ['up'], 'to his mistake.'), ("That wouldn't be", ['fair'], '.')],
+               'gaps': ('Second conditional: write the verbs.', 'Второй тип условных.', [('If I', ['had'], 'more time, I would learn Italian.', 'have'), ('What', ['would'], 'you do if you won a million?', ''),
+                                                                                         ('If he', ['were', 'was'], 'taller, he would play basketball.', 'be'), ('I', ["wouldn't lie", 'would not lie'], 'to my best friend.', 'not / lie'),
+                                                                                         ('If we', ['lived'], 'by the sea, we would swim every day.', 'live')]),
+               'fix': [("If I would have a car, I'd drive. →", ["If I had a car, I'd drive.", 'If I had a car, I would drive.']), ('If I found it, I will keep it. →', ["If I found it, I'd keep it.", 'If I found it, I would keep it.']),
+                       ('What you would do? →', ['What would you do?'])],
+               'order': [(['If I were you,', "I'd", 'call her.'], "If I were you, I'd call her."), (['would', 'you', 'keep it?', 'Would'], 'Would you keep it?')]},
+        'case': {'bad': [('If I would find it…', 'If I found it…'), ('If I found it, I will keep it.', "If I found it, I'd keep it."), ('If I was you…', 'If I were you…')],
+                 'ok': ["If I were you, I'd tell the truth.", "I'd hand it in.", "I wouldn't keep it.", 'What would you do?']},
+    })
 
 
 def olya_b1():
-    P, LID = 'ob5', 'olya-b1-5'
-    ids = Ids(P)
-    cards = [('lost property', 'a place where lost things are kept', 'бюро находок', 'Try the lost property office.', '🧳'), ('to belong to', 'to be someone\'s', 'принадлежать', 'Who does it belong to?', '👤'),
-             ('a clue', 'something that helps you find the answer', 'улика', 'The ticket is a clue.', '🔎'), ('a receipt', 'a paper you get when you pay', 'чек', 'a receipt from a café', '🧾'),
-             ('a charger', 'a cable to give power to a phone', 'зарядка', 'a phone charger', '🔌'), ('a sketchbook', 'a book for drawing', 'скетчбук', 'a sketchbook full of drawings', '✏️'),
-             ('to deduce', 'to decide something from the facts', 'сделать вывод', 'What can you deduce?', '🧠'), ('an owner', 'the person something belongs to', 'владелец', 'We found the owner!', '🙋')]
-    sections = [
-        ('bag', 'Mystery', 'whose bag is it?', '12 min',
-         route([('🎒', 'a mystery bag'), ('🎧', 'the lost property office'), ('🔍', 'detective grammar'), ('🕵️', 'solve three cases'), ('✍️', 'write a case')])
-         + rubric('a', 'A bag was left on a train. Look at what was inside. Who is the owner? Say what you think.', 'В поезде оставили сумку. Чья она? Скажите, что думаете.')
-         + box('<b>Inside the bag:</b> 🎫 a train ticket Moscow → Tver · ✏️ a sketchbook full of drawings of cats · 🧾 a receipt: 2 cappuccinos, 1 cookie for a dog · 🔌 a phone charger · 👓 reading glasses · 🎟️ a theatre ticket for Saturday', '🎒')
-         + think(ids, 'Who do you think the owner is? Age, job, hobbies?', 'Кто, по-вашему, владелец?', ['I think the owner is…', 'Maybe he / she…', "He / she probably isn't…"])),
-        ('listen', 'Listening', 'at the lost property office', '10 min',
-         rubric('a', 'Two staff at the lost property office talk about the same bag. Were your ideas right?', 'Сотрудники бюро находок обсуждают сумку. Вы угадали?')
-         + listening(P + '-lis', [('f3', 'Look at this bag from the 8.15 train. Whose do you think it is?'), ('m4', "The owner must be an artist — look at all these drawings. And she must love cats."),
-                                  ('f3', "Why «she»? It might be a man."), ('m4', "True. But they can't be young — there are reading glasses in here."), ('f3', "Not necessarily. Lots of young people need glasses. Look, a cookie for a dog. They must have a dog."),
-                                  ('m4', "And this theatre ticket is for Saturday. They'll definitely come back for it!"), ('f3', "The ticket says Tver. They might live there, or they might just be visiting."),
-                                  ('m4', "Oh, wait — there's a name on the sketchbook: Anna Belova. Mystery solved!")],
-                     'At the lost property office', 'Listen twice', '🧳', {'f3': 'Officer 1', 'm4': 'Officer 2'})
-         + deck('Details', [mc(P + '-q1', 'Why must the owner be an artist?', ['There are lots of drawings.', 'There are paints.', 'There is a museum ticket.'], 0),
-                            mc(P + '-q2', 'What does the cookie tell them?', ['They must have a dog.', 'They must be hungry.', 'They work in a café.'], 0),
-                            mc(P + '-q3', 'How do they solve the mystery?', ['a name on the sketchbook', 'a phone call', 'the ticket'], 0)])),
-        ('rule', 'Grammar', 'detective grammar', '12 min',
-         rubric('a', 'Match the expressions with how sure the detective is.', 'Соотнесите выражение и уверенность детектива.')
-         + ex_select(ids, [('The owner must be an artist. →', '95% — almost sure it is true', ['95% — almost sure it is true', '50% — maybe', '95% — almost sure it is NOT true'], ''),
-                           ('It might be a man. →', '50% — maybe', ['50% — maybe', '95% — almost sure it is true', '95% — almost sure it is NOT true'], ''),
-                           ("They can't be young. →", '95% — almost sure it is NOT true', ['95% — almost sure it is NOT true', '50% — maybe', '95% — almost sure it is true'], '')])
-         + easy("must be · might be · can't be",
-                'Делаем выводы о <b>настоящем</b> по уликам: <b>must</b> = наверняка да; <b>might / may / could</b> = возможно; <b>can\'t</b> = наверняка нет. После них — <b>простой глагол</b> (be, have, live, love). '
-                'Важно: «наверняка нет» — это <b>can\'t</b>, а не mustn\'t!',
-                [[('The owner', 'a'), ('must', 'd'), ('be', 'c'), ('an artist.', 'b')], [('They', 'a'), ('might', 'd'), ('live', 'c'), ('in Tver.', 'b')], [('They', 'a'), ("can't", 'd'), ('be', 'c'), ('young.', 'b')]],
-                [('🎨', 'The owner must be an artist.'), ('🐶', 'They must have a dog.'), ('🚆', 'They might live in Tver.'), ('👓', "They can't be very young.")],
-                [("They mustn't be young.", "They can't be young.", '«Наверняка нет» → can\'t.'), ('She must to be an artist.', 'She must be an artist.', 'Без to.'), ('He might is at home.', 'He might be at home.', 'После might — be.')],
-                choose=[('Уверен, что да (улики!)', 'must + V'), ('Возможно', 'might / may / could + V'), ('Уверен, что нет', "can't + V")])),
-        ('cases', 'Detective game', 'three cases', '12 min',
-         rubric('a', 'Solve three cases. Complete with must, might or can\'t.', 'Три дела: вставьте must / might / can\'t.')
-         + escape(ids, [('🧥', 'Case 1', 'A coat with sand in the pockets and a ferry ticket. The owner ___ have been to the sea — or live by it.', ['must']),
-                        ('⚽', 'Case 2', 'A football boot, size 32. The owner ___ be an adult — it is a child\'s size!', ["can't", 'cannot']),
-                        ('📚', 'Case 3', 'A Spanish dictionary and a plane ticket to Madrid. The owner ___ be learning Spanish — or maybe they are a teacher.', ['might', 'may', 'could'])])
-         + vocab_section(ids, '2C', 'Lost and found', cards, [('a paper you get when you pay →', 'a receipt', ['a receipt', 'a ticket', 'a clue'], ''), ('to be someone\'s →', 'to belong to', ['to belong to', 'to deduce', 'to lose'], '')], [])),
-        ('write', 'Writing', 'your own case', '10 min',
-         rubric('a', 'Write your own «lost bag» case: list five objects. Then write three deductions. Your teacher will try to guess first!', 'Придумайте своё дело: пять предметов и три вывода.')
-         + lines(ids, ['Inside the bag: …', 'The owner must…', 'The owner might…', "The owner can't…"]) + send_box()),
-    ]
-    hw = hw_pair(ids, [('a place where lost things are kept →', 'lost property', ['lost property', 'a museum', 'a station'], ''), ('the person something belongs to →', 'an owner', ['an owner', 'a clue', 'a receipt'], ''),
-                       ('a cable to give power to a phone →', 'a charger', ['a charger', 'a receipt', 'a sketchbook'], '')],
-                 [('a receipt', 'a receipt', ['a receipt', 'a recipe', 'a reset']), ('a clue', 'a clue', ['a clue', 'a glue', 'a crew']), ('deduce', 'deduce', ['deduce', 'reduce', 'produce'])],
-                 [('Who does it belong', ['to'], '?'), ('The ticket is an important', ['clue'], '.'), ('We found the', ['owner'], '!')],
-                 'Write must, might or can\'t.', "must / might / can't.", [("He's got a key to the school. He", ['must'], 'work there.', ''), ('She is only 12. She', ["can't", 'cannot'], 'be a driver.', ''),
-                                                                         ("I'm not sure where Pavel is. He", ['might', 'may', 'could'], 'be at the gym.', ''), ('The lights are off. They', ['must', 'might'], 'be out.', '')],
-                 [("She mustn't be at home — the car isn't here. →", ["She can't be at home — the car isn't here."]), ('He must to be tired. →', ['He must be tired.'])])
-    return flex({'id': LID, 'prefix': P, 'owner': 'olya-b1', 'code': '2C', 'title': 'Lost Property', 'level': 'B1', 'category': 'Mystery & detective', 'minutes': '60 min',
-                 'grammar': "Modals of deduction (present): must / might / can't be", 'date': DATE, 'gvp': {'g': "must / might / may / could / can't + infinitive", 'v': 'lost and found', 'p': ''},
-                 'eyebrow': 'IRIS SCHOOL · Оля · урок 2C', 'tags': ['B1', 'Detective', 'Mystery bag', "must · might · can't"],
-                 'lead': 'A bag left on a train — whose is it? Today you are a detective: guess from the clues, listen to the lost property officers and solve three more cases.',
-                 'cards': cards, 'case': {'bad': [("They mustn't be young.", "They can't be young."), ('She must to be an artist.', 'She must be an artist.')], 'ok': ['The owner must be an artist.', 'They might live in Tver.']},
-                 'sections': sections, 'hw': hw})
+    return std({
+        'id': 'olya-b1-5', 'prefix': 'ob5', 'owner': 'olya-b1', 'code': '2C', 'title': 'Lost Property', 'level': 'B1', 'category': 'Mystery & detective',
+        'minutes': '80 min', 'grammar': "Modals of deduction (present): must / might / may / could / can't be", 'date': DATE,
+        'gvp': {'g': "must / might / may / could / can't + infinitive (present deduction)", 'v': 'lost and found, clues', 'p': "must /məs(t)/ and can't /kɑːnt/"},
+        'eyebrow': 'IRIS SCHOOL · Оля · урок 2C', 'tags': ['B1', 'Detective', 'Mystery bag', "must · might · can't"],
+        'lead': 'A bag left on a train — whose is it? Today you are a detective: guess from the clues, listen to the lost property officers, read about the strangest things people lose '
+                'and solve three more cases.',
+        'think': ('Have you ever lost something important? What was it? Did you find it?',
+                  'Вы когда-нибудь теряли что-то важное? Что? Нашли?', ['Once I lost…', 'I found it / I didn\'t find it because…', 'The strangest thing I have lost: …']),
+        'aims': ['understand people guessing from clues', 'use 10 words about lost things and clues', "make deductions: must / might / can't be", 'explain your reasons: because…, so…'],
+        'listen': {'title': 'at the lost property office', 'task': 'Two officers talk about a bag from a train. Listen once: do they find the owner?', 'task_ru': 'Они находят владельца?',
+                   'head': 'At the lost property office', 'names': {'f3': 'Officer Vera', 'm4': 'Officer Ivan'}, 'emoji': '🧳',
+                   'lines': [('f3', 'Look at this bag from the 8.15 train. Whose do you think it is?'),
+                             ('m4', "The owner must be an artist — look at all these drawings. And she must love cats. There are cats on every page."),
+                             ('f3', "Why «she»? It might be a man."), ('m4', "True. But they can't be very young — there are reading glasses in here."),
+                             ('f3', 'Not necessarily. Lots of young people need glasses. Look, a receipt: two cappuccinos and a cookie for a dog. They must have a dog.'),
+                             ('m4', 'Or they might work in a café…'), ('f3', "No, it's a customer receipt. And this theatre ticket is for Saturday. They'll definitely come back for it!"),
+                             ('m4', 'The train ticket says Moscow to Tver. They might live in Tver, or they might just be visiting.'),
+                             ('f3', "There's a phone charger too. They can't be very organised!"),
+                             ('m4', "Oh, wait — there's a name on the sketchbook: Anna Belova. And a phone number!"), ('f3', 'Mystery solved. Let\'s call her.')],
+                   'gist': ('Do they find the owner?', ['Yes — her name is on the sketchbook.', 'No, they never find her.', 'Yes — she comes to the office.'], 0),
+                   'details': [('Why must the owner be an artist?', ['There are lots of drawings.', 'There are paints.', 'There is a museum ticket.'], 0),
+                               ("Why does Ivan think the owner can't be young?", ['reading glasses', 'old clothes', 'a pension card'], 0),
+                               ('What does the receipt tell them?', ['They must have a dog.', 'They must be hungry.', 'They work in a café.'], 0),
+                               ('What is the theatre ticket for?', ['Saturday', 'tonight', 'next month'], 0), ('How do they solve the mystery?', ['a name on the sketchbook', 'a phone call', 'the ticket'], 0)],
+                   'notes': [('The bag was on the', ['8.15', '8:15', 'eight fifteen'], 'train.'), ('There are cats on every', ['page'], '.'), ('The receipt: two', ['cappuccinos'], 'and a cookie for a dog.'),
+                             ("The owner's name:", ['Anna Belova'], '.')]},
+        'vocab': {'title': 'lost and found', 'theme': 'Lost and found', 'cards': [
+            ('lost property', 'a place where lost things are kept', 'бюро находок', 'Try the lost property office.', '🧳'), ('to belong to', "to be someone's", 'принадлежать', 'Who does it belong to?', '👤'),
+            ('a clue', 'something that helps you find the answer', 'улика, подсказка', 'The ticket is a clue.', '🔎'), ('a receipt', 'a paper you get when you pay', 'чек', 'a receipt from a café', '🧾'),
+            ('a charger', 'a cable to give power to a phone', 'зарядка', 'a phone charger', '🔌'), ('a sketchbook', 'a book for drawing', 'скетчбук', 'a sketchbook full of drawings', '✏️'),
+            ('to deduce', 'to decide something from the facts', 'сделать вывод', 'What can you deduce?', '🧠'), ('an owner', 'the person something belongs to', 'владелец', 'We found the owner!', '🙋'),
+            ('evidence', 'facts that show something is true', 'доказательства', "There isn't enough evidence.", '📂'), ('to leave behind', 'to forget to take something with you', 'оставить, забыть', 'She left her bag behind on the train.', '🚆')],
+            'match': [('a paper you get when you pay →', 'a receipt', ['a receipt', 'a ticket', 'a clue'], ''), ("to be someone's →", 'to belong to', ['to belong to', 'to deduce', 'to leave behind'], ''),
+                      ('facts that show something is true →', 'evidence', ['evidence', 'a receipt', 'an owner'], ''), ('to forget to take something with you →', 'to leave behind', ['to leave behind', 'to belong to', 'to deduce'], ''),
+                      ('something that helps you find the answer →', 'a clue', ['a clue', 'a charger', 'lost property'], '')],
+            'gaps': [('Who does it belong', ['to'], '?'), ('The ticket is an important', ['clue'], '.'), ('We found the', ['owner'], '!'), ('She left her umbrella', ['behind'], 'on the bus.')]},
+        'notice': ("Look at the officers' sentences. How sure are they?", 'Насколько они уверены?',
+                   ['The owner <mark>must be</mark> an artist.', 'It <mark>might be</mark> a man.', "They <mark>can't be</mark> very young.", 'They <mark>must have</mark> a dog.'],
+                   [('«must be» means…', ['I am almost sure it is true (95%)', 'it is a rule', 'maybe (50%)'], 0), ('«might be» means…', ['maybe (50%)', 'almost sure (95%)', 'impossible'], 0),
+                    ("«can't be» means…", ['I am almost sure it is NOT true', 'it is not allowed', 'maybe not'], 0)]),
+        'grammar': {'title': "must · might · can't", 'head': "must be · might be · can't be",
+                    'idea': 'Делаем выводы о <b>настоящем</b> по уликам: <b>must</b> = наверняка да; <b>might / may / could</b> = возможно; <b>can\'t</b> = наверняка нет. '
+                            'После них — <b>простой глагол</b> (be, have, live, love). Важно: «наверняка нет» — это <b>can\'t</b>, а не mustn\'t (mustn\'t = нельзя).',
+                    'choose': [('Уверен, что да (улики!)', 'must + V: She must be an artist.'), ('Возможно', 'might / may / could + V: They might live in Tver.'), ('Уверен, что нет', "can't + V: He can't be young.")],
+                    'rows': [[('The owner', 'a'), ('must', 'd'), ('be', 'c'), ('an artist.', 'b')], [('They', 'a'), ('might', 'd'), ('live', 'c'), ('in Tver.', 'b')], [('They', 'a'), ("can't", 'd'), ('be', 'c'), ('young.', 'b')]],
+                    'note': 'Сейчас происходит: She must be working. (must + be + -ing) · Объясняйте: …because there are drawings / …so she must…',
+                    'examples': [('🎨', 'The owner must be an artist.'), ('🐶', 'They must have a dog.'), ('🚆', 'They might live in Tver.'), ('👓', "They can't be very young.")],
+                    'traps': [("They mustn't be young.", "They can't be young.", "«Наверняка нет» → can't."), ('She must to be an artist.', 'She must be an artist.', 'Без to.'), ('He might is at home.', 'He might be at home.', 'После might — be.')],
+                    'ex1': ("must, might or can't?", "must / might / can't + глагол.", [
+                        ("He's got a key to the school. He", ['must'], 'work there.', '95% да'), ('She is only 12. She', ["can't", 'cannot'], 'be a driver.', '95% нет'),
+                        ("I'm not sure where Pavel is. He", ['might', 'may', 'could'], 'be at the gym.', '50%'), ('The lights are off. They', ['must'], 'be out.', '95% да'),
+                        ("This can't be his bag — he", ['hates'], 'pink!', 'hate'), ("You've worked for 12 hours. You", ['must'], 'be tired.', '')]),
+                    'ex2': ('Put the words in order.', 'Соберите предложения.', [
+                        (['must', 'The owner', 'be', 'an artist.'], 'The owner must be an artist.'), (["can't", 'He', 'be', 'young.'], "He can't be young."),
+                        (['might', 'She', 'live', 'in Tver.'], 'She might live in Tver.')])},
+        'part2': {'key': 'read', 'label': 'Reading', 'title': 'strange things people lose', 'task': "Read the article. What is the strangest thing in the London lost property office?", 'task_ru': 'Что самое странное в бюро находок Лондона?',
+                  'head': 'What Londoners Leave Behind', 'small': 'a news feature · about 200 words', 'text': [
+                      "Every year, people leave more than 300,000 things behind on London's buses, trains and taxis. Most of them end up at the Transport for London lost property office in Baker Street.",
+                      'The most common items are exactly what you would expect: phones, keys, umbrellas, bags and books. About 30,000 umbrellas arrive every year — it must rain a lot in London!',
+                      "But some things are much stranger. Staff have found a stuffed puma, a coffin, two human skulls in a bag and a full-size wedding dress. Someone even left a lawnmower on the Underground. They can't have been very happy at home that evening!",
+                      "The office keeps things for three months. Then they are sold or given to charity. Staff say the owners of the strangest items almost never come back. «They might be too embarrassed,» says one officer. «Or they might not want the item back at all.»"],
+                  'tf': [('People lose more than 300,000 things a year in London transport.', True), ('The office is in Oxford Street.', False), ('About 30,000 umbrellas arrive every year.', True),
+                         ('The office keeps things for a year.', False), ('Owners of strange items usually come back for them.', False)],
+                  'gaps': ('Complete from the article.', 'Вставьте из статьи.', [('it', ['must'], 'rain a lot in London!', ''), ('They', ['might'], 'be too embarrassed.', ''),
+                                                                                 ('Most of them end up at the lost property', ['office'], '.', '')])},
+        'extra': [('bag', 'Mystery', 'whose bag is it?', '8 min', lambda ids:
+                   rubric('a', 'A bag was left on a train. Look at what was inside. Who is the owner? Say what you think — no grammar rules yet!', 'В поезде оставили сумку. Чья она? Пока просто говорим.')
+                   + box('<b>Inside the bag:</b> 🎫 a train ticket Moscow → Tver · ✏️ a sketchbook full of drawings of cats · 🧾 a receipt: 2 cappuccinos, 1 cookie for a dog · 🔌 a phone charger · 👓 reading glasses · 🎟️ a theatre ticket for Saturday', '🎒')
+                   + lines(ids, ['I think the owner is…', 'Maybe he / she…', "He / she probably isn't…"]), 'start'),
+                  ('cases', 'Detective game', 'three cases', '10 min', lambda ids:
+                   rubric('a', "Solve three cases. Complete with must, might or can't.", "Три дела: вставьте must / might / can't.")
+                   + escape(ids, [('🧥', 'Case 1', 'A coat with sand in the pockets and a ferry ticket. The owner ___ have been to the sea — or live by it. →', ['must']),
+                                  ('⚽', 'Case 2', "A football boot, size 32. The owner ___ be an adult — it is a child's size! →", ["can't", 'cannot']),
+                                  ('📚', 'Case 3', 'A Spanish dictionary and a plane ticket to Madrid. The owner ___ be learning Spanish — or maybe they are a teacher. →', ['might', 'may', 'could']),
+                                  ('💍', 'Case 4', 'A ring box with a ring inside and a restaurant booking for two tonight. The owner ___ be very worried right now! →', ['must'])])
+                   + rubric('b', 'Explain one case to your teacher: what are the clues?', 'Объясните одно дело: какие улики?')
+                   + phrases(['It must be… because…', 'It might be…, or…', "It can't be… because…", 'The clue is…']))],
+        'mix': {'title': 'detective notes', 'task': "A detective's notes have mistakes. Correct them.", 'task_ru': 'Записи детектива с ошибками. Исправьте.',
+                'items': [("She mustn't be at home — her car isn't here. →", ["She can't be at home — her car isn't here.", "She can't be at home, her car isn't here."]), ('He must to be tired. →', ['He must be tired.']),
+                          ('He might is at home. →', ['He might be at home.']), ('They can be not in. →', ["They can't be in.", 'They might not be in.'])]},
+        'auction': [('The owner must be an artist.', True, ''), ("She mustn't be young — look at the glasses.", False, "She can't be young — look at the glasses."),
+                    ('They might live in Tver.', True, ''), ('He must to have a dog.', False, 'He must have a dog.'), ("It can't be his bag — he hates pink.", True, ''),
+                    ('She might is at work.', False, 'She might be at work.'), ('You must be joking!', True, ''), ('They could be on holiday.', True, '')],
+        'pron': {'title': "must · can't", 'task': "<i>must be</i> sounds like /ˈməsbi/ — the t disappears. <i>can't</i> is strong: /kɑːnt/. Press 🔊 and repeat.", 'task_ru': 'В must be «t» пропадает; can\'t — ударное.',
+                 'list': [('She must be an artist.', 'she /ˈməsbi/ an <u>AR</u>tist'), ("He can't be young.", "he <u>CAN'T</u> be <u>YOUNG</u>"), ('They might live in Tver.', 'they <u>MIGHT</u> live in <u>TVER</u>')],
+                 'pick': [('must be', 'must be', ['must be', 'mustn\'t be', 'might be']), ("can't be", "can't be", ["can't be", 'can be', "couldn't be"])]},
+        'speaking': {'title': 'deductions', 'questions': ['Look at your teacher\'s desk / bag. What can you deduce about her?', 'Who might live in the flat next to yours?', 'Have you ever left something behind?',
+                                                         'What must a good detective be like?', 'Do you like detective films or books?', 'Why might people never come back for lost things?'],
+                     'phrases': ['She must…, because…', 'They might…, or they might…', "It can't be…", 'The clue is…'],
+                     'task': ('Create your own «lost bag» case.', 'Придумайте своё дело о потерянной сумке.')},
+        'task': {'task': "Create your own «lost bag» mystery: choose six objects. Your teacher makes deductions first — then you say if she is right. Then swap: she describes a bag, you are the detective!",
+                 'task_ru': 'Придумайте свою загадку: шесть предметов в сумке. Сначала выводы делает преподаватель, потом наоборот.',
+                 'plan': ['Object 1: …', 'Object 2: …', 'Objects 3–6: …', 'The real owner is…', 'My best deduction (for her bag): It must be…'],
+                 'report': ['Inside the bag there is…', 'The owner must be…', 'He / she might…', "He / she can't…", "You're right! / Not quite!"]},
+        'writing': {'title': 'your own case', 'task': 'Write your «lost bag» case: describe five objects and write four deductions about the owner.', 'task_ru': 'Опишите пять предметов и четыре вывода о владельце.',
+                    'example': 'Inside the bag there is a yoga mat, a vegan cookbook, a plane ticket to Bali, a baby bottle and a laptop. The owner must do yoga. She might be a vegetarian. She must have a baby. She can\'t work in an office every day — she might work online.',
+                    'placeholders': ['Inside the bag there is…', 'The owner must…', 'He / she might…', "He / she can't…", 'I think the owner is…']},
+        'cans': [('I can understand people guessing from clues', 'понять рассуждения по уликам'), ('I can use 10 words about lost things', 'использовать 10 слов по теме'),
+                 ("I can make deductions: must / might / can't", 'делать выводы'), ('I can explain my reasons', 'объяснять, почему я так думаю')],
+        'hw': {'words_select': [('a place where lost things are kept →', 'lost property', ['lost property', 'a museum', 'a station'], ''), ('the person something belongs to →', 'an owner', ['an owner', 'a clue', 'a receipt'], ''),
+                                ('a cable to give power to a phone →', 'a charger', ['a charger', 'a receipt', 'a sketchbook'], '')],
+               'listen': [('a receipt', 'a receipt', ['a receipt', 'a recipe', 'a reset']), ('a clue', 'a clue', ['a clue', 'a glue', 'a crew']), ('deduce', 'deduce', ['deduce', 'reduce', 'produce'])],
+               'words_gaps': [('Who does it belong', ['to'], '?'), ('The ticket is an important', ['clue'], '.'), ('I left my keys', ['behind'], '.')],
+               'gaps': ("Write must, might or can't.", "must / might / can't.", [("He's got a key to the school. He", ['must'], 'work there.', ''), ('She is only 12. She', ["can't", 'cannot'], 'be a driver.', ''),
+                                                                                ("I'm not sure where Pavel is. He", ['might', 'may', 'could'], 'be at the gym.', ''), ('The lights are off. They', ['must', 'might'], 'be out.', ''),
+                                                                                ('That', ["can't", 'cannot'], 'be Anna — she is in Paris!', '')]),
+               'fix': [("She mustn't be at home — the car isn't here. →", ["She can't be at home — the car isn't here.", "She can't be at home, the car isn't here."]), ('He must to be tired. →', ['He must be tired.']),
+                       ('He might is at home. →', ['He might be at home.'])],
+               'order': [(['must', 'She', 'have', 'a dog.'], 'She must have a dog.'), (["can't", 'It', 'be', 'his bag.'], "It can't be his bag.")]},
+        'case': {'bad': [("They mustn't be young.", "They can't be young."), ('She must to be an artist.', 'She must be an artist.'), ('He might is at home.', 'He might be at home.')],
+                 'ok': ['The owner must be an artist.', 'They might live in Tver.', "He can't be young.", 'They must have a dog.']},
+    })
 
 
 def sasha_b1():
-    P, LID = 'sb5', 'sasha-b1-5'
-    ids = Ids(P)
-    cards = [('to invent', 'to make something new that did not exist', 'изобретать', 'The telephone was invented in 1876.', '💡'), ('to produce', 'to make in large numbers', 'производить', 'Millions of phones are produced every year.', '🏭'),
-             ('an invention', 'a new thing that someone has made', 'изобретение', 'the greatest invention', '⚙️'), ('to design', 'to plan how something will look and work', 'проектировать', 'It was designed in Sweden.', '📐'),
-             ('to export', 'to sell to other countries', 'экспортировать', 'Tea is exported from India.', '🚢'), ('cotton', 'a natural material from a plant', 'хлопок', 'a cotton T-shirt', '👕'),
-             ('to assemble', 'to put parts together', 'собирать (из деталей)', 'It is assembled in China.', '🔧'), ('a brand', 'a company name on a product', 'бренд', 'a famous brand', '🏷️')]
-    sections = [
-        ('quiz', 'Quiz show', 'where and when?', '12 min',
-         route([('🏆', 'quiz show'), ('📖', 'check the facts'), ('📘', 'the rule'), ('🧸', 'show and tell'), ('🎤', 'mini-presentation')])
-         + rubric('a', 'Quiz show! Guess the answers. Don\'t worry about the grammar — just play.', 'Викторина! Угадайте ответы.')
-         + deck('Quiz · Где и когда?', [mc(P + '-z1', 'The telephone was invented in…', ['1876', '1920', '1801'], 0), mc(P + '-z2', 'Where were the first paper banknotes used?', ['China', 'Italy', 'England'], 0),
-                                        mc(P + '-z3', 'Where was LEGO first made?', ['Denmark', 'Germany', 'the USA'], 0), mc(P + '-z4', 'Tetris was created in…', ['the USSR', 'Japan', 'the USA'], 0),
-                                        mc(P + '-z5', 'Most of the world\'s coffee is grown in…', ['Brazil', 'Russia', 'Italy'], 0)])),
-        ('read', 'Reading', 'the facts', '10 min',
-         rubric('a', 'Read the facts and check your answers.', 'Прочитайте факты и проверьте ответы.')
-         + reading('Did You Know?', 'five facts · about 130 words', ['The telephone was patented by Alexander Graham Bell in 1876.', 'The first paper money was used in China more than a thousand years ago.',
-                                                                      'LEGO bricks were first made in Denmark. The name comes from the Danish words «leg godt» — «play well».',
-                                                                      'Tetris was created in Moscow in 1984 by Alexey Pajitnov.', 'Brazil is the largest coffee producer in the world — about a third of the world\'s coffee is grown there.'])
-         + deck('True or false?', [mc('%s-tf%d' % (P, i + 1), q, ['True', 'False'], 0 if ok else 1) for i, (q, ok) in enumerate([
-             ('LEGO was first made in Denmark.', True), ('Tetris was created in Japan.', False), ('About a third of the world\'s coffee is grown in Brazil.', True)])])),
-        ('rule', 'Grammar', 'notice the passive', '12 min',
-         rubric('a', 'All the facts use the same grammar. Find it.', 'Во всех фактах одна грамматика. Найдите её.')
-         + examples(['The telephone <mark>was patented</mark> in 1876.', 'Tetris <mark>was created</mark> in Moscow.', 'Coffee <mark>is grown</mark> in Brazil.'])
-         + easy('was made · is grown',
-                'Когда важнее <b>что</b> сделали, а не <b>кто</b> — passive: <b>be + V3</b>. Факты сейчас → <b>is / are + V3</b>. История → <b>was / were + V3</b>. Кто сделал — <b>by</b>.',
-                [[('Tetris', 'a'), ('was created', 'd'), ('in 1984.', 'b')], [('Coffee', 'a'), ('is grown', 'd'), ('in Brazil.', 'b')], [('It', 'a'), ('was invented', 'd'), ('by Bell.', 'c')]],
-                [('🧱', 'LEGO was first made in Denmark.'), ('🎮', 'Tetris was created in Moscow.'), ('☕', 'Coffee is grown in Brazil.')],
-                [('Tetris created in 1984.', 'Tetris was created in 1984.', 'Нужен be.'), ('It was invent by Bell.', 'It was invented by Bell.', 'V3!')])
-         + ex_gaps(ids, [('My phone', ['was made'], 'in China.', 'make'), ('These cars', ['are produced'], 'in Kaluga.', 'produce'), ('The Eiffel Tower', ['was built'], 'in 1889.', 'build'),
-                         ('Russian is', ['spoken'], 'in many countries.', 'speak')])),
-        ('show', 'Show and tell', 'an object from home', '14 min',
-         rubric('a', 'Take any object in your room (a mug, a phone, a jumper). Look at the label! Prepare a 1-minute mini-presentation.', 'Возьмите любой предмет. Посмотрите на этикетку! Подготовьте минутный рассказ.')
-         + cycle('<p>Find information: where was it made / bought / designed? What is it made of?</p>',
-                 lines(ids, ['This is my…', 'It was made in…', 'It is made of…', 'It was given to me by… / I bought it…', 'I like it because…']),
-                 '<p>Present your object to your teacher. Your teacher asks two questions.</p>' + phrases(['This is…', 'It was made in…', 'It is made of…', 'It was designed by…']))
-         + vocab_section(ids, '3B', 'Made in…', cards, [('to put parts together →', 'to assemble', ['to assemble', 'to export', 'to invent'], ''), ('to sell to other countries →', 'to export', ['to export', 'to produce', 'to design'], '')], [])),
-        ('write', 'Writing', 'quiz questions', '8 min', rubric('a', 'Write three quiz questions for your teacher with the passive.', 'Три вопроса для викторины с passive.')
-         + lines(ids, ['Where was … invented?', 'When was … built?', 'Which country is … grown / made in?']) + send_box()),
-    ]
-    hw = hw_pair(ids, [('to make something new →', 'to invent', ['to invent', 'to export', 'to assemble'], ''), ('a company name on a product →', 'a brand', ['a brand', 'an invention', 'a label'], ''),
-                       ('a natural material from a plant →', 'cotton', ['cotton', 'plastic', 'metal'], '')],
-                 [('invented', 'invented', ['invented', 'invited', 'inverted']), ('produced', 'produced', ['produced', 'reduced', 'introduced']), ('designed', 'designed', ['designed', 'decided', 'resigned'])],
-                 [('It is', ['assembled'], 'in China.'), ('Tea is', ['exported'], 'from India.'), ('a cotton', ['T-shirt'], '')],
-                 'Write the passive.', 'Напишите passive.', [('The Hermitage', ['was founded'], 'in 1764.', 'found'), ('Smartphones', ['are made'], 'in many countries.', 'make'),
-                                                             ('Harry Potter', ['was written'], 'by J. K. Rowling.', 'write'), ('Rice', ['is grown'], 'in China.', 'grow')],
-                 [('This car made in Japan. →', ['This car was made in Japan.', 'This car is made in Japan.']), ('Tea is grow in India. →', ['Tea is grown in India.'])])
-    return flex({'id': LID, 'prefix': P, 'owner': 'sasha-b1', 'code': '3B', 'title': 'Made in…', 'level': 'B1', 'category': 'Inventions & products', 'minutes': '60 min',
-                 'grammar': 'The passive: is made / was invented · by', 'date': DATE, 'gvp': {'g': 'passive present and past simple', 'v': 'inventions and products', 'p': ''},
-                 'eyebrow': 'IRIS SCHOOL · Саша · урок 3B', 'tags': ['B1', 'Quiz show', 'Show and tell', 'The passive'],
-                 'lead': 'A quiz show to start, real facts to check, then a «show and tell»: pick up any object at home and tell its story in English.',
-                 'cards': cards, 'case': {'bad': [('Tetris created in 1984.', 'Tetris was created in 1984.'), ('It was invent by Bell.', 'It was invented by Bell.')], 'ok': ['Coffee is grown in Brazil.', 'LEGO was first made in Denmark.']},
-                 'sections': sections, 'hw': hw})
+    return std({
+        'id': 'sasha-b1-5', 'prefix': 'sb5', 'owner': 'sasha-b1', 'code': '3B', 'title': 'Made in…', 'level': 'B1', 'category': 'Products & inventions',
+        'minutes': '80 min', 'grammar': 'The passive: present and past · by + agent · passive questions', 'date': DATE,
+        'gvp': {'g': 'present and past simple passive; by + agent; passive questions', 'v': 'products, inventions and production', 'p': 'weak was / were, is / are'},
+        'eyebrow': 'IRIS SCHOOL · Саша · урок 3B', 'tags': ['B1', 'Quiz show', 'Inventions', 'The passive'],
+        'lead': 'Where was your phone made? Who was the first car invented by? A quiz show, a factory tour, the surprising story of the T-shirt — and a mini-presentation about a product from your country.',
+        'think': ("Look at three things around you: your phone, your clothes, your cup. Where do you think they were made?",
+                  'Посмотрите на три вещи вокруг: телефон, одежда, чашка. Где их сделали?', ['My phone was probably made in…', 'My … was made in…', 'Something made in Russia that I use: …']),
+        'warm': ('Quiz show! Choose the answer.', 'Викторина! Выберите ответ.', [
+            ('The telephone was invented by…', ['Alexander Graham Bell', 'Thomas Edison', 'Steve Jobs'], 0), ('Where were the first cars produced in large numbers?', ['in the USA', 'in Russia', 'in China'], 0),
+            ('Tetris was created in…', ['the USSR, 1984', 'Japan, 1990', 'the USA, 1975'], 0), ('Most of the world\'s chocolate is made from beans grown in…', ['West Africa', 'Switzerland', 'Belgium'], 0)]),
+        'aims': ['understand a factory tour', 'use 10 words about products and inventions', 'use the passive in the present and past', 'ask passive questions: Where was it made?'],
+        'listen': {'title': 'a factory tour', 'task': 'A guide shows visitors around a bicycle factory. Listen once: are the bikes made by robots or by people?', 'task_ru': 'Велосипеды делают роботы или люди?',
+                   'head': 'Tour of a bicycle factory', 'names': {'f4': 'Guide', 'm3': 'Visitor'}, 'emoji': '🚲',
+                   'lines': [('f4', 'Welcome to our factory! Every bike here is made by hand. About two hundred bikes are produced every week.'),
+                             ('m3', 'By hand? Not by robots?'), ('f4', 'Some parts are cut by machines, but every bike is put together by a person. Look — that bike is being checked right now.'),
+                             ('m3', 'Where are the parts made?'), ('f4', 'The frames are made here, in this room. The wheels are imported from Italy, and the seats are sent from a small company in Portugal.'),
+                             ('m3', 'When was the company started?'), ('f4', 'It was founded in 1952 by two brothers. Their first bikes were sold from a garage!'),
+                             ('m3', 'Are the bikes sold only in this country?'), ('f4', 'No, they are exported to twenty countries. Last year our new electric bike was chosen as «Bike of the Year».'),
+                             ('m3', 'How long does one bike take?'), ('f4', 'About six hours. And every bike is tested on the road before it is sent to the shop.')],
+                   'gist': ('Are the bikes made by robots or by people?', ['by people (with some machines)', 'only by robots', 'in another country'], 0),
+                   'details': [('How many bikes are produced every week?', ['about 200', 'about 2,000', 'about 20'], 0), ('Where are the wheels imported from?', ['Italy', 'Portugal', 'China'], 0),
+                               ('When was the company founded?', ['in 1952', 'in 1925', 'in 2002'], 0), ('Who founded it?', ['two brothers', 'a woman engineer', 'a big car company'], 0),
+                               ('What happens before a bike is sent to the shop?', ['It is tested on the road.', 'It is painted again.', 'It is photographed.'], 0)],
+                   'notes': [('The seats are sent from', ['Portugal'], '.'), ('The first bikes were sold from a', ['garage'], '.'), ('The bikes are exported to', ['twenty', '20'], 'countries.'),
+                             ('One bike takes about', ['six hours', '6 hours'], '.')]},
+        'vocab': {'title': 'products and inventions', 'theme': 'Products and inventions', 'cards': [
+            ('to invent', 'to make something new that did not exist', 'изобретать', 'The telephone was invented in 1876.', '💡'), ('to produce', 'to make in large numbers', 'производить', 'Millions of phones are produced every year.', '🏭'),
+            ('to design', 'to plan how something will look and work', 'разрабатывать, проектировать', 'It was designed in California.', '📐'), ('to export', 'to sell to other countries', 'экспортировать', 'The bikes are exported to 20 countries.', '🚢'),
+            ('to import', 'to bring from other countries', 'импортировать', 'The wheels are imported from Italy.', '📦'), ('a factory', 'a building where things are made', 'завод, фабрика', 'a bicycle factory', '🏭'),
+            ('by hand', 'made by a person, not a machine', 'вручную', 'Every bike is made by hand.', '✋'), ('to found', 'to start a company or organisation', 'основать', 'It was founded in 1952.', '🏢'),
+            ('raw materials', 'natural things used to make products', 'сырьё', 'Cotton is a raw material.', '🌿'), ('a brand', 'the name of a company\'s products', 'бренд, марка', 'a famous Russian brand', '🏷️')],
+            'match': [('to sell to other countries →', 'to export', ['to export', 'to import', 'to invent'], ''), ('a building where things are made →', 'a factory', ['a factory', 'a brand', 'a shop'], ''),
+                      ('to start a company →', 'to found', ['to found', 'to find', 'to design'], ''), ('made by a person, not a machine →', 'by hand', ['by hand', 'by robots', 'imported'], ''),
+                      ('natural things used to make products →', 'raw materials', ['raw materials', 'a brand', 'a factory'], '')],
+            'gaps': [('The wheels are', ['imported'], 'from Italy.'), ('Every bike is made by', ['hand'], '.'), ('The company was', ['founded'], 'in 1952.'), ('Tetris was', ['invented', 'created'], 'in the USSR.')]},
+        'notice': ("Look at the guide's sentences. Who makes the bikes — is it important?", 'Кто делает велосипеды — это важно?',
+                   ['Every bike <mark>is made</mark> by hand.', 'The wheels <mark>are imported</mark> from Italy.', 'It <mark>was founded</mark> in 1952 by two brothers.', 'Their first bikes <mark>were sold</mark> from a garage.'],
+                   [('The form is…', ['be + third form (V3)', 'have + V3', 'will + verb'], 0), ('We use it when…', ['the action is more important than who does it', 'we talk about the future', 'we give advice'], 0),
+                    ('«by two brothers» tells us…', ['who did the action', 'where it happened', 'when it happened'], 0)]),
+        'grammar': {'title': 'the passive', 'head': 'It is made · It was invented by…',
+                    'idea': 'Passive — когда важнее <b>что делают / сделали</b>, а не <b>кто</b>. Форма: <b>be + V3</b>. Обычно, сейчас → <b>is / are + V3</b>. В прошлом → <b>was / were + V3</b>. '
+                            'Кто сделал — через <b>by</b>: by two brothers. Вопрос: <b>Where is</b> it made? <b>When was</b> it invented?',
+                    'choose': [('Обычно, всегда', 'is / are + V3: Bikes are made here.'), ('В прошлом', 'was / were + V3: It was founded in 1952.'), ('Кто сделал', 'by + кто: by two brothers'), ('Вопрос', 'Where was it made?')],
+                    'rows': [[('Every bike', 'a'), ('is', 'd'), ('made', 'c'), ('by hand.', 'b')], [('The company', 'a'), ('was founded', 'c'), ('by', 'd'), ('two brothers.', 'b')],
+                             [('Where', 'b'), ('are', 'd'), ('the wheels', 'a'), ('made?', 'c')]],
+                    'note': 'V3: make → made · build → built · sell → sold · send → sent · choose → chosen · find → found (≠ found → founded!)',
+                    'examples': [('🚲', 'Every bike is made by hand.'), ('🇮🇹', 'The wheels are imported from Italy.'), ('🏢', 'The company was founded in 1952.'), ('🎮', 'Tetris was invented by Alexey Pajitnov.')],
+                    'traps': [('It made in China.', 'It is made in China.', 'Нужен be.'), ('It was invent in 1876.', 'It was invented in 1876.', 'После be — V3.'), ('It was invented from Bell.', 'It was invented by Bell.', 'Кем — by.')],
+                    'ex1': ('Complete with the passive.', 'Present или past passive.', [
+                        ('Millions of phones', ['are produced'], 'every year.', 'produce'), ('The telephone', ['was invented'], 'in 1876.', 'invent'), ('These bikes', ['are exported'], 'to 20 countries.', 'export'),
+                        ('The company', ['was founded'], 'by two brothers.', 'found'), ('The first iPhone', ['was designed'], 'in California.', 'design'), ('Where', ['were'], 'these shoes made?', '')]),
+                    'ex2': ('Put the words in order.', 'Соберите предложения.', [
+                        (['is made', 'Every bike', 'by hand.'], 'Every bike is made by hand.'), (['was invented', 'Tetris', 'in the USSR.'], 'Tetris was invented in the USSR.'),
+                        (['was', 'When', 'the company', 'founded?'], 'When was the company founded?')])},
+        'part2': {'key': 'read', 'label': 'Reading', 'title': 'the life of a T-shirt', 'task': 'Read the article. How many countries does one T-shirt visit?', 'task_ru': 'Сколько стран «посещает» одна футболка?',
+                  'head': 'The Long Journey of a Simple T-Shirt', 'small': 'a magazine article · about 200 words', 'text': [
+                      "Look at the label on your T-shirt. It probably says «Made in Bangladesh» or «Made in China». But the real story is much longer.",
+                      'The cotton is often grown in the USA or India. It is picked by machines or by hand and sent to a factory, where it is cleaned and turned into thread.',
+                      'The thread is then shipped to another country — for example, China — where it is made into cloth. The cloth is dyed blue, black or white. Then it is sent to Bangladesh, where the T-shirt is cut and sewn.',
+                      'Finally, the T-shirts are packed in boxes and exported to shops in Europe and America. A single T-shirt can visit five countries before it is sold!',
+                      "About two billion T-shirts are sold every year. Making one T-shirt uses about 2,700 litres of water — that's how much one person drinks in two and a half years."],
+                  'tf': [('Cotton is often grown in the USA or India.', True), ('The thread is made into cloth in Bangladesh.', False), ('The cloth is dyed before the T-shirt is sewn.', True),
+                         ('One T-shirt can visit five countries.', True), ('Making a T-shirt uses very little water.', False)],
+                  'gaps': ('Find the passive in the text.', 'Найдите passive в тексте.', [('The cotton is often', ['grown'], 'in the USA or India.', 'grow'), ('The cloth is', ['dyed'], 'blue, black or white.', 'dye'),
+                                                                                          ('About two billion T-shirts', ['are sold'], 'every year.', 'sell')])},
+        'grammar2': {'title': 'passive questions', 'rule': 'Вопросы в passive: <b>be</b> выходит вперёд. <b>Is</b> it made by hand? <b>Where are</b> they made? <b>When was</b> it invented? <b>Who was</b> it invented <b>by</b>? (by — в конце)', 'rule_ru': 'В вопросе is / was — вперёд.',
+                     'ex': ('Make passive questions.', 'Составьте вопросы.', [('Where', ['is'], 'your phone made?', ''), ('When', ['was'], 'the telephone invented?', ''), ('', ['Are'], 'the bikes tested?', ''),
+                                                                              ('Who was Tetris invented', ['by'], '?', ''), ('How many T-shirts', ['are'], 'sold every year?', '')])},
+        'extra': [('show', 'Show and tell', 'a product from my country', '10 min', lambda ids:
+                   rubric('a', 'Mini-presentation: choose a famous product from Russia (or your region): matryoshka, Tetris, Gzhel, Pavlovo Posad shawls, Tula pryaniki… Prepare 5 sentences.',
+                          'Мини-презентация о знаменитом продукте из России или вашего региона: пять предложений.')
+                   + lines(ids, ['It is called…', 'It was invented / first made in…', 'It is made from… / by…', 'Today it is sold / exported…', 'I like it because…'])
+                   + phrases(['It was invented in…', 'It is made by hand.', 'It is sold all over the world.', 'It is known for…']))],
+        'mix': {'title': 'a product label', 'task': 'A product description with mistakes. Correct them.', 'task_ru': 'Описание товара с ошибками. Исправьте.',
+                'items': [('This tea grown in India. →', ['This tea is grown in India.']), ('The company was found in 1990. →', ['The company was founded in 1990.']),
+                          ('These shoes are make in Italy. →', ['These shoes are made in Italy.']), ('It was designed from a Russian engineer. →', ['It was designed by a Russian engineer.'])]},
+        'auction': [('Every bike is made by hand.', True, ''), ('The telephone invented in 1876.', False, 'The telephone was invented in 1876.'), ('The wheels are imported from Italy.', True, ''),
+                    ('Tetris was invent in the USSR.', False, 'Tetris was invented in the USSR.'), ('Where was your phone made?', True, ''), ('The bikes is exported to 20 countries.', False, 'The bikes are exported to 20 countries.'),
+                    ('It was invented by Alexey Pajitnov.', True, ''), ('The company was found in 1952.', False, 'The company was founded in 1952.')],
+        'pron': {'title': 'weak was / were', 'task': 'In passive sentences <i>was</i> /wəz/ and <i>were</i> /wə/ are weak — the stress is on the verb. Press 🔊 and repeat.', 'task_ru': 'was / were — слабые, ударение на глаголе.',
+                 'list': [('It was invented in 1876.', 'it /wəz/ in<u>VENT</u>ed in eighteen seventy-six'), ('They were made by hand.', 'they /wə/ <u>MADE</u> by <u>HAND</u>'), ('Where was it made?', 'where /wəz/ it <u>MADE</u>? ↘')]},
+        'speaking': {'title': 'things around us', 'questions': ['Where was your phone made?', 'What products is your city or region known for?', 'Do you prefer things made by hand or by machines?',
+                                                              'What is the most useful invention in history?', 'Do you check where your food is produced?', 'What Russian brand do you like?'],
+                     'phrases': ['It was made in…', 'My region is known for…', 'It is produced by…', 'I think the most useful invention is…, because…'],
+                     'task': ('Present a product from your country.', 'Расскажите о продукте из вашей страны.')},
+        'task': {'task': 'Invent a new product that would make life easier (for example, a self-cleaning cup 😄). Present it: what it is, how it is made, who it was designed for, where it will be sold.',
+                 'task_ru': 'Придумайте продукт, который облегчит жизнь. Презентуйте: что это, как сделан, для кого, где продаётся.',
+                 'plan': ['Name: …', 'It is made from… / by…', 'It was designed for… (people)', 'It is sold in…', 'Why you need it: …'],
+                 'report': ['Let me introduce…', 'It is made from…', 'It was designed for…', 'It is sold…', 'Any questions?']},
+        'writing': {'title': 'a product description', 'task': 'Write a product description (5 sentences) for an online shop: a product from your region. Use the passive.', 'task_ru': 'Описание продукта для интернет-магазина.',
+                    'example': 'Tula pryaniki are traditional Russian gingerbread. They were first made in Tula more than 300 years ago. They are baked by hand and filled with jam or honey. Each pryanik is decorated with a pattern. Today they are sold all over Russia and exported to many countries.',
+                    'placeholders': ['… is / are…', 'It was first made…', 'It is made from… / by…', 'It is decorated / packed…', 'Today it is sold…']},
+        'cans': [('I can understand a factory tour', 'понять экскурсию по фабрике'), ('I can use 10 words about products', 'использовать 10 слов по теме'),
+                 ('I can use the passive in the present and past', 'использовать passive'), ('I can ask passive questions', 'задавать вопросы в passive')],
+        'hw': {'words_select': [('to make something new that did not exist →', 'to invent', ['to invent', 'to produce', 'to export'], ''), ('to bring from other countries →', 'to import', ['to import', 'to export', 'to found'], ''),
+                                ("the name of a company's products →", 'a brand', ['a brand', 'a factory', 'raw materials'], '')],
+               'listen': [('invented', 'invented', ['invented', 'inverted', 'invited']), ('produced', 'produced', ['produced', 'reduced', 'introduced']), ('founded', 'founded', ['founded', 'found', 'funded'])],
+               'words_gaps': [('a bicycle', ['factory'], ''), ('made by', ['hand'], ''), ('a famous Russian', ['brand'], '')],
+               'gaps': ('Complete with the passive.', 'Поставьте глагол в passive.', [('Coffee', ['is grown'], 'in Brazil.', 'grow'), ('The first car', ['was built'], 'in Germany.', 'build'),
+                                                                                    ('These toys', ['are made'], 'by hand.', 'make'), ('The Eiffel Tower', ['was designed'], 'by Gustave Eiffel.', 'design'), ('When', ['was'], 'the radio invented?', '')]),
+               'fix': [('It made in China. →', ['It is made in China.', 'It was made in China.']), ('The shop was found in 1990. →', ['The shop was founded in 1990.']), ('It was painted from Repin. →', ['It was painted by Repin.'])],
+               'order': [(['are exported', 'The bikes', 'to 20 countries.'], 'The bikes are exported to 20 countries.'), (['was', 'Who', 'it', 'invented by?'], 'Who was it invented by?')]},
+        'case': {'bad': [('It made in China.', 'It is made in China.'), ('It was invent in 1876.', 'It was invented in 1876.'), ('It was invented from Bell.', 'It was invented by Bell.')],
+                 'ok': ['Every bike is made by hand.', 'The company was founded in 1952.', 'Where was it made?', 'Tetris was invented in the USSR.']},
+    })
 
 
 def ekaterina():
-    P, LID = 'ek6', 'ekaterina-6'
-    ids = Ids(P)
-    cards = [('a voicemail', 'a recorded phone message', 'голосовое сообщение', 'I left you a voicemail.', '📞'), ('to pass on a message', 'to tell someone what another person said', 'передать сообщение', 'Can you pass on a message?', '📨'),
-             ('to call back', 'to phone someone who called you', 'перезвонить', 'Please call me back.', '↩️'), ('urgent', 'very important and needing action now', 'срочный', "It's urgent!", '🚨'),
-             ('to cancel', 'to say something will not happen', 'отменить', 'The meeting is cancelled.', '❌'), ('to postpone', 'to move to a later time', 'перенести (на потом)', 'They postponed the trip.', '⏭️'),
-             ('a misunderstanding', 'when people understand something differently', 'недоразумение', 'It was a misunderstanding.', '🤷'), ('to remind', 'to help someone remember', 'напомнить', 'Remind me tomorrow.', '🔔')]
-    vm = [('f3', "Hi Kate, it's Olga. I'm calling about Saturday. The dinner is cancelled because my mum is ill."), ('f3', "We'll have it next Saturday instead. Can you tell Max? I can't find his number."),
-          ('m3', "Hello, this is Dr Petrov's office. Your appointment is on Tuesday at 10, not Thursday. Please call us back if you can't come."),
-          ('f4', "Kate! It's Lena. I've lost my keys! Are you at home tonight? I'll come and get the spare ones at seven.")]
-    sections = [
-        ('phone', 'Telephone game', 'broken telephone', '10 min',
-         route([('📞', 'broken telephone'), ('🎧', 'three voicemails'), ('🔍', 'how we report'), ('🎭', 'role-play: the office'), ('✉️', 'a message note')])
-         + rubric('a', 'Play «broken telephone»: your teacher says a sentence quietly; you write it and say it back. How much changed? Then try it the other way round.', '«Испорченный телефон» с преподавателем.')
-         + lines(ids, ['Sentence 1: …', 'Sentence 2: …'])),
-        ('voicemails', 'Listening', 'three voicemails', '12 min',
-         rubric('a', 'Kate has three voicemails. Listen and pass on the messages: who said what?', 'У Кейт три голосовых. Кто что сказал?')
-         + listening(P + '-lis', vm, "Kate's voicemails", 'Listen twice', '📱', {'f3': 'Olga', 'm3': "Doctor's office", 'f4': 'Lena'})
-         + deck('Details', [mc(P + '-q1', 'Why is the dinner cancelled?', ["Olga's mum is ill.", 'Olga is busy.', 'Max is ill.'], 0), mc(P + '-q2', 'When is the appointment?', ['Tuesday at 10', 'Thursday at 10', 'Tuesday at 7'], 0),
-                            mc(P + '-q3', 'What has Lena lost?', ['her keys', 'her phone', 'her bag'], 0)])),
-        ('report', 'Grammar', 'how we pass on messages', '12 min',
-         rubric('a', 'Compare what they said and how Kate reports it. What changes?', 'Сравните прямую речь и пересказ. Что меняется?')
-         + roleplay(('They said 💬', ['«The dinner <b>is</b> cancelled.»', '«We<b>\'ll</b> have it next Saturday.»', '«I<b>\'ve lost</b> my keys!»', '«<b>Can</b> you tell Max?»']),
-                    ('Kate reports 🗣️', ['Olga said the dinner <b>was</b> cancelled.', 'She said they <b>would</b> have it next Saturday.', 'Lena said she <b>had lost</b> her keys.', 'Olga asked me <b>to tell</b> Max.']))
-         + easy('She said (that) she had lost…',
-                'Пересказываем чужие слова — время делает <b>шаг назад</b>: is → <b>was</b>, will → <b>would</b>, have lost → <b>had lost</b>, can → <b>could</b>. Местоимения меняются по смыслу (I → she). '
-                '<b>say</b> что-то, <b>tell</b> кому-то что-то. Просьба → <b>asked me to</b> + глагол.',
-                [[('Lena', 'a'), ('said', 'd'), ('she had lost', 'c'), ('her keys.', 'b')], [('Olga', 'a'), ('told me', 'd'), ('the dinner was', 'c'), ('cancelled.', 'b')], [('She', 'a'), ('asked me', 'd'), ('to tell', 'c'), ('Max.', 'b')]],
-                [('🍽️', 'Olga said the dinner was cancelled.'), ('🔑', 'Lena said she had lost her keys.'), ('📞', 'Olga asked me to tell Max.')],
-                [('She said me that…', 'She told me that… / She said that…', 'say — без «me»; tell me.'), ('She said she will come.', 'She said she would come.', 'will → would.')])
-         + ex_gaps(ids, [('«I\'m tired.» → She said she', ['was'], 'tired.', ''), ('«I\'ll call you.» → He said he', ['would'], 'call me.', ''), ('«I can\'t come.» → She said she', ["couldn't", 'could not'], 'come.', ''),
-                         ('«Please call back.» → They asked me', ['to call'], 'back.', ''), ('He', ['told'], 'me the meeting was postponed.', 'say / tell')])),
-        ('office', 'Role-play', 'at the office', '12 min',
-         rubric('a', 'Role-play. You work at a reception. Take three phone messages (from your teacher), then report them to «your boss» (also your teacher!).', 'Вы на ресепшене: примите три сообщения и передайте их «начальнику».')
-         + roleplay(('You: receptionist', ['Answer: «Good morning, … How can I help?»', 'Write down each message.', 'Check: «So you want me to tell him that…?»', 'Report to the boss: «Mr Ivanov called. He said that…»']),
-                    ('Teacher: callers and boss', ['Caller 1: a client — the meeting must be postponed.', 'Caller 2: a courier — the parcel will arrive at 3.', 'Caller 3: the boss\'s wife — urgent, call her back!']))
-         + lines(ids, ['Message 1: …', 'Message 2: …', 'Message 3: …'])
-         + vocab_section(ids, '3B', 'Messages', cards, [('to move to a later time →', 'to postpone', ['to postpone', 'to cancel', 'to remind'], ''), ('very important and needing action now →', 'urgent', ['urgent', 'cancelled', 'late'], '')], [])),
-        ('note', 'Writing', 'a message note', '8 min', rubric('a', 'Write a note to Max passing on Olga\'s message (3–4 sentences, reported speech).', 'Записка Максу: перескажите сообщение Ольги.')
-         + lines(ids, ['Max, Olga called. She said…', 'She told me…', 'She asked me to…']) + send_box()),
-    ]
-    hw = hw_pair(ids, [('a recorded phone message →', 'a voicemail', ['a voicemail', 'a letter', 'a note'], ''), ('to say something will not happen →', 'to cancel', ['to cancel', 'to postpone', 'to remind'], ''),
-                       ('when people understand something differently →', 'a misunderstanding', ['a misunderstanding', 'a message', 'an argument'], '')],
-                 [('urgent', 'urgent', ['urgent', 'urban', 'argent']), ('postpone', 'postpone', ['postpone', 'post on', 'postman']), ('call back', 'call back', ['call back', 'cold back', 'call bag'])],
-                 [('Please call me', ['back'], '.'), ('Can you pass', ['on'], 'a message?'), ('', ['Remind'], 'me tomorrow, please.')],
-                 'Report the sentences.', 'Перескажите.', [('«I live in Kazan.» → He said he', ['lived'], 'in Kazan.', ''), ('«I\'ve finished.» → She said she', ['had finished'], '.', ''),
-                                                            ('«We will be late.» → They said they', ['would be'], 'late.', ''), ('«Close the door, please.» → He asked me', ['to close'], 'the door.', '')],
-                 [('She said me she was tired. →', ['She told me she was tired.', 'She said she was tired.']), ('He said he will call. →', ['He said he would call.'])])
-    return flex({'id': LID, 'prefix': P, 'owner': 'ekaterina', 'code': '3B', 'title': 'Can You Pass On a Message?', 'level': 'B1', 'category': 'Phone & messages', 'minutes': '60 min',
-                 'grammar': 'Reported speech: said / told / asked me to · tense back-shift', 'date': DATE, 'gvp': {'g': 'reported statements and requests', 'v': 'phone messages', 'p': ''},
-                 'eyebrow': 'IRIS SCHOOL · Екатерина · урок 3B', 'tags': ['B1', 'Messages', 'Role-play', 'Reported speech'],
-                 'lead': 'Broken telephone, real voicemails and a busy reception desk: today you pass on messages — exactly what you need when someone says «Can you tell her that…?»',
-                 'cards': cards, 'case': {'bad': [('She said me…', 'She told me…'), ('He said he will call.', 'He said he would call.')], 'ok': ['Lena said she had lost her keys.', 'Olga asked me to tell Max.']},
-                 'sections': sections, 'hw': hw})
-
-
-def iola():
-    P, LID = 'io6', 'iola-6'
-    ids = Ids(P)
-    cards = [('to volunteer', 'to work without pay to help others', 'работать волонтёром', 'I volunteer at an animal shelter.', '🙋'), ('a shelter', 'a place where homeless animals or people stay', 'приют', 'a dog shelter', '🏠'),
-             ('a charity', 'an organisation that helps people in need', 'благотворительная организация', 'She works for a charity.', '💝'), ('to raise money', 'to collect money for a good cause', 'собирать деньги', 'We raised money for the hospital.', '💰'),
-             ('a fundraiser', 'an event to raise money', 'благотворительное мероприятие', 'a fundraiser concert', '🎪'), ('to make a difference', 'to have a good effect', 'изменить к лучшему', 'You can make a difference.', '🌟'),
-             ('a cause', 'an idea or aim that people support', 'дело, цель', 'a good cause', '🎗️'), ('a litter pick', 'an event where people collect rubbish', 'уборка мусора', 'a beach litter pick', '🗑️')]
-    sections = [
-        ('intro', 'Lead-in', 'helping hands', '8 min',
-         route([('🙋', 'your ideas'), ('📖', 'meet three volunteers'), ('🔍', 'have done vs have been doing'), ('🎨', 'project: a campaign'), ('🎤', 'present')])
-         + rubric('a', 'Which kind of volunteering would you choose?', 'Какое волонтёрство вы бы выбрали?')
-         + opinion(ids, ['helping at an animal shelter', 'reading to old people', 'cleaning a beach or park', 'teaching children', 'organising a fundraiser'], ['😍 yes!', '🙂 maybe', '😐 not for me'])),
-        ('read', 'Reading', 'three volunteers', '12 min',
-         rubric('a', 'Read about three volunteers. Who has done the most?', 'Кто из волонтёров сделал больше всего?')
-         + reading('Meet the Volunteers', 'a local newspaper · about 150 words', [
-             'Masha, 19: I\'ve been volunteering at a dog shelter for two years. I\'ve walked hundreds of dogs, and I\'ve found homes for twelve of them!',
-             'Pyotr, 67: I\'ve been reading to children at the library every Saturday since I retired. We\'ve read about forty books together this year.',
-             'Alina, 33: Our team has been organising beach litter picks since May. So far we\'ve collected more than two tonnes of rubbish.'])
-         + deck('True or false?', [mc('%s-tf%d' % (P, i + 1), q, ['True', 'False'], 0 if ok else 1) for i, (q, ok) in enumerate([
-             ('Masha has found homes for twelve dogs.', True), ('Pyotr started reading to children last month.', False), ('Alina\'s team has collected more than two tonnes of rubbish.', True)])])),
-        ('compare', 'Grammar', 'done or doing?', '12 min',
-         rubric('a', 'Look at the pairs. Which one is about <b>how long</b> (the activity), and which about <b>how many / the result</b>?', 'Какое предложение — о длительности, а какое — о результате?')
-         + examples(["I<mark>'ve been volunteering</mark> for two years. — I<mark>'ve found</mark> homes for twelve dogs.", "Our team <mark>has been organising</mark> litter picks since May. — We<mark>'ve collected</mark> two tonnes."])
-         + easy("have been doing vs have done",
-                '<b>have been + -ing</b> — процесс и <b>сколько времени</b> (for, since, How long…?). <b>have + V3</b> — <b>результат</b> и <b>сколько штук</b> (twelve dogs, two tonnes, How many…?).',
-                [[("I've been volunteering", 'd'), ('for two years.', 'b')], [("I've found", 'c'), ('homes for twelve dogs.', 'b')]],
-                [('🐕', "I've been volunteering for two years."), ('🏡', "I've found homes for twelve dogs."), ('🗑️', "We've collected two tonnes of rubbish.")],
-                [("I've been finding homes for twelve dogs.", "I've found homes for twelve dogs.", 'Сколько штук → have + V3.'), ("I've volunteered since 8 a.m. and I'm tired.", "I've been volunteering since 8 a.m. and I'm tired.", 'Процесс и усталость → been + -ing.')],
-                choose=[('Как долго? Процесс', 'have been + -ing'), ('Сколько? Результат', 'have + V3')])
-         + ex_select(ids, [("I", "'ve been walking", ["'ve been walking", "'ve walked"], 'dogs all morning — I\'m exhausted!'), ('She', "'s raised", ["'s raised", "'s been raising"], '€500 so far.'),
-                           ('How long', 'have you been volunteering', ['have you been volunteering', 'have you volunteered'], 'here?'), ('How many books', 'have you read', ['have you read', 'have you been reading'], 'together?')])),
-        ('project', 'Project', 'a volunteering campaign', '16 min',
-         cycle('<p>Create a campaign to find volunteers for a cause you care about (animals, nature, children, old people…).</p>',
-               lines(ids, ['Name of the campaign: …', 'Our cause: …', "We've been … since…", "So far we've…", 'We need volunteers who can…', 'Slogan: …']),
-               '<p>Present your campaign in 1–2 minutes as if to a group of students. Your teacher will ask questions like «How long have you been…?» and «How many… have you…?».</p>')
-         + vocab_section(ids, '4A', 'Volunteering', cards, [('an event to raise money →', 'a fundraiser', ['a fundraiser', 'a shelter', 'a charity'], ''), ('to have a good effect →', 'to make a difference', ['to make a difference', 'to raise money', 'to volunteer'], '')], [])
-         + send_box()),
-    ]
-    hw = hw_pair(ids, [('a place where homeless animals stay →', 'a shelter', ['a shelter', 'a charity', 'a cause'], ''), ('an organisation that helps people in need →', 'a charity', ['a charity', 'a fundraiser', 'a shelter'], ''),
-                       ('to collect money for a good cause →', 'to raise money', ['to raise money', 'to make a difference', 'to volunteer'], '')],
-                 [('a charity', 'a charity', ['a charity', 'a cherry', 'a chair']), ('volunteer', 'volunteer', ['volunteer', 'volume', 'voluntary']), ('a cause', 'a cause', ['a cause', 'a course', 'a case'])],
-                 [('You can make a', ['difference'], '.'), ('We', ['raised'], 'money for the hospital.'), ('a beach litter', ['pick'], '')],
-                 'have been + -ing or have + V3?', 'Процесс или результат?', [("I", ["'ve been cleaning", 'have been cleaning'], 'the park since 9.', 'clean'), ("We", ["'ve collected", 'have collected'], '50 bags of rubbish.', 'collect'),
-                                                                             ('How long', ['have you been'], 'learning English?', 'you / learn'), ('She', ["'s written", 'has written'], 'three letters today.', 'write')],
-                 [("I've been reading three books this month. →", ["I've read three books this month.", 'I have read three books this month.']), ("How long have you volunteered here? (still now, process) →", ['How long have you been volunteering here?'])])
-    return flex({'id': LID, 'prefix': P, 'owner': 'iola', 'code': '4A', 'title': 'Volunteers Wanted', 'level': 'B1', 'category': 'Volunteering', 'minutes': '60 min',
-                 'grammar': 'Present perfect simple vs continuous: how long vs how many', 'date': DATE, 'gvp': {'g': 'present perfect simple vs continuous', 'v': 'volunteering and charity', 'p': ''},
-                 'eyebrow': 'IRIS SCHOOL · Иола · урок 4A', 'tags': ['B1', 'Volunteering', 'Project', 'have done / have been doing'],
-                 'lead': 'Three real-life volunteers, the difference between «I\'ve been doing» and «I\'ve done» — and your own volunteering campaign to present.',
-                 'cards': cards, 'case': {'bad': [("I've been finding twelve homes.", "I've found twelve homes.")], 'ok': ["I've been volunteering for two years.", "We've collected two tonnes."]},
-                 'sections': sections, 'hw': hw})
-
-
-def milana():
-    P, LID = 'ml6', 'milana-6'
-    ids = Ids(P)
-    cards = [('thrilling', 'very exciting', 'захватывающий', 'a thrilling ride', '🎢'), ('terrified', 'very, very frightened', 'в ужасе', 'I was terrified!', '😱'),
-             ('exhausting', 'making you very tired', 'изматывающий', 'an exhausting climb', '🥵'), ('amazed', 'very surprised', 'поражённый', 'I was amazed by the view.', '🤩'),
-             ('a bungee jump', 'jumping from a height on a long elastic rope', 'банджи-джампинг', 'my first bungee jump', '🪢'), ('an adrenaline junkie', 'a person who loves danger and excitement', 'любитель адреналина', "He's an adrenaline junkie.", '⚡'),
-             ('a harness', 'straps that hold you safely', 'страховочная обвязка', 'Check your harness!', '🧗'), ('to scream', 'to shout loudly because of fear or excitement', 'кричать', 'Everyone screamed.', '🗯️')]
-    lines_ = [('f4', "So, Mila, tell me about the bungee jump!"), ('f3', "Oh, it was such an amazing experience! But honestly, I was so terrified at the top."),
-              ('f4', 'How high was it?'), ('f3', 'Sixty metres. When I looked down, the river looked so tiny. My legs were shaking.'),
-              ('f4', 'And then?'), ('f3', 'The instructor checked my harness, counted to three, and I jumped. I screamed the whole time! It was the most thrilling five seconds of my life.'),
-              ('f4', 'Would you do it again?'), ('f3', "Maybe! The worst part wasn't the jump — it was the waiting. Waiting is so exhausting."), ('f4', "You're such an adrenaline junkie!")]
-    sections = [
-        ('survey', 'Survey', 'are you a thrill seeker?', '10 min',
-         route([('📋', 'survey'), ('🎧', 'a bungee story'), ('🔍', 'bored or boring?'), ('🏆', 'quiz show'), ('📝', 'your scariest moment')])
-         + rubric('a', 'Answer the survey. Then ask your teacher the same questions.', 'Ответьте на вопросы, потом спросите преподавателя.')
-         + opinion(ids, ['Would you try a bungee jump?', 'Do you like roller coasters?', 'Would you swim with sharks?', 'Would you fly in a hot-air balloon?', 'Would you walk on a glass bridge?'], ['yes! 😎', 'maybe 😬', 'never! 😱'])),
-        ('listen', 'Listening', 'the bungee jump', '10 min',
-         rubric('a', 'Mila tells a friend about her first bungee jump. What was the worst part?', 'Что было самым страшным?')
-         + listening(P + '-lis', lines_, 'Mila\'s first bungee jump', 'Listen twice', '🪢', {'f4': 'Friend', 'f3': 'Mila'})
-         + mc(P + '-g', 'What was the worst part?', ['the waiting', 'the jump', 'the instructor'], 0)
-         + ex_gaps(ids, [('The jump was', ['sixty', '60'], 'metres high.'), ('It was the most thrilling five', ['seconds'], 'of her life.')], size=10)),
-        ('adj', 'Grammar', 'terrified or terrifying?', '12 min',
-         rubric('a', 'Notice: which adjective describes a <b>feeling</b>, which describes the <b>thing</b> that causes it?', 'Какое прилагательное — о чувстве, а какое — о том, что его вызывает?')
-         + examples(['I was <mark>terrified</mark>. — It was <mark>terrifying</mark>.', 'I was <mark>exhausted</mark>. — Waiting is <mark>exhausting</mark>.', 'It was <mark>such</mark> an amazing experience. — I was <mark>so</mark> terrified.'])
-         + easy('bored vs boring · so vs such',
-                '<b>-ed</b> — как <b>я себя чувствую</b> (I\'m bored). <b>-ing</b> — какое что-то <b>есть</b>, что вызывает чувство (the film is boring). '
-                '<b>so</b> + прилагательное (so terrified). <b>such (a/an)</b> + прилагательное + существительное (such an amazing experience).',
-                [[('I', 'a'), ('was', 'd'), ('terrified.', 'c')], [('The jump', 'a'), ('was', 'd'), ('terrifying.', 'c')], [('It was', 'a'), ('such', 'd'), ('an amazing', 'c'), ('day!', 'b')]],
-                [('😱', 'I was so terrified!'), ('🎢', 'It was a terrifying ride.'), ('🤩', 'It was such an amazing experience.')],
-                [("I'm boring. (=мне скучно)", "I'm bored.", 'Чувство → -ed.'), ('It was so an amazing day.', 'It was such an amazing day.', 'такой + существительное → such a/an.')])
-         + ex_select(ids, [('The film was so', 'boring', ['boring', 'bored'], 'that I fell asleep.'), ('I was really', 'excited', ['excited', 'exciting'], 'about the trip.'),
-                           ('It was', 'such', ['such', 'so'], 'a long walk!'), ('We were', 'so', ['so', 'such'], 'tired.'), ('The news was', 'shocking', ['shocking', 'shocked'], '.')])),
-        ('quiz', 'Quiz show', 'adjective quiz', '10 min',
-         rubric('a', 'Quiz show: 30 seconds per question. Ready?', 'Викторина: 30 секунд на вопрос.')
-         + deck('Quiz show', [mc(P + '-z1', 'After a 10-km run you feel…', ['exhausted', 'exhausting'], 0), mc(P + '-z2', 'A horror film is…', ['frightening', 'frightened'], 0),
-                              mc(P + '-z3', 'Your friend didn\'t understand the lesson. She is…', ['confused', 'confusing'], 0), mc(P + '-z4', 'What a(n) ___ view!', ['amazing', 'amazed'], 0),
-                              mc(P + '-z5', 'It was ___ a nice day.', ['such', 'so'], 0)])
-         + vocab_section(ids, '3B', 'Thrills', cards, [('a person who loves danger →', 'an adrenaline junkie', ['an adrenaline junkie', 'an instructor', 'a tourist'], ''), ('very exciting →', 'thrilling', ['thrilling', 'terrified', 'exhausted'], '')], [])),
-        ('story', 'Writing', 'your scariest moment', '10 min',
-         think(ids, 'Remember a frightening or thrilling moment in your life. Write it as a short story.', 'Вспомните страшный или захватывающий момент.',
-               ['It was such a…', 'I was so…', 'The … was really …-ing', 'In the end, …']) + send_box()),
-    ]
-    hw = hw_pair(ids, [('very, very frightened →', 'terrified', ['terrified', 'terrifying', 'tired'], ''), ('making you very tired →', 'exhausting', ['exhausting', 'exhausted', 'excited'], ''),
-                       ('straps that hold you safely →', 'a harness', ['a harness', 'a helmet', 'a rope'], '')],
-                 [('thrilling', 'thrilling', ['thrilling', 'filling', 'trilling']), ('amazed', 'amazed', ['amazed', 'amazing', 'a maze']), ('terrified', 'terrified', ['terrified', 'terrific', 'terrifying'])],
-                 [("He's an adrenaline", ['junkie'], '.'), ('Check your', ['harness'], '!'), ('Everyone', ['screamed'], '.')],
-                 'Choose -ed or -ing, so or such.', 'Выберите -ed / -ing, so / such.', [('The lecture was', ['boring'], '.', 'bore'), ("I'm", ['interested'], 'in art.', 'interest'),
-                                                                                      ('It was', ['such'], 'a beautiful day.', 'so / such'), ('She was', ['so'], 'surprised.', 'so / such')],
-                 [("I'm boring, let's go out! →", ["I'm bored, let's go out!", "I'm bored. Let's go out!"]), ('It was so a good film. →', ['It was such a good film.'])])
-    return flex({'id': LID, 'prefix': P, 'owner': 'milana', 'code': '3B', 'title': 'Thrill Seekers', 'level': 'B1', 'category': 'Extreme experiences', 'minutes': '55 min',
-                 'grammar': '-ed / -ing adjectives (bored / boring) · so / such', 'date': DATE, 'gvp': {'g': '-ed vs -ing adjectives; so + adj, such a + adj + noun', 'v': 'thrills and feelings', 'p': ''},
-                 'eyebrow': 'IRIS SCHOOL · Милана · урок 3B', 'tags': ['B1', 'Thrills', 'Survey', 'Quiz show'],
-                 'lead': 'Are you a thrill seeker? A survey, a first bungee jump, a quiz show — and the difference between «I\'m bored» and «I\'m boring» (very important!).',
-                 'cards': cards, 'case': {'bad': [("I'm boring.", "I'm bored."), ('It was so an amazing day.', 'It was such an amazing day.')], 'ok': ['I was so terrified!', 'It was such an amazing experience.']},
-                 'sections': sections, 'hw': hw})
-
-
-def marina():
-    P, LID = 'mr6', 'marina-6'
-    ids = Ids(P)
-    cards = [('to miss a flight', 'to arrive too late for your plane', 'опоздать на рейс', 'We missed our flight.', '✈️'), ('a delay', 'when something happens later than planned', 'задержка', 'a three-hour delay', '⏳'),
-             ('luggage', 'bags and suitcases', 'багаж', 'Our luggage got lost.', '🧳'), ('a boarding pass', 'a ticket you show to get on a plane', 'посадочный талон', 'Have your boarding pass ready.', '🎫'),
-             ('to pour', 'to rain very heavily', 'лить (о дожде)', 'It was pouring.', '🌧️'), ('a pickpocket', 'a thief who steals from bags and pockets', 'карманник', 'Watch out for pickpockets!', '👛'),
-             ('to break down', 'to stop working (a car)', 'сломаться', 'The bus broke down.', '🚌'), ('a nightmare', 'a very bad experience', 'кошмар', 'The journey was a nightmare.', '😫')]
-    story = [('f', 'Last summer we were flying to Italy. While we were waiting at the gate, I was reading a book and my husband was sleeping.'),
-             ('f', 'Suddenly I heard our names. The plane was leaving without us!'), ('f', 'We ran to the gate. While we were running, my husband dropped his boarding pass.'),
-             ('f', 'When we finally got to Rome, it was pouring with rain and our luggage wasn\'t there. What a nightmare!')]
-    sections = [
-        ('pictures', 'Picture story', 'what happened?', '10 min',
-         route([('🖼️', 'put the story in order'), ('✍️', 'dictogloss'), ('🔍', 'background vs action'), ('🔗', 'story chain'), ('📝', 'your travel disaster')])
-         + rubric('a', 'A travel disaster in five pictures. Put them in order and tell the story with your teacher.', 'Пять картинок: расставьте по порядку и расскажите историю.')
-         + timeline([('📖😴', 'waiting at the gate: reading, sleeping'), ('📢', 'hearing their names'), ('🏃🎫', 'running, dropping the boarding pass'), ('🌧️', 'arriving in Rome: pouring rain'), ('🧳❌', 'no luggage')])
-         + ex_select(ids, [('Picture 1 shows…', 'what they were doing at the gate', ['what they were doing at the gate', 'the end of the story', 'the rain'], ''),
-                           ('The story ends with…', 'no luggage', ['no luggage', 'a book', 'a run'], '')])),
-        ('dicto', 'Dictogloss', 'listen and rebuild', '14 min',
-         rubric('a', 'Dictogloss: listen to Marina\'s friend tell the story. First time — just listen. Second time — write key words. Then rebuild the story as close to the original as you can.',
-                'Диктоглосс: послушайте, запишите ключевые слова, восстановите текст.')
-         + dictogloss(P + '-dg', story, {'f': 'Speaker'}, ids, 4, '✈️')),
-        ('focus', 'Grammar', 'background and action', '10 min',
-         rubric('a', 'Compare your text with the original. Which verbs are the background (what was happening)? Which are the actions?', 'Какие глаголы — фон, а какие — события?')
-         + easy('I was reading when I heard…',
-                '<b>Past continuous</b> (was / were + -ing) — <b>фон</b>: что происходило в тот момент. <b>Past simple</b> — <b>действие</b>, которое случилось на этом фоне. '
-                '<b>while</b> + процесс (while we were waiting), <b>when</b> + короткое событие (when I heard…).',
-                [[('While we', 'a'), ('were waiting,', 'd'), ('I', 'a'), ('heard', 'c'), ('our names.', 'b')], [('We', 'a'), ('were running', 'd'), ('when', 'b'), ('he', 'a'), ('dropped', 'c'), ('his pass.', 'b')]],
-                [('📖', 'I was reading a book.'), ('📢', 'Suddenly I heard our names.'), ('🏃', 'While we were running, he dropped his boarding pass.')],
-                [('While we waited at the gate, I was hearing our names.', 'While we were waiting at the gate, I heard our names.', 'Фон → continuous, событие → simple.')])
-         + ex_gaps(ids, [('I', ['was sleeping'], 'when the phone rang.', 'sleep'), ('While she was shopping, someone', ['stole'], 'her bag.', 'steal'),
-                         ('It', ['was pouring'], 'when we arrived.', 'pour'), ('We', ['were having'], 'dinner when the lights went out.', 'have')])),
-        ('chain', 'Speaking', 'story chain', '10 min',
-         rubric('a', 'Story chain: your teacher starts a travel disaster; you continue with one sentence (background or action), then your teacher, then you…', 'Цепочка: по очереди добавляйте предложения.')
-         + picker(['We were driving to the mountains when…', 'I was standing in a queue at passport control when…', 'While we were walking around Paris, …', 'It was midnight and we were looking for our hotel when…'])
-         + vocab_section(ids, '3B', 'Travel disasters', cards, [('to arrive too late for your plane →', 'to miss a flight', ['to miss a flight', 'to break down', 'to pour'], ''), ('a very bad experience →', 'a nightmare', ['a nightmare', 'a delay', 'luggage'], '')], [])),
-        ('write', 'Writing', 'your travel disaster', '8 min', rubric('a', 'Write about a real (or invented) travel disaster in 5 sentences.', 'Ваша (или придуманная) неудачная поездка: 5 предложений.')
-         + lines(ids, ['It was … and we were …-ing…', 'Suddenly…', 'While we were…', 'When we finally…', 'In the end…']) + send_box()),
-    ]
-    hw = hw_pair(ids, [('bags and suitcases →', 'luggage', ['luggage', 'a boarding pass', 'a delay'], ''), ('a thief who steals from bags →', 'a pickpocket', ['a pickpocket', 'a passenger', 'a pilot'], ''),
-                       ('to stop working (a car) →', 'to break down', ['to break down', 'to miss', 'to pour'], '')],
-                 [('luggage', 'luggage', ['luggage', 'language', 'lunch']), ('a delay', 'a delay', ['a delay', 'a day', 'a display']), ('pouring', 'pouring', ['pouring', 'boring', 'pointing'])],
-                 [('We missed our', ['flight'], '.'), ('a three-hour', ['delay'], ''), ('Have your boarding', ['pass'], 'ready.')],
-                 'Past continuous or past simple?', 'Past continuous или past simple?', [('I', ['was walking'], 'home when I saw an accident.', 'walk'), ('While they were swimming, it', ['started'], 'to rain.', 'start'),
-                                                                                     ('He', ['broke'], 'his leg while he was skiing.', 'break'), ('What', ['were you doing'], 'at 8 last night?', 'you / do')],
-                 [('While I cooked, the phone was ringing. →', ['While I was cooking, the phone rang.']), ('I was seeing him when I was walking. →', ['I saw him when I was walking.', 'I saw him while I was walking.'])])
-    return flex({'id': LID, 'prefix': P, 'owner': 'marina', 'code': '3B', 'title': 'Travel Disasters', 'level': 'Intermediate', 'category': 'Travel stories', 'minutes': '60 min',
-                 'grammar': 'Past continuous vs past simple · when / while', 'date': DATE, 'gvp': {'g': 'past continuous for background, past simple for actions; when / while', 'v': 'travel problems', 'p': ''},
-                 'eyebrow': 'IRIS SCHOOL · Марина · урок 3B', 'tags': ['Intermediate', 'Travel', 'Dictogloss', 'Story chain'],
-                 'lead': 'A story in pictures, a dictogloss (listen, note, rebuild!) and a story chain with your teacher — all about trips that went wrong.',
-                 'cards': cards, 'case': {'bad': [('While I cooked, the phone was ringing.', 'While I was cooking, the phone rang.')], 'ok': ['I was reading when I heard our names.', 'It was pouring with rain.']},
-                 'sections': sections, 'hw': hw})
-
-
-def ksenia():
-    P, LID = 'ks6', 'ksenia-6'
-    ids = Ids(P)
-    cards = [('the countryside', 'land outside towns', 'сельская местность', 'a house in the countryside', '🌾'), ('peaceful', 'quiet and calm', 'спокойный, мирный', 'a peaceful village', '🕊️'),
-             ('crowded', 'full of people', 'многолюдный', 'crowded streets', '👥'), ('convenient', 'easy and useful', 'удобный', 'Shops nearby are convenient.', '👌'),
-             ('isolated', 'far from other people', 'изолированный', 'It can feel isolated in winter.', '🏚️'), ('the cost of living', 'how much money you need to live', 'стоимость жизни', 'The cost of living is lower.', '💸'),
-             ('nightlife', 'bars, clubs and events at night', 'ночная жизнь', 'great nightlife', '🌃'), ('fresh air', 'clean air', 'свежий воздух', 'I need fresh air.', '🌬️')]
-    lines_ = [('f3', "I moved to a village two years ago and honestly, life is far calmer than in Moscow. The air is much cleaner and I sleep a lot better."),
-              ('m3', "I tried living in the countryside once. It was a bit too quiet for me. And the nearest supermarket was twenty minutes by car!"),
-              ('f3', "Sure, it's not as convenient as the city. But the more time I spend here, the less I miss the noise."),
-              ('m3', "For me, the city is far more interesting. There's so much to do. Though the cost of living is much higher, of course.")]
-    sections = [
-        ('poll', 'Opinion poll', 'city or countryside?', '8 min',
-         route([('🗳️', 'opinion poll'), ('🎧', 'two opinions'), ('🔍', 'stronger comparisons'), ('🛠️', 'prepare'), ('🎙️', 'debate'), ('📝', 'opinion paragraph')])
-         + rubric('a', 'Where is it better? Vote.', 'Где лучше? Проголосуйте.')
-         + opinion(ids, ['to raise children', 'to find a job', 'to stay healthy', 'to make friends', 'to spend your old age'], ['🏙️ city', '🌾 countryside', '🤝 both'])),
-        ('listen', 'Listening', 'two opinions', '10 min',
-         rubric('a', 'Listen to Anna and Igor. Who prefers what?', 'Кто что предпочитает?')
-         + listening(P + '-lis', lines_, 'City or village?', 'Listen twice · notice how they compare', '🏡', {'f3': 'Anna', 'm3': 'Igor'})
-         + deck('Details', [mc(P + '-q1', 'Anna lives…', ['in a village', 'in Moscow', 'in a small town'], 0), mc(P + '-q2', 'What was the problem for Igor?', ['the supermarket was far', 'the neighbours', 'the price'], 0),
-                            mc(P + '-q3', 'Igor admits that the city is…', ['more expensive', 'quieter', 'healthier'], 0)])),
-        ('focus', 'Language focus', 'stronger comparisons', '12 min',
-         rubric('a', 'How do Anna and Igor make their comparisons stronger or softer? Find the words.', 'Как они усиливают или смягчают сравнение?')
-         + examples(['life is <mark>far</mark> calmer', 'the air is <mark>much</mark> cleaner', 'I sleep <mark>a lot</mark> better', 'a <mark>bit</mark> too quiet', "it's <mark>not as</mark> convenient <mark>as</mark> the city", '<mark>the more</mark> time I spend here, <mark>the less</mark> I miss the noise'])
-         + reveal('📘 The rule', easy('much / far / a bit + -er · not as … as · the more…, the…',
-                                       'Усилить: <b>much / far / a lot</b> + сравнительная (far calmer). Смягчить: <b>a bit / slightly</b> (a bit cheaper). «Не такой…, как» — <b>not as … as</b>. «Чем больше…, тем…» — <b>the more…, the more / the less…</b>',
-                                       [[('Life', 'a'), ('is', 'd'), ('far', 'c'), ('calmer.', 'b')], [("It's", 'a'), ('not as', 'd'), ('convenient', 'c'), ('as the city.', 'b')], [('The more', 'd'), ('I stay,', 'a'), ('the less', 'd'), ('I miss it.', 'b')]],
-                                       [('🌾', 'Life is far calmer here.'), ('🛒', "It's not as convenient as the city."), ('😴', 'The more time I spend here, the less I miss the noise.')],
-                                       [('very calmer', 'much calmer', 'very со сравнительной не работает.'), ('not so convenient like', 'not as convenient as', 'not as … as.')]))
-         + ex_gaps(ids, [('Moscow is', ['much', 'far', 'a lot'], 'bigger than Tver.', 'намного'), ('The village is', ['a bit', 'slightly'], 'colder than the city.', 'чуть-чуть'),
-                         ('The countryside is not', ['as'], 'exciting as the city.', ''), ('The', ['more'], 'I work, the more tired I get.', '')])),
-        ('prep', 'Prepare', 'prepare your side', '10 min',
-         debate('People are happier in the countryside than in big cities.', ['much cleaner air and fresher food', 'far less stress and noise', 'a lot cheaper housing'],
-                ['far more jobs and opportunities', 'much better hospitals and schools', 'a lot more culture and nightlife'], ['Far more…', 'Not nearly as … as…', 'The more…, the more…', 'I see your point, but…'])
-         + think(ids, 'Choose your side. Prepare three arguments with stronger comparisons.', 'Выберите сторону и подготовьте три аргумента.', ['Argument 1: …', 'Argument 2: …', 'Argument 3: …'])),
-        ('debate', 'Debate', 'the debate', '10 min',
-         rubric('a', 'Debate with your teacher: 1 minute each for opening, then free discussion, then a 30-second conclusion.', 'Дебаты: вступление по минуте, свободная дискуссия, заключение.')
-         + phrases(["I'd like to start by saying…", 'First of all…', "That's a fair point, but…", 'To sum up…'])
-         + vocab_section(ids, '4A', 'City and countryside', cards, [('quiet and calm →', 'peaceful', ['peaceful', 'crowded', 'isolated'], ''), ('how much money you need to live →', 'the cost of living', ['the cost of living', 'nightlife', 'fresh air'], '')], [])),
-        ('write', 'Writing', 'opinion paragraph', '8 min', rubric('a', 'Write an opinion paragraph (5–6 sentences).', 'Абзац-мнение.')
-         + lines(ids, ['In my opinion, …', 'Firstly, …', 'Secondly, …', 'On the other hand, …', 'To sum up, …']) + send_box()),
-    ]
-    hw = hw_pair(ids, [('full of people →', 'crowded', ['crowded', 'peaceful', 'isolated'], ''), ('far from other people →', 'isolated', ['isolated', 'convenient', 'crowded'], ''),
-                       ('bars, clubs and events at night →', 'nightlife', ['nightlife', 'fresh air', 'the countryside'], '')],
-                 [('peaceful', 'peaceful', ['peaceful', 'powerful', 'painful']), ('convenient', 'convenient', ['convenient', 'convent', 'conversation']), ('isolated', 'isolated', ['isolated', 'insulated', 'illustrated'])],
-                 [('I need some fresh', ['air'], '.'), ('a house in the', ['countryside'], ''), ('The cost of', ['living'], 'is lower here.')],
-                 'Complete the comparisons.', 'Закончите сравнения.', [('Sochi is', ['much', 'far', 'a lot'], 'warmer than Murmansk.', 'намного'), ('My flat is', ['a bit', 'slightly'], 'smaller than yours.', 'чуть-чуть'),
-                                                                     ('Buses are not', ['as'], 'fast as the metro.', ''), ('The', ['more'], 'you practise, the better you get.', '')],
-                 [('The village is very calmer. →', ['The village is much calmer.', 'The village is far calmer.', 'The village is a lot calmer.']), ("It's not so cheap like the countryside. →", ["It's not as cheap as the countryside."])])
-    return flex({'id': LID, 'prefix': P, 'owner': 'ksenia', 'code': '4A', 'title': 'City or Countryside?', 'level': 'Intermediate', 'category': 'Places to live', 'minutes': '60 min',
-                 'grammar': 'Comparatives: much / far / a bit · not as … as · the more…, the…', 'date': DATE, 'gvp': {'g': 'modifying comparatives; not as…as; the more… the more', 'v': 'city and countryside', 'p': ''},
-                 'eyebrow': 'IRIS SCHOOL · Ксения · урок 4A', 'tags': ['Intermediate', 'Debate', 'City vs countryside', 'Comparatives'],
-                 'lead': 'An opinion poll, two people who disagree — and a real debate. Learn to compare like a native speaker: far calmer, a bit too quiet, the more…, the less…',
-                 'cards': cards, 'case': {'bad': [('very calmer', 'much calmer'), ('not so cheap like', 'not as cheap as')], 'ok': ['Life is far calmer here.', 'The more I stay, the less I miss it.']},
-                 'sections': sections, 'hw': hw})
+    return std({
+        'id': 'ekaterina-6', 'prefix': 'ek6', 'owner': 'ekaterina', 'code': '3B', 'title': 'Can You Pass On a Message?', 'level': 'B1', 'category': 'Communication at work',
+        'minutes': '80 min', 'grammar': 'Reported speech: said / told, tense changes, reported questions and requests', 'date': DATE,
+        'gvp': {'g': 'reported statements (said / told + backshift), reported questions (asked if / where…), requests (asked me to…)', 'v': 'phone calls, messages and office communication', 'p': 'polite intonation on the phone'},
+        'eyebrow': 'IRIS SCHOOL · Екатерина · урок 3B', 'tags': ['B1', 'Messages', 'Broken telephone', 'Reported speech'],
+        'lead': 'Your colleague is out and the phone keeps ringing! Take messages, play «broken telephone», read about how messages go wrong — and pass everything on correctly.',
+        'think': ('How do you usually pass on messages at work or at home: by phone, chat, notes? Has a message ever gone wrong?',
+                  'Как вы передаёте сообщения на работе или дома? Бывало, что сообщение «испортилось»?', ['I usually…', 'Once a message went wrong: …', 'The best way to pass on a message is…']),
+        'aims': ['understand phone messages', 'use 10 words about phone calls and messages', 'report what people said and told you', 'report questions and requests'],
+        'listen': {'title': 'three phone calls', 'task': "Ekaterina's colleague Max is out. She answers his phone three times. Listen once: which call is urgent?", 'task_ru': 'Какой звонок срочный?',
+                   'head': "Three calls for Max", 'names': {'f3': 'Ekaterina', 'm3': 'Mr Lee', 'f4': 'Anna', 'm4': 'Courier'}, 'emoji': '📞',
+                   'lines': [('f3', "Good morning, Max Petrov's phone, Ekaterina speaking."), ('m3', "Hello, this is John Lee from Brightway. I'm calling about the contract. I can't come to the meeting on Friday."),
+                             ('f3', "I'm sorry, Max is out. Can I take a message?"), ('m3', 'Yes, please. Can you ask him to call me back today? It\'s urgent. My number is 8-916-555-34-12.'),
+                             ('f3', "Of course. I'll pass it on."),
+                             ('f4', "Hi, it's Anna from accounts. Is Max there?"), ('f3', "No, he's out. Can I help?"), ('f4', "Can you tell him that I've sent the invoice? And ask him if he has signed the report."),
+                             ('m4', 'Hello, I have a parcel for Max Petrov. Where is your office exactly?'), ('f3', "We're on the fourth floor, room 412."),
+                             ('m4', "OK. I'll be there in ten minutes. Will someone be there to sign for it?"), ('f3', "Yes, I'll sign for it.")],
+                   'gist': ('Which call is urgent?', ['Mr Lee: he wants Max to call back today.', 'Anna: the invoice.', 'The courier.'], 0),
+                   'details': [('Why is Mr Lee calling?', ['about the contract', 'about a parcel', 'about a holiday'], 0), ("What can't Mr Lee do?", ['come to the meeting on Friday', 'sign the contract', 'find the office'], 0),
+                               ('What has Anna sent?', ['the invoice', 'the report', 'a parcel'], 0), ('What does Anna want to know?', ['if Max has signed the report', 'where the office is', 'when the meeting is'], 0),
+                               ('Who will sign for the parcel?', ['Ekaterina', 'Max', 'Anna'], 0)],
+                   'notes': [('Mr Lee is from', ['Brightway'], '.'), ("Mr Lee's number ends in", ['34-12', '3412', '34 12'], '.'), ('Anna works in', ['accounts'], '.'),
+                             ('The office is room', ['412'], '.')]},
+        'vocab': {'title': 'phone and messages', 'theme': 'Phone calls and messages', 'cards': [
+            ('to take a message', 'to write down what a caller says', 'принять сообщение', 'Can I take a message?', '📝'), ('to pass on', 'to give information to another person', 'передать', "I'll pass it on.", '➡️'),
+            ('to call back', 'to phone someone who phoned you', 'перезвонить', 'Can you ask him to call me back?', '🔁'), ('urgent', 'very important, needs action now', 'срочный', "It's urgent.", '🚨'),
+            ('to hang up', 'to end a phone call', 'повесить трубку', "Don't hang up!", '📴'), ('to get through', 'to manage to talk to someone on the phone', 'дозвониться', "I couldn't get through.", '📶'),
+            ('an invoice', 'a document asking for payment', 'счёт (на оплату)', "I've sent the invoice.", '🧾'), ('a courier', 'a person who delivers parcels', 'курьер', 'The courier is downstairs.', '🛵'),
+            ('to sign for', 'to write your name to show you got something', 'расписаться в получении', "I'll sign for it.", '✍️'), ('a misunderstanding', 'when people understand something wrongly', 'недоразумение', 'It was a misunderstanding.', '🤷')],
+            'match': [('to phone someone who phoned you →', 'to call back', ['to call back', 'to hang up', 'to pass on'], ''), ('very important, needs action now →', 'urgent', ['urgent', 'early', 'easy'], ''),
+                      ('a document asking for payment →', 'an invoice', ['an invoice', 'a parcel', 'a contract'], ''), ('to manage to talk to someone on the phone →', 'to get through', ['to get through', 'to hang up', 'to sign for'], ''),
+                      ('when people understand something wrongly →', 'a misunderstanding', ['a misunderstanding', 'a message', 'a meeting'], '')],
+            'gaps': [('Can I take a', ['message'], '?'), ("I'll pass it", ['on'], '.'), ('Please ask him to call me', ['back'], '.'), ("I tried to call, but I couldn't get", ['through'], '.')]},
+        'notice': ("Compare what the callers said with Ekaterina's message to Max. What changes?", 'Сравните слова звонивших и сообщение для Макса. Что меняется?',
+                   ["«I <mark>can't</mark> come on Friday.» → He said he <mark>couldn't</mark> come on Friday.", "«I<mark>'ve sent</mark> the invoice.» → Anna said she <mark>had sent</mark> the invoice.",
+                    '«Can you ask him to call me back?» → He asked <mark>you to call him back</mark>.', '«Has he signed the report?» → She asked <mark>if you had signed</mark> the report.'],
+                   [('When we report, the tense usually…', ['goes one step back (can → could)', 'stays the same always', 'goes to the future'], 0),
+                    ('A request «Can you call me?» becomes…', ['asked + person + to + verb', 'said that call', 'told if call'], 0),
+                    ('A yes/no question becomes…', ['asked if + normal word order', 'asked did + subject', 'said question'], 0)]),
+        'grammar': {'title': 'reported speech', 'head': 'He said (that)… · She told me… · He asked me to…',
+                    'idea': 'Передаём чужие слова: время делает <b>шаг назад</b>: am/is → was, can → could, will → would, have done → had done, present → past. '
+                            '<b>say</b> — без «кому» (He said that…), <b>tell</b> — с «кому» (He told <b>me</b> that…). '
+                            'Просьба → <b>asked me to + глагол</b>. Вопрос → <b>asked if / where…</b> + обычный порядок слов.',
+                    'choose': [('Утверждение', 'He said (that) he was busy. / He told me he was busy.'), ('Просьба', 'He asked me to call him back.'), ('Вопрос да/нет', 'She asked if I had signed it.'), ('Вопрос с where / when', 'He asked where the office was.')],
+                    'rows': [[('He', 'a'), ('said', 'd'), ('he', 'a'), ("couldn't come.", 'c')], [('He', 'a'), ('asked', 'd'), ('me', 'b'), ('to call him back.', 'c')],
+                             [('She', 'a'), ('asked', 'd'), ('if', 'c'), ('you had signed the report.', 'b')]],
+                    'note': 'today → that day · tomorrow → the next day · here → there · I → he/she · my → his/her',
+                    'examples': [('📞', "He said he couldn't come to the meeting."), ('🔁', 'He asked you to call him back today.'), ('🧾', 'Anna told me she had sent the invoice.'), ('❓', 'The courier asked where our office was.')],
+                    'traps': [('He said me that…', 'He told me that… / He said that…', 'said — без «кому».'), ('She asked where was the office.', 'She asked where the office was.', 'В косвенном вопросе — прямой порядок.'),
+                              ('He asked me call him.', 'He asked me to call him.', 'Просьба — to + глагол.')],
+                    'ex1': ('Report the words.', 'Передайте слова.', [
+                        ("«I'm busy.» → She said she", ['was'], 'busy.', ''), ("«I'll call later.» → He said he", ['would'], 'call later.', ''),
+                        ("«I can't come.» → He said he", ["couldn't", 'could not'], 'come.', ''), ("«Please call me back.» → He asked me", ['to call'], 'him back.', ''),
+                        ("«Have you signed it?» → She asked", ['if', 'whether'], 'you had signed it.', ''), ('She', ['told'], 'me the invoice was ready.', 'say / tell')]),
+                    'ex2': ('Put the words in order.', 'Соберите предложения.', [
+                        (['said', 'He', "he couldn't", 'come.'], "He said he couldn't come."), (['asked', 'She', 'me', 'to call back.'], 'She asked me to call back.'),
+                        (['asked', 'He', 'where', 'the office was.'], 'He asked where the office was.')])},
+        'part2': {'key': 'read', 'label': 'Reading', 'title': 'how messages go wrong', 'task': 'Read the article. What is the main reason messages go wrong?', 'task_ru': 'Главная причина, почему сообщения искажаются?',
+                  'head': 'Broken Telephone at Work', 'small': 'a business blog · about 200 words', 'text': [
+                      "We all played «broken telephone» as children: a message is whispered from person to person, and the last person says something completely different. Funny at a party — not so funny at work.",
+                      "A study found that office workers lose about seven hours a week because of misunderstandings. One manager told us that a client had asked for «two hundred brochures». The message was passed on three times and the printer received an order for «two thousand»!",
+                      'Why does it happen? Usually, people pass on messages from memory. They remember the general idea but forget the details: numbers, names and dates.',
+                      'The experts gave three tips. First, always write the message down at once. Second, repeat it back to the caller: «So, you said you would call back at three?» Third, send the message in writing, not just by word of mouth.',
+                      "As one office manager said: «If it isn't written down, it didn't happen.»"],
+                  'tf': [('Broken telephone is a children\'s game.', True), ('Office workers lose about seven hours a month because of misunderstandings.', False), ('The printer received an order for 2,000 brochures.', True),
+                         ('People usually forget the general idea of a message.', False), ('The experts say you should repeat the message back to the caller.', True)],
+                  'gaps': ('Complete from the article.', 'Вставьте из статьи.', [('One manager told us that a client', ['had asked'], 'for «two hundred brochures».', 'ask'),
+                                                                                 ('So, you said you', ['would'], 'call back at three?', ''), ('The experts', ['gave'], 'three tips.', 'give')])},
+        'extra': [('telephone', 'Game', 'broken telephone', '8 min', lambda ids:
+                   rubric('a', 'Broken telephone! Your teacher says a sentence quietly (or plays it with 🔊). You report it. Then you whisper one — she reports it.', 'Испорченный телефон: передайте фразу в косвенной речи.')
+                   + escape(ids, [('📞', 'Message 1', "«I'm stuck in traffic.» → He said he ___ stuck in traffic.", ['was']),
+                                  ('📞', 'Message 2', "«I'll send the report tomorrow.» → She said she ___ send the report the next day.", ['would']),
+                                  ('📞', 'Message 3', '«Can you book a room?» → He asked me ___ a room.', ['to book']),
+                                  ('📞', 'Message 4', '«Where is the meeting?» → She asked where the meeting ___ .', ['was'])])
+                   + phrases(['He said (that)…', 'She told me (that)…', 'He asked me to…', 'She asked if…'])),
+                  ('message', 'Role-play', 'take a message', '8 min', lambda ids:
+                   rubric('a', 'Role-play: your teacher calls and asks for your colleague. Take the message — write it down — then report it to «Max».', 'Преподаватель звонит коллеге — примите сообщение и передайте его.')
+                   + roleplay(('You: answer the phone', ['Answer politely.', 'Take a message.', 'Repeat the details back.', 'Then report it to Max.']),
+                              ('Teacher: the caller', ["You can't come to the meeting.", 'You want Max to call back.', 'Give a phone number.', 'Ask a question about the contract.']))
+                   + lines(ids, ['Message for Max from…', 'He / she said that…', 'He / she asked you to…', 'He / she asked if…']))],
+        'mix': {'title': 'a message note', 'task': "Ekaterina's notes have mistakes. Correct them.", 'task_ru': 'В записках ошибки. Исправьте.',
+                'items': [('He said me he was busy. →', ['He told me he was busy.', 'He said he was busy.']), ('She asked where was the office. →', ['She asked where the office was.']),
+                          ('He asked me call him back. →', ['He asked me to call him back.']), ("He said he can't come. →", ["He said he couldn't come.", 'He said he could not come.'])]},
+        'auction': [("He said he couldn't come on Friday.", True, ''), ('She said me that she was tired.', False, 'She told me that she was tired.'), ('He asked me to call him back.', True, ''),
+                    ('She asked where was the office.', False, 'She asked where the office was.'), ('Anna told me she had sent the invoice.', True, ''), ('He asked me close the door.', False, 'He asked me to close the door.'),
+                    ('She asked if I had signed the report.', True, ''), ('He told that he would be late.', False, 'He said that he would be late. / He told me that…')],
+        'pron': {'title': 'polite phone English', 'task': 'On the phone, polite questions go UP at the end and the voice is friendly. Press 🔊 and repeat.', 'task_ru': 'Вежливые вопросы по телефону — с повышением в конце.',
+                 'list': [('Can I take a message?', 'can I take a <u>MES</u>sage? ↗'), ('Could you spell that, please?', 'could you <u>SPELL</u> that, please? ↗'), ("I'll pass it on.", "I'll pass it <u>ON</u> ↘"),
+                          ('So, you said you would call back at three?', 'so, you said you would call back at <u>THREE</u>? ↗')]},
+        'speaking': {'title': 'messages and communication', 'questions': ['What did your boss / a colleague tell you yesterday?', 'Do you prefer phone calls or messages? Why?', 'Have you ever had a misunderstanding at work?',
+                                                                        'What did your best friend say the last time you talked?', 'Who did you last take a message for?', 'Is it rude to send voice messages?'],
+                     'phrases': ['He told me that…', 'She said she would…', 'He asked me to…', 'She asked if…', 'There was a misunderstanding: …'],
+                     'task': ('Tell your teacher about a real conversation from this week.', 'Перескажите реальный разговор этой недели.')},
+        'task': {'task': 'Gossip time! 😄 Think of three conversations from this week (at work, at home, with friends). Report them to your teacher: what people said, asked and asked you to do.',
+                 'task_ru': 'Перескажите три разговора этой недели: что сказали, о чём спросили, о чём попросили.',
+                 'plan': ['Conversation 1: My … said that…', 'Conversation 2: … asked me if…', 'Conversation 3: … asked me to…', 'What I answered: I told them that…'],
+                 'report': ['On Monday my boss told me that…', 'She asked me to…', 'Then he asked if…', 'I said that…']},
+        'writing': {'title': 'a message for Max', 'task': 'Write a short email to Max with all three messages from the phone calls.', 'task_ru': 'Письмо Максу со всеми тремя сообщениями.',
+                    'example': "Hi Max, three messages for you. John Lee from Brightway called. He said he couldn't come to the meeting on Friday and asked you to call him back today — it's urgent (8-916-555-34-12). Anna from accounts said she had sent the invoice. She asked if you had signed the report. Also, a courier brought a parcel — I signed for it. Ekaterina",
+                    'placeholders': ['Hi Max, …', 'John Lee said that…', 'He asked you to…', 'Anna told me that…', 'She asked if…']},
+        'cans': [('I can understand phone messages', 'понять телефонные сообщения'), ('I can use 10 words about phone calls', 'использовать 10 слов по теме'),
+                 ('I can report what people said and told me', 'передать слова'), ('I can report questions and requests', 'передать вопросы и просьбы')],
+        'hw': {'words_select': [('to write down what a caller says →', 'to take a message', ['to take a message', 'to hang up', 'to call back'], ''), ('a person who delivers parcels →', 'a courier', ['a courier', 'a caller', 'a manager'], ''),
+                                ('to end a phone call →', 'to hang up', ['to hang up', 'to get through', 'to pass on'], '')],
+               'listen': [('urgent', 'urgent', ['urgent', 'agent', 'argent']), ('an invoice', 'an invoice', ['an invoice', 'a voice', 'an advice']), ('pass it on', 'pass it on', ['pass it on', 'pass it up', 'put it on'])],
+               'words_gaps': [("I'll pass it", ['on'], '.'), ("It's very", ['urgent'], '.'), ("I'll sign", ['for'], 'the parcel.')],
+               'gaps': ('Report the words.', 'Передайте слова.', [("«I live in Kazan.» → He said he", ['lived'], 'in Kazan.', ''), ("«We'll be late.» → They said they", ['would be'], 'late.', ''),
+                                                                 ("«Close the door.» → He asked me", ['to close'], 'the door.', ''), ("«I've finished.» → She said she", ['had finished'], '.', ''),
+                                                                 ("«Are you OK?» → He asked", ['if', 'whether'], 'I was OK.', '')]),
+               'fix': [('She said me she was tired. →', ['She told me she was tired.', 'She said she was tired.']), ('He said he will call. →', ['He said he would call.']), ('She asked where did I live. →', ['She asked where I lived.'])],
+               'order': [(['told', 'She', 'me', 'she was busy.'], 'She told me she was busy.'), (['asked', 'He', 'if', 'I could help.'], 'He asked if I could help.')]},
+        'case': {'bad': [('He said me that…', 'He told me that…'), ('She asked where was the office.', 'She asked where the office was.'), ('He asked me call him.', 'He asked me to call him.')],
+                 'ok': ["He said he couldn't come.", 'He asked me to call him back.', 'She asked if I had signed it.', "Anna told me she'd sent the invoice."]},
+    })
 
 
 def build():
-    return [yulia(), olya_b1(), sasha_b1(), ekaterina(), iola(), milana(), marina(), ksenia()]
+    return [yulia(), olya_b1(), sasha_b1(), ekaterina()]
