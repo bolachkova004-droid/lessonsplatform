@@ -490,6 +490,56 @@ T('classroom', 'classroom English: instructions, ICQs, Let\'s…', [
     ['My favourite classroom routine: …', 'An ICQ for a matching game: …'])
 
 
+# ======================================================================= декабрь 2026: новые темы
+T('can_A0', "can / can't · Can I…?", [
+    ('You ___ ski here in winter.', 'can', ['can', 'cans', 'can to']), ("You ___ swim in the river. It's cold!", "can't", ["can't", 'can', 'not can']), ('___ I ride a horse?', 'Can', ['Can', 'Do', 'Am']),
+    ('Yes, you ___ .', 'can', ['can', 'do', 'are']), ('She can ___ English.', 'speak', ['speak', 'speaks', 'to speak']), ("I ___ ride a horse. I don't know how.", "can't", ["can't", 'can', "don't"]),
+    ('Can you ___ me?', 'help', ['help', 'helps', 'to help']), ('Where ___ I buy a ticket?', 'can', ['can', 'do', 'is'])],
+    [('You ___ see Elbrus from here.', ['can'], 'можно'), ("You ___ go up at night.", ["can't", 'cannot'], 'нельзя'), ('', ['Can'], 'I pay by card?', '❓'), ('Yes, you ___ .', ['can'], ''),
+     ('Tourists can ___ (ride) horses.', ['ride'], 'ride'), ('Can you ___ (speak) Russian?', ['speak'], 'speak'), ('Where can I ___ (buy) a ticket?', ['buy'], 'buy'), ("Sorry, you ___ park here.", ["can't", 'cannot'], 'нельзя')],
+    [('You can to ski. →', ['You can ski.']), ('She cans swim. →', ['She can swim.']), ('Do I can pay by card? →', ['Can I pay by card?']), ('I not can ski. →', ["I can't ski.", 'I cannot ski.'])],
+    [(['can', 'You', 'ski here.'], 'You can ski here.'), (['Can', 'I', 'pay by card?'], 'Can I pay by card?'), (["can't", 'You', 'swim here.'], "You can't swim here.")],
+    ['In my village you can…', "I can… but I can't…"])
+
+T('can_could', "can / could · can't / couldn't", [
+    ('When I was five, I ___ swim.', 'could', ['could', 'can', 'cans']), ("Now I ___ speak three languages.", 'can', ['can', 'could', 'coulded']), ("She ___ read when she was four.", 'could', ['could', 'can', 'could to']),
+    ("I ___ ride a bike when I was three. I was too small.", "couldn't", ["couldn't", "can't", "didn't could"]), ('___ you swim when you were a child?', 'Could', ['Could', 'Did', 'Can']),
+    ('My grandma can ___ amazing pancakes.', 'make', ['make', 'makes', 'made']), ("Birds ___ fly, but penguins can't.", 'can', ['can', 'could', 'cans']), ('Last year I ___ play the guitar, but now I can.', "couldn't", ["couldn't", "can't", 'could'])],
+    [('When I was six, I ___ ride a bike.', ['could'], 'past ✅'), ('Now I ___ swim very well.', ['can'], 'now ✅'), ("I ___ read when I was two.", ["couldn't", 'could not'], 'past ❌'), ('', ['Could'], 'you ski when you were a child?', '❓ past'),
+     ("She can ___ (play) the piano.", ['play'], 'play'), ('Yes, I ___ .', ['could'], 'short answer, past'), ("He ___ cook. He burns everything!", ["can't", 'cannot'], 'now ❌'), ('My cat ___ open the door! 😺', ['can'], 'now ✅')],
+    [('When I was five, I can swim. →', ['When I was five, I could swim.']), ('She cans dance. →', ['She can dance.']), ("I didn't could ski. →", ["I couldn't ski.", 'I could not ski.']), ('Can you to cook? →', ['Can you cook?'])],
+    [(['could', 'I', 'swim', 'when I was five.'], 'I could swim when I was five.'), (['Could', 'you', 'read', 'at four?'], 'Could you read at four?'), (["can't", 'I', 'play the piano.'], "I can't play the piano.")],
+    ['When I was a child, I could…', "Now I can… but I can't…"])
+
+T('past_perfect', 'past perfect: had + V3', [
+    ('When I got to the station, the train ___ .', 'had left', ['had left', 'left', 'has left']), ("I couldn't get in because I ___ my keys.", 'had lost', ['had lost', 'lost', 'have lost']),
+    ('She was tired because she ___ all night.', "hadn't slept", ["hadn't slept", "didn't sleep", "hasn't slept"]), ('By the time we arrived, the film ___ .', 'had started', ['had started', 'started', 'was starting']),
+    ('I ___ never seen snow before I went to Finland.', 'had', ['had', 'have', 'was']), ('___ you ever been there before?', 'Had', ['Had', 'Did', 'Were']),
+    ('After she ___ the email, she called me.', 'had read', ['had read', 'has read', 'reads']), ("He was hungry because he ___ breakfast.", "hadn't had", ["hadn't had", "didn't have had", "hasn't had"])],
+    [('When we arrived, everyone ___ (go) home.', ['had gone', "'d gone"], 'go'), ('I ___ (forget) my passport, so I missed the flight.', ['had forgotten', "'d forgotten"], 'forget'),
+     ('She ___ (never / fly) before that trip.', ['had never flown', "'d never flown"], 'never / fly'), ('By 10 a.m. I ___ (already / finish) the report.', ['had already finished', "'d already finished"], 'already / finish'),
+     ('They were upset because they ___ (not / win).', ["hadn't won", 'had not won'], '➖ win'), ('', ['Had'], 'you met him before?', '❓'), ('The shop ___ (close) by the time I got there.', ['had closed', "'d closed"], 'close'),
+     ('I realised I ___ (leave) my phone at home.', ['had left', "'d left"], 'leave')],
+    [('When I arrived, the bus already left. →', ['When I arrived, the bus had already left.']), ('I had saw the film before. →', ['I had seen the film before.', "I'd seen the film before."]),
+     ("She didn't had eaten. →", ["She hadn't eaten.", 'She had not eaten.']), ('By the time he came, we have finished. →', ['By the time he came, we had finished.'])],
+    [(['had left', 'The train', 'when I arrived.'], 'The train had left when I arrived.'), (["I'd never", 'seen', 'the sea', 'before.'], "I'd never seen the sea before."), (['had', 'She', 'already', 'gone.'], 'She had already gone.')],
+    ['When I got home yesterday, I realised I had…', 'Before this year, I had never…'])
+
+T('mixed_cond', 'mixed conditionals', [
+    ("If I had studied medicine, I ___ a doctor now.", 'would be', ['would be', 'would have been', 'will be']), ("If she weren't so shy, she ___ the job last year.", 'would have taken', ['would have taken', 'would take', 'took']),
+    ("If he ___ that train, they wouldn't be married today.", "hadn't missed", ["hadn't missed", "didn't miss", "wouldn't miss"]), ("We ___ lost now if we had brought a map.", "wouldn't be", ["wouldn't be", "wouldn't have been", "won't be"]),
+    ('If I ___ better at maths, I would have become an engineer.', 'were', ['were', 'had been', 'would be']), ("If Fleming hadn't gone on holiday, we ___ penicillin today.", "might not have", ["might not have", "wouldn't have had", "don't have"]),
+    ("If I didn't love the sea, I ___ to Sochi.", "wouldn't have moved", ["wouldn't have moved", "wouldn't move", "didn't move"]), ("I'd be rich now if I ___ in that company.", 'had invested', ['had invested', 'invested', 'would invest'])],
+    [("If I ___ (take) that job in 2015, I'd live in London now.", ['had taken', "'d taken"], 'take'), ("If he weren't so lazy, he ___ (pass) the exam yesterday.", ['would have passed', "'d have passed"], 'pass'),
+     ("If we had left earlier, we ___ (be) there now.", ['would be', "'d be"], 'be'), ("If she ___ (not / be) afraid of flying, she would have come with us.", ["weren't", 'were not', "wasn't"], '➖ be'),
+     ("If the team ___ (score) that penalty, they would be champions now.", ['had scored', "'d scored"], 'score'), ("If I spoke Spanish, I ___ (understand) the guide yesterday.", ['would have understood', "'d have understood"], 'understand'),
+     ("I ___ (not / be) so tired now if I had gone to bed early.", ["wouldn't be", 'would not be'], '➖ be'), ("If he ___ (have) more patience, he wouldn't have shouted.", ['had'], 'have — характер')],
+    [("If I had studied medicine, I would have been a doctor now. →", ['If I had studied medicine, I would be a doctor now.']), ("If I would have taken the job, I'd be rich now. →", ["If I had taken the job, I'd be rich now.", 'If I had taken the job, I would be rich now.']),
+     ("If she isn't so shy, she would have spoken. →", ["If she weren't so shy, she would have spoken.", "If she wasn't so shy, she would have spoken."]), ("If we left earlier, we would be there now. (we didn't) →", ['If we had left earlier, we would be there now.'])],
+    [(['If I had', 'taken that job,', "I'd live", 'in Paris now.'], "If I had taken that job, I'd live in Paris now."), (["If he weren't", 'so shy,', 'he would have', 'asked her.'], "If he weren't so shy, he would have asked her."),
+     (["We wouldn't be", 'lost now', 'if we had', 'brought a map.'], "We wouldn't be lost now if we had brought a map.")],
+    ['If I had…, I would… now.', "If I weren't…, I would have…"])
+
 # ======================================================================= какой урок — какие темы
 LESSONS = {
     'pelageya-6': ['pres_cont'], 'pelageya-7': ['was_were'], 'pelageya-8': ['past_regular'], 'pelageya-9': ['past_irregular'],
@@ -502,6 +552,11 @@ LESSONS = {
     'pasha-5': ['relative_B2'], 'pasha-6': ['passive_B2'], 'zakhar-mikhail-5': ['get_used_to'], 'zakhar-mikhail-6': ['relative_B2'],
     'dmitry-5': ['ing_to_B2'], 'dmitry-6': ['wishes'], 'dmitry-7': ['predictions_B2'], 'alexey-b2-4': ['narrative_B2'], 'alexey-b2-5': ['ing_to_B2'],
     'darya': ['classroom'], 'darya-2': ['second_cond', 'third_cond'],
+    # декабрь 2026
+    'pelageya-10': ['can_could'], 'varya-9': ['going_to'], 'olya-6': ['comparatives_A'], 'efim-5': ['will_pred'], 'vladimir-5': ['pp_ever'], 'sasha-6': ['first_cond'],
+    'vika-8': ['past_cont'], 'mussa-4': ['can_A0'], 'yulia-k-7': ['third_cond'], 'olya-b1-6': ['used_to'], 'sasha-b1-6': ['reported_B1'], 'ekaterina-7': ['second_cond'],
+    'iola-7': ['first_cond'], 'milana-7': ['relative_B1'], 'marina-7': ['past_perfect'], 'ksenia-7': ['deduction'], 'dmitry-8': ['mixed_cond'], 'alexey-b2-6': ['passive_B2'],
+    'zakhar-mikhail-7': ['mixed_cond'], 'pasha-7': ['narrative_B2'], 'darya-3': ['narrative_B2'],
 }
 
 AFTER_ID = {}  # уроки без раздела «Grammar»: после какого раздела ставить практику
