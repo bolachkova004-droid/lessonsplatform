@@ -1,296 +1,480 @@
-"""Ноябрь 2026, вторая волна: уроки с РАЗНОЙ структурой (не один шаблон).
-Дмитрий 3C — TBL (сначала задание, язык потом): «The City of 2050», be likely to / bound to / set to.
-Алексей 2B — test-teach-test: «Never Too Old to Learn», gerunds & infinitives.
-Захар и Михаил 4B — квест-комната: «Escape the Museum», relative clauses + participle clauses.
-Паша 4A — jigsaw + guided discovery: «Unsolved Mysteries», the passive (all forms) + it is thought that…"""
+"""Уроки 30 ноября, B2 / Intermediate+ — полная версия (по образцу урока Дарьи).
+Дмитрий 3C «The City of 2050» (predictions: bound to / likely to / set to) · Алексей 2B «Never Too Old to Learn» (gerunds & infinitives) ·
+Захар и Михаил 4B «Escape the Museum» (relative & participle clauses, квест-комната) · Паша 4A «Unsolved Mysteries» (passive in all tenses, It is thought…)."""
 from flex import *
 
 DATE = '2026-11-30'
 
 
 def dmitry():
-    P, LID = 'dm7', 'dmitry-7'
-    ids = Ids(P)
-    cards = [('a commute', 'the journey to and from work', 'дорога на работу', 'My commute takes an hour.', '🚇'), ('a green space', 'a park or garden in a city', 'зелёная зона', 'We need more green spaces.', '🌳'),
-             ('car-free', 'without cars', 'без машин', 'The centre will be car-free.', '🚳'), ('affordable housing', 'homes people can pay for', 'доступное жильё', 'Affordable housing is the biggest problem.', '🏘️'),
-             ('a skyscraper', 'a very tall building', 'небоскрёб', 'a 300-metre skyscraper', '🏙️'), ('overcrowded', 'with too many people', 'перенаселённый', 'Overcrowded trains at 8 a.m.', '👥'),
-             ('to renovate', 'to repair and improve an old building', 'реконструировать', 'They renovated the old factory.', '🛠️'), ('a neighbourhood', 'an area of a city where people live', 'район', 'a quiet neighbourhood', '🏡'),
-             ('urban', 'connected with cities', 'городской', 'urban planning', '🏢'), ('a 15-minute city', 'a city where you can reach everything you need in 15 minutes', 'город 15 минут', 'Paris wants to be a 15-minute city.', '⏱️')]
-    lines_ = [('f3', "Welcome to «City Talk». My guest is Leo, an urban planner. Leo, what will our cities look like in 2050?"),
-              ('m3', "Well, about two thirds of the world's population is likely to live in cities by then, so cities are bound to get bigger. The question is how."),
-              ('f3', 'Up or out?'), ('m3', "Both, but I think the most exciting idea is the 15-minute city: everything you need — school, doctor, shops, a park — within a 15-minute walk or bike ride."),
-              ('f3', 'Is it realistic?'), ('m3', "It's already happening. Paris is set to turn hundreds of streets into green spaces and bike lanes. But it's unlikely to work everywhere — some cities were built for cars."),
-              ('f3', 'What about housing?'), ('m3', "That's the big problem. Rents are bound to rise if cities don't build more affordable housing. Renovating old buildings is often greener than building new skyscrapers."),
-              ('f3', 'And cars?'), ('m3', "City centres are likely to become car-free. Self-driving buses may help, but honestly, the best transport is still a good pair of shoes!")]
-    sections = [
-        ('task', 'Task first', 'plan a neighbourhood', '15 min',
-         route([('🏗️', 'task: plan a district'), ('🎧', 'listen to an expert'), ('🔍', 'notice the language'), ('🛠️', 'redo the task better'), ('🎤', 'present')])
-         + rubric('a', 'No grammar yet! You and your teacher are city planners. A city has given you an old factory area (2 km²). Decide what to build. Use the English you already have.',
-                  'Без грамматики! Вы — градостроители. Старая промзона 2 км². Решите, что построить, используя тот английский, что уже есть.')
-         + cycle('<p>Choose 5 things for the district: housing, a park, a school, offices, a tram line, a car park, a market, a sports centre, a hospital, a skyscraper…</p>' + opinion(ids, ['affordable housing', 'a big park', 'a car park', 'a tram line', 'offices', 'a market', 'a skyscraper'], ['✅ yes', '🤔 maybe', '❌ no']),
-                 lines(ids, ['Our district will have…', 'We decided not to build…, because…', 'The biggest problem might be…']),
-                 '<p>Tell your teacher your plan in 2 minutes. Record yourself if you like — you will compare it with your second try.</p>')),
-        ('expert', 'Listening', 'what the expert says', '10 min',
-         rubric('a', 'Now listen to an urban planner. Which of his ideas were in your plan?', 'Послушайте градостроителя. Какие его идеи были в вашем плане?')
-         + listening(P + '-lis', lines_, 'Podcast «City Talk»: cities in 2050', 'Listen twice · Note his predictions', '🏙️', {'f3': 'Host', 'm3': 'Leo, urban planner'})
-         + deck('Details', [mc(P + '-q1', 'What is the 15-minute city?', ['everything you need within a 15-minute walk or ride', 'a city built in 15 years', 'a city with 15 districts'], 0),
-                            mc(P + '-q2', 'What is Paris doing?', ['turning streets into green spaces and bike lanes', 'building skyscrapers', 'banning bikes'], 0),
-                            mc(P + '-q3', 'Why is the 15-minute city unlikely everywhere?', ['some cities were built for cars', 'it is too expensive for Paris', 'people prefer long commutes'], 0),
-                            mc(P + '-q4', 'What does Leo say about renovating?', ['often greener than building new', 'too slow', 'only for museums'], 0)])
-         + rubric('b', 'Complete the notes.', 'Заполните заметки.')
-         + ex_gaps(ids, [('By 2050 about two', ['thirds'], 'of people are likely to live in cities.'), ('Rents are bound to', ['rise'], 'without affordable housing.'),
-                         ('City centres are likely to become', ['car-free'], '.')], size=14)),
-        ('notice', 'Language focus', 'how experts predict', '12 min',
-         rubric('a', 'Notice: how sure is Leo? Put the expressions in order from 100% to 0%.', 'Насколько Лео уверен? Расставьте выражения от 100% до 0%.')
-         + examples(['Cities are <mark>bound to</mark> get bigger.', 'About two thirds <mark>are likely to</mark> live in cities.', 'Paris <mark>is set to</mark> turn streets into bike lanes.',
-                     'Self-driving buses <mark>may</mark> help.', "It's <mark>unlikely to</mark> work everywhere."])
-         + ex_select(ids, [('bound to →', '100% — certain', ['100% — certain', '50% — maybe', '10% — probably not'], ''), ('likely to →', '80% — probably', ['80% — probably', '100% — certain', '10% — probably not'], ''),
-                           ('may / might →', '50% — maybe', ['50% — maybe', '100% — certain', '80% — probably'], ''), ('unlikely to →', '20% — probably not', ['20% — probably not', '80% — probably', '100% — certain'], ''),
-                           ('be set to →', 'planned, it will happen', ['planned, it will happen', 'a guess', 'impossible'], '')])
-         + reveal('📘 The rule', easy('bound to · likely to · set to + verb',
-                                       'Прогнозы с разной уверенностью — это главное у экспертов. <b>be bound to</b> = точно случится. <b>be (un)likely to</b> = скорее всего (не). <b>be set to</b> = запланировано, вот-вот. '
-                                       'Всё это — <b>be + … + to + глагол</b>. Можно и так: <b>There\'s a good chance that…</b>, <b>It\'s highly unlikely that…</b>',
-                                       [[('Cities', 'a'), ('are bound to', 'd'), ('grow.', 'c')], [('Rents', 'a'), ('are likely to', 'd'), ('rise.', 'c')], [('Paris', 'a'), ('is set to', 'd'), ('ban cars.', 'c')]],
-                                       [('🏙️', 'Cities are bound to get bigger.'), ('🏘️', 'Rents are likely to rise.'), ('🚲', 'Paris is set to build more bike lanes.'), ('🚗', "It's unlikely to work everywhere.")],
-                                       [('Cities are likely grow.', 'Cities are likely to grow.', 'Не забывайте to.'), ('It is likely that rents to rise.', 'It is likely that rents will rise.', 'После that — обычное предложение.'),
-                                        ('Prices are bound rising.', 'Prices are bound to rise.', 'to + простой глагол.')],
-                                       choose=[('Точно', 'be bound to / be sure to'), ('Скорее всего', 'be likely to · There\'s a good chance that…'), ('Может быть', 'may / might / could'),
-                                               ('Скорее всего нет', 'be unlikely to'), ('Запланировано', 'be set to · be due to')]))),
-        ('practice', 'Practice', 'predictions', '8 min',
-         rubric('a', 'Rewrite the predictions with the word in brackets.', 'Перепишите прогнозы со словом в скобках.')
-         + ex_gaps(ids, [('Rents will almost certainly rise. → Rents are', ['bound to rise', 'sure to rise'], '.', 'bound'), ('Cars will probably disappear from the centre. → Cars are', ['likely to disappear'], 'from the centre.', 'likely'),
-                         ('The new metro line opens next year (it is planned). → The new metro line is', ['set to open', 'due to open'], 'next year.', 'set'),
-                         ('Flying taxis probably won\'t be common. → Flying taxis are', ['unlikely to be'], 'common.', 'unlikely')], size=16)),
-        ('redo', 'Task again', 'present your plan again', '12 min',
-         rubric('a', 'Now repeat your task — better! Update your district plan and present it again with at least four prediction expressions.', 'Повторите задание — лучше! Обновите план и представьте его снова.')
-         + vocab_section(ids, '3C', 'The city of the future', cards, [('the journey to and from work →', 'a commute', ['a commute', 'a skyscraper', 'a neighbourhood'], ''),
-                                                                      ('with too many people →', 'overcrowded', ['overcrowded', 'urban', 'car-free'], ''), ('to repair and improve an old building →', 'to renovate', ['to renovate', 'to commute', 'to rise'], '')], [],
-                         'Vocabulary to upgrade your plan: tap the cards.', 'Слова, чтобы улучшить план.')
-         + lines(ids, ['Our district is set to…', 'Rents are likely / unlikely to…', 'Thanks to …, people are bound to…', "There's a good chance that…", 'The biggest risk is…'])
-         + phrases(['In our district…', 'The idea is that…', 'This is likely to…', "We've decided against… because…", 'Any questions?'])),
-        ('debate', 'Speaking', 'your city', '8 min',
-         debate('Big cities should ban private cars from the centre.', ['cleaner air and less noise', 'more space for people and parks', 'faster public transport'],
-                ['problems for people with disabilities and families', 'shops in the centre may lose customers', 'not everyone can cycle in winter'],
-                ['I strongly believe…', "That's bound to…", "It's unlikely to work in Moscow because…", 'On the other hand…'])),
-        ('write', 'Writing', 'a vision statement', '6 min', rubric('a', 'Write a short vision statement for your district (5 sentences) and send it.', 'Короткое видение вашего района: 5 предложений.')
-         + lines(ids, ['By 2035 our district…', '…is likely to…', '…is bound to…', '…is set to…', 'We hope that…']) + send_box()),
-    ]
-    hw = hw_pair(ids, [('a park or garden in a city →', 'a green space', ['a green space', 'a commute', 'a skyscraper'], ''), ('homes people can pay for →', 'affordable housing', ['affordable housing', 'a neighbourhood', 'urban'], ''),
-                       ('connected with cities →', 'urban', ['urban', 'car-free', 'overcrowded'], '')],
-                 [('a commute', 'a commute', ['a commute', 'a computer', 'a community']), ('skyscraper', 'skyscraper', ['skyscraper', 'sky scrapper', 'scraper']), ('likely', 'likely', ['likely', 'lately', 'lively'])],
-                 [('My', ['commute'], 'takes an hour.'), ('They', ['renovated'], 'the old factory.'), ('Trains are', ['overcrowded'], 'at 8 a.m.')],
-                 'Complete with bound / likely / unlikely / set + to.', 'Вставьте выражение.', [('Prices are', ['bound to', 'likely to'], 'go up — they always do.', 'точно'), ('The bridge is', ['set to', 'due to'], 'open in May.', 'запланировано'),
-                                                                                              ("It's", ['unlikely to'], 'snow in Sochi in July.', 'вряд ли'), ('More people are', ['likely to'], 'work from home.', 'скорее всего')],
-                 [('Cities are likely grow. →', ['Cities are likely to grow.']), ('It is bound happening. →', ['It is bound to happen.', "It's bound to happen."])])
-    return flex({'id': LID, 'prefix': P, 'owner': 'dmitry', 'code': '3C', 'title': 'The City of 2050', 'level': 'B2', 'category': 'Cities & the future', 'minutes': '70 min',
-                 'grammar': 'Predictions: be bound to / likely to / unlikely to / set to · There\'s a good chance that…', 'date': DATE,
-                 'gvp': {'g': 'future probability: be bound / likely / unlikely / set / due to', 'v': 'cities and urban planning', 'p': ''},
-                 'eyebrow': 'IRIS SCHOOL · Дмитрий · урок 3C', 'tags': ['B2', 'Cities', 'Task first', 'Predictions'],
-                 'lead': 'This lesson works differently: you do the task <b>first</b> — plan a new city district — then listen to an expert, notice the language he uses, and do the task again, better.',
-                 'cards': cards, 'case': {'bad': [('Cities are likely grow.', 'Cities are likely to grow.'), ('Prices are bound rising.', 'Prices are bound to rise.')], 'ok': ['Rents are likely to rise.', 'Paris is set to build bike lanes.']},
-                 'sections': sections, 'hw': hw})
+    return std({
+        'id': 'dmitry-7', 'prefix': 'dm7', 'owner': 'dmitry', 'code': '3C', 'title': 'The City of 2050', 'level': 'B2', 'category': 'Cities & the future',
+        'minutes': '85 min', 'grammar': "Predictions: will / be bound to / be likely to / be unlikely to / be set to / be due to · There's a good chance that…", 'date': DATE,
+        'gvp': {'g': 'future predictions with different degrees of certainty; be bound / likely / set / due to; chance that', 'v': 'urban planning and smart cities', 'p': 'stress in long words: sustAINable, inFRAstructure'},
+        'eyebrow': 'IRIS SCHOOL · Дмитрий · урок 3C', 'tags': ['B2', 'Future cities', 'Urban planning', 'Predictions'],
+        'lead': 'Flying taxis, car-free centres, 15-minute cities: what will our cities really look like in 2050? Listen to an urban planner, read about Paris going car-free, '
+                'learn to make predictions with exactly the right degree of certainty — and design your own city of the future.',
+        'think': ('Think about your city 25 years ago and today. What has changed most? What do you think will change in the next 25 years?',
+                  'Ваш город 25 лет назад и сейчас: что изменилось больше всего? Что изменится в следующие 25 лет?', ['The biggest change so far: …', 'By 2050 I expect…', 'I hope that…, but I fear that…']),
+        'aims': ['understand an expert talking about future cities', 'use 10 words about urban planning', 'make predictions with different degrees of certainty', "use bound to, likely to, set to, there's a good chance"],
+        'listen': {'title': 'an urban planner', 'task': 'A podcast host interviews an urban planner about cities in 2050. Listen once: is she optimistic or pessimistic?', 'task_ru': 'Она оптимистка или пессимистка?',
+                   'head': 'Podcast «Tomorrow\'s World»: the city of 2050', 'names': {'m3': 'Host', 'f4': 'Dr Elena Park'}, 'emoji': '🏙️',
+                   'lines': [('m3', 'Dr Park, let\'s start with the big question. Will we all be using flying taxis in 2050?'),
+                             ('f4', "Honestly? It's highly unlikely. They're bound to exist — a few companies are already testing them — but they're likely to stay very expensive. Most of us will still take the metro."),
+                             ('m3', 'What about cars in city centres?'), ('f4', "That's one thing I'm confident about. Private cars are almost certain to disappear from many city centres. Paris and Oslo have already started, and other cities are set to follow."),
+                             ('m3', 'And the «15-minute city» idea?'), ('f4', "Yes — the idea that everything you need is within a fifteen-minute walk. I think there's a good chance that most new districts will be planned that way."),
+                             ('m3', 'Climate change must be a big factor.'), ('f4', "Absolutely. Summers are bound to get hotter, so cities will need far more trees and green roofs. Moscow is due to open several new parks by 2030."),
+                             ('m3', 'Are you optimistic?'), ('f4', "Cautiously, yes. Cities are likely to be greener and quieter. But housing is unlikely to get cheaper — that's the problem nobody has solved yet.")],
+                   'gist': ('Is Dr Park optimistic or pessimistic?', ['Cautiously optimistic', 'Very pessimistic', 'She has no opinion'], 0),
+                   'details': [('What does she say about flying taxis?', ["They'll exist but stay too expensive for most people.", 'Everyone will use them.', 'They are already cheap.'], 0),
+                               ('What is she most confident about?', ['private cars disappearing from city centres', 'flying taxis', 'cheaper housing'], 0),
+                               ('What is a «15-minute city»?', ['everything you need is within a 15-minute walk', 'a city you can cross in 15 minutes by car', 'a city with 15 districts'], 0),
+                               ('Why will cities need more trees?', ['Summers will get hotter.', 'People want more parks for sport.', 'Trees are cheaper than buildings.'], 0),
+                               ('What problem has nobody solved?', ['expensive housing', 'traffic', 'pollution'], 0)],
+                   'notes': [('Cars are disappearing from Paris and', ['Oslo'], '.'), ('Most new districts may be planned as', ['15-minute cities', 'fifteen-minute cities', '15-minute city'], '.'),
+                             ('Cities will need more trees and green', ['roofs'], '.'), ('Moscow is due to open new parks by', ['2030'], '.')]},
+        'vocab': {'title': 'urban planning', 'theme': 'Cities of the future', 'cards': [
+            ('urban', 'connected with towns and cities', 'городской', 'urban planning', '🏙️'), ('sustainable', 'not harming the environment, able to continue', 'устойчивый, экологичный', 'sustainable transport', '♻️'),
+            ('infrastructure', 'roads, transport, water, power systems', 'инфраструктура', 'The infrastructure is old.', '🛤️'), ('a district', 'an area of a city', 'район', 'a new district', '🗺️'),
+            ('pedestrian', 'for people walking, not cars', 'пешеходный', 'a pedestrian street', '🚶'), ('congestion', 'too much traffic', 'заторы, перегруженность', 'Congestion is getting worse.', '🚗'),
+            ('a green roof', 'a roof covered with plants', 'зелёная крыша', 'Green roofs cool buildings.', '🌿'), ('affordable housing', 'homes that ordinary people can pay for', 'доступное жильё', 'There is not enough affordable housing.', '🏠'),
+            ('to phase out', 'to stop using something gradually', 'постепенно отказаться', 'Petrol cars will be phased out.', '📉'), ('a smart city', 'a city that uses technology and data to work better', 'умный город', 'Moscow wants to be a smart city.', '📡')],
+            'match': [('too much traffic →', 'congestion', ['congestion', 'infrastructure', 'a district'], ''), ('to stop using something gradually →', 'to phase out', ['to phase out', 'to set up', 'to break down'], ''),
+                      ('homes ordinary people can pay for →', 'affordable housing', ['affordable housing', 'a smart city', 'a green roof'], ''), ('not harming the environment →', 'sustainable', ['sustainable', 'urban', 'pedestrian'], ''),
+                      ('roads, transport, water, power systems →', 'infrastructure', ['infrastructure', 'congestion', 'a district'], '')],
+            'gaps': [('Petrol cars will be phased', ['out'], '.'), ('a', ['pedestrian'], 'street with no cars'), ('There is not enough', ['affordable'], 'housing.'), ('Green', ['roofs'], 'help to cool buildings.')]},
+        'notice': ("Look at Dr Park's predictions. Put them in order from «almost certain» to «almost impossible».", 'Расположите прогнозы от «почти точно» до «почти невозможно».',
+                   ["They're <mark>bound to</mark> exist.", 'Cars are <mark>almost certain to</mark> disappear.', 'Cities are <mark>likely to</mark> be greener.', "There's <mark>a good chance that</mark>…",
+                    'Housing is <mark>unlikely to</mark> get cheaper.', "It's <mark>highly unlikely</mark>.", 'Other cities are <mark>set to</mark> follow. Moscow is <mark>due to</mark> open new parks.'],
+                   [('The strongest (almost 100%) is…', ['be bound to / be certain to', 'be likely to', "there's a chance"], 0),
+                    ('«be set to / be due to» is used for…', ['plans and schedules', 'impossible things', 'past events'], 0),
+                    ('After «be likely» we use…', ['to + verb: likely to be', '-ing: likely being', 'that only'], 0)]),
+        'grammar': {'title': 'predictions', 'head': 'bound to · likely to · unlikely to · set to',
+                    'idea': 'Прогноз с <b>разной уверенностью</b>. ~100%: <b>will definitely</b>, <b>be bound to / be sure to / be certain to</b> + V. ~70%: <b>be likely to</b>, <b>will probably</b>, <b>there\'s a good chance (that)</b>. '
+                            '~30%: <b>might</b>, <b>may well</b>. ~10%: <b>be unlikely to</b>, <b>probably won\'t</b>, <b>it\'s highly unlikely that</b>. По плану / расписанию: <b>be set to / be due to</b>.',
+                    'choose': [('Почти наверняка', 'be bound to / certain to: Summers are bound to get hotter.'), ('Вероятно', "be likely to / there's a good chance that"), ('Маловероятно', "be unlikely to / it's highly unlikely that"),
+                               ('По плану, официально', 'be set to / due to: Moscow is due to open new parks.')],
+                    'rows': [[('Summers', 'a'), ('are bound to', 'd'), ('get hotter.', 'c')], [('Cities', 'a'), ('are likely to', 'd'), ('be greener.', 'c')],
+                             [("It's", 'a'), ('highly unlikely', 'd'), ('that', 'c'), ('housing will get cheaper.', 'b')]],
+                    'note': 'Порядок: definitely / probably — после will, перед won\'t: It will probably rain. It probably won\'t rain. · likely — прилагательное: be likely to, it is likely that',
+                    'examples': [('☀️', 'Summers are bound to get hotter.'), ('🚗', 'Private cars are likely to disappear from city centres.'), ('🚁', 'Flying taxis are unlikely to be cheap.'), ('🌳', 'Moscow is due to open new parks by 2030.')],
+                    'traps': [('Cities are likely be greener.', 'Cities are likely to be greener.', 'likely to + V.'), ("It's bound happening.", "It's bound to happen.", 'bound to + V.'), ("It probably won't to rain.", "It probably won't rain.", 'После won\'t — без to.')],
+                    'ex1': ('Rewrite the predictions with the word given.', 'Перепишите прогнозы.', [
+                        ('Rents will almost certainly rise. → Rents are', ['bound to', 'sure to', 'certain to'], 'rise.', 'bound'), ('Cars will probably leave the centre. → Cars are', ['likely to'], 'leave the centre.', 'likely'),
+                        ("Flying taxis probably won't be common. → They are", ['unlikely to'], 'be common.', 'unlikely'), ('The stadium opens in June (planned). → It is', ['set to', 'due to'], 'open in June.', 'set'),
+                        ("There's a good", ['chance'], 'that it will happen.', ''), ("It's highly", ['unlikely'], 'that cars will disappear completely.', '')]),
+                    'ex2': ('Put the words in order.', 'Соберите предложения.', [
+                        (['are', 'Rents', 'likely to', 'rise.'], 'Rents are likely to rise.'), (['is set to', 'Paris', 'ban cars.'], 'Paris is set to ban cars.'),
+                        (["There's", 'a good chance', 'that it will work.'], "There's a good chance that it will work.")])},
+        'part2': {'key': 'read', 'label': 'Reading', 'title': 'Paris without cars', 'task': 'Read the article. Do Parisians support the changes?', 'task_ru': 'Парижане поддерживают изменения?',
+                  'head': 'Paris: The City That Said Goodbye to Cars', 'small': 'an urban affairs feature · about 230 words', 'text': [
+                      'Ten years ago, the banks of the Seine were a busy motorway. Today they are a park where people walk, cycle and sit in the sun. Paris has become one of the most ambitious cities in the world in reducing car traffic.',
+                      'Since 2014 the city has created more than 1,000 kilometres of cycle lanes and removed tens of thousands of parking spaces. Speed limits have fallen to 30 km/h almost everywhere. Cycling has more than doubled.',
+                      'The idea behind it is the «15-minute city», promoted by the researcher Carlos Moreno: every Parisian should be able to reach shops, schools, doctors and parks within a fifteen-minute walk or bike ride.',
+                      "Not everyone is happy. Drivers from the suburbs complain that their journeys have become longer, and some shop owners say they have lost customers. But in a 2024 vote, residents chose to triple parking prices for heavy SUVs.",
+                      'Experts say other European cities are likely to follow. Milan, Barcelona and Brussels have already started. «The question is not if cities will change,» says one planner, «but how fast.»'],
+                  'tf': [('The banks of the Seine used to be a motorway.', True), ('Paris has created about 100 km of cycle lanes.', False), ('The 15-minute city idea was promoted by Carlos Moreno.', True),
+                         ('All shop owners are happy with the changes.', False), ('Residents voted for higher parking prices for SUVs.', True)],
+                  'gaps': ('Complete from the article.', 'Вставьте из статьи.', [('Speed limits have fallen to', ['30', '30 km/h'], 'km/h almost everywhere.', ''), ('Cycling has more than', ['doubled'], '.', ''),
+                                                                                 ('other European cities are', ['likely'], 'to follow.', '')])},
+        'extra': [('design', 'Project', 'design a district', '12 min', lambda ids:
+                   rubric('a', 'You are on the city council. You have money for ONE big project in your city by 2035. Rank the options, then defend your choice.', 'Вы в городском совете. Выберите один большой проект и защитите выбор.')
+                   + opinion(ids, ['a car-free city centre', '500 km of new cycle lanes', 'affordable housing for 50,000 people', 'a new metro line to the suburbs', 'green roofs on all public buildings'],
+                             ['1st priority', '2nd', '3rd', 'not now'])
+                   + lines(ids, ['Our top priority is… because…', 'If we do this, … is likely to…', '… is bound to… / unlikely to…', 'The risk is that…']))],
+        'mix': {'title': 'a council report', 'task': 'A council report with mistakes. Correct them.', 'task_ru': 'Отчёт с ошибками. Исправьте.',
+                'items': [('Cities are likely grow. →', ['Cities are likely to grow.']), ('It is bound happening. →', ['It is bound to happen.', "It's bound to happen."]),
+                          ('It is likely that rents to rise. →', ['It is likely that rents will rise.', "It's likely that rents will rise."]), ("It won't probably rain. →", ["It probably won't rain."])]},
+        'auction': [('Summers are bound to get hotter.', True, ''), ('Cities are likely be greener.', False, 'Cities are likely to be greener.'), ('Flying taxis are unlikely to be cheap.', True, ''),
+                    ("There's a good chance that it will work.", True, ''), ("It won't probably happen.", False, "It probably won't happen."), ('The stadium is due to open in June.', True, ''),
+                    ('It is bound happening.', False, 'It is bound to happen.'), ('Paris is set banning cars.', False, 'Paris is set to ban cars.')],
+        'pron': {'title': 'stress in long words', 'task': 'Long words have one strong syllable. Press 🔊 and repeat.', 'task_ru': 'В длинных словах одно ударение.',
+                 'list': [('sustainable', 'sus<u>TAIN</u>able'), ('infrastructure', '<u>IN</u>frastructure'), ('congestion', 'con<u>GES</u>tion'), ('pedestrian', 'pe<u>DES</u>trian'),
+                          ("It's highly unlikely.", "it's <u>HIGH</u>ly un<u>LIKE</u>ly")]},
+        'speaking': {'title': 'the future of cities', 'questions': ['Will people still drive cars in city centres in 2050?', 'Is your city likely to become a «15-minute city»?', 'What is bound to change in your district?',
+                                                                  'Would you use a flying taxi?', 'Is housing in your city likely to become more affordable?', 'Which city do you think is the best model for the future?'],
+                     'phrases': ["It's bound to…", "There's a good chance that…", "It's highly unlikely that…", '… is set to…', "I'd be surprised if…"],
+                     'task': ('Present your vision of your city in 2050.', 'Представьте ваш город в 2050 году.')},
+        'task': {'task': 'Design the city of 2050! Prepare a 2-minute presentation about your city in 2050: transport, housing, nature, technology. For each, say how certain you are.',
+                 'task_ru': 'Двухминутная презентация «Мой город в 2050»: транспорт, жильё, природа, технологии — с разной степенью уверенности.',
+                 'plan': ['Transport: … is bound to…', 'Housing: … is unlikely to…', 'Nature: there\'s a good chance that…', 'Technology: … is set to…', 'My biggest hope / fear: …'],
+                 'report': ['In 2050 my city is bound to…', "There's a good chance that…", "It's highly unlikely that…", 'Overall, I\'m cautiously optimistic because…']},
+        'writing': {'title': 'a forecast', 'task': 'Write a short article (6 sentences) for a city magazine: «My city in 2050». Use at least five different prediction structures.', 'task_ru': 'Статья «Мой город в 2050»: минимум пять разных способов прогноза.',
+                    'example': "By 2050 Moscow is bound to look very different. Petrol cars are likely to be phased out of the centre, and there's a good chance that most streets will be pedestrian. The new metro lines are due to be finished by 2035. However, housing is unlikely to become more affordable. Flying taxis? It's highly unlikely that ordinary people will use them.",
+                    'placeholders': ['By 2050 … is bound to…', '… are likely to…', "There's a good chance that…", '… is due / set to…', '… is unlikely to…', "It's highly unlikely that…"]},
+        'cans': [('I can understand an expert talking about the future', 'понять эксперта о будущем'), ('I can use 10 words about urban planning', 'использовать 10 слов по теме'),
+                 ('I can make predictions with different degrees of certainty', 'делать прогнозы с разной уверенностью'), ('I can use bound to, likely to, set to', 'использовать bound to, likely to, set to')],
+        'hw': {'words_select': [('connected with towns and cities →', 'urban', ['urban', 'rural', 'sustainable'], ''), ('a city that uses technology and data →', 'a smart city', ['a smart city', 'a district', 'infrastructure'], ''),
+                                ('a roof covered with plants →', 'a green roof', ['a green roof', 'a pedestrian street', 'a district'], '')],
+               'listen': [('sustainable', 'sustainable', ['sustainable', 'suitable', 'sustained']), ('infrastructure', 'infrastructure', ['infrastructure', 'instruction', 'architecture']), ('congestion', 'congestion', ['congestion', 'suggestion', 'digestion'])],
+               'words_gaps': [('urban', ['planning'], ''), ('affordable', ['housing'], ''), ('to phase', ['out'], 'petrol cars')],
+               'gaps': ('Complete the predictions.', 'Дополните прогнозы.', [('Prices are bound', ['to'], 'go up.', ''), ("It's", ['likely'], 'that we will be late.', ''), ('The plan is', ['unlikely'], 'to work without money.', ''),
+                                                                            ('The new bridge is', ['due', 'set'], 'to open in May.', ''), ("There's a good", ['chance'], 'it will rain.', '')]),
+               'fix': [('Cities are likely grow. →', ['Cities are likely to grow.']), ('It is bound happening. →', ['It is bound to happen.', "It's bound to happen."]), ("It won't probably rain. →", ["It probably won't rain."])],
+               'order': [(['is', 'Housing', 'unlikely to', 'get cheaper.'], 'Housing is unlikely to get cheaper.'), (['are', 'Summers', 'bound to', 'get hotter.'], 'Summers are bound to get hotter.')]},
+        'case': {'bad': [('likely be', 'likely to be'), ('bound happening', 'bound to happen'), ("won't probably", "probably won't")],
+                 'ok': ['Summers are bound to get hotter.', 'Cities are likely to be greener.', "There's a good chance that…", 'Moscow is due to open new parks.']},
+    })
 
 
 def alexey():
-    P, LID = 'ax5', 'alexey-b2-5'
-    ids = Ids(P)
-    cards = [('fluent', 'able to speak a language easily', 'свободно говорящий', "I'd love to be fluent in Spanish.", '🗣️'), ('a native speaker', 'a person who learned a language as a child', 'носитель языка', 'She sounds like a native speaker.', '🌍'),
-             ('to pick up', 'to learn without formal study', 'нахвататься, выучить по ходу', 'I picked up some Italian on holiday.', '🧺'), ('a plateau', 'a time when you stop making progress', 'плато (застой)', 'Every learner hits a plateau.', '📉'),
-             ('to brush up on', 'to improve a skill you learned before', 'освежить (навык)', 'I need to brush up on my French.', '🪥'), ('immersion', 'living in a language all day', 'погружение', 'Immersion is the fastest way.', '🌊'),
-             ('spaced repetition', 'reviewing at growing intervals', 'интервальное повторение', 'Apps use spaced repetition.', '🔁'), ('to get by', 'to manage with basic skills', 'объясниться, справиться', 'I can get by in German.', '🧭'),
-             ('a slip of the tongue', 'a small mistake when speaking', 'оговорка', "Don't worry, it was a slip of the tongue.", '👅'), ('motivated', 'wanting to do something', 'мотивированный', 'Adults are often more motivated.', '🔥')]
-    lines_ = [('f3', "Thanks for coming, Tom. You started learning Japanese at fifty-two. Why?"),
-              ('m4', "I'd always wanted to read Japanese novels in the original. I kept putting it off — work, kids, excuses. Then I retired and decided to stop making excuses."),
-              ('f3', 'People say adults find it hard to learn languages.'), ('m4', "Children are better at picking up pronunciation, that's true. But adults are good at seeing patterns and planning. I'm used to working hard."),
-              ('f3', 'How do you study?'), ('m4', "I avoid spending hours on grammar books. I spend twenty minutes a day on flashcards with spaced repetition, and I watch Japanese cooking shows — I enjoy watching them even when I don't understand everything."),
-              ('f3', 'Have you ever wanted to give up?'), ('m4', "Many times! After a year I hit a plateau. I stopped noticing progress. A teacher suggested trying to write a diary in Japanese, and that really helped."),
-              ('f3', 'Any advice?'), ('m4', "Don't wait to feel ready. Remember to make mistakes — they mean you're trying. And it's worth finding a language partner. I meet mine online every Sunday.")]
-    sections = [
-        ('test', 'Test', 'what do you already know?', '10 min',
-         route([('🧪', 'test yourself'), ('🎧', 'interview'), ('📘', 'teach: the rules'), ('🧪', 'test again'), ('💬', 'your language story')])
-         + rubric('a', 'Test first. Choose the correct form — don\'t look anything up. Then we will see what you need.', 'Сначала тест — без подсказок. Потом поймём, что нужно повторить.')
-         + ex_select(ids, [('I decided', 'to learn', ['to learn', 'learning'], 'Japanese at 52.'), ('I avoid', 'spending', ['spending', 'to spend'], 'hours on grammar.'),
-                           ('I enjoy', 'watching', ['watching', 'to watch'], 'cooking shows.'), ('He stopped', 'noticing', ['noticing', 'to notice'], 'progress.'),
-                           ('Remember', 'to make', ['to make', 'making'], 'mistakes!'), ("It's worth", 'finding', ['finding', 'to find'], 'a language partner.'),
-                           ("I'm used to", 'working', ['working', 'work'], 'hard.'), ('She suggested', 'trying', ['trying', 'to try'], 'a diary.')])),
-        ('listen', 'Listening', 'never too old', '12 min',
-         rubric('a', 'Listen to Tom, who started Japanese at 52. Check your test answers — every sentence is from the interview!', 'Все предложения теста — из интервью. Проверьте себя.')
-         + listening(P + '-lis', lines_, 'Interview: learning Japanese at 52', 'Listen twice', '🇯🇵', {'f3': 'Interviewer', 'm4': 'Tom'})
-         + deck('Details', [mc(P + '-q1', 'Why did Tom start Japanese?', ['to read Japanese novels', 'for work', 'his wife is Japanese'], 0),
-                            mc(P + '-q2', 'What are adults good at, according to Tom?', ['seeing patterns and planning', 'pronunciation', 'learning without effort'], 0),
-                            mc(P + '-q3', 'What helped him after a plateau?', ['writing a diary in Japanese', 'a trip to Tokyo', 'grammar books'], 0)])
-         + ex_gaps(ids, [('He spends', ['twenty minutes', '20 minutes'], 'a day on flashcards.'), ('He meets his language partner every', ['Sunday'], '.')], size=14)),
-        ('teach', 'Teach', 'the rules you need', '12 min',
-         rubric('a', 'Now the rules — only what you need after the test.', 'Теперь правила — то, что нужно после теста.')
-         + easy('verb + -ing / verb + to / change of meaning',
-                'Запоминаем группами. <b>-ing</b>: enjoy, avoid, keep, mind, suggest, give up, put off, can\'t stand, it\'s worth, be used to. <b>to</b>: decide, want, hope, manage, afford, refuse, tend, learn. '
-                'Смысл меняется: <b>remember / forget / stop / try + to</b> (действие впереди или цель) и <b>+ -ing</b> (действие уже было или как способ).',
-                [[('I', 'a'), ('decided', 'd'), ('to learn', 'c'), ('Japanese.', 'b')], [('I', 'a'), ('avoid', 'd'), ('spending', 'c'), ('hours on grammar.', 'b')], [('I', 'a'), ('stopped', 'd'), ('noticing', 'c'), ('progress.', 'b')]],
-                [('📚', 'I decided to stop making excuses.'), ('🍳', 'I enjoy watching cooking shows.'), ('📓', 'A teacher suggested trying a diary.'), ('🤝', "It's worth finding a language partner.")],
-                [('I suggest to try a diary.', 'I suggest trying a diary.', 'suggest + -ing.'), ("I'm used to work hard.", "I'm used to working hard.", 'be used to + -ing.'), ('Remember making mistakes tomorrow!', 'Remember to make mistakes!', 'впереди → to.')],
-                choose=[('Нравится, избегаю, откладываю', 'enjoy / avoid / put off + -ing'), ('Решил, удалось, не могу себе позволить', 'decide / manage / afford + to'), ('После предлога и be used to', '+ -ing'),
-                        ('remember / stop / try', 'to = цель или впереди · -ing = уже было или способ')])),
-        ('retest', 'Test again', 'test again', '8 min',
-         rubric('a', 'Test again — new sentences, same rules.', 'Повторный тест: новые предложения, те же правила.')
-         + ex_gaps(ids, [('I gave up', ['learning'], 'German at school.', 'learn'), ("I can't afford", ['to spend'], 'much on lessons.', 'spend'), ('Try', ['watching'], 'films with subtitles.', 'watch — как способ'),
-                         ("Don't forget", ['to book'], 'the lesson.', 'book'), ('I keep', ['making'], 'the same mistake.', 'make'), ('He managed', ['to pass'], 'the exam at 60.', 'pass')])),
-        ('words', 'Vocabulary', 'language learning', '8 min', vocab_section(ids, '2B', 'Learning languages', cards, [
-            ('able to speak a language easily →', 'fluent', ['fluent', 'motivated', 'native'], ''), ('to improve a skill you learned before →', 'to brush up on', ['to brush up on', 'to pick up', 'to get by'], ''),
-            ('a time when you stop making progress →', 'a plateau', ['a plateau', 'immersion', 'a slip of the tongue'], '')], [('I can get', ['by'], 'in Italian.'), ('Every learner hits a', ['plateau'], '.')])),
-        ('story', 'Speaking', 'your language story', '12 min',
-         think(ids, 'Prepare your «language biography»: which languages, when, what worked, what didn\'t, what next.', 'Ваша «языковая биография»: что, когда, что работало, что дальше.',
-               ['I started learning … when…', 'I gave up / kept…', 'What works for me is …-ing', 'I\'d like to…'])
-         + picker(['Which language would you love to learn next? Why?', 'What do you avoid doing when you study?', 'Have you ever hit a plateau? What did you do?', 'Is it worth paying for a teacher?',
-                   'Do you think adults learn better than children?', 'What do you remember learning at school?'])),
-        ('write', 'Writing', 'advice for a 50-year-old beginner', '7 min', rubric('a', 'Write five tips for an adult who wants to start a new language. Use -ing and to.', 'Пять советов взрослому новичку.')
-         + lines(ids, ["Don't avoid …-ing", "It's worth …-ing", 'Remember to…', 'Try …-ing', 'Never give up …-ing']) + send_box()),
-    ]
-    hw = hw_pair(ids, [('a person who learned a language as a child →', 'a native speaker', ['a native speaker', 'a learner', 'a teacher'], ''), ('living in a language all day →', 'immersion', ['immersion', 'a plateau', 'spaced repetition'], ''),
-                       ('to manage with basic skills →', 'to get by', ['to get by', 'to pick up', 'to brush up on'], '')],
-                 [('fluent', 'fluent', ['fluent', 'fluid', 'flu']), ('immersion', 'immersion', ['immersion', 'emotion', 'immigration']), ('a plateau', 'a plateau', ['a plateau', 'a plate', 'a palace'])],
-                 [('I need to brush', ['up'], 'on my French.'), ('I', ['picked'], 'up some Spanish in Spain.'), ('Adults are often more', ['motivated'], '.')],
-                 'Write the verb: -ing or to.', 'Напишите -ing или to.', [('I hope', ['to visit'], 'Japan next year.', 'visit'), ('Do you mind', ['repeating'], 'that?', 'repeat'), ('She refused', ['to give'], 'up.', 'give'), ("It's no use", ['worrying'], '.', 'worry')],
-                 [('I enjoy to learn languages. →', ['I enjoy learning languages.']), ('He suggested to use an app. →', ['He suggested using an app.'])])
-    return flex({'id': LID, 'prefix': P, 'owner': 'alexey-b2', 'code': '2B', 'title': 'Never Too Old to Learn', 'level': 'B2', 'category': 'Learning languages', 'minutes': '70 min',
-                 'grammar': 'Gerunds and infinitives · remember / stop / try + -ing or to', 'date': DATE,
-                 'gvp': {'g': 'verb patterns: -ing / to; change of meaning', 'v': 'language learning', 'p': ''},
-                 'eyebrow': 'IRIS SCHOOL · Алексей · урок 2B', 'tags': ['B2', 'Learning', 'Test–teach–test', '-ing or to'],
-                 'lead': 'Test first, then teach, then test again: you start with what you already know, learn only the rules you need, and finish with your own language story.',
-                 'cards': cards, 'case': {'bad': [('I suggest to try.', 'I suggest trying.'), ("I'm used to work hard.", "I'm used to working hard.")], 'ok': ['I decided to learn Japanese.', "It's worth finding a partner."]},
-                 'sections': sections, 'hw': hw})
+    return std({
+        'id': 'alexey-b2-5', 'prefix': 'ax5', 'owner': 'alexey-b2', 'code': '2B', 'title': 'Never Too Old to Learn', 'level': 'B2', 'category': 'Learning & the brain',
+        'minutes': '85 min', 'grammar': 'Verb patterns: -ing or to-infinitive · remember / forget / stop / try + -ing or to', 'date': DATE,
+        'gvp': {'g': 'verb + -ing (enjoy, avoid, keep, give up) vs verb + to (decide, manage, refuse); remember / forget / stop / try with a change in meaning', 'v': 'learning, memory and the brain', 'p': 'linking: keep_on, give_up'},
+        'eyebrow': 'IRIS SCHOOL · Алексей · урок 2B', 'tags': ['B2', 'Learning', 'Memory', 'Gerunds & infinitives'],
+        'lead': 'Is it harder to learn a language at 50 than at 5? A neuroscientist answers, a 70-year-old student tells her story, and you test your own memory. '
+                'On the way: the verb patterns that even advanced learners get wrong — remember doing vs remember to do.',
+        'think': ('What new skill have you learned as an adult? Was it easier or harder than learning as a child? Why?',
+                  'Какой новый навык вы освоили взрослым? Было легче или труднее, чем в детстве? Почему?', ['As an adult I learned…', 'It was easier / harder because…', 'Something I would love to learn: …']),
+        'aims': ['understand a talk about learning and the brain', 'use 10 words about learning and memory', 'choose -ing or to after common verbs', 'use remember / forget / stop / try with the right meaning'],
+        'listen': {'title': 'the adult brain', 'task': 'A neuroscientist answers listeners\' questions on a radio show. Listen once: can adults learn languages well?', 'task_ru': 'Могут ли взрослые хорошо выучить язык?',
+                   'head': 'Radio phone-in: «Ask the brain scientist»', 'names': {'m4': 'Host', 'f4': 'Prof. Anna Kim', 'm3': 'Caller Pavel'}, 'emoji': '🧠',
+                   'lines': [('m4', 'Our first caller is Pavel, who is fifty-two.'),
+                             ('m3', "Hi. I started learning English last year, but I keep forgetting words. My son learns twice as fast. Should I give up?"),
+                             ('f4', "Please don't give up! It's a myth that adults can't learn languages. Children are better at copying accents, but adults are often faster at understanding grammar, because they're used to thinking logically."),
+                             ('m3', 'So why do I keep forgetting?'), ('f4', "Because you're probably trying to remember too much at once. The brain needs time. I'd suggest studying for twenty minutes every day rather than three hours on Sunday."),
+                             ('m3', 'Twenty minutes is enough?'), ('f4', "If you do it every day, yes. And try saying new words out loud, and using them in real sentences. Avoid just reading lists — that's the least effective method."),
+                             ('m3', 'What about sleep?'), ('f4', "Sleep is essential. Your brain stops working on new information when you're exhausted. During sleep it moves new words into long-term memory."),
+                             ('m3', "OK, I'll stop studying at midnight, then!"), ('f4', "Exactly. And remember to enjoy it. People who enjoy learning manage to remember far more.")],
+                   'gist': ('Can adults learn languages well?', ['Yes — in some ways they are even better.', 'No, it is too late.', 'Only if they live abroad.'], 0),
+                   'details': [('What are children better at?', ['copying accents', 'grammar', 'reading'], 0), ('What are adults often better at?', ['understanding grammar', 'accents', 'sleeping'], 0),
+                               ('What does she suggest?', ['20 minutes every day', '3 hours on Sunday', 'studying at night'], 0), ('Which method is the least effective?', ['just reading lists', 'saying words out loud', 'using words in sentences'], 0),
+                               ('What happens during sleep?', ['New words move into long-term memory.', 'The brain forgets new words.', 'Nothing important.'], 0)],
+                   'notes': [('Pavel is', ['52', 'fifty-two'], 'years old.'), ("His son learns twice as", ['fast'], '.'), ('She suggests studying for', ['twenty minutes', '20 minutes'], 'every day.'),
+                             ('People who enjoy learning remember far', ['more'], '.')]},
+        'vocab': {'title': 'learning and memory', 'theme': 'Learning and the brain', 'cards': [
+            ('to memorise', 'to learn something so you can remember it exactly', 'заучивать', 'I memorise ten words a day.', '📇'), ('long-term memory', 'memory that keeps information for a long time', 'долговременная память', 'Sleep moves words into long-term memory.', '🗄️'),
+            ('to pick up', 'to learn something without studying it formally', 'нахвататься, усвоить', 'Children pick up languages easily.', '🧲'), ('a myth', 'a false idea that many people believe', 'миф', "It's a myth that adults can't learn.", '🦄'),
+            ('to keep up with', 'to continue at the same speed as others', 'не отставать', "It's hard to keep up with my son.", '🏃'), ('fluent', 'able to speak easily and well', 'свободно владеющий', "I'd like to be fluent in English.", '🗣️'),
+            ('to brush up on', 'to practise something you learned before', 'освежить знания', 'I need to brush up on my French.', '🪥'), ('a learning curve', 'how fast you learn something new', 'кривая обучения', 'The learning curve is steep.', '📈'),
+            ('to give up', 'to stop trying', 'бросить, сдаться', "Don't give up!", '🏳️'), ('neuroplasticity', "the brain's ability to change and learn", 'нейропластичность', 'Neuroplasticity continues all our lives.', '🧠')],
+            'match': [('to learn without studying formally →', 'to pick up', ['to pick up', 'to memorise', 'to give up'], ''), ('a false idea many people believe →', 'a myth', ['a myth', 'a learning curve', 'a fact'], ''),
+                      ('to practise something you learned before →', 'to brush up on', ['to brush up on', 'to keep up with', 'to give up'], ''), ('able to speak easily and well →', 'fluent', ['fluent', 'fluid', 'famous'], ''),
+                      ("the brain's ability to change →", 'neuroplasticity', ['neuroplasticity', 'long-term memory', 'a learning curve'], '')],
+            'gaps': [('Children pick', ['up'], 'languages easily.'), ('I need to brush up', ['on'], 'my grammar.'), ("It's hard to keep up", ['with'], 'the class.'), ("It's a", ['myth'], 'that adults can\'t learn.')]},
+        'notice': ('Look at the sentences from the radio show. Which verbs take <i>-ing</i> and which take <i>to</i>?', 'Какие глаголы требуют -ing, а какие — to?',
+                   ['I <mark>keep forgetting</mark> words.', 'I <mark>started learning</mark> English.', "I'd <mark>suggest studying</mark> every day.", '<mark>Avoid reading</mark> lists.',
+                    'People who enjoy learning <mark>manage to remember</mark> more.', '<mark>Remember to enjoy</mark> it.', "I'll <mark>stop studying</mark> at midnight."],
+                   [('keep, suggest, avoid, enjoy, give up are followed by…', ['-ing', 'to + verb', 'the bare verb'], 0), ('manage, decide, hope, refuse are followed by…', ['to + verb', '-ing', 'both'], 0),
+                    ("«Remember to enjoy it» means…", ["don't forget to do it (future)", 'I have a memory of doing it (past)', 'stop enjoying'], 0)]),
+        'grammar': {'title': '-ing or to?', 'head': 'enjoy doing · decide to do · remember doing / to do',
+                    'idea': 'После одних глаголов — <b>-ing</b>: enjoy, avoid, keep, mind, suggest, give up, can\'t stand, be worth. После других — <b>to + глагол</b>: decide, manage, hope, refuse, afford, tend, want. '
+                            'Меняют смысл: <b>remember / forget doing</b> — помнить, что сделал (прошлое); <b>remember / forget to do</b> — не забыть сделать (будущее). '
+                            '<b>stop doing</b> — перестать; <b>stop to do</b> — остановиться, чтобы сделать. <b>try doing</b> — попробовать как способ; <b>try to do</b> — постараться (трудно).',
+                    'choose': [('enjoy, avoid, keep, suggest, give up', '+ -ing: I keep forgetting.'), ('decide, manage, hope, refuse', '+ to: I managed to remember.'), ('remember / forget', 'doing = прошлое; to do = не забыть'),
+                               ('stop / try', 'stop doing = бросить; stop to do = чтобы; try doing = способ; try to do = постараться')],
+                    'rows': [[('I', 'a'), ('keep', 'd'), ('forgetting', 'c'), ('words.', 'b')], [('She', 'a'), ('managed', 'd'), ('to pass', 'c'), ('the exam.', 'b')],
+                             [('Remember', 'd'), ('to practise', 'c'), ('every day!', 'b')]],
+                    'note': 'После предлогов — всегда -ing: good at learning, interested in reading, before going to bed',
+                    'examples': [('🔁', 'I keep forgetting new words.'), ('🎯', 'She managed to pass the exam at 70.'), ('📞', 'Remember to call your teacher.'), ('🖼️', 'I remember visiting London as a child.')],
+                    'traps': [('I avoid to read lists.', 'I avoid reading lists.', 'avoid + -ing.'), ('We decided learning Spanish.', 'We decided to learn Spanish.', 'decide + to.'),
+                              ("I stopped to smoke (= I don't smoke now).", 'I stopped smoking.', 'Бросил → stop + -ing.')],
+                    'ex1': ('-ing or to?', '-ing или to?', [
+                        ('I keep', ['forgetting'], 'my passwords.', 'forget'), ("We can't afford", ['to lose'], 'more time.', 'lose'), ('He admitted', ['making', 'having made'], 'a mistake.', 'make'),
+                        ('I tend', ['to study'], 'late at night.', 'study'), ('She suggested', ['taking'], 'a break.', 'take'), ("Don't forget", ['to bring'], 'your notebook.', 'bring')]),
+                    'ex2': ('Put the words in order.', 'Соберите предложения.', [
+                        (['keep', 'I', 'forgetting', 'new words.'], 'I keep forgetting new words.'), (['managed', 'She', 'to pass', 'the exam.'], 'She managed to pass the exam.'),
+                        (['Remember', 'to practise', 'every day.'], 'Remember to practise every day.')])},
+        'part2': {'key': 'read', 'label': 'Reading', 'title': 'a student at 70', 'task': 'Read the article. Why did Valentina start learning English?', 'task_ru': 'Почему Валентина начала учить английский?',
+                  'head': '«I Started Learning English at 70»', 'small': 'a magazine interview · about 230 words', 'text': [
+                      "When Valentina Orlova retired, her grandson moved to Canada and married a Canadian woman. «The first time I met my new granddaughter-in-law, we couldn't say a word to each other,» she remembers. «I decided to change that.»",
+                      "So at seventy, Valentina started taking English lessons online. At first it was hard. «I kept mixing up words, and I couldn't stand making mistakes — I was a maths teacher for forty years! But my teacher told me to stop worrying about being perfect.»",
+                      "She tried learning with apps, but they didn't work for her. What did help was talking. «I avoid sitting with textbooks for hours. Instead, I try to use every new phrase in a real conversation. I remember telling my teacher about my garden for twenty minutes — that's when I realised I could do it!»",
+                      'Three years later, Valentina speaks to her family in Toronto every week. Last summer she managed to travel there alone, changing planes in Frankfurt. «I remember feeling terrified at the airport. But I asked for directions in English, and it worked.»',
+                      '«People say it\'s not worth starting at my age,» she says. «Nonsense. My brain is still working — I just had to remember to use it!»'],
+                  'tf': [('Valentina started learning English when she was seventy.', True), ('She was an English teacher.', False), ('Apps helped her the most.', False),
+                         ('She travelled to Canada alone.', True), ('She thinks it is not worth starting at her age.', False)],
+                  'gaps': ('Find the verb patterns in the text.', 'Найдите конструкции в тексте.', [("I couldn't stand", ['making'], 'mistakes.', 'make'), ('I avoid', ['sitting'], 'with textbooks for hours.', 'sit'),
+                                                                                                    ('she managed', ['to travel'], 'there alone.', 'travel')])},
+        'grammar2': {'title': 'remember, stop, try', 'rule': '<b>remember / forget doing</b> — про прошлое (помню, как делал); <b>remember / forget to do</b> — про обязанность (не забыть сделать). <b>stop doing</b> — перестать; <b>stop to do</b> — остановиться, чтобы. '
+                                                            '<b>try doing</b> — попробовать (как эксперимент); <b>try to do</b> — постараться (это трудно).', 'rule_ru': 'Смысл меняется!',
+                     'ex': ('-ing or to? Think about the meaning.', '-ing или to? Подумайте о смысле.', [('I remember', ['visiting'], 'London as a child — it was raining.', 'visit'),
+                                                                                                         ('Please remember', ['to lock'], 'the door when you leave.', 'lock'), ('On the way home I stopped', ['to buy'], 'some bread.', 'buy'),
+                                                                                                         ('My dad stopped', ['smoking'], 'ten years ago.', 'smoke'), ("If you can't sleep, try", ['reading'], 'a boring book.', 'read'),
+                                                                                                         ('I tried', ['to open'], 'the window, but it was stuck.', 'open')])},
+        'extra': [('memory', 'Memory test', 'test your memory', '8 min', lambda ids:
+                   rubric('a', 'Memory test! Press 🔊 and listen to ten words ONCE. Then close your eyes for 30 seconds and write all the words you remember.', 'Тест памяти: послушайте 10 слов один раз и запишите, что запомнили.')
+                   + say_list([('apple, river, piano, doctor, yellow', 'five words'), ('candle, Tuesday, rabbit, mirror, bridge', 'five more words')])
+                   + lines(ids, ['Words I remember: …'])
+                   + rubric('b', 'How did you do? Discuss with your teacher: which memory technique could help?', 'Обсудите: какая техника запоминания помогла бы?')
+                   + phrases(['I tried picturing…', 'I managed to remember…', 'I kept forgetting…', 'Next time I will try…']), 'start')],
+        'mix': {'title': 'a learning diary', 'task': "A learner's diary with mistakes. Correct them.", 'task_ru': 'Дневник ученика с ошибками. Исправьте.',
+                'items': [('I avoid to open attachments. →', ['I avoid opening attachments.']), ('We decided learning Spanish. →', ['We decided to learn Spanish.']),
+                          ("It's worth to try. →", ["It's worth trying.", 'It is worth trying.']), ('She suggested to use an app. →', ['She suggested using an app.'])]},
+        'auction': [('I keep forgetting new words.', True, ''), ('I avoid to read word lists.', False, 'I avoid reading word lists.'), ('She managed to pass the exam.', True, ''),
+                    ('We decided learning Spanish.', False, 'We decided to learn Spanish.'), ('I remember visiting London as a child.', True, ''), ("It's not worth to start at 70.", False, "It's not worth starting at 70."),
+                    ('Please remember to lock the door.', True, ''), ("He stopped to smoke ten years ago. (He doesn't smoke now.)", False, 'He stopped smoking ten years ago.')],
+        'pron': {'title': 'linking', 'task': 'Native speakers link words: <i>keep_on</i>, <i>give_up</i>, <i>pick_up</i>. Press 🔊 and repeat smoothly.', 'task_ru': 'Слова сливаются при быстрой речи.',
+                 'list': [("Don't give up!", "don't <u>GIV</u>_<u>UP</u>"), ('Children pick up languages easily.', 'children <u>PICK</u>_up <u>LAN</u>guages <u>EA</u>sily'), ('I keep on forgetting.', 'I <u>KEEP</u>_on for<u>GET</u>ting')]},
+        'speaking': {'title': 'learning', 'questions': ['What do you enjoy learning? What do you avoid learning?', 'Do you remember learning to ride a bike / swim?', 'What do you keep forgetting?',
+                                                      'Have you ever given up learning something? Why?', 'What would you like to learn to do in the next five years?', 'Is it worth learning a language after 60?'],
+                     'phrases': ['I really enjoy…', 'I tend to…', 'I keep…-ing', 'I gave up…-ing because…', "I've decided to…", "It's (not) worth…-ing"],
+                     'task': ('Give advice to an adult learner.', 'Дайте совет взрослому ученику.')},
+        'task': {'task': 'Create a «learning plan» for a 55-year-old friend who wants to learn a new language (or skill) but keeps giving up. Give five pieces of advice using different verb patterns.',
+                 'task_ru': 'Составьте план для 55-летнего друга, который хочет учить язык, но всё время бросает: пять советов с разными конструкциями.',
+                 'plan': ['Stop…-ing / Avoid…-ing', 'Try…-ing', 'Remember to…', "It's worth…-ing", 'Decide to… / Keep…-ing'],
+                 'report': ['First, stop…', 'I suggest…-ing', 'Try…-ing', 'Remember to…', "Don't give up!"]},
+        'writing': {'title': 'my learning story', 'task': 'Write about something you learned as an adult (6 sentences). Use at least five verb patterns.', 'task_ru': 'История о том, чему вы научились взрослым: минимум пять конструкций.',
+                    'example': "Three years ago I decided to learn to swim properly. At first I kept swallowing water and I couldn't stand putting my face in the pool. My coach suggested practising breathing at home. I remember feeling so proud when I managed to swim 100 metres. Now I really enjoy swimming — it's worth trying, even at forty!",
+                    'placeholders': ['… ago I decided to…', 'At first I kept…-ing', '… suggested…-ing', 'I remember…-ing', 'I managed to…', "It's worth…-ing"]},
+        'cans': [('I can understand a talk about learning and the brain', 'понять рассказ о мозге и обучении'), ('I can use 10 words about learning', 'использовать 10 слов по теме'),
+                 ('I can choose -ing or to after verbs', 'выбрать -ing или to'), ('I can use remember / stop / try correctly', 'правильно использовать remember / stop / try')],
+        'hw': {'words_select': [('to learn something so you can remember it exactly →', 'to memorise', ['to memorise', 'to pick up', 'to give up'], ''), ('able to speak easily and well →', 'fluent', ['fluent', 'fluid', 'formal'], ''),
+                                ('memory that keeps information for a long time →', 'long-term memory', ['long-term memory', 'a myth', 'a learning curve'], '')],
+               'listen': [('memorise', 'memorise', ['memorise', 'memories', 'minimise']), ('fluent', 'fluent', ['fluent', 'fluid', 'affluent']), ('a myth', 'a myth', ['a myth', 'a mist', 'a math'])],
+               'words_gaps': [('I need to brush up', ['on'], 'my French.'), ('Children pick', ['up'], 'languages.'), ("Don't give", ['up'], '!')],
+               'gaps': ('-ing or to?', '-ing или to?', [('I keep', ['forgetting'], 'my keys.', 'forget'), ('She refused', ['to answer'], '.', 'answer'), ("It's worth", ['learning'], 'English.', 'learn'),
+                                                       ('Remember', ['to call'], 'your mum tomorrow.', 'call'), ('I remember', ['meeting'], 'him at school.', 'meet')]),
+               'fix': [('I avoid to read lists. →', ['I avoid reading lists.']), ('We decided learning Spanish. →', ['We decided to learn Spanish.']), ("It's worth to try. →", ["It's worth trying.", 'It is worth trying.'])],
+               'order': [(['tend', 'I', 'to study', 'at night.'], 'I tend to study at night.'), (['suggested', 'She', 'taking', 'a break.'], 'She suggested taking a break.')]},
+        'case': {'bad': [('I avoid to read lists.', 'I avoid reading lists.'), ('We decided learning Spanish.', 'We decided to learn Spanish.'), ("It's worth to try.", "It's worth trying.")],
+                 'ok': ['I keep forgetting new words.', 'She managed to pass the exam.', 'Remember to practise every day.', 'I remember visiting London as a child.']},
+    })
 
 
 def zakhar_mikhail():
-    P, LID = 'zm6', 'zakhar-mikhail-6'
-    ids = Ids(P)
-    cards = [('an exhibit', 'an object in a museum', 'экспонат', 'The exhibit was stolen.', '🏺'), ('a clue', 'a piece of information that helps solve a mystery', 'улика, подсказка', 'Find the first clue.', '🔎'),
-             ('a code', 'secret numbers or letters', 'код', 'The door needs a four-digit code.', '🔢'), ('a curator', 'the person in charge of a museum collection', 'куратор', 'The curator left a message.', '🧑‍🏫'),
-             ('a vault', 'a secure room for valuable things', 'хранилище', 'The vault is underground.', '🏦'), ('to unlock', 'to open with a key or code', 'открыть (замок)', 'Unlock the next door.', '🔓'),
-             ('ancient', 'very old', 'древний', 'an ancient Egyptian mask', '🗿'), ('a security camera', '', 'камера наблюдения', 'The security camera was off.', '📹'),
-             ('a riddle', 'a question with a clever answer', 'загадка', 'Solve the riddle.', '❓'), ('to escape', 'to get out of a place', 'сбежать, выбраться', 'You have 45 minutes to escape.', '🏃')]
-    sections = [
-        ('brief', 'Mission', 'the mission', '5 min',
-         route([('🎬', 'mission briefing'), ('🚪', 'room 1: who / which / whose'), ('🚪', 'room 2: commas'), ('🚪', 'room 3: -ing / -ed clauses'), ('🔓', 'final code'), ('🗣️', 'debrief')])
-         + box('<b>Mission:</b> You are locked in the City Museum after closing time. The curator, Ms Grey, has left clues — but they only make sense if you understand <b>relative clauses</b>. '
-               'Each room gives you a word or a number. Together they make the code that opens the exit. You have 45 minutes. Work as a team!', '🏛️')
-         + listening(P + '-lis', [('f3', 'Hello, team. This is Ms Grey, the curator whose museum you are now locked in. Don\'t panic.'),
-                                  ('f3', 'The exit opens with a code which is hidden in three rooms. Each room has a riddle that only careful readers can solve.'),
-                                  ('f3', 'The first room is the Egyptian hall, where the ancient masks are kept. Start there. Good luck — and remember: details matter.')],
-                     'Voicemail from the curator', 'Listen once', '📞', {'f3': 'Ms Grey'})
-         + mc(P + '-m', 'Where do you start?', ['in the Egyptian hall', 'in the vault', 'at the exit'], 0)),
-        ('room1', 'Room 1', 'the Egyptian hall', '12 min',
-         rubric('a', 'Read the curator\'s notes. Fill each gap with who, which, where, whose or when. The circled letters make the first code word.', 'Вставьте who / which / where / whose / when.')
-         + escape(ids, [('🗿', 'Clue 1', 'The man ___ found this mask was a farmer.', ['who', 'that']), ('🏺', 'Clue 2', 'This is the hall ___ the masks are kept.', ['where']),
-                        ('📜', 'Clue 3', 'The scroll ___ is next to the mask is 3,000 years old.', ['which', 'that']), ('👑', 'Clue 4', 'It belonged to a queen ___ name nobody knows.', ['whose']),
-                        ('🌙', 'Clue 5', 'Come back at midnight, ___ the guards change.', ['when'])])
-         + reveal('🔑 Room 1 code', '<p>Code word 1 is the object <i>which</i> is 3,000 years old (clue 3): <b>SCROLL</b>. Write it down!</p>')
-         + lines(ids, ['Code word 1: …'])),
-        ('room2', 'Room 2', 'the portrait gallery', '12 min',
-         rubric('a', 'In this room commas matter. Choose: is the sentence correct? (Remember: no «that» after a comma!)', 'Здесь важны запятые. Предложение правильное?')
-         + ex_select(ids, [('The Mona Lisa, that is in Paris, is very small. →', 'Wrong', ['Right', 'Wrong'], ''), ('Leonardo, who painted it, was also an engineer. →', 'Right', ['Right', 'Wrong'], ''),
-                           ('The painting which is on your left is a copy. →', 'Right', ['Right', 'Wrong'], ''), ('Ms Grey, who\'s the curator, loves riddles. →', 'Right', ['Right', 'Wrong'], ''),
-                           ('The guard which works at night is asleep. →', 'Wrong', ['Right', 'Wrong'], '')])
-         + rubric('b', 'Number of «Right» answers = the second code number.', 'Количество «Right» — второе число кода.')
-         + ex_gaps(ids, [('Code number 2 =', ['3', 'three'], '')], size=6)),
-        ('room3', 'Room 3', 'the vault', '14 min',
-         rubric('a', 'The last room: B2 shortcut! Participle clauses make relative clauses shorter. Read and discover the rule.', 'Причастные обороты сокращают придаточные. Найдите правило.')
-         + examples(['the man <s>who is</s> <mark>standing</mark> by the door = the man standing by the door', 'a mask <s>which was</s> <mark>found</mark> in 1922 = a mask found in 1922',
-                     'visitors <s>who want</s> <mark>wanting</mark> to see the vault…'])
-         + deck('Discover · Догадайтесь', [mc(P + '-r1', '-ing clause = …', ['an active meaning (who is doing / who does)', 'a passive meaning', 'the past perfect'], 0),
-                                           mc(P + '-r2', '-ed / V3 clause = …', ['a passive meaning (which was done)', 'an active meaning', 'the future'], 0)])
-         + rubric('b', 'Shorten the sentences. The first letters of the answers make the final word.', 'Сократите предложения.')
-         + ex_gaps(ids, [('The vault, ___ (which was built) in 1900, is underground.', ['built'], ''), ('Exhibits ___ (which are kept) here are priceless.', ['kept'], ''),
-                         ('The guard ___ (who is sitting) by the camera is asleep.', ['sitting'], ''), ('A key ___ (which was hidden) under the mask opens the vault.', ['hidden'], '')], size=12)
-         + reveal('🔑 Final word', '<p>Code word 3 is the room <i>built</i> in 1900, where the exhibits are <i>kept</i>: <b>VAULT</b>. Your full code: <b>SCROLL – 3 – VAULT</b>. Tell it to your teacher to escape! 🎉</p>')),
-        ('debrief', 'Debrief', 'after the escape', '10 min',
-         rubric('a', 'Debrief: explain to your teacher how you solved each room. Use relative and participle clauses.', 'Расскажите, как вы решили каждую комнату.')
-         + phrases(['The clue which helped us most was…', 'The room where we got stuck was…', 'Zakhar, who…, found…', 'A sentence starting with «Leonardo, who…» was…'])
-         + vocab_section(ids, '4B', 'Museums and mysteries', cards, [('a piece of information that helps solve a mystery →', 'a clue', ['a clue', 'a code', 'a vault'], ''), ('very old →', 'ancient', ['ancient', 'modern', 'valuable'], '')], [])),
-        ('design', 'Writing', 'design a room', '10 min',
-         rubric('a', 'Each of you designs one more escape room for the other: write three clues with relative or participle clauses and the answer. Then swap and solve!', 'Каждый придумывает комнату для другого: три подсказки и ответ.')
-         + lines(ids, ['Clue 1: …', 'Clue 2: …', 'Clue 3: …', 'Answer / code: …']) + send_box()),
-    ]
-    hw = hw_pair(ids, [('an object in a museum →', 'an exhibit', ['an exhibit', 'a clue', 'a curator'], ''), ('a secure room for valuable things →', 'a vault', ['a vault', 'a hall', 'a code'], ''),
-                       ('a question with a clever answer →', 'a riddle', ['a riddle', 'a clue', 'a code'], '')],
-                 [('ancient', 'ancient', ['ancient', 'agent', 'anxious']), ('a curator', 'a curator', ['a curator', 'a creator', 'a cure']), ('escape', 'escape', ['escape', 'escalate', 'a cape'])],
-                 [('Solve the', ['riddle'], 'to open the door.'), ('The security', ['camera'], 'was off.'), ('You have 45 minutes to', ['escape'], '.')],
-                 'Complete with who, which, where, whose or a participle (-ing / V3).', 'Вставьте местоимение или причастие.',
-                 [('The museum,', ['which'], 'opened in 1900, is free on Sundays.', ''), ('Visitors', ['wanting'], 'to see the vault need a ticket.', 'want'), ('a painting', ['stolen'], 'in 1911', 'steal'),
-                  ('the artist', ['whose'], 'work is on the wall', '')],
-                 [('The guard which works here is asleep. →', ['The guard who works here is asleep.', 'The guard that works here is asleep.']), ('Paris, that is in France, has many museums. →', ['Paris, which is in France, has many museums.'])])
-    return flex({'id': LID, 'prefix': P, 'owner': 'zakhar-mikhail', 'code': '4B', 'title': 'Escape the Museum', 'level': 'B1+ → B2', 'category': 'Game: escape room', 'minutes': '75 min',
-                 'grammar': 'Relative clauses (defining & non-defining) · participle clauses: the man standing…, a mask found in…', 'date': DATE, 'meta': {'privateLive': True},
-                 'gvp': {'g': 'relative clauses; reduced participle clauses', 'v': 'museums, clues and mysteries', 'p': ''},
-                 'eyebrow': 'IRIS SCHOOL · Захар и Михаил · урок 4B', 'tags': ['B1+ → B2', 'Escape room', 'Relative clauses', 'Team game'],
-                 'lead': 'Today the lesson is a game: you are locked in a museum after closing time. Solve three rooms of grammar riddles, find the code and escape — then design a room for each other!',
-                 'cards': cards, 'case': {'bad': [('The guard which works here…', 'The guard who works here…'), ('Paris, that is in France…', 'Paris, which is in France…')], 'ok': ['the man standing by the door', 'a mask found in 1922']},
-                 'sections': sections, 'hw': hw})
+    return std({
+        'id': 'zakhar-mikhail-6', 'prefix': 'zm6', 'owner': 'zakhar-mikhail', 'code': '4B', 'title': 'Escape the Museum', 'level': 'B1+ → B2', 'category': 'Game: escape room',
+        'minutes': '90 min', 'grammar': 'Relative clauses (defining & non-defining) · participle clauses: the man standing…, a mask found in…', 'date': DATE, 'meta': {'privateLive': True},
+        'gvp': {'g': 'defining and non-defining relative clauses (who, which, whose, where, when; commas; no «that» after a comma); reduced participle clauses', 'v': 'museums, mysteries and escape rooms', 'p': 'pauses for commas in non-defining clauses'},
+        'eyebrow': 'IRIS SCHOOL · Захар и Михаил · урок 4B', 'tags': ['B1+ → B2', 'Escape room', 'Museums', 'Relative & participle clauses'],
+        'lead': 'You are locked in the City Museum after closing time! The curator has left clues that only make sense if you understand relative clauses. '
+                'Listen to her message, read about the greatest museum heist in history, crack three rooms — and design a room for your partner.',
+        'think': ('Have you ever done an escape room or a quest? What makes a good one? If not — would you like to try? Why?',
+                  'Вы были в квест-комнате? Что делает квест хорошим? Если нет — хотели бы попробовать?', ['I have / haven\'t…', 'A good escape room is one which…', 'The best player is someone who…']),
+        'aims': ['understand a voicemail and a news story about a museum', 'use 10 words about museums and mysteries', 'use defining and non-defining relative clauses', 'shorten clauses with -ing and -ed participles'],
+        'listen': {'title': 'the curator\'s message', 'task': 'The curator, Ms Grey, has left a voicemail. Listen once: how do you get out of the museum?', 'task_ru': 'Как выбраться из музея?',
+                   'head': 'Voicemail from the curator', 'names': {'f3': 'Ms Grey'}, 'emoji': '📞',
+                   'lines': [('f3', "Hello, team. This is Ms Grey, the curator whose museum you are now locked in. Don't panic — this is a test."),
+                             ('f3', "The exit opens with a code which is hidden in three rooms. Each room has a riddle that only careful readers can solve."),
+                             ('f3', "The first room is the Egyptian hall, where the ancient masks are kept. The mask that you need is the one which is smiling."),
+                             ('f3', 'The second room is the portrait gallery. There, commas matter — my assistant, who is very careless with punctuation, wrote some of the labels.'),
+                             ('f3', 'The last room is the vault, which was built in 1900 and which nobody has opened for twenty years. The guard sitting by the camera is asleep, so be quiet.'),
+                             ('f3', "You have forty-five minutes, which is more than enough for people who read carefully. Good luck — and remember: details matter.")],
+                   'gist': ('How do you get out?', ['Find a code hidden in three rooms.', 'Call the police.', 'Wait for the guard.'], 0),
+                   'details': [('Where are the ancient masks kept?', ['in the Egyptian hall', 'in the vault', 'in the gallery'], 0), ('Which mask do you need?', ['the one which is smiling', 'the oldest one', 'the gold one'], 0),
+                               ('Who wrote some of the labels in the gallery?', ['a careless assistant', 'Ms Grey', 'the guard'], 0), ('When was the vault built?', ['in 1900', 'in 1920', 'twenty years ago'], 0),
+                               ('Why should you be quiet in the vault?', ['The guard is asleep.', 'The alarm is sensitive.', 'Ms Grey is listening.'], 0)],
+                   'notes': [('The museum belongs to Ms', ['Grey'], '.'), ('Nobody has opened the vault for', ['twenty years', '20 years'], '.'), ('The guard is sitting by the', ['camera'], '.'),
+                             ('You have', ['forty-five', '45'], 'minutes.')]},
+        'vocab': {'title': 'museums and mysteries', 'theme': 'Museums and mysteries', 'cards': [
+            ('an exhibit', 'an object in a museum', 'экспонат', 'The exhibit was stolen.', '🏺'), ('a clue', 'a piece of information that helps solve a mystery', 'улика, подсказка', 'Find the first clue.', '🔎'),
+            ('a curator', 'the person in charge of a museum collection', 'куратор', 'The curator left a message.', '🧑‍🏫'), ('a vault', 'a secure room for valuable things', 'хранилище', 'The vault is underground.', '🏦'),
+            ('to unlock', 'to open with a key or code', 'открыть (замок)', 'Unlock the next door.', '🔓'), ('ancient', 'very old', 'древний', 'an ancient Egyptian mask', '🗿'),
+            ('a riddle', 'a question with a clever answer', 'загадка', 'Solve the riddle.', '❓'), ('a heist', 'a robbery of something very valuable', 'крупное ограбление', 'the biggest art heist in history', '🦹'),
+            ('priceless', 'too valuable to have a price', 'бесценный', 'The paintings are priceless.', '💎'), ('to be on display', 'to be shown to the public', 'быть выставленным', 'The mask is on display in Hall 3.', '🖼️')],
+            'match': [('a piece of information that helps solve a mystery →', 'a clue', ['a clue', 'a code', 'a vault'], ''), ('very old →', 'ancient', ['ancient', 'modern', 'priceless'], ''),
+                      ('a robbery of something very valuable →', 'a heist', ['a heist', 'a riddle', 'an exhibit'], ''), ('too valuable to have a price →', 'priceless', ['priceless', 'worthless', 'cheap'], ''),
+                      ('the person in charge of a museum collection →', 'a curator', ['a curator', 'a guard', 'a guide'], '')],
+            'gaps': [('Solve the', ['riddle'], 'to open the door.'), ('The mask is on', ['display'], 'in Hall 3.'), ('the biggest art', ['heist'], 'in history'), ('The paintings are', ['priceless'], '.')]},
+        'notice': ("Look at Ms Grey's sentences. When are there commas? Can you remove the clause?", 'Когда нужны запятые? Можно ли убрать придаточное?',
+                   ['The mask <mark>that you need</mark> is the one <mark>which is smiling</mark>.', 'My assistant, <mark>who is very careless</mark>, wrote some labels.',
+                    'The vault, <mark>which was built in 1900</mark>, is underground.', 'The guard <mark>sitting by the camera</mark> is asleep.'],
+                   [('Clauses WITHOUT commas (the mask that you need)…', ['tell us WHICH one — we need them', 'are extra information', 'are always about people'], 0),
+                    ('Clauses WITH commas (my assistant, who…)…', ['add extra information — we could remove them', 'tell us which one', 'can use «that»'], 0),
+                    ('«The guard sitting by the camera» = …', ['the guard who is sitting by the camera', 'the guard who sat', 'the guard which sits'], 0)]),
+        'grammar': {'title': 'relative clauses', 'head': 'who · which · whose · where · when · commas · -ing / -ed',
+                    'idea': '<b>Defining</b> (без запятых) — уточняет, <b>о ком / о чём</b> речь: the mask that you need. Можно that; если who/which — дополнение, его можно опустить (the mask you need). '
+                            '<b>Non-defining</b> (с запятыми) — <b>доп. информация</b>: My assistant, who…, / The vault, which…, — <b>нельзя that</b> и нельзя опускать. '
+                            'Сокращение: <b>-ing</b> = активное (who is sitting → sitting), <b>V3</b> = пассивное (which was found → found).',
+                    'choose': [('Человек', 'who (that)'), ('Вещь', 'which (that)'), ('Чей', 'whose'), ('Место / время', 'where / when'), ('С запятыми', 'who / which — НЕ that'), ('Сократить', '-ing (актив) / V3 (пассив)')],
+                    'rows': [[('The guard', 'a'), ('who is sitting by the camera', 'c'), ('is asleep.', 'd')], [('The vault,', 'a'), ('which was built in 1900,', 'c'), ('is underground.', 'd')],
+                             [('A mask', 'a'), ('found', 'c'), ('in 1922', 'b'), ('is on display.', 'd')]],
+                    'note': 'whose — для людей и вещей: the queen whose name… / the museum whose roof… · where = in which · В non-defining — запятые с обеих сторон.',
+                    'examples': [('🗿', 'The man who found this mask was a farmer.'), ('👑', 'It belonged to a queen whose name nobody knows.'), ('🏦', 'The vault, which was built in 1900, is underground.'),
+                                 ('💂', 'The guard sitting by the camera is asleep.')],
+                    'traps': [('Paris, that is in France, is beautiful.', 'Paris, which is in France, is beautiful.', 'После запятой — не that.'), ('The guard which works at night…', 'The guard who works at night…', 'Человек → who.'),
+                              ('A mask finding in 1922…', 'A mask found in 1922…', 'Пассивный смысл → V3.')],
+                    'ex1': ('Complete with who, which, whose, where, when or a participle.', 'who / which / whose / where / when или причастие.', [
+                        ('My brother,', ['who'], 'lives in Kazan, is a chef.', ''), ('The painting', ['stolen'], 'in 1911 was found in Florence.', 'steal'), ('People', ['living'], 'here are friendly.', 'live'),
+                        ('Paris,', ['which'], 'is my favourite city, has great museums.', ''), ('Rafael,', ['whose'], 'grandmother shopped here, knows everyone.', ''), ('This is the street', ['where'], 'I was born.', '')]),
+                    'ex2': ('Put the words in order.', 'Соберите предложения.', [
+                        (['who', 'My sister,', 'is a teacher,', 'lives in Tver.'], 'My sister, who is a teacher, lives in Tver.'), (['standing', 'The man', 'by the door', 'is the guard.'], 'The man standing by the door is the guard.'),
+                        (['whose', 'a queen', 'name', 'nobody knows'], 'a queen whose name nobody knows')])},
+        'part2': {'key': 'read', 'label': 'Reading', 'title': 'the greatest heist', 'task': 'Read the article. Have the paintings been found?', 'task_ru': 'Картины нашли?',
+                  'head': 'The Gardner Heist: 81 Minutes That Shocked the Art World', 'small': 'a true-crime feature · about 230 words', 'text': [
+                      'In the early hours of 18 March 1990, two men dressed as police officers knocked on the door of the Isabella Stewart Gardner Museum in Boston. The night guard, who was only 23, let them in.',
+                      'The «officers», who said they were answering a call, quickly tied up both guards and took them to the basement. They then spent 81 minutes in the museum, which was full of priceless art.',
+                      'They stole thirteen works, including paintings by Rembrandt and Vermeer, whose «The Concert» is now the most valuable stolen painting in the world. Strangely, the thieves ignored some of the most famous works hanging nearby.',
+                      'More than thirty years later, the case remains unsolved. The museum, which offers a reward of ten million dollars, has left the empty frames on the walls — a reminder of the paintings that are still missing.',
+                      'Detectives working on the case believe the art may still be hidden somewhere in New England. Some think the thieves, who have never been identified, may no longer be alive.'],
+                  'tf': [('The thieves were dressed as police officers.', True), ('They spent about three hours in the museum.', False), ('They stole paintings by Rembrandt and Vermeer.', True),
+                         ('The case was solved in 2010.', False), ('The empty frames are still on the walls.', True)],
+                  'gaps': ('Find the relative and participle clauses.', 'Найдите придаточные и обороты.', [('The night guard,', ['who'], 'was only 23, let them in.', ''), ('Vermeer,', ['whose'], '«The Concert» is the most valuable stolen painting', ''),
+                                                                                                           ('Detectives', ['working'], 'on the case believe…', 'work')])},
+        'extra': [('room1', 'Room 1', 'the Egyptian hall', '10 min', lambda ids:
+                   rubric('a', "Read the curator's notes. Fill each gap with who, which, where, whose or when. Then find the first code word.", 'Вставьте who / which / where / whose / when и найдите первое слово кода.')
+                   + escape(ids, [('🗿', 'Clue 1', 'The man ___ found this mask was a farmer.', ['who', 'that']), ('🏺', 'Clue 2', 'This is the hall ___ the masks are kept.', ['where']),
+                                  ('📜', 'Clue 3', 'The scroll ___ is next to the mask is 3,000 years old.', ['which', 'that']), ('👑', 'Clue 4', 'It belonged to a queen ___ name nobody knows.', ['whose']),
+                                  ('🌙', 'Clue 5', 'Come back at midnight, ___ the guards change.', ['when'])])
+                   + reveal('🔑 Room 1 code', '<p>Code word 1 is the object <i>which</i> is 3,000 years old (clue 3): <b>SCROLL</b>. Write it down!</p>')
+                   + lines(ids, ['Code word 1: …'])),
+                  ('room2', 'Room 2', 'the portrait gallery', '10 min', lambda ids:
+                   rubric('a', "In this room commas matter. Is each label correct? (Remember: no «that» after a comma!)", 'Здесь важны запятые. Подпись правильная?')
+                   + ex_select(ids, [('The Mona Lisa, that is in Paris, is very small. →', 'Wrong', ['Right', 'Wrong'], ''), ('Leonardo, who painted it, was also an engineer. →', 'Right', ['Right', 'Wrong'], ''),
+                                     ('The painting which is on your left is a copy. →', 'Right', ['Right', 'Wrong'], ''), ("Ms Grey, who's the curator, loves riddles. →", 'Right', ['Right', 'Wrong'], ''),
+                                     ('The guard which works at night is asleep. →', 'Wrong', ['Right', 'Wrong'], ''), ('Repin, whose paintings hang here, was born in Ukraine. →', 'Right', ['Right', 'Wrong'], '')])
+                   + rubric('b', 'Number of «Right» answers = the second code number.', 'Количество «Right» — второе число кода.')
+                   + ex_gaps(ids, [('Code number 2 =', ['4', 'four'], '')], size=6)),
+                  ('room3', 'Room 3', 'the vault', '10 min', lambda ids:
+                   rubric('a', 'The last room: B2 shortcut! Shorten the sentences with a participle. The answers make the final code word.', 'Сократите предложения с помощью причастия.')
+                   + ex_gaps(ids, [('The vault, ___ (which was built) in 1900, is underground.', ['built'], ''), ('Exhibits ___ (which are kept) here are priceless.', ['kept'], ''),
+                                   ('The guard ___ (who is sitting) by the camera is asleep.', ['sitting'], ''), ('A key ___ (which was hidden) under the mask opens the vault.', ['hidden'], ''),
+                                   ('Visitors ___ (who want) to see the vault need a ticket.', ['wanting'], '')], size=12)
+                   + reveal('🔑 Final word', '<p>Code word 3 is the room <i>built</i> in 1900, where the exhibits are <i>kept</i>: <b>VAULT</b>. Your full code: <b>SCROLL – 4 – VAULT</b>. Tell it to your teacher to escape! 🎉</p>'))],
+        'mix': {'title': 'the museum guide', 'task': 'A museum guide with mistakes. Correct them.', 'task_ru': 'Путеводитель с ошибками. Исправьте.',
+                'items': [('Paris, that is in France, is beautiful. →', ['Paris, which is in France, is beautiful.']), ('The guard which works at night is asleep. →', ['The guard who works at night is asleep.', 'The guard that works at night is asleep.']),
+                          ('A mask finding in 1922 is famous. →', ['A mask found in 1922 is famous.']), ('My aunt, who she is a doctor, lives in Omsk. →', ['My aunt, who is a doctor, lives in Omsk.'])]},
+        'auction': [('The man who found this mask was a farmer.', True, ''), ('The Hermitage, that is in St Petersburg, is huge.', False, 'The Hermitage, which is in St Petersburg, is huge.'),
+                    ('It belonged to a queen whose name nobody knows.', True, ''), ('The guard which works at night is asleep.', False, 'The guard who works at night is asleep.'),
+                    ('A painting stolen in 1990 has never been found.', True, ''), ('Visitors wanted to see the vault need a ticket.', False, 'Visitors wanting to see the vault need a ticket.'),
+                    ('This is the hall where the masks are kept.', True, ''), ('My brother, who he lives in Kazan, is a chef.', False, 'My brother, who lives in Kazan, is a chef.')],
+        'pron': {'title': 'pauses for commas', 'task': 'In non-defining clauses we pause at the commas, and the voice goes down a little. Press 🔊 and repeat.', 'task_ru': 'На запятых — пауза.',
+                 'list': [('My assistant, who is very careless, wrote the labels.', 'my as<u>SIS</u>tant | who is very <u>CARE</u>less | wrote the <u>LA</u>bels'),
+                          ('The vault, which was built in 1900, is underground.', 'the <u>VAULT</u> | which was built in nineteen <u>HUN</u>dred | is under<u>GROUND</u>'),
+                          ('The mask that you need is smiling.', 'the <u>MASK</u> that you need is <u>SMIL</u>ing (no pause)')]},
+        'speaking': {'title': 'museums and mysteries', 'questions': ['What is the best museum you have ever been to? What was in it?', 'Describe a person who you admire, using who / whose.',
+                                                                   'Is there a place in your city where tourists always go?', 'Why do you think the Gardner paintings have never been found?',
+                                                                   'Would you rather visit a museum or do an escape room?', 'Describe an object which is important to your family.'],
+                     'phrases': ['It\'s a museum which / where…', "He's someone who / whose…", 'The thing that surprised me was…', 'The paintings, which…, …'],
+                     'task': ('Debrief: explain how you solved each room.', 'Расскажите, как вы решили каждую комнату.')},
+        'task': {'task': 'Design one more escape room for your partner (Zakhar for Mikhail, Mikhail for Zakhar)! Write three clues using relative or participle clauses, and a code. Then swap and solve each other\'s room.',
+                 'task_ru': 'Каждый придумывает комнату для другого: три подсказки с придаточными или причастиями и код. Потом меняйтесь и решайте.',
+                 'plan': ['The room: …', 'Clue 1 (who / which / whose): …', 'Clue 2 (comma clause): …', 'Clue 3 (-ing / -ed): …', 'The code: …'],
+                 'report': ['The room where…', 'The object which…', 'The person whose…', 'The key hidden under…', 'Did you escape? 😄']},
+        'writing': {'title': 'a museum label', 'task': 'Write a label for a real or imagined museum exhibit (5 sentences). Use at least four relative or participle clauses.', 'task_ru': 'Подпись к экспонату: минимум четыре придаточных или оборота.',
+                    'example': 'This mask, which was found in Egypt in 1922, is over 3,000 years old. It belonged to a young king whose tomb was hidden for centuries. The archaeologist who discovered it was Howard Carter. Objects found in the tomb are now on display in Cairo. It is the exhibit that most visitors come to see.',
+                    'placeholders': ['This…, which…, is…', 'It belonged to… whose…', 'The person who…', '… found / made in… is…', 'It is the exhibit that…']},
+        'cans': [('I can understand a voicemail and a news story about a museum', 'понять сообщение и статью о музее'), ('I can use 10 words about museums and mysteries', 'использовать 10 слов по теме'),
+                 ('I can use defining and non-defining relative clauses', 'использовать придаточные с запятыми и без'), ('I can shorten clauses with -ing and -ed', 'сокращать придаточные причастиями')],
+        'hw': {'words_select': [('an object in a museum →', 'an exhibit', ['an exhibit', 'a clue', 'a curator'], ''), ('a secure room for valuable things →', 'a vault', ['a vault', 'a hall', 'a code'], ''),
+                                ('a question with a clever answer →', 'a riddle', ['a riddle', 'a clue', 'a code'], '')],
+               'listen': [('ancient', 'ancient', ['ancient', 'agent', 'anxious']), ('a curator', 'a curator', ['a curator', 'a creator', 'a cure']), ('priceless', 'priceless', ['priceless', 'pointless', 'priest'])],
+               'words_gaps': [('Solve the', ['riddle'], 'to open the door.'), ('The mask is on', ['display'], '.'), ('the biggest art', ['heist'], 'in history')],
+               'gaps': ('Complete with who, which, where, whose or a participle (-ing / V3).', 'Вставьте местоимение или причастие.',
+                        [('The museum,', ['which'], 'opened in 1900, is free on Sundays.', ''), ('Visitors', ['wanting'], 'to see the vault need a ticket.', 'want'), ('a painting', ['stolen'], 'in 1911', 'steal'),
+                         ('the artist', ['whose'], 'work is on the wall', ''), ('the city', ['where'], 'I grew up', '')]),
+               'fix': [('The guard which works here is asleep. →', ['The guard who works here is asleep.', 'The guard that works here is asleep.']), ('Paris, that is in France, has many museums. →', ['Paris, which is in France, has many museums.']),
+                       ('A mask finding in 1922 is famous. →', ['A mask found in 1922 is famous.'])],
+               'order': [(['which', 'The vault,', 'was built in 1900,', 'is underground.'], 'The vault, which was built in 1900, is underground.'), (['sitting', 'The guard', 'by the camera', 'is asleep.'], 'The guard sitting by the camera is asleep.')]},
+        'case': {'bad': [('Paris, that is in France…', 'Paris, which is in France…'), ('The guard which works…', 'The guard who works…'), ('A mask finding in 1922…', 'A mask found in 1922…')],
+                 'ok': ['The man who found this mask was a farmer.', 'It belonged to a queen whose name nobody knows.', 'The vault, which was built in 1900, is underground.', 'The guard sitting by the camera is asleep.']},
+    })
 
 
 def pasha():
-    P, LID = 'ps6', 'pasha-6'
-    ids = Ids(P)
-    cards = [('a mystery', 'something nobody can explain', 'загадка, тайна', "It's one of the great mysteries.", '❓'), ('a theory', 'an idea that tries to explain something', 'теория', 'There are many theories.', '💡'),
-             ('evidence', 'facts that show something is true', 'доказательства', 'There is no evidence.', '🧾'), ('to transport', 'to move things from one place to another', 'перевозить', 'The stones were transported 200 km.', '🚚'),
-             ('a monument', 'a large old structure', 'памятник, сооружение', 'an ancient monument', '🗿'), ('to date back to', 'to have existed since', 'датироваться', 'It dates back to 3000 BC.', '📅'),
-             ('an archaeologist', 'a scientist who studies ancient remains', 'археолог', 'Archaeologists are still digging.', '⛏️'), ('to decode', 'to understand a secret code or writing', 'расшифровать', 'Nobody has decoded it.', '🔐'),
-             ('a manuscript', 'a book written by hand', 'рукопись', 'a strange manuscript', '📜'), ('puzzling', 'difficult to understand', 'загадочный', 'a puzzling discovery', '🤔')]
-    sections = [
-        ('lead', 'Lead-in', 'mysteries', '6 min',
-         route([('🤔', 'guess'), ('📖', 'jigsaw: two mysteries'), ('🔍', 'discover the grammar'), ('🗣️', 'tell your theory'), ('🎭', 'TV documentary')])
-         + rubric('a', 'Look at the three mysteries. What do you know about them? Which would you most like to solve?', 'Что вы знаете об этих загадках? Какую хотели бы разгадать?')
-         + opinion(ids, ['Stonehenge (England)', 'The Voynich Manuscript', 'The Nazca Lines (Peru)'], ['I know a lot', 'I know a little', 'Never heard of it'])),
-        ('jigsaw', 'Reading', 'two mysteries', '14 min',
-         rubric('a', 'Jigsaw: you read A, your teacher reads B. Then explain your mystery — your teacher asks questions.', 'Вы читаете A, преподаватель — B. Потом расскажите свою загадку.')
-         + jigsaw(('Stonehenge', ['Stonehenge, in the south of England, was built in several stages, starting about 5,000 years ago. Some of its smaller stones are believed to have been transported more than 200 kilometres from Wales.',
-                                  'How they were moved is still not fully understood. It is thought that the monument was used to mark the movements of the sun, because it lines up with the sunrise in midsummer.']),
-                  ('The Voynich Manuscript', ['The Voynich Manuscript is a book that was handwritten in an unknown script and is full of strange drawings of plants. Its parchment has been dated to the early 1400s.',
-                                              'It has been studied by codebreakers and linguists for over a century, but it has never been decoded. It is now kept at Yale University.']))
-         + deck('Check both texts', [mc(P + '-j1', 'Where did some Stonehenge stones come from?', ['Wales', 'France', 'Scotland'], 0), mc(P + '-j2', 'What may Stonehenge have been used for?', ['marking the sun\'s movements', 'a castle', 'a market'], 0),
-                                     mc(P + '-j3', 'Has the Voynich Manuscript been decoded?', ['No, never.', 'Yes, in 1912.', 'Yes, by Yale.'], 0)])),
-        ('discover', 'Grammar', 'discover the passive', '12 min',
-         rubric('a', 'Look at the highlighted verbs from the texts. Answer the questions and discover the rules yourself.', 'Посмотрите на выделенные глаголы и сами найдите правила.')
-         + examples(['Stonehenge <mark>was built</mark> about 5,000 years ago.', 'How they <mark>were moved</mark> is still not understood.', 'It <mark>has never been decoded</mark>.',
-                     'It <mark>is now kept</mark> at Yale.', 'The stones <mark>are believed to have been transported</mark> 200 km.', '<mark>It is thought that</mark> it was used to mark the sun.'])
-         + deck('Discover', [mc(P + '-d1', 'Why do the writers use the passive?', ['who did it is unknown or not important', 'to sound informal', 'because it is the future'], 0),
-                             mc(P + '-d2', '«has never been decoded» is…', ['present perfect passive', 'past simple passive', 'future passive'], 0),
-                             mc(P + '-d3', '«are believed to have been transported» talks about…', ['what people believe now about the past', 'a plan for the future', 'a fact we know for sure'], 0)])
-         + reveal('📘 Check the rule', easy('be + V3 in every tense · It is thought that…',
-                                             'Passive — <b>be</b> в нужном времени + <b>V3</b>: is built · was built · has been built · will be built · can be seen. '
-                                             'Об учёных мнениях: <b>It is thought / believed / said that…</b> или <b>X is thought to + V</b> (сейчас) / <b>to have + V3</b> (о прошлом).',
-                                             [[('It', 'a'), ('has never been', 'd'), ('decoded.', 'c')], [('It', 'a'), ('is thought', 'd'), ('that it marked the sun.', 'b')], [('The stones', 'a'), ('are believed', 'd'), ('to have been transported.', 'c')]],
-                                             [('🗿', 'Stonehenge was built about 5,000 years ago.'), ('📜', 'It has never been decoded.'), ('☀️', 'It is thought that it marked the sun.'), ('🚚', 'The stones are believed to have been transported from Wales.')],
-                                             [('It has never decoded.', 'It has never been decoded.', 'Нужен been.'), ('It is thought to be built 5,000 years ago.', 'It is thought to have been built 5,000 years ago.', 'О прошлом → to have been + V3.'),
-                                              ('The stones were transport.', 'The stones were transported.', 'V3!')],
-                                             choose=[('Сейчас, обычно', 'is / are + V3'), ('В прошлом', 'was / were + V3'), ('К сегодняшнему дню', 'has / have been + V3'), ('Мнение учёных', 'It is thought that… / is believed to (have)…')]))
-         + rubric('b', 'Put the verbs into the passive.', 'Поставьте глаголы в passive.')
-         + ex_gaps(ids, [('The Nazca Lines', ['were discovered'], 'from planes in the 1920s.', 'discover'), ('They', ['can be seen', 'can only be seen'], 'best from the air.', 'can / see'),
-                         ('More lines', ['have been found'], 'recently with drones.', 'find'), ('They', ['are thought', 'are believed'], 'to be about 2,000 years old.', 'think')])),
-        ('theory', 'Speaking', 'your theory', '10 min',
-         think(ids, 'Choose one mystery and prepare your own theory. Use at least three passives.', 'Выберите загадку и подготовьте свою теорию: минимум три passive.',
-               ['I think it was built / made / used…', 'It is said that…', 'In my opinion, the stones were…'])
-         + phrases(['It is said that…', 'It is believed to…', "I'm convinced that…", 'There is no evidence that…', 'It might have been…'])),
-        ('doc', 'Project', 'TV documentary', '12 min',
-         cycle('<p>You are the narrator of a 1-minute TV documentary about a mystery (real or invented).</p>',
-               lines(ids, ['Opening line: For centuries…', 'It was built / discovered…', 'It is thought / believed that…', 'Some experts say…, but…', 'The mystery has never been…']),
-               '<p>Read your script like a documentary narrator — slowly, dramatically! Your teacher may record it.</p>' + listening(P + '-lis', [('m3', 'For centuries, these lines have been a mystery.'), ('m3', 'They were discovered from the air in the 1920s, and they are thought to be about two thousand years old.'), ('m3', 'But why were they made? Nobody really knows.')], 'Model: a documentary narrator', 'Listen to the style', '🎬', {'m3': 'Narrator'}))
-         + vocab_section(ids, '4A', 'Mysteries', cards, [('facts that show something is true →', 'evidence', ['evidence', 'a theory', 'a mystery'], ''), ('difficult to understand →', 'puzzling', ['puzzling', 'ancient', 'famous'], '')], [])
-         + send_box()),
-    ]
-    hw = hw_pair(ids, [('an idea that tries to explain something →', 'a theory', ['a theory', 'evidence', 'a monument'], ''), ('a scientist who studies ancient remains →', 'an archaeologist', ['an archaeologist', 'a curator', 'a historian'], ''),
-                       ('a book written by hand →', 'a manuscript', ['a manuscript', 'a novel', 'a map'], '')],
-                 [('evidence', 'evidence', ['evidence', 'evident', 'every dance']), ('a theory', 'a theory', ['a theory', 'a story', 'a tear']), ('decode', 'decode', ['decode', 'the code', 'decade'])],
-                 [('It dates', ['back'], 'to 3000 BC.'), ('There is no', ['evidence'], 'for this theory.'), ('Nobody has', ['decoded'], 'the manuscript.')],
-                 'Put the verbs into the passive.', 'Поставьте глаголы в passive.', [('The pyramids', ['were built'], 'about 4,500 years ago.', 'build'), ('The museum', ['will be opened', 'is going to be opened'], 'next year.', 'open'),
-                                                                                    ('This mystery', ['has never been solved'], '.', 'never / solve'), ('It', ['is said', 'is believed', 'is thought'], 'that the castle is haunted.', 'say')],
-                 [('It has never solved. →', ['It has never been solved.']), ('The stones were transport by boat. →', ['The stones were transported by boat.'])])
-    return flex({'id': LID, 'prefix': P, 'owner': 'pasha', 'code': '4A', 'title': 'Unsolved Mysteries', 'level': 'Intermediate+', 'category': 'History & mysteries', 'minutes': '65 min',
-                 'grammar': 'The passive in all tenses · It is thought that… / is believed to (have been)…', 'date': DATE,
-                 'gvp': {'g': 'the passive (present, past, present perfect, modal); reporting passive', 'v': 'mysteries and archaeology', 'p': 'documentary narration'},
-                 'eyebrow': 'IRIS SCHOOL · Паша · урок 4A', 'tags': ['Intermediate+', 'Mysteries', 'Jigsaw', 'Discover the rule'],
-                 'lead': 'Stonehenge, an unreadable book and lines in the desert. You read one mystery, your teacher reads another — then you discover the grammar yourself and narrate your own TV documentary.',
-                 'cards': cards, 'case': {'bad': [('It has never decoded.', 'It has never been decoded.'), ('The stones were transport.', 'The stones were transported.')], 'ok': ['It is thought that it marked the sun.', 'Stonehenge was built 5,000 years ago.']},
-                 'sections': sections, 'hw': hw})
+    return std({
+        'id': 'pasha-6', 'prefix': 'ps6', 'owner': 'pasha', 'code': '4A', 'title': 'Unsolved Mysteries', 'level': 'Intermediate+', 'category': 'History & mysteries',
+        'minutes': '85 min', 'grammar': 'The passive in all tenses · It is thought that… / He is believed to (have)…', 'date': DATE,
+        'gvp': {'g': 'passive in present / past / perfect / continuous / future / modal forms; impersonal passive: It is said that…, is thought to (have been)…', 'v': 'history, archaeology and mysteries', 'p': 'weak forms: been /bɪn/, being'},
+        'eyebrow': 'IRIS SCHOOL · Паша · урок 4A', 'tags': ['Intermediate+', 'Mysteries', 'Archaeology', 'The passive'],
+        'lead': 'A manuscript nobody can read, giant lines in the desert, a ship found with no crew: some mysteries have never been solved. '
+                'Listen to an archaeologist, read about the Voynich manuscript, learn to report theories like a journalist — and present your own theory.',
+        'think': ('Which historical mystery do you find most interesting: Stonehenge, the pyramids, Atlantis, the Tunguska event…? Why?',
+                  'Какая историческая загадка вам интереснее всего? Почему?', ['I find… fascinating because…', 'Some people think…', 'My own theory is…']),
+        'aims': ['understand an archaeologist describing a mystery', 'use 10 words about history and archaeology', 'use the passive in different tenses', 'report theories: It is thought that…, is believed to have…'],
+        'listen': {'title': 'the Nazca lines', 'task': 'An archaeologist talks about the Nazca lines in Peru. Listen once: do we know why the lines were made?', 'task_ru': 'Известно, зачем сделаны линии?',
+                   'head': 'Podcast «History Detectives»: the Nazca lines', 'names': {'m3': 'Host', 'f4': 'Dr Ruiz'}, 'emoji': '🏜️',
+                   'lines': [('m3', 'Dr Ruiz, what exactly are the Nazca lines?'),
+                             ('f4', 'They are huge drawings in the desert of southern Peru — a monkey, a hummingbird, a spider, and hundreds of straight lines. They were made about two thousand years ago by the Nazca people.'),
+                             ('m3', 'How were they made?'), ('f4', 'The dark stones on the surface were moved to show the lighter ground underneath. It sounds simple, but some figures are three hundred metres long. They can only be seen properly from the air.'),
+                             ('m3', 'So why were they made?'), ('f4', "That's the mystery. It's thought that they were connected with water, which was very important in the desert. Some lines are believed to point to underground water sources."),
+                             ('m3', 'I\'ve heard theories about aliens…'), ('f4', 'Ha! Those theories have been rejected by every serious scientist. The lines could easily have been made by people with ropes and sticks.'),
+                             ('m3', 'Are new lines still being found?'), ('f4', "Yes! Since 2022 more than three hundred new figures have been discovered with the help of drones and AI. And I'm sure many more will be found."),
+                             ('m3', 'Are the lines in danger?'), ('f4', "Unfortunately, yes. Some have been damaged by cars and trucks. The site must be protected better, or it could be lost.")],
+                   'gist': ('Do we know why the lines were made?', ['No, but there are theories — water is the main one.', 'Yes, they were made by aliens.', 'Yes, they were roads.'], 0),
+                   'details': [('When were the lines made?', ['about 2,000 years ago', 'about 500 years ago', '10,000 years ago'], 0), ('How were they made?', ['Dark stones were moved.', 'They were painted.', 'They were dug with machines.'], 0),
+                               ('Where can they be seen properly from?', ['from the air', 'from the road', 'from a nearby hill only'], 0), ('What is the main theory?', ['They were connected with water.', 'They were made by aliens.', 'They were a calendar for kings.'], 0),
+                               ('How have new figures been found recently?', ['with drones and AI', 'by tourists', 'by satellites from the 1970s'], 0)],
+                   'notes': [('The figures include a monkey, a hummingbird and a', ['spider'], '.'), ('Some figures are', ['300', 'three hundred'], 'metres long.'),
+                             ('More than 300 new figures have been found since', ['2022'], '.'), ('Some lines have been damaged by cars and', ['trucks'], '.')]},
+        'vocab': {'title': 'history and archaeology', 'theme': 'History and mysteries', 'cards': [
+            ('an archaeologist', 'a scientist who studies the past by digging', 'археолог', 'Archaeologists found a new figure.', '⛏️'), ('to excavate', 'to dig carefully to find old objects', 'проводить раскопки', 'The site was excavated in 1990.', '🏺'),
+            ('a manuscript', 'a very old book written by hand', 'рукопись', 'The manuscript has never been decoded.', '📜'), ('to decode', 'to discover the meaning of a secret message', 'расшифровать', 'Nobody has decoded it.', '🔐'),
+            ('a theory', 'an idea that tries to explain something', 'теория', 'There are many theories.', '💡'), ('to date back to', 'to have existed since a certain time', 'датироваться', 'It dates back to the 15th century.', '📅'),
+            ('evidence', 'facts that show something is true', 'доказательства', 'There is no evidence of aliens.', '📂'), ('a hoax', 'a trick to make people believe something false', 'мистификация, розыгрыш', 'Some think it is a hoax.', '🎭'),
+            ('to reject', 'to say that something is not true or not acceptable', 'отвергать', 'The theory was rejected.', '🚫'), ('a site', 'a place where something important happened', 'место (раскопок, событий)', 'an archaeological site', '📍')],
+            'match': [('a very old book written by hand →', 'a manuscript', ['a manuscript', 'a theory', 'a site'], ''), ('a trick to make people believe something false →', 'a hoax', ['a hoax', 'a theory', 'evidence'], ''),
+                      ('to discover the meaning of a secret message →', 'to decode', ['to decode', 'to excavate', 'to reject'], ''), ('to dig carefully to find old objects →', 'to excavate', ['to excavate', 'to decode', 'to date back to'], ''),
+                      ('facts that show something is true →', 'evidence', ['evidence', 'a hoax', 'a theory'], '')],
+            'gaps': [('It dates', ['back'], 'to the 15th century.'), ('The manuscript has never been', ['decoded'], '.'), ('There is no', ['evidence'], 'of aliens.'), ('an archaeological', ['site'], 'in Peru')]},
+        'notice': ("Look at Dr Ruiz's sentences. All are passive — but in which tenses?", 'Все в passive — но в каких временах?',
+                   ['They <mark>were made</mark> about 2,000 years ago.', 'They <mark>can only be seen</mark> from the air.', 'Those theories <mark>have been rejected</mark>.', 'Are new lines still <mark>being found</mark>?',
+                    'Many more <mark>will be found</mark>.', "<mark>It's thought that</mark> they were connected with water. Some lines <mark>are believed to point</mark> to water."],
+                   [('«have been rejected» is…', ['present perfect passive', 'past simple passive', 'future passive'], 0), ('«are being found» is…', ['present continuous passive', 'present perfect passive', 'past passive'], 0),
+                    ("«It's thought that…» is used to…", ['report what people generally believe', 'give a personal opinion', 'talk about the future'], 0)]),
+        'grammar': {'title': 'the passive in all tenses', 'head': 'is being done · has been done · will be done · It is thought that…',
+                    'idea': 'Passive = <b>be</b> в нужном времени + <b>V3</b>. is / are done · <b>is being</b> done · was done · <b>has been</b> done · <b>will be</b> done · <b>can / must be</b> done · <b>could have been</b> done. '
+                            'Теории и слухи — безлично: <b>It is thought / believed / said that…</b> или <b>X is thought to + V</b> (сейчас) / <b>to have + V3</b> (в прошлом): The ship is thought <b>to have sunk</b> in 1700.',
+                    'choose': [('Сейчас, в процессе', 'is being + V3: The site is being excavated.'), ('Результат до сих пор', 'has been + V3: It has never been decoded.'), ('Будущее / модальные', 'will be / must be + V3'),
+                               ('Общее мнение', 'It is thought that… / is believed to (have)…')],
+                    'rows': [[('It', 'a'), ('has never been', 'd'), ('decoded.', 'c')], [('New lines', 'a'), ('are being', 'd'), ('found.', 'c')],
+                             [('It', 'a'), ('is thought', 'd'), ('that', 'c'), ('they marked water.', 'b')], [('The ship', 'a'), ('is believed', 'd'), ('to have sunk', 'c'), ('in 1700.', 'b')]],
+                    'note': 'to + V — о настоящем: He is said to be very rich. · to have + V3 — о прошлом: He is said to have been very rich.',
+                    'examples': [('📜', 'The manuscript has never been decoded.'), ('⛏️', 'The site is being excavated at the moment.'), ('🏜️', 'It is thought that the lines were connected with water.'),
+                                 ('🚢', 'The ship is believed to have sunk in a storm.')],
+                    'traps': [('It has never decoded.', 'It has never been decoded.', 'Нужен been.'), ('The castle is restoring now.', 'The castle is being restored now.', 'Процесс → is being + V3.'),
+                              ('It is thought to be built in 1200.', 'It is thought to have been built in 1200.', 'Прошлое → to have been.')],
+                    'ex1': ('Write the passive in the correct tense.', 'Passive в нужном времени.', [
+                        ('The pyramids', ['were built'], 'about 4,500 years ago.', 'build'), ('This mystery', ['has never been solved'], '.', 'never / solve'), ('The museum', ['is being renovated'], 'at the moment.', 'renovate'),
+                        ('The results', ['will be published', 'are going to be published'], 'next month.', 'publish'), ('The site must', ['be protected'], '.', 'protect'), ('The ship is thought', ['to have sunk'], 'in 1700.', 'sink')]),
+                    'ex2': ('Put the words in order.', 'Соберите предложения.', [
+                        (['has never been', 'It', 'decoded.'], 'It has never been decoded.'), (['is thought', 'It', 'that it marked water.'], 'It is thought that it marked water.'),
+                        (['is being', 'The castle', 'restored.'], 'The castle is being restored.')])},
+        'part2': {'key': 'read', 'label': 'Reading', 'title': 'the book nobody can read', 'task': 'Read the article. Has the Voynich manuscript been decoded?', 'task_ru': 'Рукопись Войнича расшифрована?',
+                  'head': 'The Voynich Manuscript: The World\'s Most Mysterious Book', 'small': 'a history feature · about 230 words', 'text': [
+                      'In 1912 a Polish book dealer, Wilfrid Voynich, bought an old manuscript in Italy. It was full of strange drawings of plants that do not exist, stars and bathing women — and it was written in an alphabet that nobody had ever seen.',
+                      'More than a century later, the manuscript has still not been decoded. It has been studied by codebreakers from both World Wars, linguists, mathematicians and, recently, artificial intelligence. Nobody has succeeded.',
+                      'Thanks to carbon dating, the parchment is now known to have been made between 1404 and 1438. But that doesn\'t tell us when the text was written, or by whom.',
+                      "Many theories have been suggested. The book is thought by some to be a medical text written in a lost language. Others believe it was created as a hoax to be sold to a rich collector. A few researchers claim it was written by women, for women, about health.",
+                      'Today the manuscript is kept at Yale University, where it can be viewed online by anyone. Perhaps it will be solved one day — maybe by someone reading this article.'],
+                  'tf': [('The manuscript was bought in Italy in 1912.', True), ('It has been decoded by AI.', False), ('The parchment is known to have been made in the 15th century.', True),
+                         ('Everyone agrees it is a medical text.', False), ('It can be viewed online.', True)],
+                  'gaps': ('Find the passive forms in the text.', 'Найдите формы passive.', [('the manuscript has still not been', ['decoded'], '.', 'decode'), ('It has been', ['studied'], 'by codebreakers.', 'study'),
+                                                                                             ('the parchment is now known to have been', ['made'], 'between 1404 and 1438.', 'make')])},
+        'extra': [('files', 'Case files', 'three mysteries', '10 min', lambda ids:
+                   rubric('a', 'Three case files. Complete the reports with the passive in the right form.', 'Три дела: дополните отчёты пассивом в нужной форме.')
+                   + escape(ids, [('🚢', 'The Mary Celeste (1872)', 'The ship ___ (find) floating in the Atlantic with no one on board. →', ['was found']),
+                                  ('🗿', 'Stonehenge', 'The stones ___ (think) to have been brought from Wales, 250 km away. →', ['are thought']),
+                                  ('🌲', 'Tunguska (1908)', 'In 1908 trees over 2,000 km² ___ (flatten) by a huge explosion. →', ['were flattened']),
+                                  ('☄️', 'Tunguska: the cause', 'It ___ (believe) that a meteor exploded in the air. →', ['is believed', 'is thought']),
+                                  ('🔭', 'The future', 'New evidence ___ (probably / discover) with new technology. →', ['will probably be discovered'])])
+                   + phrases(['It is said that…', 'It is believed to have…', 'The theory has been rejected', 'The site is being studied…']))],
+        'mix': {'title': 'a documentary script', 'task': 'A documentary script with mistakes. Correct them.', 'task_ru': 'Сценарий с ошибками. Исправьте.',
+                'items': [('It has never decoded. →', ['It has never been decoded.']), ('The castle is restoring now. →', ['The castle is being restored now.']),
+                          ('It is thought to be built in 1200. →', ['It is thought to have been built in 1200.']), ('The road will build next year. →', ['The road will be built next year.'])]},
+        'auction': [('The manuscript has never been decoded.', True, ''), ('The site is excavating at the moment.', False, 'The site is being excavated at the moment.'),
+                    ('It is thought that the lines marked water.', True, ''), ('The ship is believed to sink in 1700.', False, 'The ship is believed to have sunk in 1700.'),
+                    ('More figures will be found.', True, ''), ('The theory has rejected.', False, 'The theory has been rejected.'), ('The lines can only be seen from the air.', True, ''),
+                    ('He is said to be very rich now.', True, '')],
+        'pron': {'title': 'weak been, being', 'task': '<i>been</i> /bɪn/ is weak; the stress is on the main verb. Press 🔊 and repeat.', 'task_ru': 'been — слабое, ударение на главном глаголе.',
+                 'list': [('It has never been decoded.', 'it has <u>NEV</u>er /bɪn/ de<u>COD</u>ed'), ('The site is being excavated.', 'the site is /ˈbiːɪŋ/ <u>EX</u>cavated'),
+                          ('It is thought to have been built in 1200.', 'it is <u>THOUGHT</u> to have /bɪn/ <u>BUILT</u>')]},
+        'speaking': {'title': 'mysteries', 'questions': ['Which mystery would you most like to solve?', 'What is your city said to be famous for?', 'Do you believe any «alien» theories? Why / why not?',
+                                                       'What historical sites have you visited?', 'Should money be spent on archaeology or on modern problems?', 'What do you think will be discovered in the next 50 years?'],
+                     'phrases': ['It is said / thought that…', '… is believed to have…', 'It has never been…', 'I reckon it was…', 'There is no evidence that…'],
+                     'task': ('Present your own theory about a mystery.', 'Представьте свою теорию о загадке.')},
+        'task': {'task': 'Choose a mystery (the Voynich manuscript, Nazca, the Mary Celeste, Tunguska — or one from Russian history). Present it like a TV documentary: the facts, what is thought, and your own theory.',
+                 'task_ru': 'Выберите загадку и представьте её как документальный фильм: факты, общепринятые версии и ваша теория.',
+                 'plan': ['The facts: It was found / built…', 'It has never been…', 'It is thought / believed that…', 'Some people say it is… / it is said to have…', 'My theory: …'],
+                 'report': ['In…, … was discovered…', 'To this day, it has never been…', 'It is widely believed that…', 'My own theory is that…', 'Perhaps it will be solved one day.']},
+        'writing': {'title': 'a mystery report', 'task': 'Write a short article (6 sentences) about a historical mystery. Use at least five different passive forms.', 'task_ru': 'Статья о загадке истории: минимум пять разных форм passive.',
+                    'example': "The Tunguska event happened in Siberia in 1908. Around 80 million trees were flattened over an area of 2,000 km². The site wasn't visited by scientists until 1927. It is now thought that a meteor exploded above the ground. However, no large pieces of the meteor have ever been found. The area is still being studied today.",
+                    'placeholders': ['… was discovered / built in…', '… has never been…', 'It is thought / believed that…', '… is said to have…', '… is still being…', 'Perhaps it will be…']},
+        'cans': [('I can understand an archaeologist describing a mystery', 'понять рассказ археолога'), ('I can use 10 words about history and archaeology', 'использовать 10 слов по теме'),
+                 ('I can use the passive in different tenses', 'использовать passive в разных временах'), ('I can report theories: It is thought that…', 'передавать версии и мнения')],
+        'hw': {'words_select': [('a scientist who studies the past by digging →', 'an archaeologist', ['an archaeologist', 'a historian', 'a curator'], ''), ('an idea that tries to explain something →', 'a theory', ['a theory', 'a hoax', 'evidence'], ''),
+                                ('to say that something is not true →', 'to reject', ['to reject', 'to decode', 'to excavate'], '')],
+               'listen': [('archaeologist', 'archaeologist', ['archaeologist', 'architect', 'astrologist']), ('manuscript', 'manuscript', ['manuscript', 'manufacture', 'transcript']), ('a hoax', 'a hoax', ['a hoax', 'a host', 'a hose'])],
+               'words_gaps': [('It dates back', ['to'], 'the 15th century.'), ('There is no', ['evidence'], 'of aliens.'), ('an archaeological', ['site'], '')],
+               'gaps': ('Write the passive.', 'Passive в нужной форме.', [('The pyramids', ['were built'], 'about 4,500 years ago.', 'build'), ('This mystery', ['has never been solved'], '.', 'never / solve'),
+                                                                         ('The museum', ['is being renovated'], 'now.', 'renovate'), ('The results', ['will be published'], 'next year.', 'publish'), ('He is said', ['to be'], 'very rich.', 'be')]),
+               'fix': [('It has never decoded. →', ['It has never been decoded.']), ('The castle is restoring now. →', ['The castle is being restored now.']), ('It is thought to be built in 1200. →', ['It is thought to have been built in 1200.'])],
+               'order': [(['is believed', 'The ship', 'to have sunk', 'in 1700.'], 'The ship is believed to have sunk in 1700.'), (['are being', 'New figures', 'discovered.'], 'New figures are being discovered.')]},
+        'case': {'bad': [('It has never decoded.', 'It has never been decoded.'), ('The castle is restoring now.', 'The castle is being restored now.'), ('It is thought to be built in 1200.', 'It is thought to have been built in 1200.')],
+                 'ok': ['The manuscript has never been decoded.', 'New figures are being found.', 'It is thought that they marked water.', 'The ship is believed to have sunk in 1700.']},
+    })
 
 
 def build():

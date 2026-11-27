@@ -1,4 +1,4 @@
-"""Пелагея (A1–A2): 2D «Kate's Birthday» — полный урок (был слишком коротким) и 2E «A Weekend at Grandma's».
+"""Пелагея (A1–A2): 2D «Kate's Birthday» и 2E «A Weekend at Grandma's» — полные уроки по образцу урока Дарьи.
 2D: past simple правильные глаголы (-ed), произношение /t/ /d/ /ɪd/, отрицание didn't и вопрос Did…?
 2E: past simple неправильные глаголы (went, had, saw, ate…) и вопросы Where / What did you…?"""
 from flex import *
@@ -7,195 +7,193 @@ OWNER = 'pelageya'
 
 
 def birthday():
-    P, LID = 'pg8', 'pelageya-8'
-    ids = Ids(P)
-    cards = [('a birthday', '', 'день рождения', "It was Kate's birthday.", '🎂'), ('a present', '', 'подарок', 'Kate opened her presents.', '🎁'),
-             ('a candle', '', 'свеча', 'There were ten candles on the cake.', '🕯️'), ('to invite', '', 'приглашать', 'Kate invited six friends.', '💌'),
-             ('to dance', '', 'танцевать', 'We danced all evening.', '💃'), ('to bake', '', 'печь', 'Anna baked a cake.', '🍰'), ('balloons', '', 'воздушные шарики', 'Tom painted funny faces on the balloons.', '🎈'),
-             ('to laugh', '', 'смеяться', 'Everyone laughed.', '😂'), ('to clap', '', 'хлопать в ладоши', 'Everyone clapped.', '👏'), ('a guest', 'a person you invite', 'гость', 'The guests arrived at seven.', '🙋')]
     story = [('f', "Saturday was Kate's birthday. She invited six friends to her flat."), ('f', 'Anna baked a big chocolate cake, and Tom painted funny faces on the balloons.'),
              ('f', "At seven o'clock the guests arrived. They played games and danced."), ('f', 'Then Kate opened her presents. Everyone laughed and clapped. It was a great party!')]
-    call = [('f2', "Hello, Tom! How was Kate's party?"), ('m', 'Hi, Grandma! It was great. We played games and danced a lot.'), ('f2', 'Did you dance too?'),
-            ('m', "Yes, I did! But I didn't dance very well."), ('f2', 'Ha-ha! Did Kate like your present?'), ('m', 'Yes, she did. She loved the book.'),
-            ('f2', 'Did Anna bake a cake?'), ('m', "Yes, a chocolate cake. But I didn't eat it — I was too full!")]
-    sections = [
-        ('chant', 'Warm-up', 'the -ed chant', '4 min',
-         route([('🎵', 'chant'), ('🎂', 'words'), ('🖼️', 'picture story'), ('📘', '-ed'), ('👂', '/t/ /d/ /ɪd/'), ('📞', 'a phone call'), ('❓', "didn't · Did…?"), ('📖', 'a thank-you message'), ('🗣️', 'your party')])
-         + rubric('a', 'Press 🔊 and say the chant with a rhythm! Clap on every verb.', 'Нажмите 🔊 и повторяйте в ритме, хлопайте на каждом глаголе.')
-         + say_list([('I played, I danced, I laughed all day!', 'I <u>PLAYED</u>, I <u>DANCED</u>, I <u>LAUGHED</u> all <u>DAY</u>!'),
-                     ('She baked, she painted, she wanted to stay!', 'she <u>BAKED</u>, she <u>PAINT</u>ed, she <u>WANT</u>ed to <u>STAY</u>!')])),
-        ('words', 'Vocabulary', 'party words', '8 min',
-         vocab_section(ids, '2D', 'A birthday party', cards,
-                       [('🕯️ →', 'a candle', ['a candle', 'a present', 'a balloon'], ''), ('🎁 →', 'a present', ['a present', 'a birthday', 'a guest'], ''),
-                        ('👏 →', 'to clap', ['to clap', 'to dance', 'to bake'], ''), ('a person you invite →', 'a guest', ['a guest', 'a present', 'a candle'], '')],
-                       [('There were ten', ['candles'], 'on the cake.'), ('The', ['guests'], 'arrived at seven.'), ('Tom painted faces on the', ['balloons'], '.')])),
-        ('story', 'Listening', "Kate's party", '8 min',
-         rubric('a', 'Look at the pictures. What happened at the party? Guess, then listen.', 'Что было на вечеринке? Угадайте, потом послушайте.')
-         + timeline([('💌', 'Kate invited six friends'), ('🍰🎈', 'Anna baked a cake, Tom painted balloons'), ('🎲💃', 'they played games and danced'), ('🎁👏', 'Kate opened her presents')])
-         + listening(P + '-lis', story, "Kate's birthday", 'Listen twice', '🎂', {'f': 'Anna'})
-         + deck('Check', [mc(P + '-q1', 'How many friends did Kate invite?', ['six', 'four', 'ten'], 0), mc(P + '-q2', 'What did Anna bake?', ['a chocolate cake', 'bread', 'cookies'], 0),
-                          mc(P + '-q3', 'What did Tom paint?', ['funny faces on balloons', 'a picture', 'the door'], 0), mc(P + '-q4', 'When did the guests arrive?', ['at seven', 'at five', 'at nine'], 0)])),
-        ('grammar', 'Grammar', 'past simple -ed — Grammar Easy', '10 min',
-         rubric('a', 'Read the steps. Press 🔊 and repeat.', 'Прочитайте шаги, слушайте и повторяйте.')
-         + easy('play → played · dance → danced',
-                'О прошлом (вчера, в субботу, last week): к глаголу добавляем <b>-ed</b>. Одинаково для всех: I / she / they <b>played</b>. '
-                'Глагол на <b>-e</b> → только <b>-d</b> (dance → danced). Согласная + <b>y</b> → <b>-ied</b> (study → studied).',
-                [[('Kate', 'a'), ('invited', 'd'), ('six friends.', 'b')], [('They', 'a'), ('danced', 'd'), ('all evening.', 'b')], [('I', 'a'), ('studied', 'd'), ('yesterday.', 'b')]],
-                [('💌', 'Kate invited six friends.'), ('🍰', 'Anna baked a cake.'), ('💃', 'They danced.'), ('😂', 'Everyone laughed.')],
-                [('She inviteed…', 'She invited…', 'На -e → только -d.'), ('They was danced.', 'They danced.', 'Без was.'), ('I studyed.', 'I studied.', 'y → ied.')],
-                choose=[('Обычный глагол', '+ ed: play → played'), ('Глагол на -e', '+ d: dance → danced'), ('Согласная + y', 'y → ied: study → studied')])
-         + rubric('b', 'Write the past simple.', 'Напишите прошедшее время.')
-         + ex_gaps(ids, [('Kate', ['invited'], 'her friends.', 'invite'), ('They', ['played'], 'games.', 'play'), ('Anna', ['baked'], 'a cake.', 'bake'),
-                         ('Everyone', ['laughed'], '.', 'laugh'), ('I', ['studied'], 'English yesterday.', 'study'), ('We', ['watched'], 'a film.', 'watch')])
-         + rubric('c', 'Put the words in order.', 'Соберите предложения.')
-         + ex_order(ids, [(['invited', 'Kate', 'six friends.'], 'Kate invited six friends.'), (['danced', 'We', 'all evening.'], 'We danced all evening.')])),
-        ('sounds', 'Pronunciation', '/t/ /d/ /ɪd/', '6 min',
-         rubric('a', '-ed has three sounds! Press 🔊 and choose the sound.', 'У -ed три звука. Нажмите 🔊 и выберите.')
-         + ex_listen_pick(ids, [('danced', '/t/', ['/t/', '/d/', '/ɪd/']), ('played', '/d/', ['/t/', '/d/', '/ɪd/']), ('painted', '/ɪd/', ['/t/', '/d/', '/ɪd/']),
-                                ('laughed', '/t/', ['/t/', '/d/', '/ɪd/']), ('invited', '/ɪd/', ['/t/', '/d/', '/ɪd/']), ('cleaned', '/d/', ['/t/', '/d/', '/ɪd/'])])
-         + reveal('💡 Tip', '<p>After <b>t</b> or <b>d</b> → /ɪd/ (painted, wanted, invited). After p, k, s, sh, ch, f → /t/ (danced, laughed, watched). Others → /d/ (played, cleaned).</p>')),
-        ('call', 'Listening', "Tom calls Grandma", '6 min',
-         rubric('a', 'Tom tells his grandma about the party. Did Tom eat the cake?', 'Том рассказывает бабушке о празднике. Ел ли он торт?')
-         + listening(P + '-lis2', call, 'Tom and Grandma', 'Listen twice', '📞', {'m': 'Tom', 'f2': 'Grandma'})
-         + deck('Check', [mc(P + '-c1', 'Did Tom dance?', ['Yes, he did.', "No, he didn't."], 0), mc(P + '-c2', 'Did Kate like the book?', ['Yes, she did.', "No, she didn't."], 0),
-                          mc(P + '-c3', 'Did Tom eat the cake?', ["No, he didn't.", 'Yes, he did.'], 0)])),
-        ('questions', 'Grammar', "didn't · Did…? — Grammar Easy", '8 min',
-         easy("I didn't dance · Did you dance?",
-              'Отрицание и вопрос в прошлом — с помощником <b>did</b>. ➖ <b>didn\'t</b> + глагол <b>без -ed</b>: I didn\'t dance. ❓ <b>Did</b> you <b>dance</b>? Ответ: <b>Yes, I did. / No, I didn\'t.</b>',
-              [[('I', 'a'), ("didn't", 'd'), ('dance', 'c'), ('very well.', 'b')], [('Did', 'd'), ('you', 'a'), ('dance', 'c'), ('too?', 'b')]],
-              [('💃', "I didn't dance very well."), ('❓', 'Did you dance too?'), ('🙂', 'Yes, I did.'), ('🍰', "No, I didn't eat the cake.")],
-              [("I didn't danced.", "I didn't dance.", "После didn't — без -ed."), ('Did you liked it?', 'Did you like it?', 'После Did — без -ed.')])
-         + ex_gaps(ids, [('I', ["didn't watch", 'did not watch'], 'TV yesterday.', '➖ watch'), ('', ['Did'], 'you like the party?', '❓'), ('Yes, I', ['did'], '.', ''),
-                         ('She', ["didn't invite", 'did not invite'], 'Tom.', '➖ invite'), ('Did they', ['dance'], '?', 'dance')])),
-        ('read', 'Reading', 'a thank-you message', '6 min',
-         rubric('a', "Read Kate's message to her friends.", 'Прочитайте сообщение Кейт.')
-         + reading("Kate → friends", 'a message · about 60 words', ['Thank you for a wonderful party! I loved my presents, especially the book from Tom and the flowers from Anna.',
-                                                                    "The cake was delicious. I'm sorry I didn't dance much — my new shoes were too small! 😄", 'See you on Friday. Love, Kate'])
-         + deck('True or false?', [mc('%s-tf%d' % (P, i + 1), q, ['True', 'False'], 0 if ok else 1) for i, (q, ok) in enumerate([
-             ('Kate loved her presents.', True), ('Anna gave Kate a book.', False), ('Kate danced a lot.', False)])])),
-        ('mix', 'Accuracy', 'find the mistake', '4 min',
-         rubric('a', 'One mistake in each sentence. Write it correctly.', 'Одна ошибка в каждом предложении.')
-         + ex_lines(ids, [('She playd the piano. →', ['She played the piano.']), ("I didn't liked the film. →", ["I didn't like the film.", 'I did not like the film.']),
-                          ('Did you visited Kate? →', ['Did you visit Kate?']), ('We was danced. →', ['We danced.'])])),
-        ('speak', 'Speaking', 'your last birthday', '8 min',
-         rubric('a', 'Answer your teacher. Short answer + one more sentence.', 'Короткий ответ + ещё одно предложение.')
-         + picker(['Did you have a party on your last birthday?', 'Who did you invite?', 'Did you dance?', 'What presents did you get?', 'Did you bake a cake?', 'What did you watch last weekend?'])
-         + phrases(['Yes, I did.', "No, I didn't.", 'I invited…', 'We played / danced / watched…'])),
-        ('write', 'Writing', 'my last birthday', '6 min',
-         rubric('a', 'Write about your last birthday — 4 sentences.', 'Ваш последний день рождения: 4 предложения.')
-         + lines(ids, ['On my birthday I…', 'I invited / visited…', 'We… (played / danced / cooked / watched)', "I didn't…"]) + send_box()),
-        ('check', 'Feedback', 'Can you…?', '3 min',
-         selfcheck(ids, [('I can understand a story about a party', 'понять рассказ о празднике'), ('I can use past simple -ed', 'использовать past simple -ed'),
-                         ("I can say <i>I didn't…</i> and ask <i>Did you…?</i>", "говорить I didn't… и спрашивать Did you…?")])),
-    ]
-    hw = hw_pair(ids, [('🎈 →', 'balloons', ['balloons', 'candles', 'presents'], ''), ('😂 →', 'to laugh', ['to laugh', 'to dance', 'to bake'], ''), ('💌 →', 'to invite', ['to invite', 'to play', 'to clap'], '')],
-                 [('danced', 'danced', ['danced', 'dance', 'dancing']), ('wanted', 'wanted', ['wanted', 'want', 'wants']), ('cleaned', 'cleaned', ['cleaned', 'clean', 'cleans'])],
-                 [('There were ten', ['candles'], 'on the cake.'), ('Anna', ['baked'], 'a cake.'), ('The', ['guests'], 'arrived at seven.')],
-                 'Write the past simple: ➕ ➖ ❓', 'Прошедшее время: ➕ ➖ ❓', [('I', ['watched'], 'a film yesterday.', 'watch'), ('We', ["didn't cook", 'did not cook'], 'dinner.', '➖ cook'),
-                                                                             ('', ['Did'], 'she phone her mum?', '❓'), ('They', ['visited'], 'Moscow.', 'visit')],
-                 [('I playd tennis. →', ['I played tennis.']), ('She was cleaned her room. →', ['She cleaned her room.']), ('Did you liked it? →', ['Did you like it?'])],
-                 [(['visited', 'We', 'Grandma.'], 'We visited Grandma.'), (['Did', 'you', 'dance?'], 'Did you dance?')])
-    return flex({'id': LID, 'prefix': P, 'owner': OWNER, 'code': '2D', 'title': "Kate's Birthday", 'level': 'A1–A2', 'category': 'Parties', 'minutes': '60 min',
-                 'grammar': "Past simple: -ed · didn't · Did…? · /t/ /d/ /ɪd/ (Grammar Easy)", 'date': '2026-11-30',
-                 'gvp': {'g': "past simple regular verbs ➕ ➖ ❓", 'v': 'a birthday party', 'p': '-ed: /t/ /d/ /ɪd/'},
-                 'eyebrow': 'IRIS SCHOOL · Пелагея · урок 2D', 'tags': ['A1–A2', 'Parties', 'past simple -ed', '60 min'],
-                 'lead': 'Kate had a birthday party! A chant, party words, a picture story, Tom\'s phone call to Grandma and Kate\'s thank-you message — and how to talk about the past: '
-                         "<i>We danced. I didn't dance very well. Did you like it?</i>",
-                 'cards': cards, 'case': {'bad': [('She inviteed…', 'She invited…'), ("I didn't danced.", "I didn't dance."), ('Did you liked it?', 'Did you like it?')],
-                                          'ok': ['Kate invited six friends.', 'Everyone laughed.', 'Did you dance?']},
-                 'sections': sections, 'hw': hw})
+    return std({
+        'id': 'pelageya-8', 'prefix': 'pg8', 'owner': OWNER, 'code': '2D', 'title': "Kate's Birthday", 'level': 'A1–A2', 'category': 'Parties',
+        'minutes': '70 min', 'grammar': "Past simple: -ed verbs · didn't · Did…? · /t/ /d/ /ɪd/", 'date': '2026-11-30',
+        'gvp': {'g': "past simple regular verbs; negative didn't + verb; questions Did…?", 'v': 'a birthday party', 'p': '-ed: /t/ /d/ /ɪd/'},
+        'eyebrow': 'IRIS SCHOOL · Пелагея · урок 2D', 'tags': ['A1–A2', 'Picture story', 'Chant', 'past simple -ed'],
+        'lead': "Kate had a birthday party! A chant, party words, a picture story, Tom's phone call to Grandma and Kate's thank-you message — and how to talk about the past with -ed.",
+        'think': ('Remember your last birthday. Where were you? Who was there? What did you do?', 'Вспомните последний день рождения: где, кто был, что делали?',
+                  ['My birthday was in…', 'I was at… with…', 'We… (played / danced / cooked / watched)']),
+        'aims': ['understand a story about a party', 'use 10 party words', 'use past simple -ed verbs', "say didn't and ask Did…?"],
+        'listen': {'title': 'a phone call', 'task': "Tom phones Grandma after Kate's party. Listen once: did Tom like the party?", 'task_ru': 'Тому понравился праздник?',
+                   'head': 'Tom and Grandma', 'names': {'m': 'Tom', 'f2': 'Grandma'}, 'emoji': '📞',
+                   'lines': [('f2', "Hello, Tom! How was Kate's party?"), ('m', 'Hi, Grandma! It was great. We played games and danced a lot.'), ('f2', 'Did you dance too?'),
+                             ('m', "Yes, I did! But I didn't dance very well."), ('f2', 'Ha-ha! Did Kate like your present?'), ('m', 'Yes, she did. She loved the book.'),
+                             ('f2', 'Did Anna bake a cake?'), ('m', "Yes, a big chocolate cake. But I didn't eat it — I was too full!"), ('f2', 'What did you do after the games?'),
+                             ('m', 'We watched a funny film and laughed a lot. Then I walked home with Anna.'), ('f2', 'Did you take a photo for me?'), ('m', "Oh no, I didn't! Sorry, Grandma. Next time!")],
+                   'gist': ('Did Tom like the party?', ['Yes, it was great.', "No, he didn't.", 'He was ill.'], 0),
+                   'details': [('What did they do at the party?', ['played games and danced', 'went swimming', 'cooked dinner'], 0), ('Did Tom dance well?', ["No, he didn't.", 'Yes, very well.'], 0),
+                               ('What was his present for Kate?', ['a book', 'a cake', 'a dress'], 0), ("Why didn't Tom eat the cake?", ['He was too full.', "He doesn't like chocolate.", 'There was no cake.'], 0),
+                               ('Who did Tom walk home with?', ['Anna', 'Kate', 'Grandma'], 0)],
+                   'notes': [('They played games and', ['danced'], '.'), ('Kate loved the', ['book'], '.'), ('After the games they watched a funny', ['film'], '.'), ("Tom didn't take a", ['photo'], '.')]},
+        'vocab': {'title': 'a birthday party', 'theme': 'A birthday party', 'cards': [
+            ('a birthday', 'the day you were born', 'день рождения', "It was Kate's birthday.", '🎂'), ('a present', 'a gift', 'подарок', 'Kate opened her presents.', '🎁'),
+            ('a candle', 'it is on a birthday cake', 'свеча', 'There were ten candles on the cake.', '🕯️'), ('to invite', 'to ask someone to come', 'приглашать', 'Kate invited six friends.', '💌'),
+            ('to dance', 'to move to music', 'танцевать', 'We danced all evening.', '💃'), ('to bake', 'to cook a cake in the oven', 'печь', 'Anna baked a cake.', '🍰'),
+            ('balloons', 'colourful balls of air', 'воздушные шарики', 'Tom painted funny faces on the balloons.', '🎈'), ('to laugh', 'ha-ha-ha!', 'смеяться', 'Everyone laughed.', '😂'),
+            ('to clap', 'to hit your hands together', 'хлопать в ладоши', 'Everyone clapped.', '👏'), ('a guest', 'a person you invite', 'гость', 'The guests arrived at seven.', '🙋')],
+            'match': [('🕯️ →', 'a candle', ['a candle', 'a present', 'a balloon'], ''), ('🎁 →', 'a present', ['a present', 'a birthday', 'a cake'], ''), ('👏 →', 'to clap', ['to clap', 'to laugh', 'to dance'], ''),
+                      ('a person you invite →', 'a guest', ['a guest', 'a present', 'a candle'], ''), ('to cook a cake in the oven →', 'to bake', ['to bake', 'to invite', 'to clap'], '')],
+            'gaps': [('She blew out the', ['candles'], '.'), ('The', ['guests'], 'arrived at seven.'), ('Tom painted faces on the', ['balloons'], '.'), ('Kate', ['invited'], 'six friends.')]},
+        'notice': ("Look at Tom's sentences. How do we talk about the past? How do we say «no»? How do we ask?", 'Как говорить о прошлом? Как сказать «нет»? Как спросить?',
+                   ['We <mark>played</mark> games and <mark>danced</mark>.', "I <mark>didn't dance</mark> very well.", '<mark>Did</mark> Kate <mark>like</mark> your present? — Yes, she <mark>did</mark>.'],
+                   [('About the past we add…', ['-ed: played, danced', '-ing: playing', '-s: plays'], 0), ("After «didn't» the verb is…", ['without -ed: dance', 'with -ed: danced', 'with -ing'], 0),
+                    ('Questions start with…', ['Did', 'Do', 'Was'], 0)]),
+        'grammar': {'title': 'past simple -ed', 'head': "play → played · I didn't dance · Did you…?",
+                    'idea': 'О прошлом: к глаголу добавляем <b>-ed</b>. Одинаково для всех: I / she / they <b>played</b>. Если глагол на <b>-e</b> → только <b>-d</b> (dance → danced). '
+                            'Согласная + <b>y</b> → <b>-ied</b> (study → studied). «Не» → <b>didn\'t + глагол без -ed</b>. Вопрос → <b>Did + кто + глагол?</b>',
+                    'choose': [('Да (+)', 'V-ed: I danced.'), ('Нет (−)', "didn't + V: I didn't dance."), ('Вопрос (?)', 'Did you dance? — Yes, I did. / No, I didn\'t.')],
+                    'rows': [[('Kate', 'a'), ('invited', 'd'), ('six friends.', 'b')], [('I', 'a'), ("didn't", 'd'), ('dance', 'c'), ('well.', 'b')], [('Did', 'd'), ('you', 'a'), ('dance?', 'c')]],
+                    'note': 'dance → danced · study → studied · stop → stopped · Неправильные (go → went) — в следующем уроке!',
+                    'examples': [('💌', 'Kate invited six friends.'), ('🍰', 'Anna baked a cake.'), ('💃', "I didn't dance very well."), ('❓', 'Did Kate like your present?')],
+                    'traps': [('She inviteed…', 'She invited…', 'На -e → только -d.'), ('They was danced.', 'They danced.', 'Без was.'), ("I didn't danced.", "I didn't dance.", "После didn't — без -ed.")],
+                    'ex1': ('Write the past simple.', 'Напишите прошедшее время.', [
+                        ('Kate', ['invited'], 'her friends.', 'invite'), ('They', ['played'], 'games.', 'play'), ('Anna', ['baked'], 'a cake.', 'bake'), ('Everyone', ['laughed'], '.', 'laugh'),
+                        ('I', ["didn't watch", 'did not watch'], 'TV.', '➖ watch'), ('', ['Did'], 'you dance?', '❓')]),
+                    'ex2': ('Put the words in order.', 'Соберите предложения.', [(['invited', 'Kate', 'six friends.'], 'Kate invited six friends.'), (["didn't", 'I', 'dance', 'well.'], "I didn't dance well."),
+                                                                                (['Did', 'you', 'like', 'the cake?'], 'Did you like the cake?')])},
+        'part2': {'key': 'read', 'label': 'Reading', 'title': "Kate's thank-you message", 'task': "Read Kate's message. What did she like most?", 'task_ru': 'Что Кейт понравилось больше всего?',
+                  'head': 'Message from Kate 💬', 'small': 'a group chat · about 90 words', 'text': [
+                      'Hi everyone! Thank you for coming to my party on Saturday! 🎉',
+                      'Anna, your chocolate cake was amazing — we finished it in ten minutes! Tom, thank you for the book. I started it on Sunday and I loved it.',
+                      'I really enjoyed the games, and I laughed so much when Tom danced! 😂 But my favourite moment was when you all sang «Happy Birthday» and I blew out the candles.',
+                      "I didn't want the party to finish! See you soon. Love, Kate ❤️"],
+                  'tf': [('The party was on Saturday.', True), ('They finished the cake in an hour.', False), ('Kate started the book on Sunday.', True), ('Kate\'s favourite moment was the film.', False),
+                         ('Kate wanted the party to finish.', False)],
+                  'gaps': ('Find the verbs in the message.', 'Найдите глаголы в сообщении.', [('I', ['started'], 'it on Sunday.', 'start'), ('I really', ['enjoyed'], 'the games.', 'enjoy'), ('I', ['laughed'], 'so much.', 'laugh')])},
+        'extra': [('chant', 'Chant', 'the -ed chant', '5 min', lambda ids:
+                   rubric('a', 'Press 🔊 and say the chant with a rhythm! Clap on every verb.', 'Нажмите 🔊 и повторяйте в ритме, хлопайте на каждом глаголе.')
+                   + say_list([('I played, I danced, I laughed all day!', 'I <u>PLAYED</u>, I <u>DANCED</u>, I <u>LAUGHED</u> all <u>DAY</u>!'), ('She baked, she painted, she wanted to stay!', 'she <u>BAKED</u>, she <u>PAINT</u>ed, she <u>WANT</u>ed to <u>STAY</u>!')]), 'start'),
+                  ('pictures', 'Picture story', "Kate's party", '8 min', lambda ids:
+                   rubric('a', "Look at the pictures. Listen to the story, then choose the answers.", 'Посмотрите на картинки, послушайте историю и ответьте.')
+                   + timeline([('💌', 'Kate invited six friends'), ('🍰🎈', 'Anna baked a cake, Tom painted balloons'), ('🎲💃', 'they played games and danced'), ('🎁🕯️', 'Kate opened presents, blew out the candles')])
+                   + listening(ids.p + '-lis', story, "Kate's birthday", 'Listen twice', '🎂', {'f': 'Anna'})
+                   + ex_select(ids, [('How many friends did Kate invite? →', 'six', ['six', 'four', 'ten'], ''), ('What did Anna bake? →', 'a chocolate cake', ['a chocolate cake', 'bread', 'cookies'], ''),
+                                     ('When did the guests arrive? →', "at seven o'clock", ["at seven o'clock", 'at five', 'at nine'], '')]), 'start')],
+        'mix': {'title': "Tom's diary", 'task': "Tom's diary has mistakes. Correct them.", 'task_ru': 'В дневнике Тома ошибки. Исправьте.',
+                'items': [('I playd tennis. →', ['I played tennis.']), ('She was cleaned her room. →', ['She cleaned her room.']), ("We didn't watched TV. →", ["We didn't watch TV.", 'We did not watch TV.']),
+                          ('Did you visited Kate? →', ['Did you visit Kate?'])]},
+        'auction': [('Kate invited six friends.', True, ''), ('Anna bakeed a cake.', False, 'Anna baked a cake.'), ("I didn't dance well.", True, ''), ('They was danced all evening.', False, 'They danced all evening.'),
+                    ('Did you like the cake?', True, ''), ("We didn't played games.", False, "We didn't play games."), ('Everyone laughed and clapped.', True, ''), ('Did she opened the present?', False, 'Did she open the present?')],
+        'pron': {'title': '/t/ /d/ /ɪd/', 'task': '-ed has three sounds! Press 🔊 and choose the sound.', 'task_ru': 'У -ed три звука. Нажмите 🔊 и выберите.',
+                 'list': [('danced /t/ · laughed /t/', 'after p, k, s, sh, ch, f → /t/'), ('played /d/ · cleaned /d/', 'other sounds → /d/'), ('painted /ɪd/ · invited /ɪd/', 'after t, d → /ɪd/')],
+                 'pick': [('danced', '/t/', ['/t/', '/d/', '/ɪd/']), ('played', '/d/', ['/t/', '/d/', '/ɪd/']), ('painted', '/ɪd/', ['/t/', '/d/', '/ɪd/']), ('laughed', '/t/', ['/t/', '/d/', '/ɪd/']),
+                          ('invited', '/ɪd/', ['/t/', '/d/', '/ɪd/'])]},
+        'speaking': {'title': 'your party', 'questions': ['When is your birthday?', 'Did you have a party last year?', 'Who did you invite?', 'Did you dance?', 'What presents did you get?', 'What is the best birthday present?'],
+                     'phrases': ['My birthday is in…', 'Yes, I did. / No, I didn\'t.', 'I invited…', 'We played / danced / watched…'],
+                     'task': ('Tell your teacher about your last birthday.', 'Расскажите о последнем дне рождения.')},
+        'task': {'task': 'Tell your teacher about your last birthday (or a party you remember). Then answer her questions: «Did you…?»', 'task_ru': 'Расскажите о последнем дне рождения и ответьте на вопросы Did you…?',
+                 'plan': ['When / where: …', 'I invited…', 'We… (play / dance / watch / cook)', "I didn't…", 'It was… (great / funny / nice)'],
+                 'report': ['On my birthday I…', 'We played… and danced…', "I didn't…", 'Yes, I did! / No, I didn\'t.']},
+        'writing': {'title': 'a thank-you message', 'task': 'Write a thank-you message to a friend after a party (4–5 sentences) with -ed verbs.', 'task_ru': 'Сообщение-благодарность другу после праздника.',
+                    'example': "Hi Anna! Thank you for the party. I loved your cake! We played great games and danced a lot. I didn't want to go home! See you soon.",
+                    'placeholders': ['Hi…! Thank you for…', 'I loved / liked…', 'We played / danced / watched…', "I didn't…", 'See you…!']},
+        'cans': [('I can understand a story about a party', 'понять рассказ о празднике'), ('I can use 10 party words', 'использовать 10 слов по теме'),
+                 ('I can use past simple -ed', 'использовать past simple -ed'), ("I can say didn't and ask Did…?", "сказать didn't и спросить Did…?")],
+        'hw': {'words_select': [('🎈 →', 'balloons', ['balloons', 'candles', 'presents'], ''), ('😂 →', 'to laugh', ['to laugh', 'to dance', 'to bake'], ''), ('💌 →', 'to invite', ['to invite', 'to play', 'to paint'], '')],
+               'listen': [('danced', 'danced', ['danced', 'dance', 'dancing']), ('wanted', 'wanted', ['wanted', 'want', 'wants']), ('cleaned', 'cleaned', ['cleaned', 'clean', 'cleans'])],
+               'words_gaps': [('She blew out the', ['candles'], '.'), ('Anna', ['baked'], 'a cake.'), ('Tom wrapped a', ['present'], '.')],
+               'gaps': ('Write the past simple.', 'Напишите прошедшее время.', [('I', ['watched'], 'a film yesterday.', 'watch'), ('We', ['cooked'], 'dinner.', 'cook'), ('She', ['phoned'], 'her mum.', 'phone'),
+                                                                               ('They', ["didn't visit", 'did not visit'], 'Moscow.', '➖ visit'), ('', ['Did'], 'you like the film?', '❓')]),
+               'fix': [('I playd tennis. →', ['I played tennis.']), ('She was cleaned her room. →', ['She cleaned her room.']), ("I didn't danced. →", ["I didn't dance.", 'I did not dance.'])],
+               'order': [(['baked', 'Anna', 'a big cake.'], 'Anna baked a big cake.'), (['Did', 'you', 'dance?'], 'Did you dance?')]},
+        'case': {'bad': [('She inviteed…', 'She invited…'), ('They was danced.', 'They danced.'), ("I didn't danced.", "I didn't dance.")],
+                 'ok': ['Kate invited six friends.', 'Everyone laughed.', "I didn't dance well.", 'Did you like the cake?']},
+        'draft': True,
+    })
 
 
 def grandma():
-    P, LID = 'pg9', 'pelageya-9'
-    ids = Ids(P)
-    cards = [('a village', 'a very small town in the country', 'деревня', 'Grandma lives in a village.', '🏡'), ('a sledge', 'you sit on it and go down a snowy hill', 'санки', 'We went down the hill on a sledge.', '🛷'),
-             ('a snowman', '', 'снеговик', 'We made a big snowman.', '⛄'), ('a stove', 'a big oven to heat a house', 'печка', 'The stove was warm.', '🔥'),
-             ('pancakes', '', 'блины', 'Grandma made pancakes.', '🥞'), ('a forest', 'a lot of trees', 'лес', 'We went for a walk in the forest.', '🌲'),
-             ('a hill', 'a small mountain', 'холм, горка', 'a big snowy hill', '⛰️'), ('jam', 'sweet fruit for bread', 'варенье', 'pancakes with jam', '🍓'),
-             ('a train', '', 'поезд', 'We took the train.', '🚆'), ('to get up', 'to leave your bed', 'вставать', 'I got up at eight.', '⏰')]
-    story = [('f', 'Hi Tom! Last weekend I went to my grandma\'s village with Kate.'), ('m', 'How did you get there?'), ('f', 'We took the train on Saturday morning. It was very snowy!'),
+    story = [('f', "Hi Tom! Last weekend I went to my grandma's village with Kate."), ('m', 'How did you get there?'), ('f', 'We took the train on Saturday morning. It was very snowy!'),
              ('m', 'What did you do?'), ('f', 'We went down a big hill on a sledge and made a funny snowman. Then we had dinner by the warm stove.'),
              ('m', 'What did you eat?'), ('f', 'Grandma made pancakes. We ate them with jam and drank hot tea.'), ('m', 'Did you see any animals?'),
              ('f', 'Yes! On Sunday we went for a walk in the forest and saw a fox!'), ('m', 'Wow! When did you come back?'), ('f', 'On Sunday evening. I was tired, but very happy.')]
-    letter = ['Dear Anna and Kate,', 'Thank you for your visit. The house is very quiet now! The cat sat on your bed all Monday — she misses you.',
-              'Yesterday I saw your snowman again. It is still in the garden, but now it has got only one eye!', 'I made more jam for you. Come again soon! Love, Grandma']
-    sections = [
-        ('lead', 'Lead-in', "Grandma's village", '6 min',
-         route([('🏡', 'the village'), ('⛄', 'winter words'), ('🎧', "Anna's weekend"), ('📘', 'went · saw · ate'), ('🧠', 'memory game'), ('💌', "Grandma's letter"), ('🗣️', 'your weekend')])
-         + rubric('a', 'Look and remember: what can you do in a village in winter? Choose ✅ or ❌.', 'Что можно делать в деревне зимой?')
-         + opinion(ids, ['go down a hill on a sledge', 'make a snowman', 'swim in the river', 'eat pancakes by the stove', 'walk in the forest', 'go to the cinema'], ['✅', '❌'])),
-        ('words', 'Vocabulary', 'winter in the village', '8 min',
-         vocab_section(ids, '2E', 'A winter weekend', cards,
-                       [('🛷 →', 'a sledge', ['a sledge', 'a train', 'a stove'], ''), ('a lot of trees →', 'a forest', ['a forest', 'a hill', 'a village'], ''),
-                        ('a very small town in the country →', 'a village', ['a village', 'a forest', 'a city'], ''), ('🥞 →', 'pancakes', ['pancakes', 'jam', 'bread'], '')],
-                       [('We made a big', ['snowman'], '.'), ('Pancakes with', ['jam'], ', please!'), ('The', ['stove'], 'was warm.')])),
-        ('listen', 'Listening', "Anna's weekend", '10 min',
-         rubric('a', 'Anna tells Tom about her weekend. Did she like it?', 'Анне понравились выходные?')
-         + listening(P + '-lis', story, 'Anna and Tom', 'Listen twice', '❄️', {'f': 'Anna', 'm': 'Tom'})
-         + mc(P + '-g', 'Did Anna like the weekend?', ['Yes, she was very happy.', "No, she didn't."], 0)
-         + rubric('b', 'Listen again. Answer the cards.', 'Послушайте ещё раз.')
-         + deck('Details', [mc(P + '-q1', 'How did they get to the village?', ['by train', 'by car', 'by bus'], 0), mc(P + '-q2', 'What did they make?', ['a snowman', 'a cake', 'a house'], 0),
-                            mc(P + '-q3', 'What did Grandma make?', ['pancakes', 'soup', 'pizza'], 0), mc(P + '-q4', 'What animal did they see?', ['a fox', 'a bear', 'a wolf'], 0)])),
-        ('grammar', 'Grammar', 'went · saw · ate — Grammar Easy', '12 min',
-         rubric('a', 'Read the steps. Press 🔊 and repeat.', 'Прочитайте шаги, слушайте и повторяйте.')
-         + easy('go → went · see → saw · eat → ate',
-                'Многие частые глаголы в прошлом <b>не берут -ed</b> — у них своя форма, её нужно запомнить: go → <b>went</b>, have → <b>had</b>, see → <b>saw</b>, eat → <b>ate</b>, make → <b>made</b>. '
-                'А в отрицании и вопросе — снова обычная форма с <b>did</b>: I <b>didn\'t go</b>. <b>Did</b> you <b>see</b>…?',
-                [[('We', 'a'), ('went', 'd'), ('to the village.', 'b')], [('We', 'a'), ('saw', 'd'), ('a fox!', 'b')], [('Did', 'd'), ('you', 'a'), ('see', 'c'), ('a fox?', 'b')]],
-                [('🚆', 'We took the train.'), ('⛄', 'We made a funny snowman.'), ('🥞', 'We ate pancakes with jam.'), ('🦊', 'We saw a fox!')],
-                [('We goed to the village.', 'We went to the village.', 'go → went.'), ('Did you saw a fox?', 'Did you see a fox?', 'После did — обычная форма.'), ('We eated pancakes.', 'We ate pancakes.', 'eat → ate.')],
-                note='go → went · have → had · see → saw · eat → ate · make → made · take → took · drink → drank · come → came · get up → got up',
-                choose=[('➕ Утверждение', 'особая форма: went, saw, ate'), ('➖ Отрицание', "didn't + go / see / eat"), ('❓ Вопрос', 'Did you + go / see / eat?')])
-         + rubric('b', 'Write the past simple.', 'Напишите прошедшее время.')
-         + ex_gaps(ids, [('We', ['went'], 'to the village.', 'go'), ('Grandma', ['made'], 'pancakes.', 'make'), ('We', ['ate'], 'them with jam.', 'eat'), ('We', ['drank'], 'hot tea.', 'drink'),
-                         ('I', ['got'], 'up at eight.', 'get up'), ('We', ['saw'], 'a fox in the forest.', 'see')])),
-        ('memory', 'Game', 'memory game', '6 min',
-         rubric('a', 'Memory game! Find the past form. Try to do it without looking at the steps.', 'Игра на память: найдите форму прошедшего времени.')
-         + ex_select(ids, [('go →', 'went', ['went', 'goed', 'gone'], ''), ('have →', 'had', ['had', 'haved', 'has'], ''), ('see →', 'saw', ['saw', 'seed', 'seen'], ''), ('take →', 'took', ['took', 'taked', 'take'], ''),
-                           ('come →', 'came', ['came', 'comed', 'come'], ''), ('drink →', 'drank', ['drank', 'drinked', 'drunk'], '')])),
-        ('read', 'Reading', "Grandma's letter", '7 min',
-         rubric('a', "Read Grandma's letter after the visit.", 'Прочитайте письмо бабушки.')
-         + reading("Grandma's letter", 'a letter · about 70 words', letter)
-         + deck('True or false?', [mc('%s-tf%d' % (P, i + 1), q, ['True', 'False'], 0 if ok else 1) for i, (q, ok) in enumerate([
-             ('The cat sat on the bed on Monday.', True), ('The snowman has got two eyes now.', False), ('Grandma made more jam.', True)])])
-         + rubric('b', 'Find the past forms in the letter.', 'Найдите формы прошедшего времени.')
-         + ex_gaps(ids, [('The cat', ['sat'], 'on your bed.', 'sit'), ('Yesterday I', ['saw'], 'your snowman.', 'see'), ('I', ['made'], 'more jam for you.', 'make')])),
-        ('wh', 'Grammar', 'Where did you go?', '7 min',
-         rubric('a', 'Questions about the weekend: Where / What / When did…? Complete.', 'Вопросы: Where / What / When did…?')
-         + ex_gaps(ids, [('Where', ['did'], 'Anna go?', ''), ('What did they', ['eat'], '?', 'eat'), ('When did they come', ['back'], '?', ''), ('What did they', ['see'], 'in the forest?', 'see')])
-         + ex_order(ids, [(['did', 'Where', 'you', 'go?'], 'Where did you go?'), (['did', 'What', 'you', 'eat?'], 'What did you eat?')])),
-        ('pron', 'Pronunciation', 'went · saw · ate', '4 min',
-         rubric('a', 'Press 🔊 and repeat. Be careful: <i>went</i> is not <i>want</i>!', 'Нажмите 🔊 и повторите. went — не want!')
-         + say_list([('We went to the village.', 'we <u>WENT</u> to the <u>VIL</u>lage.'), ('We saw a fox.', 'we <u>SAW</u> a <u>FOX</u>.'), ('We ate pancakes.', 'we <u>ATE</u> <u>PAN</u>cakes.')])
-         + ex_listen_pick(ids, [('went', 'went', ['went', 'want']), ('saw', 'saw', ['saw', 'so'])])),
-        ('speak', 'Speaking', 'your weekend', '8 min',
-         rubric('a', 'Answer your teacher about last weekend. Then ask her the same questions!', 'Ответьте о прошлых выходных, потом спросите преподавателя.')
-         + picker(['Where did you go last weekend?', 'What did you eat?', 'What did you see?', 'Did you go for a walk?', 'What time did you get up on Sunday?', 'Did you make anything?'])
-         + phrases(['I went to…', 'I had / ate…', 'I saw…', 'I got up at…', "I didn't…"])),
-        ('write', 'Writing', 'a postcard', '6 min',
-         rubric('a', 'Write a postcard to Grandma about a weekend (yours or invented) — 4 sentences.', 'Открытка бабушке о выходных: 4 предложения.')
-         + lines(ids, ['Dear Grandma, last weekend I went…', 'I saw…', 'I ate / drank…', 'Love, …']) + send_box()),
-        ('check', 'Feedback', 'Can you…?', '3 min',
-         selfcheck(ids, [('I can understand a story about a weekend', 'понять рассказ о выходных'), ('I can use went, had, saw, ate, made', 'использовать went, had, saw, ate, made'),
-                         ('I can ask <i>Where did you go?</i>', 'спросить Where did you go?')])),
-    ]
-    hw = hw_pair(ids, [('⛄ →', 'a snowman', ['a snowman', 'a sledge', 'a hill'], ''), ('a big oven to heat a house →', 'a stove', ['a stove', 'a train', 'a forest'], ''), ('to leave your bed →', 'to get up', ['to get up', 'to go', 'to make'], '')],
-                 [('went', 'went', ['went', 'want', 'wind']), ('saw', 'saw', ['saw', 'so', 'sore']), ('ate', 'ate', ['ate', 'eight o\'clock', 'eat'])],
-                 [('We went down the hill on a', ['sledge'], '.'), ('We went for a walk in the', ['forest'], '.'), ('Grandma lives in a', ['village'], '.')],
-                 'Write the past simple.', 'Напишите прошедшее время.', [('I', ['went'], 'to the shop.', 'go'), ('She', ['had'], 'breakfast at nine.', 'have'), ('We', ["didn't see", 'did not see'], 'the film.', '➖ see'),
-                                                                        ('Where', ['did'], 'you go?', ''), ('They', ['came'], 'home late.', 'come')],
-                 [('We goed to Grandma. →', ['We went to Grandma.', "We went to Grandma's."]), ('Did you saw it? →', ['Did you see it?']), ('I eated pancakes. →', ['I ate pancakes.'])],
-                 [(['went', 'We', 'to the forest.'], 'We went to the forest.'), (['did', 'What', 'you', 'see?'], 'What did you see?')])
-    return flex({'id': LID, 'prefix': P, 'owner': OWNER, 'code': '2E', 'title': "A Weekend at Grandma's", 'level': 'A1–A2', 'category': 'Winter & weekends', 'minutes': '60 min',
-                 'grammar': 'Past simple: went, had, saw, ate · Where did you go? (Grammar Easy)', 'date': '2026-12-07',
-                 'gvp': {'g': 'past simple irregular verbs; Where / What did you…?', 'v': 'a winter weekend in the village', 'p': 'went vs want'},
-                 'eyebrow': 'IRIS SCHOOL · Пелагея · урок 2E', 'tags': ['A1–A2', 'Winter', 'went · saw · ate', '60 min'],
-                 'lead': "Anna and Kate spent a snowy weekend at Grandma's: a sledge, a snowman, pancakes by the stove and a fox in the forest! "
-                         "Learn the most useful irregular verbs: <i>We went… We saw… We ate…</i>",
-                 'cards': cards, 'case': {'bad': [('We goed there.', 'We went there.'), ('Did you saw it?', 'Did you see it?'), ('We eated pancakes.', 'We ate pancakes.')],
-                                          'ok': ['We went to the village.', 'We saw a fox!', 'Grandma made pancakes.', 'Where did you go?']},
-                 'sections': sections, 'hw': hw})
+    return std({
+        'id': 'pelageya-9', 'prefix': 'pg9', 'owner': OWNER, 'code': '2E', 'title': "A Weekend at Grandma's", 'level': 'A1–A2', 'category': 'Weekends & family',
+        'minutes': '70 min', 'grammar': 'Past simple: irregular verbs (went, had, saw, ate, made) · Where / What / When did you…?', 'date': '2026-12-07',
+        'gvp': {'g': 'past simple irregular verbs; wh-questions with did', 'v': 'a winter weekend in the village', 'p': 'went /went/ · saw /sɔː/ · ate /eɪt/'},
+        'eyebrow': 'IRIS SCHOOL · Пелагея · урок 2E', 'tags': ['A1–A2', 'Weekend', 'Village', 'went · saw · ate'],
+        'lead': "Anna spent a snowy weekend at her grandma's village: a sledge, a snowman, pancakes — and a fox! Learn the most important irregular verbs and ask «Where did you go? What did you do?»",
+        'think': ('What did you do last weekend? Write three things.', 'Что вы делали в прошлые выходные? Три вещи.', ['On Saturday I…', 'On Sunday I…', 'It was…']),
+        'aims': ['understand a story about a weekend', 'use 10 words about the village and winter', 'use went, had, saw, ate, made', 'ask Where / What / When did you…?'],
+        'listen': {'title': 'Anna and Tom', 'task': 'Anna tells Tom about her weekend. Listen once: was it a good weekend?', 'task_ru': 'Выходные были хорошие?',
+                   'head': "Anna's weekend", 'names': {'f': 'Anna', 'm': 'Tom'}, 'emoji': '❄️', 'lines': story,
+                   'gist': ('Was it a good weekend?', ['Yes — she was tired but happy.', 'No, it was boring.', 'She stayed at home.'], 0),
+                   'details': [('How did they get there?', ['by train', 'by car', 'by bus'], 0), ('What was the weather like?', ['very snowy', 'sunny and hot', 'rainy'], 0),
+                               ('What did they make?', ['a snowman', 'a cake', 'a house'], 0), ('What did Grandma make?', ['pancakes', 'soup', 'pizza'], 0), ('What animal did they see?', ['a fox', 'a bear', 'a rabbit'], 0)],
+                   'notes': [('They took the', ['train'], 'on Saturday morning.'), ('They went down a hill on a', ['sledge'], '.'), ('They ate pancakes with', ['jam'], '.'), ('They came back on Sunday', ['evening'], '.')]},
+        'vocab': {'title': 'a winter weekend', 'theme': 'A winter weekend in the village', 'cards': [
+            ('a village', 'a very small town in the country', 'деревня', "my grandma's village", '🏡'), ('a sledge', 'you sit on it and go down a snowy hill', 'санки', 'We went down the hill on a sledge.', '🛷'),
+            ('a snowman', 'a man made of snow', 'снеговик', 'We made a funny snowman.', '⛄'), ('a stove', 'a big warm oven in a village house', 'печка', 'We had dinner by the warm stove.', '🔥'),
+            ('pancakes', 'thin round cakes', 'блины', 'Grandma made pancakes.', '🥞'), ('jam', 'sweet fruit food', 'варенье', 'pancakes with jam', '🍓'),
+            ('a fox', 'an orange wild animal', 'лиса', 'We saw a fox!', '🦊'), ('a forest', 'a lot of trees', 'лес', 'We went for a walk in the forest.', '🌲'),
+            ('snowy', 'with a lot of snow', 'снежный', 'It was very snowy!', '❄️'), ('tired', 'you want to sleep', 'уставший', 'I was tired, but happy.', '😴')],
+            'match': [('⛄ →', 'a snowman', ['a snowman', 'a sledge', 'a fox'], ''), ('🛷 →', 'a sledge', ['a sledge', 'a stove', 'a forest'], ''), ('🦊 →', 'a fox', ['a fox', 'a dog', 'a bear'], ''),
+                      ('a lot of trees →', 'a forest', ['a forest', 'a village', 'a hill'], ''), ('you want to sleep →', 'tired', ['tired', 'snowy', 'happy'], '')],
+            'gaps': [('We made a funny', ['snowman'], '.'), ('Grandma made', ['pancakes'], '.'), ('We saw a', ['fox'], 'in the forest!'), ('It was very', ['snowy'], '.')]},
+        'notice': ("Look at Anna's sentences. Do these verbs have -ed?", 'У этих глаголов есть -ed?',
+                   ['We <mark>went</mark> down a big hill.', 'We <mark>made</mark> a snowman and <mark>had</mark> dinner.', 'We <mark>ate</mark> pancakes and <mark>saw</mark> a fox!', 'What <mark>did</mark> you <mark>eat</mark>?'],
+                   [('go → went, eat → ate, see → saw are…', ['irregular verbs — no -ed', 'regular verbs with -ed', 'present verbs'], 0), ('In questions we use…', ['did + the normal verb: What did you eat?', 'What you ate?', 'What did you ate?'], 0),
+                    ('«I didn\'t go» — after didn\'t the verb is…', ['go (normal)', 'went', 'goed'], 0)]),
+        'grammar': {'title': 'irregular verbs', 'head': 'go → went · see → saw · eat → ate',
+                    'idea': 'Некоторые глаголы в прошлом <b>не берут -ed</b> — их нужно запомнить: go → <b>went</b>, have → <b>had</b>, see → <b>saw</b>, eat → <b>ate</b>, make → <b>made</b>, take → <b>took</b>, drink → <b>drank</b>, come → <b>came</b>. '
+                            'Вопрос и «не» — как обычно: <b>did</b> + обычный глагол: Where <b>did</b> you <b>go</b>? I <b>didn\'t see</b> it.',
+                    'choose': [('Да (+)', 'went / saw / ate: We went to the village.'), ('Нет (−)', "didn't + go / see / eat"), ('Вопрос', 'Where / What / When did you + go / do / eat?')],
+                    'rows': [[('We', 'a'), ('went', 'd'), ('to the village.', 'b')], [('What', 'c'), ('did', 'd'), ('you', 'a'), ('eat?', 'c')], [('We', 'a'), ("didn't", 'd'), ('see', 'c'), ('a bear.', 'b')]],
+                    'note': 'go-went · have-had · see-saw · eat-ate · make-made · take-took · drink-drank · come-came · get-got · buy-bought',
+                    'examples': [('🚆', 'We took the train.'), ('⛄', 'We made a funny snowman.'), ('🥞', 'We ate pancakes with jam.'), ('🦊', 'We saw a fox!')],
+                    'traps': [('We goed to the village.', 'We went to the village.', 'go → went.'), ('What did you ate?', 'What did you eat?', 'После did — обычный глагол.'), ("We didn't saw a bear.", "We didn't see a bear.", "После didn't — обычный глагол.")],
+                    'ex1': ('Write the past simple.', 'Напишите прошедшее время.', [
+                        ('We', ['went'], 'to the village.', 'go'), ('They', ['made'], 'a snowman.', 'make'), ('Grandma', ['made'], 'pancakes.', 'make'), ('We', ['saw'], 'a fox.', 'see'),
+                        ('I', ['drank'], 'hot tea.', 'drink'), ('Where', ['did'], 'you go?', '')]),
+                    'ex2': ('Put the words in order.', 'Соберите предложения.', [(['went', 'We', 'to the village.'], 'We went to the village.'), (['did', 'What', 'you', 'eat?'], 'What did you eat?'),
+                                                                                (['saw', 'We', 'a fox!'], 'We saw a fox!')])},
+        'part2': {'key': 'read', 'label': 'Reading', 'title': "Grandma's letter", 'task': "Read Grandma's letter. What did Grandma do after the children left?", 'task_ru': 'Что делала бабушка, когда дети уехали?',
+                  'head': 'A letter from Grandma ✉️', 'small': 'a short letter · about 100 words', 'text': [
+                      'Dear Anna and Kate, thank you for coming last weekend! The house was so quiet after you left.',
+                      'On Monday I went to the shop and bought more jam — you ate all of it! Then I saw your snowman from the window. He is still in the garden, but now he has my old hat. 😄',
+                      'On Tuesday the fox came back. It sat near the forest for ten minutes and looked at the house. Maybe it wanted some pancakes too!',
+                      'Come again for the New Year. Love, Grandma'],
+                  'tf': [('The house was quiet after the girls left.', True), ('Grandma went to the shop on Monday.', True), ('The snowman is not in the garden now.', False),
+                         ('The fox came back on Tuesday.', True), ('Grandma invited the girls for Easter.', False)],
+                  'gaps': ('Find the verbs in the letter.', 'Найдите глаголы в письме.', [('I', ['went'], 'to the shop.', 'go'), ('I', ['bought'], 'more jam.', 'buy'), ('you', ['ate'], 'all of it!', 'eat')])},
+        'extra': [('memory', 'Memory game', 'verb memory', '6 min', lambda ids:
+                   rubric('a', 'Memory game! Say the past form as fast as you can — then write it.', 'Назовите прошедшую форму как можно быстрее — потом напишите.')
+                   + escape(ids, [('🚶', 'go', '→', ['went']), ('🍽️', 'eat', '→', ['ate']), ('👀', 'see', '→', ['saw']), ('🛠️', 'make', '→', ['made']), ('☕', 'drink', '→', ['drank']), ('🚆', 'take', '→', ['took'])]), 'start')],
+        'mix': {'title': "Anna's diary", 'task': "Anna's diary has mistakes. Correct them.", 'task_ru': 'В дневнике Анны ошибки. Исправьте.',
+                'items': [('We goed to the park. →', ['We went to the park.']), ('Did you saw the fox? →', ['Did you see the fox?']), ('I eated a pancake. →', ['I ate a pancake.']),
+                          ("She didn't came. →", ["She didn't come.", 'She did not come.'])]},
+        'auction': [('We went to the village.', True, ''), ('We maked a snowman.', False, 'We made a snowman.'), ('What did you eat?', True, ''), ('We seed a fox!', False, 'We saw a fox!'),
+                    ('Grandma made pancakes.', True, ''), ('Where did you went?', False, 'Where did you go?'), ('We took the train.', True, ''), ("I didn't drank tea.", False, "I didn't drink tea.")],
+        'pron': {'title': 'went · saw · ate', 'task': 'Press 🔊 and repeat the verbs. Then say the sentences.', 'task_ru': 'Повторяйте глаголы и предложения.',
+                 'list': [('go – went', '/ɡəʊ/ – /went/'), ('see – saw', '/siː/ – /sɔː/'), ('eat – ate', '/iːt/ – /eɪt/'), ('We saw a fox!', 'we <u>SAW</u> a <u>FOX</u>!')],
+                 'pick': [('went', 'went', ['went', 'want', 'when']), ('saw', 'saw', ['saw', 'so', 'sow']), ('ate', 'ate', ['ate', 'eight', 'eat'])]},
+        'speaking': {'title': 'your weekend', 'questions': ['Where did you go last weekend?', 'What did you eat?', 'Did you see your family?', 'What did you do on Sunday?', 'Do you like winter? Why?', 'Did you make a snowman as a child?'],
+                     'phrases': ['I went to…', 'I had / ate…', 'I saw…', "I didn't…", 'It was…'],
+                     'task': ('Tell your teacher about your best weekend.', 'Расскажите о лучших выходных.')},
+        'task': {'task': 'Tell your teacher about your best winter weekend (or your last weekend). Then ask her three questions: Where did you go? What did you do? What did you eat?',
+                 'task_ru': 'Расскажите о лучших зимних (или прошлых) выходных и задайте преподавателю три вопроса.',
+                 'plan': ['Where: I went to…', 'I saw…', 'I ate / drank…', 'I made / had…', 'My question: Where / What did you…?'],
+                 'report': ['Last weekend I went to…', 'I saw…', 'We ate…', 'It was…', 'Where did you go?']},
+        'writing': {'title': 'my weekend', 'task': 'Write about your last weekend (5 sentences). Use at least four irregular verbs.', 'task_ru': 'О прошлых выходных: пять предложений, минимум четыре неправильных глагола.',
+                    'example': 'On Saturday I went to the park with my sister. We saw a lot of snow! Then we had hot chocolate in a café. On Sunday I made pancakes and ate them with jam. It was a great weekend.',
+                    'placeholders': ['On Saturday I went…', 'We saw…', 'Then we had…', 'On Sunday I made / ate…', 'It was…']},
+        'cans': [('I can understand a story about a weekend', 'понять рассказ о выходных'), ('I can use 10 words about the village and winter', 'использовать 10 слов по теме'),
+                 ('I can use went, had, saw, ate, made', 'использовать went, had, saw, ate, made'), ('I can ask Where / What did you…?', 'спросить Where / What did you…?')],
+        'hw': {'words_select': [('🏡 →', 'a village', ['a village', 'a forest', 'a city'], ''), ('🔥 →', 'a stove', ['a stove', 'a sledge', 'a snowman'], ''), ('🍓 →', 'jam', ['jam', 'pancakes', 'tea'], '')],
+               'listen': [('went', 'went', ['went', 'want', 'wind']), ('saw', 'saw', ['saw', 'so', 'sew']), ('ate', 'ate', ['ate', 'eight', 'eat'])],
+               'words_gaps': [('We went down the hill on a', ['sledge'], '.'), ('a walk in the', ['forest'], ''), ('I was', ['tired'], ', but happy.')],
+               'gaps': ('Write the past simple.', 'Напишите прошедшее время.', [('We', ['went'], 'to the sea.', 'go'), ('I', ['had'], 'a big breakfast.', 'have'), ('She', ['saw'], 'a film.', 'see'), ('They', ['ate'], 'pizza.', 'eat'),
+                                                                               ('What', ['did'], 'you do?', '')]),
+               'fix': [('We goed to the park. →', ['We went to the park.']), ('Did you saw the film? →', ['Did you see the film?']), ('I eated a pizza. →', ['I ate a pizza.'])],
+               'order': [(['made', 'We', 'a snowman.'], 'We made a snowman.'), (['did', 'Where', 'you', 'go?'], 'Where did you go?')]},
+        'case': {'bad': [('We goed…', 'We went…'), ('What did you ate?', 'What did you eat?'), ("We didn't saw…", "We didn't see…")],
+                 'ok': ['We went to the village.', 'We made a snowman.', 'We saw a fox!', 'What did you eat?']},
+        'draft': True,
+    })
 
 
 def build():

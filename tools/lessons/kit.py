@@ -1,6 +1,6 @@
 """Конструктор уроков: те же блоки и та же разметка, что у уроков платформы.
 Урок = запись для списка уроков (DATA) + панель HTML. Всё текстовое экранируется здесь."""
-import html, json, os, datetime
+import html, json, os, re, datetime, random
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 IMG = os.path.join(ROOT, 'platform', 'img')
@@ -84,8 +84,11 @@ def listening(lid, lines, title, small='Listen twice · Use 🐢 if it\'s fast �
 
 
 def mc(mid, q, opts, ok=0):
+    order = list(range(len(opts)))
+    if set(opts) not in KEEP_ORDER:  # правильный ответ не всегда первым (перемешано одинаково при каждой сборке)
+        random.Random('iris-mc:' + mid).shuffle(order)
     return '<div class="mc" id="%s"><p class="q">%s</p><div class="opts">%s</div></div>' % (
-        mid, q, ''.join('<button class="opt"%s>%s</button>' % (' data-ok' if i == ok else '', e(o)) for i, o in enumerate(opts)))
+        mid, q, ''.join('<button class="opt"%s>%s</button>' % (' data-ok' if i == ok else '', e(opts[i])) for i in order))
 
 
 def deck(title, mcs):
@@ -98,7 +101,12 @@ def _ex(items):
             % ''.join('            <li>%s</li>\n' % x for x in items))
 
 
+KEEP_ORDER = ({'True', 'False'}, {'Yes', 'No'}, {'True', 'False', 'Not given'}, {'Right', 'Wrong'})
+
+
 def select(fid, answer, options):
+    if set(options) not in KEEP_ORDER:  # правильный вариант не всегда первым: перемешано, одинаково при каждой сборке
+        options = random.Random('iris-select:' + fid).sample(list(options), len(options))
     return '<select class="gap" id="%s" data-a="%s"><option value="">…</option>%s</select>' % (fid, e(answer), ''.join('<option>%s</option>' % e(o) for o in options))
 
 
@@ -227,6 +235,8 @@ def lesson(meta, owner_meta, sections_html, eyebrow, lead, tags, quote=None):
     """meta — поля DATA; sections_html: [(id, label, html)]"""
     d = dict(owner_meta)
     d.update(meta)
+    import practice  # 📚 «Grammar practice» после грамматики урока (темы — practice.LESSONS)
+    sections_html = practice.inject(d['id'], sections_html)
     d['sections'] = [{'id': sid, 'label': lab} for sid, lab, _ in sections_html]
     return d, pane(d['id'], eyebrow, d['title'], lead, tags, sections_html, quote)
 
@@ -236,8 +246,29 @@ def vocab_of(cards):
     return {w: {'ru': r, 'example': ex} for w, d, r, ex, em in cards}
 
 
+EMOJI = {'Lead-in': '🧠', 'Listening': '🎧', 'Vocabulary': '🧰', 'Grammar': '📘', 'Grammar practice': '🏋️', 'Reading': '📖', 'Accuracy': '🎯',
+         'Pronunciation': '🗣️', 'Speaking': '💬', 'Writing': '✍️', 'Reflection': '📓'}
+
+
+def auto_auction(S):
+    """Аукцион ошибок, если урок не задал свой: ошибки и верные фразы из case урока."""
+    bad, ok = S['case']['bad'], S['case']['ok']
+    items = []
+    for i in range(max(len(bad), len(ok))):
+        if i < len(bad):
+            items.append((bad[i][0], False, bad[i][1]))
+        if i < len(ok):
+            items.append((ok[i], True, ''))
+    return items[:8]
+
+
 def std(S):
-    """Полный урок по образцу уроков платформы (60 мин). S — словарь с содержанием, см. l_*.py."""
+    """Полный урок (75–90 мин) по образцу урока Дарьи: вход с «временем подумать», аудирование, слова, грамматика
+    (сначала замечаем, потом правило), практика, чтение, аукцион ошибок, задание «подготовка → рассказ», произношение,
+    письмо, рефлексия, домашка. Необязательные ключи S: think, notice, extra, auction, task, reflect (см. tools/README.md)."""
+    import flex
+    import extras  # «время подумать» и задание для уроков, собранных раньше
+    S = dict(extras.X.get(S['id'], {}), **S)
     P, LID = S['prefix'], S['id']
     ids = Ids(P)
     secs = []
@@ -246,26 +277,52 @@ def std(S):
         sid = '%s-%s' % (P, key)
         secs.append((sid, label, section(sid, label, title, mins, body)))
 
-    L = S['listen']
+    L, V, G, R, Sp, W = S['listen'], S['vocab'], S['grammar'], S['part2'], S['speaking'], S['writing']
+    # 1 · вход в урок
+    T = S.get('think') or ('Before we start: %s' % Sp['questions'][0], 'Прежде чем начать — подумайте и запишите 2–3 мысли, потом расскажите.',
+                           ['I think…', 'For example, …', 'One question I have: …'])
     aims = '<div class="aims"><b>In this lesson you will…</b><ul>%s</ul></div>' % ''.join('<li>%s</li>' % a for a in S['aims'])
-    add('listen1', 'Listening', L['title'], '8 min', aims
-        + rubric('a', L['task'], L.get('task_ru', '')) + listening(P + '-lis1', L['lines'], L['head'], emoji=L.get('emoji', '🎧'), names=L['names'])
+    lead_body = '@ROUTE@' + aims + flex.think(ids, T[0], T[1], T[2])
+    if S.get('warm'):
+        Wm = S['warm']
+        lead_body += rubric('b', Wm[0], Wm[1]) + deck('Warm-up · Разминка', [mc('%s-w%d' % (P, i + 1), q, o, k) for i, (q, o, k) in enumerate(Wm[2])])
+    add('lead', 'Lead-in', S.get('lead_title', 'think first'), '7 min', lead_body)
+
+    def extras(pos):  # особые этапы урока: (key, label, title, mins, body[, 'start' | 'grammar' | 'reading'])
+        for x in S.get('extra', []):
+            if (x[5] if len(x) > 5 else 'reading') == pos:
+                add(x[0], x[1], x[2], x[3], x[4](ids) if callable(x[4]) else x[4])
+    extras('start')
+    # 2 · аудирование
+    add('listen1', 'Listening', L['title'], '12 min',
+        rubric('a', L['task'], L.get('task_ru', '')) + listening(P + '-lis1', L['lines'], L['head'], emoji=L.get('emoji', '🎧'), names=L['names'])
         + mc(P + '-q1', L['gist'][0], L['gist'][1], L['gist'][2])
         + rubric('b', 'Listen again. Answer the cards.', 'Послушайте ещё раз и ответьте на карточки.')
         + deck('Details · Детали', [mc('%s-q%d' % (P, i + 2), q, o, k) for i, (q, o, k) in enumerate(L['details'])])
         + (rubric('c', 'Listen once more and complete the notes. One to three words or a number.', 'Послушайте ещё раз и заполните заметки: 1–3 слова или число.')
            + ex_gaps(ids, L['notes'], size=16) if L.get('notes') else ''))
-    V = S['vocab']
+    # 3 · слова
     add('vocab', 'Vocabulary', V['title'], '10 min',
         rubric('a', 'Tap each card, press 🔊 and repeat.', 'Нажимайте на карточки, слушайте и повторяйте.') + bank(S['code'], V['theme'], V['cards'])
         + rubric('b', 'Which word is it?', 'Какое это слово?') + ex_select(ids, V['match'])
-        + rubric('c', 'Complete the sentences.', 'Вставьте слово.') + ex_gaps(ids, V['gaps']))
-    G = S['grammar']
-    add('grammar', 'Grammar', G['title'], '12 min',
-        rubric('a', 'Read the steps. Press 🔊 and repeat.', 'Прочитайте шаги, слушайте и повторяйте.') + easy(G['head'], G['idea'], G['rows'], G['examples'], G['traps'], G.get('note', ''), choose=G.get('choose'))
-        + rubric('b', '<b>Step 1.</b> ' + G['ex1'][0], G['ex1'][1]) + ex_gaps(ids, G['ex1'][2])
-        + rubric('c', '<b>Step 2.</b> ' + G['ex2'][0], G['ex2'][1]) + ex_order(ids, G['ex2'][2]))
-    R = S['part2']
+        + rubric('c', 'Complete the sentences.', 'Вставьте слово.') + ex_gaps(ids, V['gaps'])
+        + (rubric('d', V['more'][0], V['more'][1]) + ex_gaps(ids, V['more'][2]) if V.get('more') else ''))
+    # 4 · грамматика: заметить → правило → тренировка
+    rule = easy(G['head'], G['idea'], G['rows'], G['examples'], G['traps'], G.get('note', ''), choose=G.get('choose'))
+    N = S.get('notice')
+    if N:
+        gbody = (rubric('a', N[0], N[1]) + flex.examples(N[2])
+                 + deck('Discover · Догадайтесь', [mc('%s-n%d' % (P, i + 1), q, o, k) for i, (q, o, k) in enumerate(N[3])])
+                 + rubric('b', 'Now check the rule. Press 🔊 and repeat the examples.', 'Теперь сверьтесь с правилом.') + flex.reveal('📘 The rule · Правило', rule))
+        nl = 'cd'
+    else:
+        gbody = rubric('a', 'Read the steps. Press 🔊 and repeat.', 'Прочитайте шаги, слушайте и повторяйте.') + rule
+        nl = 'bc'
+    gbody += (rubric(nl[0], '<b>Step 1.</b> ' + G['ex1'][0], G['ex1'][1]) + ex_gaps(ids, G['ex1'][2])
+              + rubric(nl[1], '<b>Step 2.</b> ' + G['ex2'][0], G['ex2'][1]) + ex_order(ids, G['ex2'][2]))
+    add('grammar', 'Grammar', G['title'], '15 min', gbody)
+    extras('grammar')
+    # 5 · чтение
     if R.get('lines'):
         body2 = rubric('a', R['task'], R.get('task_ru', '')) + listening(P + '-lis2', R['lines'], R['head'], emoji=R.get('emoji', '🎧'), names=R['names'])
     else:
@@ -273,26 +330,42 @@ def std(S):
     body2 += rubric('b', 'True or false?', 'Верно или нет?') + deck('True or false? · Верно или нет?', [mc('%s-tf%d' % (P, i + 1), q, ['True', 'False'], 0 if ok else 1) for i, (q, ok) in enumerate(R['tf'])])
     if R.get('gaps'):
         body2 += rubric('c', R['gaps'][0], R['gaps'][1]) + ex_gaps(ids, R['gaps'][2])
-    add(R['key'], R['label'], R['title'], '10 min', body2)
+    add(R['key'], R['label'], R['title'], '12 min', body2)
     if S.get('grammar2'):
         G2 = S['grammar2']
         add('grammar-2', 'Grammar', G2['title'], '8 min',
             rubric('a', G2['rule'], G2.get('rule_ru', '')) + G2.get('box', '') + rubric('b', G2['ex'][0], G2['ex'][1]) + ex_gaps(ids, G2['ex'][2])
             + (rubric('c', G2['ex2'][0], G2['ex2'][1]) + ex_select(ids, G2['ex2'][2]) if G2.get('ex2') else ''))
+    # 6 · особые этапы урока (игра, квест, дебаты…)
+    extras('reading')
+    # 7 · аукцион ошибок + исправить
+    A = S.get('auction') or auto_auction(S)
     M = S['mix']
-    add('mix', 'Accuracy', M['title'], '6 min', rubric('a', M['task'], M.get('task_ru', '')) + ex_lines(ids, M['items']))
+    fixes = ''.join('<li><s>%s</s> → <b>%s</b>%s</li>' % (e(t), e(r), (' <small>%s</small>' % e(w)) if w else '') for t, ok, r, *w in
+                    [(a[0], a[1], a[2], *(a[3:] or [''])) for a in A] if not ok)
+    add('mix', 'Accuracy', M['title'], '10 min',
+        rubric('a', 'Error auction! Right or wrong? Bet 1–3 coins: the surer you are, the more you bet.', 'Аукцион ошибок: верно или нет? Ставка 1–3 монеты — чем увереннее, тем больше.')
+        + flex.auction(ids, [(a[0], a[1]) for a in A])
+        + flex.reveal('✅ Answers · Ответы', '<ul>%s</ul>' % fixes)
+        + rubric('b', M['task'], M.get('task_ru', '')) + ex_lines(ids, M['items']))
     if S.get('pron'):
         Pn = S['pron']
-        add('pron', 'Pronunciation', Pn['title'], '4 min', rubric('a', Pn['task'], Pn.get('task_ru', '')) + say_list(Pn['list'])
+        add('pron', 'Pronunciation', Pn['title'], '5 min', rubric('a', Pn['task'], Pn.get('task_ru', '')) + say_list(Pn['list'])
             + (rubric('b', 'Press 🔊. Choose. Only listen!', 'Нажмите 🔊 и выберите — только на слух!') + ex_listen_pick(ids, Pn['pick']) if Pn.get('pick') else ''))
-    Sp = S['speaking']
-    add('speaking', 'Speaking', Sp['title'], '10 min',
+    # 8 · говорение: вопросы + задание «подготовка → рассказ»
+    Tk = S.get('task') or {'task': Sp['task'][0], 'task_ru': Sp['task'][1],
+                           'plan': ['Idea 1: …', 'Idea 2: …', 'Idea 3: …', 'A useful phrase: …'], 'report': Sp.get('phrases2', [])}
+    add('speaking', 'Speaking', Sp['title'], '15 min',
         rubric('a', '<b>Step 1.</b> Answer your teacher. Short answer + one more sentence.', 'Шаг 1. Короткий ответ + ещё одно предложение.') + picker(Sp['questions']) + phrases(Sp['phrases'])
-        + rubric('b', '<b>Step 2.</b> ' + Sp['task'][0], Sp['task'][1]) + phrases(Sp.get('phrases2', [])))
-    W = S['writing']
-    add('writing', 'Writing', W['title'], '6 min', rubric('a', W['task'], W.get('task_ru', '')) + box('<b>Example:</b> ' + W['example'], '📝')
+        + rubric('b', '<b>Step 2.</b> The task: plan first, then speak.', 'Шаг 2. Задание: сначала подготовьтесь письменно, потом расскажите.')
+        + flex.cycle('<p>%s%s</p>' % (Tk['task'], ru(Tk.get('task_ru', ''))),
+                     '<p>Take your time. Write short notes.</p>' + lines(ids, Tk['plan']),
+                     '<p>Now tell your teacher. Then listen to the feedback: two stars ⭐ and one wish 🙏.</p>' + phrases(Tk['report'])))
+    add('writing', 'Writing', W['title'], '10 min', rubric('a', W['task'], W.get('task_ru', '')) + box('<b>Example:</b> ' + W['example'], '📝')
         + lines(ids, W['placeholders']) + rubric('b', 'Press «Отправить преподавателю».', 'Нажмите «Отправить преподавателю».') + send_box())
-    add('check', 'Feedback', 'Can you…?', '3 min', selfcheck(ids, S['cans']))
+    Rf = S.get('reflect') or ['Today I learned…', 'One thing that was difficult: …', 'Next time I will…']
+    add('check', 'Reflection', 'what did you learn?', '5 min', selfcheck(ids, S['cans'])
+        + rubric('c', 'Your learning journal: three sentences about today.', 'Дневник: три предложения о сегодняшнем уроке.') + lines(ids, Rf) + send_box())
     H = S['hw']
     add('hw-prep', 'Homework: words', 'words', '10 min', intro('📚', 'Homework, part 1 of 2: words.', '10 minutes', 'Домашнее задание, часть 1: слова. Потом — «Далее».')
         + rubric('a', 'Which word is it?', 'Какое это слово?') + ex_select(ids, H['words_select'])
@@ -306,7 +379,12 @@ def std(S):
     gid = LID + '-games'
     words = [(w, r) for w, _, r, _, _ in V['cards']]
     secs.append((gid, 'Games', section(gid, 'Games', 'Play and review', '10 min', games_block(LID, words, S['case']))))
+    # карта урока — по фактическим этапам (без домашки)
+    route = flex.route([(EMOJI.get(lab, '⭐'), re.sub('<[^>]+>', '', html_title)) for sid, lab, html_title in
+                        [(x[0], x[1], re.search(r'<h2>(.*?)</h2>', x[2]).group(1)) for x in secs] if not lab.startswith('Homework') and lab != 'Games'])
+    secs[0] = (secs[0][0], secs[0][1], secs[0][2].replace('@ROUTE@', route))
     meta = {k: S[k] for k in ('id', 'owner', 'title', 'level', 'category', 'minutes', 'grammar', 'date', 'code', 'gvp')}
+    meta['minutes'] = S.get('minutes_full', '75–90 min')
     if not isinstance(meta['grammar'], str):  # в описании урока ключ grammar занят разделом грамматики — строка для карточки берётся из gvp
         meta['grammar'] = S.get('grammar_line') or S['gvp']['g']
     meta.update({'hwSection': P + '-hw-prep', 'hwSince': S['date'] + 'T06:00:00Z', 'draft': S.get('draft', True)})
