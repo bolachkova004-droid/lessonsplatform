@@ -501,16 +501,6 @@ T('can_A0', "can / can't · Can I…?", [
     [(['can', 'You', 'ski here.'], 'You can ski here.'), (['Can', 'I', 'pay by card?'], 'Can I pay by card?'), (["can't", 'You', 'swim here.'], "You can't swim here.")],
     ['In my village you can…', "I can… but I can't…"])
 
-T('can_could', "can / could · can't / couldn't", [
-    ('When I was five, I ___ swim.', 'could', ['could', 'can', 'cans']), ("Now I ___ speak three languages.", 'can', ['can', 'could', 'coulded']), ("She ___ read when she was four.", 'could', ['could', 'can', 'could to']),
-    ("I ___ ride a bike when I was three. I was too small.", "couldn't", ["couldn't", "can't", "didn't could"]), ('___ you swim when you were a child?', 'Could', ['Could', 'Did', 'Can']),
-    ('My grandma can ___ amazing pancakes.', 'make', ['make', 'makes', 'made']), ("Birds ___ fly, but penguins can't.", 'can', ['can', 'could', 'cans']), ('Last year I ___ play the guitar, but now I can.', "couldn't", ["couldn't", "can't", 'could'])],
-    [('When I was six, I ___ ride a bike.', ['could'], 'past ✅'), ('Now I ___ swim very well.', ['can'], 'now ✅'), ("I ___ read when I was two.", ["couldn't", 'could not'], 'past ❌'), ('', ['Could'], 'you ski when you were a child?', '❓ past'),
-     ("She can ___ (play) the piano.", ['play'], 'play'), ('Yes, I ___ .', ['could'], 'short answer, past'), ("He ___ cook. He burns everything!", ["can't", 'cannot'], 'now ❌'), ('My cat ___ open the door! 😺', ['can'], 'now ✅')],
-    [('When I was five, I can swim. →', ['When I was five, I could swim.']), ('She cans dance. →', ['She can dance.']), ("I didn't could ski. →", ["I couldn't ski.", 'I could not ski.']), ('Can you to cook? →', ['Can you cook?'])],
-    [(['could', 'I', 'swim', 'when I was five.'], 'I could swim when I was five.'), (['Could', 'you', 'read', 'at four?'], 'Could you read at four?'), (["can't", 'I', 'play the piano.'], "I can't play the piano.")],
-    ['When I was a child, I could…', "Now I can… but I can't…"])
-
 T('past_perfect', 'past perfect: had + V3', [
     ('When I got to the station, the train ___ .', 'had left', ['had left', 'left', 'has left']), ("I couldn't get in because I ___ my keys.", 'had lost', ['had lost', 'lost', 'have lost']),
     ('She was tired because she ___ all night.', "hadn't slept", ["hadn't slept", "didn't sleep", "hasn't slept"]), ('By the time we arrived, the film ___ .', 'had started', ['had started', 'started', 'was starting']),
@@ -540,12 +530,36 @@ T('mixed_cond', 'mixed conditionals', [
      (["We wouldn't be", 'lost now', 'if we had', 'brought a map.'], "We wouldn't be lost now if we had brought a map.")],
     ['If I had…, I would… now.', "If I weren't…, I would have…"])
 
+T('adverbs_A', 'adverbs: well, fast, quickly, carefully', [
+    ('Leo plays the piano very ___ .', 'well', ['well', 'good', 'goodly']), ('She runs ___ .', 'fast', ['fast', 'fastly', 'fasts']), ('He sings ___ — the dog runs away!', 'badly', ['badly', 'bad', 'badder']),
+    ('Please speak ___ . I\'m writing.', 'slowly', ['slowly', 'slow', 'slowlly']), ('Grandma swims ___ .', 'carefully', ['carefully', 'careful', 'carefuly']), ('Tom works very ___ .', 'hard', ['hard', 'hardly', 'hards']),
+    ('She is a ___ dancer.', 'good', ['good', 'well', 'goodly']), ('The children played ___ .', 'happily', ['happily', 'happy', 'happyly'])],
+    [('She dances ___ .', ['beautifully'], 'beautiful'), ('He drives ___ .', ['carefully'], 'careful'), ('They ran ___ .', ['quickly'], 'quick'), ('I can swim ___ .', ['well'], 'good'),
+     ('My brother cooks ___ .', ['badly'], 'bad'), ('Please talk ___ .', ['quietly'], 'quiet'), ('He works ___ .', ['hard'], 'hard'), ('She speaks English very ___ .', ['well'], 'good')],
+    [('She sings very good. →', ['She sings very well.']), ('He runs fastly. →', ['He runs fast.']), ('Please speak slow. →', ['Please speak slowly.']), ('He is a well driver. →', ['He is a good driver.'])],
+    [(['plays', 'Leo', 'the piano', 'beautifully.'], 'Leo plays the piano beautifully.'), (['can', 'She', 'swim', 'well.'], 'She can swim well.'), (['speaks', 'He', 'very', 'slowly.'], 'He speaks very slowly.')],
+    ['I can … very well.', 'I … badly / slowly.'])
+
+T('reporting_verbs', 'reporting verbs: admit, deny, refuse, warn, promise, accuse', [
+    ('The coach admitted ___ mistakes.', 'making', ['making', 'to make', 'make']), ('The player refused ___ questions.', 'to answer', ['to answer', 'answering', 'answer']),
+    ('He denied ___ the referee.', 'pushing', ['pushing', 'to push', 'push']), ('She promised ___ harder.', 'to train', ['to train', 'training', 'train']),
+    ('The manager warned the players ___ late.', 'not to be', ['not to be', 'to not being', "don't be"]), ('Fans accused the referee ___ cheating.', 'of', ['of', 'for', 'to']),
+    ('He apologised ___ missing the penalty.', 'for', ['for', 'of', 'about']), ('The coach suggested ___ a break.', 'taking', ['taking', 'to take', 'take'])],
+    [('«I made a mistake.» → He admitted ___ a mistake.', ['making', 'having made'], 'make'), ("«I'll score next time.» → She promised ___ next time.", ['to score'], 'score'),
+     ("«I didn't foul him.» → He denied ___ him.", ['fouling', 'having fouled'], 'foul'), ("«I won't talk about it.» → She refused ___ about it.", ['to talk'], 'talk'),
+     ("«Don't relax!» → The coach warned them not ___ .", ['to relax'], 'relax'), ("«You cheated!» → They accused him ___ .", ['of cheating'], 'cheat'),
+     ("«I'm sorry I was late.» → He apologised ___ late.", ['for being'], 'be'), ("«Let's watch the video.» → She suggested ___ the video.", ['watching'], 'watch')],
+    [('He denied to push the player. →', ['He denied pushing the player.']), ('She refused answering. →', ['She refused to answer.']), ('They accused him for cheating. →', ['They accused him of cheating.']),
+     ('The coach suggested us to rest. →', ['The coach suggested that we rest.', 'The coach suggested resting.', 'The coach suggested that we should rest.'])],
+    [(['admitted', 'The coach', 'making mistakes.'], 'The coach admitted making mistakes.'), (['refused', 'She', 'to comment.'], 'She refused to comment.'), (['warned', 'He', 'us', 'not to give up.'], 'He warned us not to give up.')],
+    ['Once my coach / teacher warned me…', 'I once promised…'])
+
 # ======================================================================= какой урок — какие темы
 LESSONS = {
     'pelageya-6': ['pres_cont'], 'pelageya-7': ['was_were'], 'pelageya-8': ['past_regular'], 'pelageya-9': ['past_irregular'],
     'varya-6': ['will_pred'], 'varya-7': ['comparatives_A'], 'varya-8': ['pp_ever'], 'olya-4': ['past_irregular'], 'olya-5': ['some_any'],
     'efim-2': ['comparatives_A'], 'efim-3': ['pp_ever'], 'efim-4': ['rules_A'], 'vladimir-2': ['past_irregular'], 'vladimir-3': ['going_to'], 'vladimir-4': ['comparatives_A'],
-    'sasha-4': ['will_going'], 'sasha-5': ['just_already_yet'], 'vika-6': ['who_questions'], 'vika-7': ['should_A'], 'mussa-2': ['cafe'], 'mussa-3': ['directions'],
+    'sasha-4': ['will_going'], 'sasha-5': ['obligation_B1'], 'vika-6': ['who_questions'], 'vika-7': ['should_A'], 'mussa-2': ['cafe'], 'mussa-3': ['directions'],
     'yulia-k-4': ['reported_B1'], 'yulia-k-5': ['passive_B1'], 'yulia-k-6': ['second_cond'], 'ekaterina-4': ['obligation_B1'], 'ekaterina-5': ['relative_B1'], 'ekaterina-6': ['reported_B1'],
     'olya-b1-4': ['first_cond'], 'olya-b1-5': ['deduction'], 'sasha-b1-4': ['used_to'], 'sasha-b1-5': ['passive_B1'], 'iola-5': ['ing_to_B1'], 'iola-6': ['pp_simple_cont'],
     'milana-5': ['passive_B1'], 'milana-6': ['ed_ing'], 'marina-5': ['ppc'], 'marina-6': ['past_cont'], 'ksenia-5': ['obligation_B1'], 'ksenia-6': ['comparatives_B1'],
@@ -553,10 +567,10 @@ LESSONS = {
     'dmitry-5': ['ing_to_B2'], 'dmitry-6': ['wishes'], 'dmitry-7': ['predictions_B2'], 'alexey-b2-4': ['narrative_B2'], 'alexey-b2-5': ['ing_to_B2'],
     'darya': ['classroom'], 'darya-2': ['second_cond', 'third_cond'],
     # декабрь 2026
-    'pelageya-10': ['can_could'], 'varya-9': ['going_to'], 'olya-6': ['comparatives_A'], 'efim-5': ['will_pred'], 'vladimir-5': ['pp_ever'], 'sasha-6': ['first_cond'],
-    'vika-8': ['past_cont'], 'mussa-4': ['can_A0'], 'yulia-k-7': ['third_cond'], 'olya-b1-6': ['used_to'], 'sasha-b1-6': ['reported_B1'], 'ekaterina-7': ['second_cond'],
-    'iola-7': ['first_cond'], 'milana-7': ['relative_B1'], 'marina-7': ['past_perfect'], 'ksenia-7': ['deduction'], 'dmitry-8': ['mixed_cond'], 'alexey-b2-6': ['passive_B2'],
-    'zakhar-mikhail-7': ['mixed_cond'], 'pasha-7': ['narrative_B2'], 'darya-3': ['narrative_B2'],
+    'pelageya-10': ['adverbs_A'], 'varya-9': ['rules_A'], 'olya-6': ['comparatives_A'], 'efim-5': ['will_pred'], 'vladimir-5': ['pp_ever'], 'sasha-6': ['first_cond'],
+    'vika-8': ['just_already_yet'], 'mussa-4': ['can_A0'], 'yulia-k-7': ['third_cond'], 'olya-b1-6': ['second_cond'], 'sasha-b1-6': ['reported_B1'], 'ekaterina-7': ['used_to'],
+    'iola-7': ['passive_B1'], 'milana-7': ['reported_B1'], 'marina-7': ['past_perfect'], 'ksenia-7': ['deduction'], 'dmitry-8': ['mixed_cond'], 'alexey-b2-6': ['passive_B2'],
+    'zakhar-mikhail-7': ['reporting_verbs'], 'pasha-7': ['narrative_B2'], 'darya-3': ['narrative_B2'],
 }
 
 AFTER_ID = {}  # уроки без раздела «Grammar»: после какого раздела ставить практику

@@ -322,7 +322,8 @@ def zakhar_mikhail():
                    + ex_gaps(ids, [('The vault, ___ (which was built) in 1900, is underground.', ['built'], ''), ('Exhibits ___ (which are kept) here are priceless.', ['kept'], ''),
                                    ('The guard ___ (who is sitting) by the camera is asleep.', ['sitting'], ''), ('A key ___ (which was hidden) under the mask opens the vault.', ['hidden'], ''),
                                    ('Visitors ___ (who want) to see the vault need a ticket.', ['wanting'], '')], size=12)
-                   + reveal('🔑 Final word', '<p>Code word 3 is the room <i>built</i> in 1900, where the exhibits are <i>kept</i>: <b>VAULT</b>. Your full code: <b>SCROLL – 4 – VAULT</b>. Tell it to your teacher to escape! 🎉</p>'))],
+                   + reveal('🔑 Final word', '<p>Code word 3 is the room <i>built</i> in 1900, where the exhibits are <i>kept</i>: <b>VAULT</b>. Your full code: <b>SCROLL – 4 – VAULT</b>. Tell it to your teacher to escape! 🎉</p>')),
+                  ('discussion', 'Discussion', 'museums, art and mysteries', '25 min', __import__('extras')._zm6_discussion)],
         'mix': {'title': 'the museum guide', 'task': 'A museum guide with mistakes. Correct them.', 'task_ru': 'Путеводитель с ошибками. Исправьте.',
                 'items': [('Paris, that is in France, is beautiful. →', ['Paris, which is in France, is beautiful.']), ('The guard which works at night is asleep. →', ['The guard who works at night is asleep.', 'The guard that works at night is asleep.']),
                           ('A mask finding in 1922 is famous. →', ['A mask found in 1922 is famous.']), ('My aunt, who she is a doctor, lives in Omsk. →', ['My aunt, who is a doctor, lives in Omsk.'])]},
