@@ -116,3 +116,29 @@ def hw_pair(ids, words_select, listen_pick, words_gaps, gram_title, gram_ru, gra
           + (rubric('c', 'Put the words in order.', 'Соберите предложения.') + ex_order(ids, order) if order else '')
           + rubric('d', 'Done? Send your homework.', 'Готово? Отправьте домашку.') + send_box())
     return [('hw-prep', 'Homework: words', 'words', '10 min', p1), ('hw-grammar', 'Homework: grammar', 'grammar', '10 min', p2)]
+
+
+def discussion(ids, tiers, statements=None, phrases_=None, scale=('strongly agree', 'agree', 'not sure', 'disagree', 'strongly disagree')):
+    """Обсуждение по схеме ESL discussion lesson: фразы для дискуссии → вопросы по уровням (личные → мнение → спорные)
+    с уточняющими вопросами (follow-up) → шкала согласия → заметки и обратная связь по языку.
+    tiers: [(название, по-русски, [(вопрос, follow-up), …])]."""
+    out = ''
+    if phrases_:
+        out += '<div class="box"><b>🗣️ Discussion language · Фразы для обсуждения</b>%s</div>' % ''.join(
+            '<p><b>%s</b> %s</p>' % (e(k), ' · '.join(e(p) for p in v)) for k, v in phrases_)
+    for n, (title, ru_t, qs) in enumerate(tiers, 1):
+        out += ('<div class="box think"><b>%s</b>%s<ol>%s</ol></div>' % (e(title), ru(ru_t), ''.join(
+            '<li>%s%s</li>' % (e(q), ('<br><small>↳ Follow-up: %s</small>' % e(f)) if f else '') for q, f in qs)))
+    if statements:
+        out += rubric('', '<b>Agree or disagree?</b> Choose, then defend your opinion with a reason and an example.', 'Согласны или нет? Выберите и аргументируйте: причина + пример.')
+        out += opinion(ids, statements, list(scale))
+    out += rubric('', '<b>Feedback.</b> Write your strongest argument and two new phrases you used (your teacher will add the corrections).',
+                  'Обратная связь: ваш самый сильный аргумент и две новые фразы; преподаватель добавит исправления.')
+    out += lines(ids, ['My strongest argument: …', 'New phrase 1: …', 'New phrase 2: …', 'Correction from my teacher: …'])
+    return out
+
+
+DISCUSS_PHRASES = [('Giving opinions:', ['In my view…', 'I strongly believe that…', "To be honest, I'm not sure that…"]),
+                   ('Agreeing / disagreeing:', ["That's a fair point, but…", 'I see what you mean, however…', "I couldn't agree more.", "I'm afraid I disagree because…"]),
+                   ('Asking for more:', ['What makes you say that?', 'Could you give an example?', 'So are you saying that…?']),
+                   ('Buying time:', ["That's a tricky question…", 'Let me think about that for a second…', 'It depends on…'])]

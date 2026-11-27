@@ -124,3 +124,43 @@ add('yulia-k-4', ('What was the last interesting thing someone told you?', 'Чт
     ('Gossip time 😄: report three conversations from this week — what people said, asked and asked you to do.', 'Перескажите три разговора недели: что сказали, о чём спросили, о чём попросили.'),
     ['… told me that…', '… said that…', '… asked me if…', '… asked me to…'],
     ['My boss told me that…', 'She asked me to…', 'He asked if…', 'I said that…'])
+
+
+# ---------------------------------------------------------------- Захар и Михаил: больше обсуждения (ESL discussion stage)
+def _zm5_discussion(ids):
+    import flex
+    return (flex.rubric('a', '<b>Discussion lesson.</b> Answer level by level; always give a reason and an example. Your partner asks the follow-up question.',
+                        'Обсуждение по уровням: причина + пример, партнёр задаёт уточняющий вопрос.')
+            + flex.discussion(ids, [
+                ('Level 1 · You and your routine', 'Уровень 1: личные вопросы', [
+                    ('What did you use to do after school when you were ten?', 'Do you still do it?'), ('What are you used to doing every morning now?', 'Was it hard to get used to?'),
+                    ('What is the hardest thing you have had to get used to recently?', 'How long did it take?'), ('Would you get up at 5 a.m. every day for your dream?', 'What dream would be worth it?')]),
+                ('Level 2 · Opinions: the life of a pro', 'Уровень 2: мнения', [
+                    ('Is the life of a professional athlete as glamorous as people think?', 'What do fans not see?'), ('Should young athletes leave home at 14 to join an academy?', 'What would they miss?'),
+                    ('Which is harder to get used to: fame or strict training?', 'Why?'), ("Should parents push children into sport?", 'Where is the line between support and pressure?')]),
+                ('Level 3 · Controversial', 'Уровень 3: спорные вопросы', [
+                    ('Do top athletes deserve their huge salaries?', 'Who should earn more: a footballer or a nurse?'), ('Should athletes retire at the top or play as long as they can?', 'Give a real example.'),
+                    ('Is it fair that one injury can end a career?', 'What should clubs do for injured players?'), ('Are e-sports players real athletes?', 'What makes someone an athlete?')])],
+                ['Professional sport is a job like any other.', 'Children should try many sports before they choose one.', 'Talent is more important than hard work.', 'Famous athletes should be role models.'],
+                flex.DISCUSS_PHRASES))
+
+
+def _zm6_discussion(ids):
+    import flex
+    return (flex.rubric('a', '<b>Discussion lesson.</b> Answer level by level; always give a reason and an example. Your partner asks the follow-up question.',
+                        'Обсуждение по уровням: причина + пример, партнёр задаёт уточняющий вопрос.')
+            + flex.discussion(ids, [
+                ('Level 1 · You and museums', 'Уровень 1: личные вопросы', [
+                    ('What is the most interesting museum you have ever visited?', 'What was the object that impressed you most?'), ('Do you prefer museums with old objects or interactive science museums?', 'Why?'),
+                    ('Have you ever done an escape room or a quest?', 'Who was the best player?'), ('Is there a place in your city which every tourist should see?', 'What would you show them first?')]),
+                ('Level 2 · Opinions: museums and history', 'Уровень 2: мнения', [
+                    ('Should museums be free for everyone?', 'Who should pay for them?'), ('Are virtual museum tours as good as real visits?', 'What is lost online?'),
+                    ('Should museums return objects which were taken from other countries?', 'Give an example.'), ('Is it OK to take selfies with famous paintings?', 'Do phones spoil museums?')]),
+                ('Level 3 · Controversial', 'Уровень 3: спорные вопросы', [
+                    ('Is a perfect copy of a painting worth less than the original?', 'Why do people pay millions for originals?'), ('Are famous art thieves criminals or legends?', 'Why do films make them heroes?'),
+                    ('Should street art (graffiti) be protected like museum art?', 'Who decides what is art?'), ('Will AI-made art ever be shown in big museums?', 'Would you pay to see it?')])],
+                ['Museums are boring for teenagers.', 'Every school class should visit a museum once a month.', 'Graffiti is art.', 'Old buildings are more important than new ones.'],
+                flex.DISCUSS_PHRASES))
+
+
+X['zakhar-mikhail-5'] = dict(X.get('zakhar-mikhail-5', {}), extra=[('discussion', 'Discussion', 'the life of a pro', '25 min', _zm5_discussion)])
