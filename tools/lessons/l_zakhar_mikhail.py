@@ -48,7 +48,8 @@ TEXT = [
 
 def kwt(ids, items):
     """B2 First, Use of English Part 4: (первое предложение, КЛЮЧ, начало, ответы, конец)"""
-    return _ex(['<i>%s</i><br><b class="kw">%s</b> → %s %s %s' % (e(a), e(k), e(b), gap(ids('k'), ans, 22), e(c)) for a, k, b, ans, c in items])
+    from kit import _after
+    return _ex(['<i>%s</i><br><b class="kw">%s</b> → %s%s%s' % (e(a), e(k), (e(b) + ' ') if b else '', gap(ids('k'), ans, 22), _after(e(c))) for a, k, b, ans, c in items])
 
 
 def day(n, title, em, topic, mins, body):

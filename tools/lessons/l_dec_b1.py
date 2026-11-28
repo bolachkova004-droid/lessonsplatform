@@ -234,7 +234,7 @@ def sasha_b1():
         'aims': ['understand an interview', 'use 10 words about news and media', 'report what people said and told you', 'report questions and requests'],
         'listen': {'title': 'the interview', 'task': 'A journalist interviews Alina, 24, who has just won a national cooking competition. Listen once: what are her plans?', 'task_ru': 'Какие у неё планы?',
                    'head': 'Interview: the young chef of the year', 'names': {'m3': 'Journalist', 'f3': 'Alina'}, 'emoji': '👩‍🍳',
-                   'lines': [('m3', 'Alina, congratulations! How do you feel?'), ('f3', "I'm still in shock! I didn't expect to win. There were so many talented chefs."),
+                   'lines': [('m3', 'Alina, congratulations! You are only twenty-four — the youngest winner ever. How do you feel?'), ('f3', "I'm still in shock! I didn't expect to win. There were so many talented chefs."),
                              ('m3', 'What did you cook in the final?'), ('f3', 'I made a modern version of my grandmother\'s fish pie. I\'ve been cooking it since I was twelve.'),
                              ('m3', 'Is it true that you never went to cooking school?'), ('f3', "Yes, it's true. I learned everything in my grandmother's kitchen and from YouTube."),
                              ('m3', 'What will you do with the prize money?'), ('f3', "I'm going to open a small café in my hometown, Vologda. It will open next spring."),
