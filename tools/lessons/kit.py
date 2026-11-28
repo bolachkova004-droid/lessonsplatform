@@ -118,7 +118,14 @@ def gap(fid, answers, size=12, near=None, near_msg=''):
 
 def ex_select(ids, items):
     """items: (before_html, answer, options, after_html)"""
-    return _ex(['%s %s%s' % (b, select(ids('s'), a, o), (' ' + af) if af else '') for b, a, o, af in items])
+    return _ex(['%s%s%s' % ((b + ' ') if b else '', select(ids('s'), a, o), _after(af)) for b, a, o, af in items])
+
+
+def _after(af):
+    """Текст после пропуска: без пробела перед знаком препинания («___.», а не «___ .»)."""
+    if not af:
+        return ''
+    return af if af[0] in '.,!?;:)…»' else ' ' + af
 
 
 def ex_gaps(ids, items, size=12):
@@ -127,7 +134,7 @@ def ex_gaps(ids, items, size=12):
     for it in items:
         b, a, af = it[:3]
         hint = ' <i>(%s)</i>' % e(it[3]) if len(it) > 3 and it[3] else ''
-        out.append('%s %s%s %s' % (e(b), gap(ids('g'), a, size), hint, e(af)))
+        out.append('%s%s%s%s' % ((e(b) + ' ') if b else '', gap(ids('g'), a, size), hint, _after(e(af))))
     return _ex(out)
 
 

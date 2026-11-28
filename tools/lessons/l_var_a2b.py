@@ -102,7 +102,7 @@ def sasha():
                  ("I can use have to / must / mustn't / don't have to", 'говорить о правилах'), ('I can give advice with should', 'давать советы с should')],
         'hw': {'words_select': [('a person who rents you a flat →', 'a landlord', ['a landlord', 'a tenant', 'a neighbour'], ''), ('tables, chairs, beds →', 'furniture', ['furniture', 'a contract', 'a meter'], ''),
                                 ('to put things in boxes →', 'to pack', ['to pack', 'to move', 'to rent'], '')],
-               'listen': [('have to', 'have to', ['have to', 'half two', 'have two']), ("mustn't", "mustn't", ["mustn't", 'must', "musn't be"]), ('landlord', 'landlord', ['landlord', 'landlady', 'land lot'])],
+               'listen': [('have to', 'have to', ['have to', 'half two', 'have two']), ("mustn't", "mustn't", ["mustn't", 'must', "must be"]), ('landlord', 'landlord', ['landlord', 'landlady', 'land lot'])],
                'words_gaps': [('pay the', ['rent'], ''), ('sign the', ['contract'], ''), ('read the', ['meter'], '')],
                'gaps': ("have to / mustn't / don't have to / should / had to.", 'Выберите нужное.', [('You', ['should'], 'drink more water.', 'совет'), ('Children', ["mustn't", 'must not'], 'play with matches.', 'нельзя'),
                                                                                                     ('You', ["don't have to", 'do not have to'], 'wear a tie. It\'s informal.', 'не обязательно'), ('He', ['has to'], 'get up at six.', 'обязательно'),

@@ -341,7 +341,7 @@ T('ppc', 'present perfect continuous · for / since', [
     ("He ___ been feeling stressed.", 'has', ['has', 'have', 'is']), ("I've been ___ yoga since May.", 'doing', ['doing', 'do', 'done']),
     ("They've been living here ___ ages.", 'for', ['for', 'since', 'ago']), ("It ___ raining all day.", "'s been", ["'s been", "'s", 'was'])],
     [('I ___ (learn) Spanish for a year.', ["'ve been learning", 'have been learning'], 'learn'), ('She ___ (play) tennis since May.', ["'s been playing", 'has been playing'], 'play'),
-     ('How long ___ you ___ (live) here?', ['have you been living'], 'you / live'), ('We ___ (wait) for twenty minutes.', ["'ve been waiting", 'have been waiting'], 'wait'),
+     ('How long ___ here?', ['have you been living'], 'you / live'), ('We ___ (wait) for twenty minutes.', ["'ve been waiting", 'have been waiting'], 'wait'),
      ("He's been painting ___ 2019.", ['since'], 'for / since'), ("I've been running ___ two years.", ['for'], 'for / since'), ('They ___ (work) too much recently.', ["'ve been working", 'have been working'], 'work'),
      ('My neighbour ___ (drill) all morning!', ["'s been drilling", 'has been drilling'], 'drill')],
     [("I'm learning English for five years. →", ["I've been learning English for five years.", 'I have been learning English for five years.']), ('She has been working here since three years. →', ['She has been working here for three years.', "She's been working here for three years."]),
@@ -356,7 +356,7 @@ T('pp_simple_cont', 'present perfect simple or continuous?', [
     ("He ___ three emails today.", "'s written", ["'s written", "'s been writing", 'wrote']), ("Your hands are dirty! What ___ ?", 'have you been doing', ['have you been doing', 'have you done', 'did you do'])],
     [("I ___ (clean) since 9.", ["'ve been cleaning", 'have been cleaning'], 'clean — процесс'), ("We ___ (collect) 50 bags so far.", ["'ve collected", 'have collected'], 'collect — результат'),
      ("She ___ (work) here for two years.", ["'s been working", 'has been working'], 'work'), ("They ___ (find) homes for twelve dogs.", ["'ve found", 'have found'], 'find'),
-     ("How long ___ you ___ (learn) English?", ['have you been learning'], 'learn'), ("How many countries ___ you ___ (visit)?", ['have you visited'], 'visit'),
+     ("How long ___ English?", ['have you been learning'], 'you / learn'), ("How many countries ___ ?", ['have you visited'], 'you / visit'),
      ("I'm tired. I ___ (run).", ["'ve been running", 'have been running'], 'run'), ("I ___ (lose) my keys!", ["'ve lost", 'have lost'], 'lose')],
     [("I've been reading three books this month. →", ["I've read three books this month.", 'I have read three books this month.']), ('How long have you volunteered here? (still now) →', ['How long have you been volunteering here?']),
      ("I've been finding my keys. →", ["I've found my keys.", 'I have found my keys.']), ("She's written all day and she's tired. →", ["She's been writing all day and she's tired.", "She has been writing all day and she's tired."])],
@@ -392,7 +392,7 @@ T('reported_B1', 'reported speech', [
 T('deduction', "must / might / can't be", [
     ('He has a key to the school. He ___ work there.', 'must', ['must', "can't", 'might']), ("She's only 10. She ___ be a driver.", "can't", ["can't", 'must', "mustn't"]),
     ("I'm not sure where he is. He ___ be at the gym.", 'might', ['might', 'must', "can't"]), ("The lights are off. They ___ be out.", 'must', ['must', "can't", 'should']),
-    ("That ___ be Anna — she's in Paris!", "can't", ["can't", "mustn't", 'must']), ("They ___ live in Tver, or they ___ just be visiting.", 'might', ['might', 'must', "can't"]),
+    ("That ___ be Anna — she's in Paris!", "can't", ["can't", "mustn't", 'must']), ("They ___ live in Tver — I'm not sure.", 'might', ['might', 'must', "can't"]),
     ("You've worked all day. You ___ be tired.", 'must', ['must', 'might not', "can't"]), ("It ___ be true. Let's check.", 'may', ['may', 'must', "can't"])],
     [('The owner ___ be an artist — look at the drawings!', ['must'], '95% да'), ("He ___ be hungry — he's just eaten.", ["can't", 'cannot'], '95% нет'), ('She ___ be at work — I\'m not sure.', ['might', 'may', 'could'], '50%'),
      ('They have a dog lead. They ___ have a dog.', ['must'], ''), ("This ___ be his bag — it's pink and he hates pink.", ["can't", 'cannot'], ''), ('It ___ rain later.', ['might', 'may', 'could'], ''),
@@ -434,7 +434,7 @@ T('past_cont', 'past continuous and past simple', [
     ("We were having dinner when the lights ___ out.", 'went', ['went', 'were going', 'go']), ("___ they were waiting, they read a book.", 'While', ['While', 'When', 'During']),
     ("He ___ his leg while he was skiing.", 'broke', ['broke', 'was breaking', 'breaks']), ("I ___ TV when you called.", 'was watching', ['was watching', 'watched', 'watch'])],
     [('I ___ (walk) home when I saw an accident.', ['was walking'], 'walk'), ('While they were swimming, it ___ (start) to rain.', ['started'], 'start'), ('She ___ (read) when the doorbell rang.', ['was reading'], 'read'),
-     ('We ___ (miss) our flight because of the traffic.', ['missed'], 'miss'), ('They ___ (drive) to Sochi when the car broke down.', ['were driving'], 'drive'), ('What ___ you ___ (do) at ten?', ['were you doing'], 'you / do'),
+     ('We ___ (miss) our flight because of the traffic.', ['missed'], 'miss'), ('They ___ (drive) to Sochi when the car broke down.', ['were driving'], 'drive'), ('What ___ at ten last night?', ['were you doing'], 'you / do'),
      ('I ___ (lose) my passport while I was travelling.', ['lost'], 'lose'), ('When we ___ (arrive), it was snowing.', ['arrived'], 'arrive')],
     [('While I cooked, the phone was ringing. →', ['While I was cooking, the phone rang.']), ('I was seeing him when I was walking. →', ['I saw him when I was walking.', 'I saw him while I was walking.']),
      ('What did you doing at 8? →', ['What were you doing at 8?']), ('They was waiting. →', ['They were waiting.'])],
@@ -554,6 +554,21 @@ T('reporting_verbs', 'reporting verbs: admit, deny, refuse, warn, promise, accus
     [(['admitted', 'The coach', 'making mistakes.'], 'The coach admitted making mistakes.'), (['refused', 'She', 'to comment.'], 'She refused to comment.'), (['warned', 'He', 'us', 'not to give up.'], 'He warned us not to give up.')],
     ['Once my coach / teacher warned me…', 'I once promised…'])
 
+T('cleft', 'cleft sentences and emphasis: What…is… · It was… who… · do / does / did', [
+    ('___ I love about football is the atmosphere.', 'What', ['What', 'That', 'Which']), ('It was the goalkeeper ___ saved the match.', 'who', ['who', 'what', 'which']),
+    ('What annoys me ___ the noise.', 'is', ['is', 'are', 'it']), ('I ___ believe fans make a difference.', 'do', ['do', 'am', 'does']),
+    ('It was in 2018 ___ Russia hosted the World Cup.', 'that', ['that', 'which', 'what']), ('All I want ___ a ticket for the final.', 'is', ['is', 'are', 'it is']),
+    ('He ___ train hard — every single day.', 'does', ['does', 'do', 'is']), ('The thing ___ I hate is diving.', 'that', ['that', 'what', 'who'])],
+    [("I love the atmosphere. → What I love ___ the atmosphere.", ['is'], ''), ('Yashin saved it. → It was Yashin ___ saved it.', ['who', 'that'], ''),
+     ('The referee made the mistake. → It ___ the referee who made the mistake.', ['was'], ''), ('I need a rest. → What I need ___ a rest.', ['is'], ''),
+     ('She trained hard. → She ___ train hard!', ['did'], 'emphasis'), ('I want to win. → All I want ___ to win.', ['is'], ''),
+     ('We lost in the final. → It was in the final ___ we lost.', ['that'], ''), ('I like her style. → I ___ like her style.', ['do'], 'emphasis')],
+    [('What I love it is the atmosphere. →', ['What I love is the atmosphere.']), ('It was the coach which changed everything. →', ['It was the coach who changed everything.', 'It was the coach that changed everything.']),
+     ('He did trained every day. →', ['He did train every day.']), ('All I want are a ticket. →', ['All I want is a ticket.'])],
+    [(['What', 'I love', 'is', 'the atmosphere.'], 'What I love is the atmosphere.'), (['It was', 'the fans', 'who', 'won the game.'], 'It was the fans who won the game.'),
+     (['I', 'do', 'believe', 'in my team.'], 'I do believe in my team.')],
+    ['What I love about my favourite sport is…', 'It was … who first got me interested in…'])
+
 # ======================================================================= какой урок — какие темы
 LESSONS = {
     'pelageya-6': ['pres_cont'], 'pelageya-7': ['was_were'], 'pelageya-8': ['past_regular'], 'pelageya-9': ['past_irregular'],
@@ -570,7 +585,7 @@ LESSONS = {
     'pelageya-10': ['adverbs_A'], 'varya-9': ['rules_A'], 'olya-6': ['comparatives_A'], 'efim-5': ['will_pred'], 'vladimir-5': ['pp_ever'], 'sasha-6': ['first_cond'],
     'vika-8': ['just_already_yet'], 'mussa-4': ['can_A0'], 'yulia-k-7': ['third_cond'], 'olya-b1-6': ['second_cond'], 'sasha-b1-6': ['reported_B1'], 'ekaterina-7': ['used_to'],
     'iola-7': ['passive_B1'], 'milana-7': ['reported_B1'], 'marina-7': ['past_perfect'], 'ksenia-7': ['deduction'], 'dmitry-8': ['mixed_cond'], 'alexey-b2-6': ['passive_B2'],
-    'zakhar-mikhail-7': ['reporting_verbs'], 'pasha-7': ['narrative_B2'], 'darya-3': ['narrative_B2'],
+    'zakhar-mikhail-7': ['reporting_verbs'], 'pasha-7': ['narrative_B2'], 'darya-3': ['narrative_B2'], 'zakhar-mikhail-8': ['cleft'],
 }
 
 AFTER_ID = {}  # уроки без раздела «Grammar»: после какого раздела ставить практику

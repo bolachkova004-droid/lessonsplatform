@@ -161,7 +161,7 @@ def alexey():
                                ('What advice had the guide given him?', ['Stop and find shelter.', 'Keep walking fast.', 'Call for a helicopter.'], 0),
                                ('Who found him?', ['two hikers who had been camping by the lake', 'a rescue team', 'his guide'], 0),
                                ('How did he change after the trip?', ['He stopped answering emails at midnight.', 'He left his job.', 'He moved to Patagonia.'], 0)],
-                   'notes': [('Mark took a sabbatical of', ['three months', '3 months'], '.'), ('He got lost on day', ['five', '5'], '.'),
+                   'notes': [('Mark took a sabbatical of', ['three months', '3 months', 'three-month'], '.'), ('He got lost on day', ['five', '5'], '.'),
                              ('He waited behind a rock for almost', ['four hours', '4 hours'], '.'), ('He had packed a head', ['torch'], 'and extra food.')]},
         'vocab': {'title': 'adventure travel', 'theme': 'Adventure and taking a break', 'cards': [
             ('a sabbatical', 'a long break from work agreed with your employer', 'творческий отпуск', 'He took a three-month sabbatical.', '🏖️'),

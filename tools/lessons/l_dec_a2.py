@@ -268,7 +268,7 @@ def olya():
         'mix': {'title': 'a review', 'task': 'A review with mistakes. Correct them.', 'task_ru': 'Отзыв с ошибками. Исправьте.',
                 'items': [('This café is more cheap. →', ['This café is cheaper.']), ('It is the most cheap café. →', ['It is the cheapest café.', "It's the cheapest café."]), ('The cakes are gooder than at Bella. →', ['The cakes are better than at Bella.']),
                           ('It is quieter that Bella. →', ['It is quieter than Bella.', "It's quieter than Bella."])]},
-        'auction': [('«Bella» is cheaper than «Sky».', True, ''), ('«Sky» is the most cheap.', False, '«Sky» is the cheapest. / the most expensive'), ('The cakes are the best in town.', True, ''),
+        'auction': [('«Bella» is cheaper than «Sky».', True, ''), ('«Bella» is the most cheap.', False, '«Bella» is the cheapest.'), ('The cakes are the best in town.', True, ''),
                     ('«Green Tea» is more quiet than «Bella».', False, '«Green Tea» is quieter than «Bella».'), ('It has the most beautiful view.', True, ''), ('The coffee is gooder here.', False, 'The coffee is better here.'),
                     ('The queue was the longest.', True, ''), ('It is bigger that «Bella».', False, 'It is bigger than «Bella».')],
         'pron': {'title': 'weak than · the', 'task': '<i>than</i> /ðən/ and <i>the</i> /ðə/ are weak; the stress is on the adjective. Press 🔊 and repeat.', 'task_ru': 'than и the — слабые.',
